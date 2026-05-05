@@ -1,0 +1,459 @@
+\usepackage{titling}
+\usepackage{fontawesome5}
+
+\let\oldtitle\title
+\newcommand{\savedtitle}{}
+\let\thetitle\savedtitle
+
+\renewcommand{\title}[1]{
+	\gdef\savedtitle{#1}
+	\oldtitle{#1}
+}
+
+\let\oldauthor\author
+\newcommand{\savedauthor}{}
+\let\theauthor\savedauthor
+
+\renewcommand{\author}[1]{
+	\gdef\savedauthor{#1}
+	\oldauthor{#1}
+}
+
+%%%%%%%%%%% TABLE DES MATIERES %%%%%%%%%%
+
+\setcounter{tocdepth}{2}
+ 
+ %%%%%%%%%%% PAGE STYLING %%%%%%%%%%%%%%
+ 
+ \newdimen\SideSpace
+ \SideSpace=20mm
+
+\geometry{
+ 	a4paper,
+ %	total={170mm,257mm},
+ 	inner=\SideSpace,
+ 	top=20mm,
+ 	bottom=20mm,
+ 	outer=\SideSpace
+ }
+ 
+ % better colors
+ \definecolor{green}{RGB}{19, 204, 19}
+ 
+ % Fancy header settings
+
+ \fancypagestyle{default}{
+   \fancyhead[L]{\savedtitle}
+  %  \fancyhead[L]{\textbf{\langChapter\ \thechaptr\ : \currentchaptr}}
+   \fancyhead[R]{\textbf{\thepage}}
+   \fancyhead[C]{}
+   
+   \fancyfoot[L]{\textbf{University of Edinburgh}}
+   \fancyfoot[C]{}
+   \fancyfoot[R]{\textit{\savedauthor}}
+   
+  %  \fancyhfoffset[R]{\MarginWidth-\SideSpace}
+   \renewcommand{\headrulewidth}{0.5pt}}
+ 
+ \pagestyle{default}
+ 
+% couleur des prop, def etc
+\definecolor{blue1}{RGB}{52, 155, 207}
+% couleur des numéros de section
+\definecolor{blue2}{RGB}{39, 116, 156}
+% couleur d'arrière plan et d'ombre
+\colorlet{bgblue}{blue!10}
+ 
+\setlength{\parindent}{0pt}
+
+\newcounter{ptl}
+ 
+ % Création des catégories (chapitre, section, sub, subsub)
+\titleformat{\section}[hang]
+	{\fontfamily{pbk}\selectfont\Large\scshape}
+	{\textcolor{blue2}{\thesection}}
+	{1em}
+	{\textbf}
+\titlespacing{\section}
+	{-\SideSpace+10mm}
+	{1.5\baselineskip}
+	{1.5\baselineskip}
+ 	
+\titleformat{\subsection}[hang]
+ 	{\fontfamily{pbk}\selectfont\large}
+ 	{\textcolor{blue2}{\thesubsection}}
+ 	{1em}
+ 	{\textbf}
+\titlespacing{\subsection}
+ 	{-\SideSpace+8mm}
+ 	{1.5\baselineskip}
+ 	{1.5\baselineskip}
+ 	
+ \newcommand{\minititre}[1]{\bigskip\textbf{#1}\medskip}
+
+ \newcommand{\linkicon}[2]{%
+  \href{#1}{#2\hspace{0.2em}\raisebox{0.5ex}{\tiny\faExternalLink*}}%
+}
+  
+ %%%%%%%% ENVIRONNEMENTs REMARQUE %%%%%%%%%
+ 
+ \newenvironment{remarque}[1]{\medskip\textbf{Remark\ :}\ #1}{\medskip}
+ 
+ \usepackage{enumitem}
+ \newcommand{\remarklist}[1]{%
+ 	\par\medskip\noindent\textbf{Remarks\ :}%
+ 	\begin{itemize}[label=$\triangleright$, align=left, leftmargin=*]
+ 		\setlength\itemsep{0.5em}
+ 		\setlength\parskip{0.5em}
+ 		\setlength\parsep{0pt}
+ 		#1
+ 	\end{itemize}
+ 	\par\medskip
+ }
+ 
+ \NewEnviron{remarques}{\remarklist{\BODY}}
+ 
+ %%%%%%%% ENVIRONNEMENT PROPOSITION %%%%%%%%%
+ 
+ \makeatletter
+ \mdfdefinestyle{myprop}{
+   linecolor=blue1, 
+   linewidth=0.8pt,
+   topline=false,
+   bottomline=true,
+   rightline=false,
+   leftline=true,
+   backgroundcolor=white,
+   innertopmargin=2pt, 
+   innerbottommargin=8pt,
+   skipbelow=10pt,
+   skipabove=10pt, 
+   frametitlefont=\bfseries,
+   nobreak=true,
+   shadow=true,
+   apptotikzsetting={%
+   \tikzset{mdfshadow/.style={%
+ 		general shadow={%
+    	shadow xshift=-2pt,
+    	shadow yshift=-2pt,
+    	fill=bgblue,
+    	every shadow }}}}
+ }
+ \makeatother
+
+ \newenvironment{proposition}[1][]{%
+   \refstepcounter{ptl}%
+   \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Proposition\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+   {\end{mdframed}}
+   
+   \newenvironment{lemme}[1][]{%
+      \refstepcounter{ptl}%
+      \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Lemma\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+      {\end{mdframed}}
+ 
+  %%%%%%%% ENVIRONNEMENT THEOREME %%%%%%%%%
+ 
+ \mdfdefinestyle{mythm}{
+   linecolor=blue1, 
+   linewidth=1pt,
+   topline=true,
+   bottomline=true,
+   rightline=true,
+   leftline=true,
+   backgroundcolor=white,
+   innertopmargin=2pt, 
+   innerbottommargin=8pt,
+   skipabove=10pt, 
+   skipbelow=10pt,
+   frametitlefont=\bfseries,
+   nobreak=true,
+   backgroundcolor=bgblue
+ }
+ 
+ \newenvironment{theorem}[1][]{%
+   \refstepcounter{ptl}%
+   \begin{mdframed}[style=mythm, frametitle={\textcolor{blue1}{Theorem\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+   {\end{mdframed}}
+ 
+ %%%%%%%% ENVIRONNEMENT DEFINITION %%%%%%%%%
+ 
+ \mdfdefinestyle{mydef}{
+   linecolor=black, 
+   linewidth=1pt,
+   topline=false,
+   bottomline=false,
+   rightline=false,
+   leftline=false,
+   backgroundcolor=white,
+   innertopmargin=2pt, 
+   innerbottommargin=2pt,
+   skipabove=10pt, 
+   skipbelow=10pt,
+   frametitlefont=\bfseries,
+   nobreak=true,
+   apptotikzsetting={%
+   \tikzset{mdfframetitlebackground/.append style={%
+   shade,left color=bgblue, right color=white}}%
+   \tikzset{mdfbackground/.append style={%
+      shade,left color=bgblue, right color=white}}}
+ }
+ 
+ \newenvironment{definition}[1][]{%
+   \refstepcounter{ptl}%
+   \begin{mdframed}[style=mydef, frametitle={\textcolor{blue1}{Definition\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+   {\end{mdframed}}
+ 
+ %%%%%%%% ENVIRONNEMENT COROLLAIRE %%%%%%%%%
+ 
+ \newenvironment{corollaire}[1][]{%
+   \refstepcounter{ptl}%
+   \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Corollary\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+   {\end{mdframed}}
+ 
+ %%%%%%%% ENVIRONNEMENT PREUVE %%%%%%%%%
+ 
+ \mdfdefinestyle{myproof}{
+   linecolor=black, 
+   linewidth=0.5pt,
+   topline=false,
+   bottomline=false,
+   rightline=false,
+   leftline=false,
+   backgroundcolor=white,
+   innertopmargin=2pt, 
+   innerbottommargin=2pt,
+   innerleftmargin=10pt,
+   skipabove=0pt, 
+   skipbelow=10pt,
+   frametitlefont=\bfseries,
+   nobreak=true
+ }
+ 
+  \newenvironment{preuve}[1][]{
+    \begin{mdframed}[style=myproof, frametitle={Proof\ifstrempty{#1}{}{ (#1)}}]}%
+    {\hfill\qedsymbol\end{mdframed}}
+ 
+ %%%%%%%% ENVIRONNEMENT EXEMPLE %%%%%%%%%
+ 
+ \mdfdefinestyle{myexpl}{
+    linewidth=1pt,
+    topline=false,
+    bottomline=false,
+    rightline=false,
+    leftline=true,
+    backgroundcolor=white,
+    innertopmargin=2pt, 
+    innerbottommargin=8pt,
+    skipabove=10pt, 
+    skipbelow=10pt,
+    frametitlefont=\bfseries,
+    nobreak=false,
+    linecolor=blue1
+  }
+  
+  \newenvironment{exemple}[1][]{%
+    \begin{mdframed}[style=myexpl, frametitle={\textcolor{blue1}{Example\ \ifstrempty{#1}{}{ (#1)}}}]}%
+    {\end{mdframed}}
+ 
+ %%%%%%%% ENVIRONNEMENT MARGIN NOTES %%%%%%%%%
+
+ 	\mdfdefinestyle{mynotes}{
+ 	    linewidth=0.5pt,
+ 	    topline=true,
+ 	    bottomline=true,
+ 	    rightline=true,
+ 	    leftline=true,
+ 	    backgroundcolor=white,
+ 	    innertopmargin=-8ptpt, 
+ 	    innerbottommargin=4pt,
+ 	    innerleftmargin=4pt,
+ 	    innerrightmargin=4pt,
+ 	    skipabove=0pt, 
+ 	    skipbelow=0pt,
+		backgroundcolor=white,
+ 	    frametitlefont=\bfseries,
+% 	    nobreak=true,
+ 	    linecolor=blue1,
+ 	    frametitleaboveskip=\dimexpr-1.2\ht\strutbox\relax,
+ 	    shadow=true,
+     	apptotikzsetting={%
+     	\tikzset{mdfshadow/.style={%
+	     		general shadow={%
+	        	shadow xshift=2pt,
+	        	shadow yshift=-2pt,
+	        	fill=bgblue,
+	        	every shadow }}}},
+	    extra={%
+	        \begin{tikzpicture}[overlay, remember picture]
+	            \node[draw=none, anchor=west] at (-19pt, 9pt) {
+	                \fill[blue1] (0.08cm,0) -- (0.2cm,0.1cm) -- (0.2cm,-0.1cm) -- cycle;
+%					$\bullet$
+	            };
+	        \end{tikzpicture}
+	      }
+ 	  }
+ 	  
+ 	  \NewEnviron{notes}[1][]{%
+ 	  	\marginnote{
+ 	  	\vspace*{9pt}
+	    \begin{mdframed}[style=mynotes, frametitle={%
+	     		\tikz[baseline=(current bounding box.east),outer sep=0pt]
+	     		\node[anchor=east,rectangle,fill=white]
+	     		{\strut \textcolor{blue1}{#1}};}]
+	     	\small\BODY%
+	    \end{mdframed}}}%
+	    
+	  \newcommand{\note}[2]{\begin{notes}[#1]#2\end{notes}}
+	  
+\NewDocumentCommand{\sidenote}{m}{\refstepcounter{footnote}\textsuperscript{\thefootnote}%
+	\marginnote{\textsuperscript{\thefootnote}\,\footnotesize#1}}
+ 
+ %%%%%%%%%%% SETTINGS CODE %%%%%%%%%%%%%%
+ 
+ \usemintedstyle{github-dark}
+ \definecolor{bgcode}{RGB}{51, 51, 51}
+ \definecolor{linenumbers}{RGB}{140, 151, 164}
+ 
+ \renewcommand{\theFancyVerbLine}{\sffamily
+ \textcolor{linenumbers}{\scriptsize
+ \arabic{FancyVerbLine}}}
+
+ \definecolor{codered}{RGB}{255, 95, 90}
+ \definecolor{codeyellow}{RGB}{255, 190, 46}
+ \definecolor{codegreen}{RGB}{42, 202, 68}
+	
+% Pour mettre du code inline
+\newcommand{\codeCaml}[1]{\lstinline[language=Caml, mathescape=true]|#1|}
+\newcommand{\codeCc}[1]{\lstinline[language=C, mathescape=true]|#1|}
+	 
+\newtcolorbox[auto counter,number within=section,
+	 list inside=mypyg]{mintedbox}[1]{%
+ 	 	title={\ifstrempty{#1}{ }{#1}},
+ 	 	list entry={\protect\numberline{\thetcbcounter}#1},
+ 	 	enhanced,
+ 	 	breakable,
+ 	 	colframe=bgcode,
+ 	 	colback=bgcode,
+ 	 	arc=2pt,
+ 	 	left=6mm,
+ 	 	lefttitle=15mm,
+ 	 	toptitle=1.5mm,
+ 	 	fonttitle=\ttfamily\bfseries\normalsize,
+ 	 	interior titled code app={%
+ 	 	\node[color=codered,xshift=4mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+ 	 	\node[color=codeyellow,xshift=8mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+ 	 	\node[color=codegreen,xshift=12mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+ 	 	},
+ 	 	extras first={overlay={
+ 	 	\node[color=codered,xshift=4mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+ 	 	\node[color=codeyellow,xshift=8mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+ 	 	\node[color=codegreen,xshift=12mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+ 	 	}}}
+	 
+\newenvironment{codebox}[3][]
+	 {%
+ 	 	\VerbatimEnvironment%
+ 	 	\begin{mintedbox}{#3}%
+ 	 		\begin{minted}[
+		   %	gobble=1,
+ 	 		   		autogobble,
+ 	 		    	baselinestretch=1.2,
+ 	 		    	fontsize=\footnotesize,
+ 	 		    	linenos,
+ 	 		    	numbersep=6pt,
+ 	 		    	obeytabs,
+ 	 		    	tabsize=2,
+ 	 		    	#1]{#2}}%
+ 	 		{%
+ 	 		\end{minted}%
+ 	 	\end{mintedbox}%
+	 }
+	 
+	 
+	 %%%%%%%% ENVIRONNEMENT PRESENTATION ALGORITHME %%%%%%%%%
+	 
+	 \newcommand{\algo}[3]{
+	 	\fbox{#1}
+	 	\begin{itemize}
+	 	\item Input\ #2 
+	 	\item Output\ #3
+	 	\end{itemize}}
+
+	\newcommand\problem[4][\relax]{
+  \begin{figure}[H]
+    \centering
+    \arrayrulecolor{blue1}
+    \setlength\arrayrulewidth{1pt}
+    \begin{NiceTabular}{r|p{10cm}}
+      \Block{2-1}{\textsc{#1}} & \textbf{Input} #3\\
+                          & \textbf{Output} #4
+    \end{NiceTabular}
+    \label{#2}
+  \end{figure}
+	% Automatically define \pb<name>
+  \expandafter\gdef\csname pb#1\endcsname{%
+    \hyperref[#2]{\textsc{#1}}%
+  }%
+	\index{problem!#1}
+}
+	 	
+	 %%%%%%%% ITEMIZE CUSTOM %%%%%%%%
+	 
+%	 \newcommand{\arrowlist}[1]{
+%	 \begin{itemize}
+%	 \renewcommand{\labelitemi}{$\rightarrow$}
+%	 #1
+%	 \end{itemize}
+%	}	
+%	
+%	\NewEnviron{\itemizearr}{\arrowlist{\BODY}}
+	 
+	 
+	 %%%%%%%% UNDERLINING IN COLOR %%%%%%%%
+	 
+%	 \setul{0.5ex}{0.3ex}
+	 \newcommand{\ulcolor}[2][Red]{\setulcolor{#1}\ul{#2}}
+	    
+%	  \newcommand{\mathul}[2][red]{
+%	  \begin{mdframed}[bottomline=true,linecolor=#1,innerbottommargin=3pt]
+%	  #2
+%	  \begin{mdframed}}
+	 
+
+%%%%%%%%%%%%%%%%% Question env %%%%%%%%%%%%%%%%%
+
+\newcounter{question}
+
+\newcommand\quest[1]{
+	\refstepcounter{question}
+	\smallskip
+  \begin{figure}[H]
+    \textbf{\textcolor{blue2}{Question \thequestion.}} #1
+    \label{question:\thequestion}
+  \end{figure}
+}
+
+\newcommand{\Qref}[1]{\hyperref[question:#1]{\textcolor{blue2}{\textrm{Question #1}}}}
+
+ \mdfdefinestyle{myquestion}{
+   linecolor=blue1, 
+   linewidth=0.5pt,
+   topline=false,
+   bottomline=true,
+   rightline=false,
+   leftline=true,
+   backgroundcolor=white,
+   innertopmargin=2pt, 
+	 innerbottommargin=8pt,
+   skipbelow=10pt,
+   innerleftmargin=10pt,
+   skipabove=0pt, 
+   skipbelow=10pt,
+   frametitlefont=\bfseries,
+   nobreak=false
+ }
+ 
+  \newenvironment{question}[1][]{
+		\quest{#1}
+    \begin{mdframed}[style=myquestion]}%
+    {\hfill\qedsymbol\end{mdframed}}

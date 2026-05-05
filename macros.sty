@@ -1,0 +1,194 @@
+%%%%%%%%%%%%%%%% IMPORTS %%%%%%%%%%%%%%%%%
+
+\usepackage[skins,xparse,breakable,most]{tcolorbox}
+\tcbuselibrary{minted}
+\tcbset{listing engine=minted}
+
+\usepackage[english]{babel}
+% \usepackage[french,english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{amssymb}
+\usepackage{nicematrix}
+\usepackage{array}
+%\usepackage{delimset}
+\usepackage{mathtools}
+\usepackage[e]{esvect}
+\usepackage{MnSymbol}
+
+\usepackage{url}
+\IfClassLoadedTF{beamer}{
+	\usepackage{hyperref}
+}{
+	\usepackage[hidelinks]{hyperref}
+	\usepackage{titletoc}
+	\usepackage{titlesec}
+
+	\usepackage{imakeidx}
+	\makeindex
+}
+
+\usepackage{tabularx}
+\usepackage{colortbl}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning, arrows.meta}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{cd}
+\usetikzlibrary{patterns}
+\usetikzlibrary{shadows}
+\usetikzlibrary{shapes,decorations,automata,backgrounds,petri}
+ 
+\usepackage{tikz-3dplot}
+\usepackage{pgfplots}
+\usepackage{capt-of}
+\usepackage{subcaption}
+\usepackage{caption}
+
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[absolute,overlay]{textpos}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{calc}
+\usepackage[side]{footmisc}
+\usepackage{marginnote}
+\usepackage{environ}
+\usepackage{varwidth}
+\usepackage{ifthen}
+\usepackage{cprotect}
+\usepackage{etoolbox}
+\usepackage{soul}
+
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{algorithm}
+\usepackage{algpseudocode} 
+\usepackage[fencedCode]{markdown}
+
+ 
+%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%
+  
+\renewcommand{\iff}{\Leftrightarrow}
+\newcommand{\imp}{\Rightarrow}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Ccal}{\mathcal C}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\ZpZ}[1]{\Z/#1\Z}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\U}{\mathbb U}
+\newcommand{\K}{\mathbb K}
+\newcommand{\Cchap}{\hat{\C}}
+\renewcommand{\P}{\mathcal P}
+\newcommand{\prob}{\mathbb P}
+\newcommand{\Ffrak}{\mathfrak F}
+\newcommand{\Fcal}{\mathcal F}
+\newcommand{\bor}{\mathcal B}
+\newcommand{\esp}{\mathbb E}
+\newcommand{\ind}{1}
+
+\newcommand{\Pclass}{\textbf{P} }
+\newcommand{\LPclass}{\textbf{LP} }
+\newcommand{\NPclass}{\textbf{NP} }
+\newcommand{\coNPclass}{\textbf{coNP} }
+
+\newcommand{\vrai}{$\mathbf{VRAI}$ }
+\newcommand{\faux}{$\mathbf{FAUX}$ }
+
+\renewcommand{\tt}[1]{\texttt{#1}}
+
+\let\Re\undefined
+\let\Im\undefined
+\DeclareMathOperator{\Re}{Re}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\Im}{Im}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\pgcd}{PGCD}
+\DeclareMathOperator{\ppcm}{PPCM}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\Det}{Det}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Diam}{Diam}
+
+\newcommand*\dif{\mathop{}\!\textnormal{\slshape d}}
+
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
+
+
+% commandes plus jolies
+\renewcommand{\hat}{\widehat}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\emptyset}{\varnothing}
+\newcommand{\ii}{\textbf{\textit{i}}}
+\renewcommand{\coprod}{\amalg} % Union disjointe
+\renewcommand{\vec}{\vv}
+\renewcommand{\bar}{\overline}
+\renewcommand{\nmodels}{\nrightmodels}
+
+\newcommand*{\efrac}[2]{\genfrac{}{}{0pt}{}{#1}{#2}}
+
+% Déduction naturelle (utile avec ebproof)
+\newcommand{\et}{\wedge}
+\newcommand{\ou}{\vee}
+\newcommand{\implique}{\rightarrow}
+\newcommand{\non}{\neg}
+\newcommand{\montre}{\vdash}
+\newcommand{\hyp}{\Gamma}
+\newcommand{\eqlog}{\leftrightarrow}
+
+\newcommand{\appli}[5]{% 
+ 	{#1}\ \colon  \left \{ \begin{array}{@{\;}r@{}c@{}l@{}c@{}} 
+ 		& #2 & {} \longrightarrow {} & #3 \\ 
+ 		& #4 & {} \longmapsto     {} & #5 
+ 	\end{array} \right.
+} 
+ 
+\newcommand{\summ}[3]{\displaystyle\sum\limits_{#1}^{#2} #3}
+\newcommand{\cupp}[3]{\displaystyle\bigcup\limits_{#1}^{#2} #3}
+\newcommand{\capp}[3]{\displaystyle\bigcap\limits_{#1}^{#2} #3}
+\newcommand{\prodd}[3]{\displaystyle\prod\limits_{#1}^{#2} #3}
+\newcommand{\intt}[3]{\displaystyle\int_{#1}^{#2} #3}
+\newcommand{\ett}[3]{\displaystyle\bigwedge_{#1}^{#2} #3}
+\newcommand{\ouu}[3]{\displaystyle\bigvee_{#1}^{#2} #3}
+
+\newcommand{\tendv}{\xrightarrow[n\rightarrow +\infty]{}} % n->inf
+\newcommand{\tend}[2]{\xrightarrow[#1\rightarrow#2]{}} % ... -> ...
+\newcommand{\limi}[2]{\lim\limits_{#1\rightarrow #2}} % lim arg -> arg
+\newcommand{\limite}{\lim\limits_{n\rightarrow+\infty}} % lim n -> inf
+\newcommand{\cs}[2]{\xrightarrow[#1\rightarrow#2]{\text{CS}}} % Conv simple
+\newcommand{\cu}[2]{\xrightarrow[#1\rightarrow#2]{\text{CU}}} % Conv uniforme
+\newcommand{\equi}[2]{\underset{\tiny{#1 \to #2}}{\sim}} % ... ~ ...
+
+\newcommand{\multibox}[1]{\fbox{\parbox{\textwidth}{#1}}}
+
+%%%%%%%%%%%%% PARENTHESAGE %%%%%%%%%%%%%%%%%
+
+\DeclarePairedDelimiter\brak{[\![}{]\!]}
+\DeclarePairedDelimiter\set{\lbrace}{\rbrace}
+\newcommand{\la}{\left\langle}
+\newcommand{\ra}{\right\rangle}
+\newcommand{\lp}{\left(}
+\newcommand{\rp}{\right)}
+\newcommand{\lla}{\left\langle\!\left\langle}
+\newcommand{\rra}{\right\rangle\!\right\rangle}
+\DeclarePairedDelimiter\abs{|}{|}
+\DeclarePairedDelimiter\norm{||}{||}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\crochets{[}{]}
+\DeclarePairedDelimiter\paren{(}{)}
