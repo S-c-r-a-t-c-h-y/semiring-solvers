@@ -194,6 +194,10 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
 
 \textbf{Notation:} We often denote the image of an object $a$ under a functor $F$ as $Fa$ instead of $F(a)$ and the image of a morphism $f: a \to b$ as $Ff: Fa \to Fb$.
 
+\begin{exemple}[Diagonal functor]
+  Given a category $\mathcal{C}$, the \emph{diagonal functor} $\Delta: \mathcal{C} \to \mathcal{C} \times \mathcal{C}$ is defined by $\Delta(a) = (a, a)$ for each object $a$ in $\mathcal{C}$ and $\Delta(f) = (f, f)$ for each morphism $f: a \to b$ in $\mathcal{C}$.
+\end{exemple}
+
 \begin{definition}[Natural Transformation]
   Given two functors $F, G: \mathcal{C} \to \mathcal{D}$ between categories $\mathcal{C}$ and $\mathcal{D}$, a \emph{natural transformation} $\eta: F \to G$ consists of a family of morphisms $\{\eta_a: Fa \to Ga\}_{a \in \text{Ob}(\mathcal{C})}$ such that for every morphism $f: a \to b$ in $\mathcal{C}$, the following diagram commutes:
   \[
@@ -233,8 +237,8 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   for all objects $a$ in $\mathcal{C}$ and $b$ in $\mathcal{D}$. This means that for every morphism $f: Fa \to b$ in $\mathcal{D}$, there is a unique morphism $g: a \to Gb$ in $\mathcal{C}$ such that the following diagram commutes:
   \[
   \begin{tikzcd}
-    Fa \arrow[r, "f"] & b \\
-    a \arrow[u, "F"'] \arrow[r, "g"'] & Gb \arrow[u, "G"]
+    Fa \arrow[r, "f"] & b \arrow[d, "G"] \\
+    a \arrow[u, "F"'] \arrow[r, "g"'] & Gb
   \end{tikzcd}
   \]
   We often denote this adjunction by $F \dashv G$.
@@ -247,6 +251,103 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
     \item The unit $\eta: \text{Id}_{\mathcal{C}} \to T$ is given by the natural transformation that assigns to each object $a$ in $\mathcal{C}$ the morphism $\eta_a: a \to GFa$ corresponding to the identity morphism on $Fa$ under the adjunction.
     \item The multiplication $\mu: T^2 \to T$ is given by the natural transformation that assigns to each object $a$ in $\mathcal{C}$ the morphism $\mu_a: GFGFa \to GFa$ corresponding to the composition of morphisms in $\mathcal{D}$ under the adjunction.
   \end{itemize}
+\end{exemple}
+
+There are actually several different but equivalent ways to define adjunctions. They are linked thanks to the Yoneda lemma.
+
+\begin{figure*}[!h]
+  \centering
+  \includegraphics[width=\textwidth]{images/adjunction3.jpg}
+  \caption{Different equivalent definitions of adjunctions.}
+\end{figure*}
+
+One important definition is that of the universal arrow.
+
+\begin{definition}[Universal arrow]
+  Let $U : A \to C$ be a functor, and let $c \in C$.
+
+  \medskip
+
+  An \emph{universal arrow} from $c$ to $U$ is a pair $(F c, \eta_c)$ where:
+  \begin{itemize}
+    \item $F c \in A$
+    \item $\eta_c : c \to UFc$ is a morphism in $C$
+  \end{itemize}
+  such that for every $a \in A$, and every $f : c \to Ua$ in $C$, there exists a unique morphism $f^\dagger : F c \to a$ in $A$ such that the following diagram commutes:
+  \[
+  \begin{tikzcd}
+    c \arrow[r, "\eta_c"] \arrow[dr, "f"'] & UFc \arrow[dashed, d, "U{f^\dagger}"] \\
+    & Ua
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    F c \arrow[d, "f^\dagger"]\\
+    a
+  \end{tikzcd}
+  \]
+  We can dualize this definition to get the notion of a universal arrow from $U$ to $c$.
+
+  \medskip
+
+  A universal arrow from $U$ to $c$ is a pair $(F c, \eta_c)$ where:
+  \begin{itemize}
+    \item $F c \in A$
+    \item $\eta_c : UFc \to c$ is a morphism in $C$
+  \end{itemize}
+  such that for every $a \in A$, and every $f : Ua \to c$ in $C$, there exists a unique morphism $f^\dagger : a \to F c$ in $A$ such that the following diagram commutes:
+  \[
+  \begin{tikzcd}
+    c & UFc \arrow[l, "\eta_c"']  \\
+    & Ua \arrow[dashed, u, "U{f^\dagger}"'] \arrow[ul, "f"]
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    F c\\
+    a \arrow[u, "f^\dagger"']
+  \end{tikzcd}
+  \]
+\end{definition}
+
+\begin{exemple}[Adjunction from Universal Arrows]
+  Given a functor $U : A \to C$ such that for every object $c \in C$, there exists a universal arrow from $c$ to $U$, we can construct an adjunction $F \dashv U$ where:
+  \begin{itemize}
+    \item The functor $F : C \to A$ is defined by sending each object $c$ in $C$ to the object $Fc$ in $A$ that appears in the universal arrow from $c$ to $U$, and sending each morphism $f: c \to c'$ in $C$ to the unique morphism $Ff: Fc \to Fc'$ in $A$ that makes the corresponding diagram commute.
+    \item The unit $\eta: \text{Id}_C \to UF$ is given by the family of morphisms $\{\eta_c: c \to UFc\}_{c \in C}$ that are part of the universal arrows.
+  \end{itemize}
+\end{exemple}
+
+Universal arrows have more uses than just defining adjunctions. Here are other examples.
+
+\begin{exemple}[Defining the coproduct with an universal arrow]
+  Let $A$ be a category, and let $a, b \in A$. A \emph{coproduct} of $a$ and $b$ is a universal arrow from $(a, b)$ to the diagonal functor $\Delta: A \to A \times A$, where $\Delta(c) = (c, c)$ for any object $c \in A$.
+  $$
+  \begin{tikzcd}
+    a \arrow[r, "\iota_a"] \arrow[dr, "f"'] & a + b \arrow[dashed, d, "{[f, g]}"] & b \arrow[l, "\iota_b"'] \arrow[dl, "g"] \\
+    & c &
+  \end{tikzcd}
+  \quad\sim\quad
+  \begin{tikzcd}
+    (a, b) \arrow[r, "\eta_{(a, b)}"] \arrow[dr, "{(f, g)}"'] & \Delta(a + b) \arrow[dashed, d, "\Delta{[f, g]}"] \\
+    & \Delta c
+  \end{tikzcd}
+  $$
+  We have $\eta_{(a, b)} = (\iota_a, \iota_b)$.
+\end{exemple}
+
+\begin{exemple}[Defining the product with an universal arrow]
+  Let $A$ be a category, and let $a, b \in A$. A \emph{product} of $a$ and $b$ is a universal arrow from the diagonal functor $\Delta: A \to A \times A$ to $(a, b)$.
+  $$
+  \begin{tikzcd}
+    & c \arrow[dl, "f"'] \arrow[dr, "g"] \arrow[dashed, d, "{\langle f, g \rangle}"] & \\
+    a & a \times b \arrow[l, "\pi_a"] \arrow[r, "\pi_b"'] & b
+  \end{tikzcd}
+  \quad\sim\quad
+  \begin{tikzcd}
+    \Delta c \arrow[r, "\eta_{(a, b)}"] \arrow[dr, "{(f, g)}"'] & \Delta (a \times b) \arrow[dashed, d, "{(\pi_a, \pi_b)}"] \\
+    & (a, b)
+  \end{tikzcd}
+  $$
+  We have $\eta_{(a, b)} = \langle f, g\rangle$.
 \end{exemple}
 
 
@@ -389,6 +490,7 @@ We denote by $\Multicat$ the set of all multicategories.
 
 \section{Some free algebras}
 
+\subsection{Definitions}
 
 \begin{definition}[Finitary signature]
   A \emph{finitary signature} $\Sigma = (\op \Sigma, \arity)$ consists of a set $\op \Sigma$ of \emph{operators}, and an assigment $\arity : \op \Sigma \to \N$ associating to each operator in $\op \Sigma$ its \emph{arity}.
@@ -414,15 +516,213 @@ We denote by $\Multicat$ the set of all multicategories.
   The definition of algrebraic theory seen before can be reformulated as a finitary signature together with a set of equations between terms built from the operators in the signature.
 \end{remarque}
 
-\begin{definition}[Presentation]
-  A \emph{presentation} $\mathcal T = (\Sigma_{\mathcal T}, \mathcal T_ax)$ consists of a finitary signature $\Sigma_{\mathcal T}$ and a set $\mathcal T_ax$ of \emph{axioms}, which are equations between terms in $\Term_{\Sigma_{\mathcal T}}(X)$ for some set of variables $X$.
+\begin{definition}[Environment and Interpretation]
+  An \emph{environment} $\rho$ for a context $X$ in an algebra $A$ is a function $\rho : X \to \underline{A}$ that assigns to each variable in $X$ an element of the carrier of $A$.
+  
+  \medskip
+
+  Given a term $t \in \Term_\Sigma(X)$, denoted $X \vdash t$, the algebra $A$ gives an \emph{interpretation} function $A \brak{t} : \underline{A}^X \to \underline{A}$. Given an environment $\rho : X \to \underline{A}$, we can evaluate the term $t$ in $A$ under the environment $\rho$, denoted $A \brak{t}(\rho)$, by recursively substituting the variables in $t$ with their corresponding values in $\underline{A}$ according to $\rho$ and applying the interpretations of the operators as defined in $A$.
+\end{definition}
+
+\begin{definition}[Valid equations]
+  An equation $t = t'$ between terms in $\Term_\Sigma(X)$ is \emph{valid} in an algebra $A$ if for every environment $\rho : X \to \underline{A}$, we have $A \brak{t}(\rho) = A \brak{t'}(\rho)$.
+\end{definition}
+
+
+\begin{definition}[Presentation and Models]
+  A \emph{presentation} $\mathcal T = (\Sigma_{\mathcal T}, \mathcal T_{ax})$ consists of a finitary signature $\Sigma_{\mathcal T}$ and a set $\mathcal T_{ax}$ of \emph{axioms}, which are equations between terms in $\Term_{\Sigma_{\mathcal T}}(X)$ for some set of variables $X$.
 
   \medskip
 
-  A $\mathcal T$-model $A$ is a $\Sigma_{\mathcal T}$-algebra that satisfies the axioms in $\mathcal T_ax$.
+  A $\mathcal T$-model $A$ is a $\Sigma_{\mathcal T}$-algebra such that all equations in $\mathcal T_{ax}$ are valid in $A$.
+
+  \medskip
+
+  A $\mathcal T$-model $A$ over a context $X$ is a $\mathcal T$-model $A$ together with an environment $\rho : X \to \underline{A}$.
 \end{definition}
 
+\begin{definition}[Homomorphisms]
+  Let $A = (\underline{A}, A \brak{\text{--}})$ and $B = (\underline{B}, B \brak{\text{--}})$ be algebras over the same signature $\Sigma$. 
+
+  \medskip
+  
+  A \emph{homomorphism} of $\Sigma$-algebras from $A$ to $B$ is a function $h : \underline{A} \to \underline{B}$ such that for every operator $f \in \op \Sigma$ of arity $n$, we have:
+  $$B \brak{f}(h(a_1), \ldots, h(a_n)) = h(A \brak{f}(a_1, \ldots, a_n))$$
+  for all $a_1, \ldots, a_n \in \underline{A}$.
+
+  \medskip
+
+  A \emph{homomorphism} of $\mathcal T$-models is a homomorphism of $\Sigma_{\mathcal T}$-algebras between the underlying algebras of the models.
+\end{definition}
+
+\begin{definition}[Morphism]
+  A \emph{morphism} $h : A \to B$ of $\mathcal T$-models over $X$ is a $\mathcal T$-model homomorphism that makes the diagram commute:
+  \[  \begin{tikzcd}
+    X \arrow[r, "\rho_A"] \arrow[dr, "\rho_B"'] & \underline{A} \arrow[d, "h"] \\
+    & \underline{B}
+  \end{tikzcd}
+  \]
+\end{definition}
+
+\begin{definition}[Free model (or free algebra)]
+  Let $\mathcal T$ be a presentation and $X$ be a set of variables. 
+
+  \medskip
+  
+  A \emph{free $\mathcal T$-model} over $X$ is a $\mathcal T$-model $F(X)$ such that for any $\mathcal T$-model $A$ over $X$, there exists a unique morphism of $\mathcal T$-models from $F(X)$ to $A$.
+
+  \medskip 
+
+  The existence-and-uniqueness property is called the \emph{universal property} of free $\mathcal T$-models over $X$. 
+\end{definition}
+
+Informaly:
+\begin{itemize}
+  \item A signature gives defines the operators and constants (arity 0 operators).
+  \item An algebra gives a concrete interpretation of the signature.
+  \item A presentation defines axioms on top of the signature, for instance the axioms of a group, or of a semiring, etc.
+  \item A model of a presentation is an algebra that satisfies the axioms of the presentation.
+  \item A free algebra is the most general model of a presentation.
+\end{itemize}
+
+% \begin{definition}[Free extensions]
+%   Let $\mathcal T$ be a presentation, and $X$ be a set of variables. The \emph{free extension} of $\mathcal T$ by $X$, denoted $\mathcal T[X]$, is the presentation obtained by adding the variables in $X$ as new constants (arity 0 operators) to the signature of $\mathcal T$, and keeping the same axioms.
+% \end{definition}
+
 % Let $A = (\underline{A}, +, \cdot, 0, 1)$ be an algebraic structure.
+
+We can give an equivalent definition for free algebras using universal arrows.
+
+\begin{proposition}
+  Let $\pres$ be a presentation, and $X$ be a set. Let $\pres$-$\Mod$ be the category of $\pres$-models over $X$. Let $U : \pres\text{-}\Mod \to \Set$ be the forgetful functor that sends a $\pres$-model to its underlying set. 
+  
+  \medskip
+
+  Then, a free $\pres$-model over $X$ is a universal arrow from $X$ to $U$.
+\end{proposition}
+
+\begin{preuve}
+  Let $F(X)$ be a free $\pres$-model over $X$. We want to show that $(F(X), \eta_X)$ is a universal arrow from $X$ to $U$, where $\eta_X : X \to U(F(X))$ is the function that sends each variable in $X$ to its interpretation in $F(X)$.
+
+  \medskip
+
+  Let $A$ be a $\pres$-model over $X$, and let $\rho_A : X \to U(A)$ be the environment of $A$. Since $F(X)$ is a free $\pres$-model over $X$, there exists a unique morphism of $\pres$-models $h : F(X) \to A$ such that the following diagram commutes:
+  \[
+  \begin{tikzcd}
+    X \arrow[r, "\eta_X"] \arrow[dr, "\rho_A"'] & U(F(X)) \arrow[d, "U(h)"] \\
+    & U(A)
+  \end{tikzcd}
+  \]
+  
+  This shows that $(F(X), \eta_X)$ satisfies the universal property of being a universal arrow from $X$ to $U$. 
+  
+  \medskip
+  
+  Conversely, if $(F(X), \eta_X)$ is a universal arrow from $X$ to $U$, then for any $\pres$-model $A$ over $X$, there exists a unique morphism of $\pres$-models from $F(X)$ to $A$, which means that $F(X)$ is a free $\pres$-model over $X$. Therefore, the two definitions are equivalent.
+\end{preuve}
+
+\subsection{Constructing some free algebras}
+
+\minisection{Free commutative semigroups}
+
+Let's try to construct the free algebra for the presentation of commutative semigroups. We cannot rely on the order of the terms, nor the order of applying the operations.
+
+\medskip
+
+Let $X$ be a set. We consider the theory of commutative semigroups $\CSG$, with a signature $\Sigma$ with a single operator $(+)$ of arity 2, and with the two axioms \begin{align*}
+  a, b &\vdash a + b = b + a\\
+  a, b, c &\vdash a + (b + c) = (a + b) + c
+\end{align*}
+
+We pose $$SX = \{f : X \to \N \mid f \text{ has finite non-empty support}\}$$
+
+For $f, g \in SX$, we pose $$f + g = \lambda x. f\ x + g\ x \in S X$$
+
+We define $\eta_{\CSG} : X \to S X$ for all $x \in X$ by $$\eta_{\CSG} (x) = \lambda y. \begin{cases}
+  1 \text{ if } x = y\\
+  0 \text{ otherwise}
+\end{cases}$$
+
+We pose $F_{\CSG} = (S X, (+))$ where $+$ is the operator defined above. 
+
+We want to show that $F_{\CSG}$ is a free $\CSG$-model over $X$.
+
+\medskip 
+
+$\triangleright$ Let's first check that $F_{\CSG}X$ is indeed a $\CSG$-model. We need to check that the axioms of $\CSG$ are valid in $F_{\CSG}X$. This is straightforward and comes down to the commutativity and associativity of addition in $\N$.
+
+\medskip
+
+$\triangleright$ Let $A$ be a $\CSG$-model over $X$ with environment $\phi_A : X \to U(A)$. We want to show\footnote{I think this is it ?} that there exists a unique morphism $h$ of $\CSG$-models from $F_{\CSG}X$ to $A$ such that the following diagram commutes:
+\[
+\begin{tikzcd}
+  X \arrow[r, "\eta_{\CSG}"] \arrow[dr, "\phi_A"'] & S X \arrow[d, "h"] \\
+  & UA
+\end{tikzcd}
+\]
+
+with $U$ being the forgetful functor from $\CSG$-models to $\Set$.
+
+\medskip
+
+We define $\Sigma\phi_A : S X \to \underline{A}$ for all $f \in S X$ by $$\Sigma\phi_A(f) = \sum_{x \in X} f\ x \cdot \phi_A(x)$$
+
+We want to show that $\Sigma\phi_A$ is the unique morphism $h$ of $\CSG$-models from $F_{\CSG}X$ to $A$ above. We need to check that $\Sigma\phi_A$ preserves the operator $+$, and that the diagram above commutes.
+
+\medskip
+
+$\triangleright$ Preservation of the operator $+$: let $f, g \in S X$. We have:
+\begin{align*}
+  \Sigma\phi_A(f + g) &= \Sigma\phi_A(\lambda x. f\ x + g\ x)\\
+  &= \sum_{x \in X} (f\ x + g\ x) \cdot \phi_A(x)\\
+  &= \sum_{x \in X} f\ x \cdot \phi_A(x) + \sum_{x \in X} g\ x \cdot \phi_A(x)\\
+  &= \Sigma\phi_A(f) + \Sigma\phi_A(g)
+\end{align*}
+
+\medskip
+
+$\triangleright$ Commutation of the diagram: let $x \in X$. We have:
+\begin{align*}
+  (\Sigma\phi_A)(\eta_{\CSG}(x)) &= \Sigma\phi_A \lp \lambda y. \begin{cases}
+    1 \text{ if } x = y\\
+    0 \text{ otherwise }
+  \end{cases} \rp\\
+  &= \sum_{y \in X} \begin{cases}
+    1 \cdot \phi_A(x) &\text{ if } x = y\\
+    0 &\text{ otherwise}
+  \end{cases}\\
+  &= \phi_A(x)
+\end{align*}
+
+Therefore, the diagram commutes.
+
+\medskip
+
+$\triangleright$ Uniqueness: let $h : F_{\CSG}X \to A$ be a morphism of $\CSG$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $f \in S X$. We have:
+\begin{align*}
+  h(f) &= h\lp \sum_{x \in X} f\ x \cdot \eta_{\CSG}(x) \rp\\
+  &= \sum_{x \in X} f\ x \cdot h(\eta_{\CSG}(x))  \\
+  &= \sum_{x \in X} f\ x \cdot \phi_A(x) & \text{since the diagram commutes} \\
+  &= \Sigma\phi_A(f)
+\end{align*}
+
+\medskip
+
+\fbox{Therefore, we proved that $F_{\CSG}X$ is a free $\CSG$-model over $X$.}
+
+\bigskip
+
+\minisection{Free semigroups}
+
+Compared to the free commutative semigroup, we can rely on the order of the terms and the order of applying the operations. We'll use lists to represent the terms of the free semigroup.
+
+\medskip
+
+Let $X$ be a set. We consider the theory of semigroups $\SG$, with a signature $\Sigma$ with a single operator $(\cdot)$ of arity 2, and with the axiom \begin{align*}
+  a, b, c &\vdash a \cdot (b \cdot c) = (a \cdot b) \cdot c
+\end{align*}
+
+We pose $$SX = \{l \in X^* \mid l \text{ is non-empty}\}$$
 
 
 \newpage
@@ -434,9 +734,21 @@ We denote by $\Multicat$ the set of all multicategories.
 \begin{itemize}
   \item 05/05/2026: first day, talk with Ohad, building tour, admin stuff, setting up the git repo and starting to read the notes of Ohad
   \item 06/05/2026: reading Ohad's notes, starting to write my own notes. lots of definitions to try and understand how things work. 
+  \item 07/05/2026: read the paper on frexes and frals, wrote down the relevant definitions. Meeting with Ohad: 3 equivalent definitions of adjunctions $\imp$ universal arrows, examples where/when they are used + equivalence of definitions of free algebras and how to construct a free algebra for (commutative) semigroups. 
   
-  TODO: dig in the paper about frexes to learn more about that (both frexes and frals) and write the relevant definitions down + better understand exactly what I have to do about the combinations of algebraic structures + look at what was done with involution to take inspiration
+  Gave examples of uses of universal arrows: defining adjunctions, defining products and coproducts, and defining free algebras.
+  
+  Defined and proved the free algebra for commutative semigroups, started to work on the free algebra for semigroups.
 \end{itemize}
 
+
+\section{TODO}
+
+\begin{itemize}
+  \item dig in the paper about frexes to learn more about that (both frexes and frals) and write the relevant definitions down
+  \item write the definition of free extensions with universal arrows
+  \item compute the free algebras for the semigroup (and commutative semigroup), then combine them and see if this equals the free algebra for the combination (also check that the distributive laws hold)
+  \item look at what was done with involution to take inspiration
+\end{itemize}
 
 \end{document}

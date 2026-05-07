@@ -1,5 +1,8 @@
 \usepackage{titling}
 \usepackage{fontawesome5}
+\usepackage{footmisc}
+% \usepackage[side]{footmisc}
+
 
 \let\oldtitle\title
 \newcommand{\savedtitle}{}
@@ -48,7 +51,7 @@
    \fancyhead[R]{\textbf{\thepage}}
    \fancyhead[C]{}
    
-   \fancyfoot[L]{\textbf{University of Edinburgh}}
+   \fancyfoot[L]{\textbf{ENS de Lyon / University of Edinburgh}}
    \fancyfoot[C]{}
    \fancyfoot[R]{\textit{\savedauthor}}
    
@@ -255,58 +258,6 @@
     \begin{mdframed}[style=myexpl, frametitle={\textcolor{blue1}{Example\ \ifstrempty{#1}{}{ (#1)}}}]}%
     {\end{mdframed}}
  
- %%%%%%%% ENVIRONNEMENT MARGIN NOTES %%%%%%%%%
-
- 	\mdfdefinestyle{mynotes}{
- 	    linewidth=0.5pt,
- 	    topline=true,
- 	    bottomline=true,
- 	    rightline=true,
- 	    leftline=true,
- 	    backgroundcolor=white,
- 	    innertopmargin=-8ptpt, 
- 	    innerbottommargin=4pt,
- 	    innerleftmargin=4pt,
- 	    innerrightmargin=4pt,
- 	    skipabove=0pt, 
- 	    skipbelow=0pt,
-		backgroundcolor=white,
- 	    frametitlefont=\bfseries,
-% 	    nobreak=true,
- 	    linecolor=blue1,
- 	    frametitleaboveskip=\dimexpr-1.2\ht\strutbox\relax,
- 	    shadow=true,
-     	apptotikzsetting={%
-     	\tikzset{mdfshadow/.style={%
-	     		general shadow={%
-	        	shadow xshift=2pt,
-	        	shadow yshift=-2pt,
-	        	fill=bgblue,
-	        	every shadow }}}},
-	    extra={%
-	        \begin{tikzpicture}[overlay, remember picture]
-	            \node[draw=none, anchor=west] at (-19pt, 9pt) {
-	                \fill[blue1] (0.08cm,0) -- (0.2cm,0.1cm) -- (0.2cm,-0.1cm) -- cycle;
-%					$\bullet$
-	            };
-	        \end{tikzpicture}
-	      }
- 	  }
- 	  
- 	  \NewEnviron{notes}[1][]{%
- 	  	\marginnote{
- 	  	\vspace*{9pt}
-	    \begin{mdframed}[style=mynotes, frametitle={%
-	     		\tikz[baseline=(current bounding box.east),outer sep=0pt]
-	     		\node[anchor=east,rectangle,fill=white]
-	     		{\strut \textcolor{blue1}{#1}};}]
-	     	\small\BODY%
-	    \end{mdframed}}}%
-	    
-	  \newcommand{\note}[2]{\begin{notes}[#1]#2\end{notes}}
-	  
-\NewDocumentCommand{\sidenote}{m}{\refstepcounter{footnote}\textsuperscript{\thefootnote}%
-	\marginnote{\textsuperscript{\thefootnote}\,\footnotesize#1}}
  
  %%%%%%%%%%% SETTINGS CODE %%%%%%%%%%%%%%
  
@@ -457,3 +408,5 @@
 		\quest{#1}
     \begin{mdframed}[style=myquestion]}%
     {\hfill\qedsymbol\end{mdframed}}
+
+\newcommand{\minisection}[1]{\textbf{\textcolor{blue2}{#1}}\medskip}
