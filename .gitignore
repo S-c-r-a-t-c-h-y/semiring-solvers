@@ -10,3 +10,8 @@
 *.ind
 *.ilg
 *.toc
+*.bbl
+*.blg
+*.run.xml
+*.nav
+*.bcf

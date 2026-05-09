@@ -261,7 +261,7 @@ There are actually several different but equivalent ways to define adjunctions. 
   \caption{Different equivalent definitions of adjunctions.}
 \end{figure*}
 
-One important definition is that of the universal arrow.
+One important definition is that of the universal arrow from MacLane's \textit{Categories for the Working Mathematician}~\cite{maclane:71}.
 
 \begin{definition}[Universal arrow]
   Let $U : A \to C$ be a functor, and let $c \in C$.
@@ -289,15 +289,15 @@ One important definition is that of the universal arrow.
 
   \medskip
 
-  A universal arrow from $U$ to $c$ is a pair $(F c, \eta_c)$ where:
+  A universal arrow from $U$ to $c$ is a pair $(F c, \epsilon_c)$ where:
   \begin{itemize}
     \item $F c \in A$
-    \item $\eta_c : UFc \to c$ is a morphism in $C$
+    \item $\epsilon_c : UFc \to c$ is a morphism in $C$
   \end{itemize}
   such that for every $a \in A$, and every $f : Ua \to c$ in $C$, there exists a unique morphism $f^\dagger : a \to F c$ in $A$ such that the following diagram commutes:
   \[
   \begin{tikzcd}
-    c & UFc \arrow[l, "\eta_c"']  \\
+    c & UFc \arrow[l, "\epsilon_c"']  \\
     & Ua \arrow[dashed, u, "U{f^\dagger}"'] \arrow[ul, "f"]
   \end{tikzcd}
   \quad\quad
@@ -343,11 +343,11 @@ Universal arrows have more uses than just defining adjunctions. Here are other e
   \end{tikzcd}
   \quad\sim\quad
   \begin{tikzcd}
-    \Delta c \arrow[r, "\eta_{(a, b)}"] \arrow[dr, "{(f, g)}"'] & \Delta (a \times b) \arrow[dashed, d, "{(\pi_a, \pi_b)}"] \\
+    \Delta c \arrow[r, "\epsilon_{(a, b)}"] \arrow[dr, "{(f, g)}"'] & \Delta (a \times b) \arrow[dashed, d, "{(\pi_a, \pi_b)}"] \\
     & (a, b)
   \end{tikzcd}
   $$
-  We have $\eta_{(a, b)} = \langle f, g\rangle$.
+  We have $\epsilon_{(a, b)} = \langle f, g\rangle$.
 \end{exemple}
 
 
@@ -488,16 +488,16 @@ We denote by $\Multicat$ the set of all multicategories.
 \end{exemple}
 
 
-\section{Some free algebras}
+\subsection{Free algebras}
 
-\subsection{Definitions}
+We'll use the definitions from \cite{Allais2025}.
 
 \begin{definition}[Finitary signature]
   A \emph{finitary signature} $\Sigma = (\op \Sigma, \arity)$ consists of a set $\op \Sigma$ of \emph{operators}, and an assigment $\arity : \op \Sigma \to \N$ associating to each operator in $\op \Sigma$ its \emph{arity}.
 \end{definition}
 
 \begin{definition}[Algebra]
-  An \emph{algrebra} $A = (\underline{A}, A \brak{\text{--}})$ over a finitary signature $\Sigma$ consists of:
+  An \emph{algebra} $A = (\underline{A}, A \brak{\text{--}})$ over a finitary signature $\Sigma$ consists of:
   \begin{itemize}
     \item A set $\underline{A}$ called the \emph{carrier} of $A$,
     \item For each operator $f \in \op \Sigma$ of arity $n$, a function $A \brak{f} : \underline{A}^n \to \underline{A}$ called the \emph{interpretation} of $f$ in $A$.
@@ -513,7 +513,7 @@ We denote by $\Multicat$ the set of all multicategories.
 \end{definition}
 
 \begin{remarque}
-  The definition of algrebraic theory seen before can be reformulated as a finitary signature together with a set of equations between terms built from the operators in the signature.
+  The definition of algebraic theory seen before can be reformulated as a finitary signature together with a set of equations between terms built from the operators in the signature.
 \end{remarque}
 
 \begin{definition}[Environment and Interpretation]
@@ -602,26 +602,28 @@ We can give an equivalent definition for free algebras using universal arrows.
 \end{proposition}
 
 \begin{preuve}
-  Let $F(X)$ be a free $\pres$-model over $X$. We want to show that $(F(X), \eta_X)$ is a universal arrow from $X$ to $U$, where $\eta_X : X \to U(F(X))$ is the function that sends each variable in $X$ to its interpretation in $F(X)$.
+  Let $F\,X$ be a free $\pres$-model over $X$. We want to show that $(F\,X, \eta_X)$ is a universal arrow from $X$ to $U$, where $\eta_X : X \to UF\,X$ is the function that sends each variable in $X$ to its interpretation in $F\,X$.
 
   \medskip
 
-  Let $A$ be a $\pres$-model over $X$, and let $\rho_A : X \to U(A)$ be the environment of $A$. Since $F(X)$ is a free $\pres$-model over $X$, there exists a unique morphism of $\pres$-models $h : F(X) \to A$ such that the following diagram commutes:
+  Let $A$ be a $\pres$-model over $X$, and let $\rho_A : X \to U\,A$ be the environment of $A$. Since $F\,X$ is a free $\pres$-model over $X$, there exists a unique morphism of $\pres$-models $h : F\,X \to A$ such that the following diagram commutes:
   \[
   \begin{tikzcd}
-    X \arrow[r, "\eta_X"] \arrow[dr, "\rho_A"'] & U(F(X)) \arrow[d, "U(h)"] \\
-    & U(A)
+    X \arrow[r, "\eta_X"] \arrow[dr, "\rho_A"'] & UF\,X \arrow[d, "U\,h"] \\
+    & U\,A
   \end{tikzcd}
   \]
   
-  This shows that $(F(X), \eta_X)$ satisfies the universal property of being a universal arrow from $X$ to $U$. 
+  This shows that $(F\,X, \eta_X)$ satisfies the universal property of being a universal arrow from $X$ to $U$. 
   
   \medskip
   
-  Conversely, if $(F(X), \eta_X)$ is a universal arrow from $X$ to $U$, then for any $\pres$-model $A$ over $X$, there exists a unique morphism of $\pres$-models from $F(X)$ to $A$, which means that $F(X)$ is a free $\pres$-model over $X$. Therefore, the two definitions are equivalent.
+  Conversely, if $(F\,X, \eta_X)$ is a universal arrow from $X$ to $U$, then for any $\pres$-model $A$ over $X$, there exists a unique morphism of $\pres$-models from $F\,X$ to $A$, which means that $F\,X$ is a free $\pres$-model over $X$. Therefore, the two definitions are equivalent.
 \end{preuve}
 
-\subsection{Constructing some free algebras}
+\section{Some free algebras}
+
+\subsection{Semigroups}
 
 \minisection{Free commutative semigroups}
 
@@ -643,45 +645,37 @@ We define $\eta_{\CSG} : X \to S X$ for all $x \in X$ by $$\eta_{\CSG} (x) = \la
   0 \text{ otherwise}
 \end{cases}$$
 
-We pose $F_{\CSG} = (S X, (+))$ where $+$ is the operator defined above. 
+We pose $F_{\CSG}X = (S X, (+))$ where $+$ is the operator defined above. 
 
-We want to show that $F_{\CSG}$ is a free $\CSG$-model over $X$.
+We want to show that $F_{\CSG}X$ is a free $\CSG$-model over $X$.
 
 \medskip 
 
-$\triangleright$ Let's first check that $F_{\CSG}X$ is indeed a $\CSG$-model. We need to check that the axioms of $\CSG$ are valid in $F_{\CSG}X$. This is straightforward and comes down to the commutativity and associativity of addition in $\N$.
-
-\medskip
-
-$\triangleright$ Let $A$ be a $\CSG$-model over $X$ with environment $\phi_A : X \to U(A)$. We want to show\footnote{I think this is it ?} that there exists a unique morphism $h$ of $\CSG$-models from $F_{\CSG}X$ to $A$ such that the following diagram commutes:
+\begin{itemize}[label=$\triangleright$]
+  \item Let's first check that $F_{\CSG}X$ is indeed a $\CSG$-model. We need to check that the axioms of $\CSG$ are valid in $F_{\CSG}X$. This is straightforward and comes down to the commutativity and associativity of addition in $\N$.
+  \item Let $A$ be a $\CSG$-model over $X$ with environment $\phi_A : X \to U\,A$. We want to show that there exists a unique morphism $h$ of $\CSG$-models from $F_{\CSG}X$ to $A$ such that the following diagram commutes:
 \[
 \begin{tikzcd}
   X \arrow[r, "\eta_{\CSG}"] \arrow[dr, "\phi_A"'] & S X \arrow[d, "h"] \\
-  & UA
+  & U\,A
 \end{tikzcd}
 \]
 
 with $U$ being the forgetful functor from $\CSG$-models to $\Set$.
 
-\medskip
-
 We define $\Sigma\phi_A : S X \to \underline{A}$ for all $f \in S X$ by $$\Sigma\phi_A(f) = \sum_{x \in X} f\ x \cdot \phi_A(x)$$
 
 We want to show that $\Sigma\phi_A$ is the unique morphism $h$ of $\CSG$-models from $F_{\CSG}X$ to $A$ above. We need to check that $\Sigma\phi_A$ preserves the operator $+$, and that the diagram above commutes.
 
-\medskip
-
-$\triangleright$ Preservation of the operator $+$: let $f, g \in S X$. We have:
+\begin{itemize}
+  \item Preservation of the operator $+$: let $f, g \in S X$. We have:
 \begin{align*}
   \Sigma\phi_A(f + g) &= \Sigma\phi_A(\lambda x. f\ x + g\ x)\\
   &= \sum_{x \in X} (f\ x + g\ x) \cdot \phi_A(x)\\
   &= \sum_{x \in X} f\ x \cdot \phi_A(x) + \sum_{x \in X} g\ x \cdot \phi_A(x)\\
   &= \Sigma\phi_A(f) + \Sigma\phi_A(g)
 \end{align*}
-
-\medskip
-
-$\triangleright$ Commutation of the diagram: let $x \in X$. We have:
+  \item Commutation of the diagram: let $x \in X$. We have:
 \begin{align*}
   (\Sigma\phi_A)(\eta_{\CSG}(x)) &= \Sigma\phi_A \lp \lambda y. \begin{cases}
     1 \text{ if } x = y\\
@@ -695,16 +689,15 @@ $\triangleright$ Commutation of the diagram: let $x \in X$. We have:
 \end{align*}
 
 Therefore, the diagram commutes.
-
-\medskip
-
-$\triangleright$ Uniqueness: let $h : F_{\CSG}X \to A$ be a morphism of $\CSG$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $f \in S X$. We have:
+\item Uniqueness: let $h : F_{\CSG}X \to A$ be a morphism of $\CSG$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $f \in S X$. We have:
 \begin{align*}
   h(f) &= h\lp \sum_{x \in X} f\ x \cdot \eta_{\CSG}(x) \rp\\
   &= \sum_{x \in X} f\ x \cdot h(\eta_{\CSG}(x))  \\
   &= \sum_{x \in X} f\ x \cdot \phi_A(x) & \text{since the diagram commutes} \\
   &= \Sigma\phi_A(f)
 \end{align*}
+\end{itemize}
+\end{itemize}
 
 \medskip
 
@@ -714,7 +707,7 @@ $\triangleright$ Uniqueness: let $h : F_{\CSG}X \to A$ be a morphism of $\CSG$-m
 
 \minisection{Free semigroups}
 
-Compared to the free commutative semigroup, we can rely on the order of the terms and the order of applying the operations. We'll use lists to represent the terms of the free semigroup.
+Compared to the free commutative semigroup, we can rely on the order of the terms. We'll use lists to represent the terms of the free semigroup.
 
 \medskip
 
@@ -722,10 +715,255 @@ Let $X$ be a set. We consider the theory of semigroups $\SG$, with a signature $
   a, b, c &\vdash a \cdot (b \cdot c) = (a \cdot b) \cdot c
 \end{align*}
 
-We pose $$SX = \{l \in X^* \mid l \text{ is non-empty}\}$$
+We pose $$TX = \{l \in X^* \mid l \text{ is finite and non-empty}\}$$
 
+For $f, g \in TX$, we pose $$f \cdot g = f \concat g$$ where $\concat$ is the concatenation of lists.
+
+\medskip
+
+We define $\eta_{\SG} : X \to T X$ for all $x \in X$ by $$\eta_{\SG} (x) = [x]$$
+
+\medskip
+
+We pose $F_{\SG}X = (T X, (\cdot))$ where $\cdot$ is the operator defined above.
+
+We want to show that $F_{\SG}X$ is a free $\SG$-model over $X$.
+
+\medskip
+
+\begin{itemize}[label=$\triangleright$]
+  \item $F_\SG$ is a $\SG$-model: the associativity of $\cdot$ in $F_\SG$ comes from the associativity of list concatenation.
+  \item Let $A$ be a $\SG$-model over $X$ with environment $\phi_A : X \to U\,A$.
+  
+  We define $\Sigma\phi_A : T X \to \underline{A}$ for all $l \in T X$ by $$\Sigma\phi_A(l) = \prod_{x \in l} \phi_A(x)$$ where the product\footnote{product with the operator $\cdot$} is taken in the order of the list $l$, which is well defined because the list is finite, non-empty, and the product is associative. 
+  
+  Let's show that $\Sigma\phi_A$ is the unique morphism $h$ of $\SG$-models from $F_{\SG}X$ to $A$ such that the following diagram commutes:
+\[
+\begin{tikzcd}
+  X \arrow[r, "\eta_{\SG}"] \arrow[dr, "\phi_A"'] & T X \arrow[d, "h"] \\
+  & U\,A
+\end{tikzcd}
+\]
+\begin{itemize}
+  \item Preservation of the operator $\cdot$: let $f, g \in T X$. We have:
+\begin{align*}
+  \Sigma\phi_A(f \cdot g) &= \Sigma\phi_A(f \concat g)\\
+  &= \prod_{x \in f \concat g} \phi_A(x)\\
+  &= \prod_{x \in f} \phi_A(x) \cdot \prod_{x \in g} \phi_A(x) &\text{by associativity of the product}\\
+  &= \Sigma\phi_A(f) \cdot \Sigma\phi_A(g)
+\end{align*}
+\item Commutation of the diagram: let $x \in X$. We have:
+\begin{align*}
+  (\Sigma\phi_A)(\eta_{\SG}(x)) &= \Sigma\phi_A([x])\\
+  &= \phi_A(x)
+\end{align*}
+\item Uniqueness: let $h : F_{\SG}X \to A$ be a morphism of $\SG$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $l \in T X$. We have:
+\begin{align*}
+  h(l) &= h\lp \prod_{x \in l} \eta_{\SG}(x) \rp\\
+  &= \prod_{x \in l} h(\eta_{\SG}(x)) & \text{since $h$ is a morphism}  \\
+  &= \prod_{x \in l} \phi_A(x) & \text{since the diagram commutes} \\
+  &= \Sigma\phi_A(l)
+\end{align*}
+\end{itemize}
+\end{itemize}
+
+\fbox{Therefore we proved that $F_\SG X$ is a free $\SG$-model over $X$.}
+
+
+\subsection{A first combination}
+
+There is no name for a presentation composed of a semigroup for the product and a commutative semigroup for the sum, so we'll just call it $\SG + \CSG$ for now.
+
+The signature of $\SG + \CSG$ has two operators: $(\cdot)$ of arity 2, and $(+)$ of arity 2, and the axioms are the union of the axioms of $\SG$ and $\CSG$ : 
+\begin{align*}
+  a, b, c &\vdash a \cdot (b \cdot c) = (a \cdot b) \cdot c\\
+  a, b &\vdash a + b = b + a\\
+  a, b, c &\vdash a + (b + c) = (a + b) + c
+\end{align*}
+
+We'll also add the distributivity axioms\footnote{one thing to be careful about here is that the product on the left is on $TSX$ while the product on the right is on $STX$}: \begin{align*}
+  a, b, c &\vdash a \cdot (b + c) = a \cdot b + a \cdot c & \text{left distributivity}\\
+  a, b, c &\vdash (a + b) \cdot c = a \cdot c + b \cdot c & \text{right distributivity}
+\end{align*}
+
+We'll try to combine the two previous examples to hopefully get the free algebra for the presentation.
+
+\medskip
+
+The carrier set of our candidate for the free $\SG + \CSG$-model over $X$ is $STX$.
+
+\medskip
+
+We will keep the same definition for the operator $+$ as in the free commutative semigroup, but we'll need to change the definition of the operator $\cdot$ to take into account the fact that we are now working with $STX$ instead of $TX$.
+
+
+
+\medskip
+
+We define a distribution operator\footnote{It works when there are two elements in the list, but I still need to make sure that it works in the general case} $\lambda : TSX \to STX$ for all $l \in TSX$ by $$\lambda (l) = \lambda x : TX. \sum_{y \in x} \sum_{f \in l} f(y)$$
+
+
+
+% We pose $F_\SGCSG X = (STX, (\cdot), (+))$, where $(\cdot)$ and $(+)$ are defined above.
+
+\medskip
+
+We define $\eta_\SGCSG : X \to STX = \eta_\CSG \circ \eta_\SG$. Let's first prove that the following diagram commutes:
+\[
+\begin{tikzcd}
+  X \arrow[r, "\eta_\SG"] \arrow[dr, "\eta_\CSG"'] & T X \arrow[r, "\eta_\CSG"] & S T X\\
+  & S X \arrow[ur, "S \eta_\SG"'] 
+\end{tikzcd}
+\]
+
+Let $x \in X$. We have:
+\begin{align*}
+  (S \eta_\SG)(\eta_\CSG(x)) &= S \eta_\SG \lp \lambda y. \begin{cases}
+    1 \text{ if } x = y\\
+    0 \text{ otherwise }
+  \end{cases} \rp\\
+  &= \lambda y. \begin{cases}
+    1 &\text{ if } \eta_\SG(x) = y\\
+    0 &\text{ otherwise }
+  \end{cases}\\
+  &= \eta_\CSG(\eta_\SG(x))
+\end{align*}
+
+\subsection{Monoids}
+
+Now that we have the free semigroup, we can easily construct the free monoid by adding a new constant (arity 0 operator) to the signature, and adding the corresponding axioms.
+
+\medskip
+
+\minisection{Free commutative monoids}
+
+Let $X$ be a set. We consider the theory of commutative monoids $\CM$, with a signature $\Sigma$ with two operators: $(+)$ of arity 2, and $0$ of arity 0, and with the three axioms \begin{align*}
+  a, b &\vdash a + b = b + a\\
+  a, b, c &\vdash a + (b + c) = (a + b) + c\\
+  a &\vdash a + 0 = a = 0 + a
+\end{align*}
+
+We pose\footnote{we may want to find a different name, as it may be confused with the one for the commutative semigroup} $$SX = \{f : X \to \N \mid f \text{ has finite support}\}$$ 
+
+There is no non-empty support condition as in the free commutative semigroup, which means that the function $f$ can be the constant 0 function. This corresponds to the new constant $0$ in the signature.
+
+\medskip
+
+We pose $$\mathbf{0} = \lambda x. 0 \in S X$$.
+
+\medskip
+
+We keep the same definition for the operator $+$ and for $\eta_{\CM}$ as in the free commutative semigroup.
+
+\medskip
+
+We pose $F_{\CM}X = (S X, (+), \mathbf{0})$ where $+$ and $\eta_{\CM}$ are defined as above.
+
+We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
+
+\begin{itemize}[label=$\triangleright$]
+  \item $F_{\CM}X$ is a $\CM$-model: the axioms of $\CM$ are valid in $F_{\CM}X$ because of the commutativity and associativity of addition in $\N$, and because of the existence of the constant function $\mathbf{0}$ which acts as the identity for $+$.
+  \item Let $A = (\underline{A}, +_A, 0_A)$ be a $\CM$-model over $X$ with environment $\phi_A : X \to U\,A$. We define $\Sigma\phi_A : S X \to \underline{A}$ for all $f \in S X$ by $$\Sigma\phi_A(f) = \sum_{x \in X} f\ x \cdot \phi_A(x)$$
+  
+  We have $\Sigma\phi_A(\mathbf{0}) = 0_A$.
+
+  For the sake of doing the proof at least once, we'll prove that $\Sigma\phi_A$ is well defined on $S X \setminus \{\mathbf{0}\}$.
+
+  \begin{proposition}
+    For all $f \in S X$, the sum $\sum_{x \in X} f\ x \cdot \phi_A(x)$ is well defined.
+  \end{proposition}
+
+  \begin{preuve}
+    Let $f \in S X \setminus \{\mathbf{0}\}$. We note $\Supp f = \{x \in X \mid f(x) \neq 0\}$.
+    
+    Since $f$ has finite support, $\Supp f$ is a finite set. Moreover, since $f \neq \mathbf{0}$, $\Supp f$ is non-empty. Therefore, we can write $\Supp f = \{x_1, x_2, ..., x_n\}$ for some $n \geq 1$ and we have a bijection $\sigma$ between $\{1, 2, ..., n\}$ and $\Supp f$ given by $i \mapsto x_i$. 
+    
+    Therefore, we can rewrite the sum as follows:
+    \begin{align*}
+      \sum_{x \in X} f\ x \cdot \phi_A(x) &= \sum_{x \in \Supp f} f\ x \cdot \phi_A(x)\\
+      &= \sum_{i=1}^n f\ \sigma(i) \cdot \phi_A(\sigma(i))
+    \end{align*}
+    The definition is valid because $+_A$ is associative.
+
+    Let $\sigma'$ be another bijection between $\{1, 2, ..., n\}$ and $\Supp f$. Let's show that we get the same value for the sum if we use $\sigma'$ instead of $\sigma$. 
+    This is true because $\sigma$ and $\sigma'$ are bijections, so there exists a permutation $\pi$ of $\{1, 2, ..., n\}$ such that $\sigma' = \sigma \circ \pi$. Therefore, we have:
+    \begin{align*}
+      \sum_{i=1}^n f\ \sigma' (i) \cdot \phi_A(\sigma'(i)) &= \sum_{i=1}^n f\ \sigma(\pi(i)) \cdot \phi_A(\sigma(\pi(i)))\\
+      &= \sum_{i=1}^n f\ \sigma(i) \cdot \phi_A(\sigma(i)) &\text{by commutativity of $+_A$}
+    \end{align*}
+
+    Therefore, the definition of $\Sigma\phi_A(f)$ does not depend on the choice of the bijection between $\{1, 2, ..., n\}$ and $\Supp f$, and is well defined.
+
+    Now if $f = \mathbf{0}$, we have $\Supp f = \varnothing$, and the sum is the empty sum, which is defined to be $0_A$.
+  \end{preuve}
+
+  We can now prove that $\Sigma\phi_A$ is the unique morphism $h$ of $\CM$-models from $F_{\CM}X$ to $A$ such that the following diagram commutes:
+\[
+\begin{tikzcd}
+  X \arrow[r, "\eta_{\CM}"] \arrow[dr, "\phi_A"'] & S X \arrow[d, "h"] \\
+  & U\,A
+\end{tikzcd}
+\]
+\begin{itemize}
+  \item Preservation of the operator $+$: let $f, g \in S X$. We have:
+\begin{align*}
+  \Sigma\phi_A(f + g) &= \Sigma\phi_A(\lambda x. f\ x + g\ x)\\
+  &= \sum_{x \in X} (f\ x + g\ x) \cdot \phi_A(x) &\text{by definition}\\
+  &= \sum_{x \in X} f\ x \cdot \phi_A(x) + \sum_{x \in X} g\ x \cdot \phi_A(x) & \text{since both $f$ and $g$ have finite support}\\
+  &= \Sigma\phi_A(f) + \Sigma\phi_A(g)
+\end{align*}
+  \item Commutation of the diagram: $\eta_\CM = \eta_\CSG$, so the proof is the same as for the free commutative semigroup.
+  \item Uniqueness: let $h : F_{\CM}X \to A$ be a morphism of $\CM$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $f \in S X$. We'll show this lemma first:
+  
+  \begin{lemme}
+  For all $f \in S X$, we have $f = \sum_{x \in X} f\ x \cdot \eta_{\CM}(x)$.
+  \end{lemme}
+
+  \begin{preuve}
+    Let $f \in S X$. We have $\Supp f = \{x \in X \mid f(x) \neq 0\}$. Since $f$ has finite support, $\Supp f$ is a finite set. Moreover, since $f$ is not necessarily non-zero, $\Supp f$ can be empty. 
+
+    If $\Supp f$ is empty, then $f = \mathbf{0}$ and we have:
+    $$\sum_{x \in X} f\ x \cdot \eta_{\CM}(x) = \sum_{x \in X} 0 \cdot \eta_{\CM}(x) = 0 = f$$
+
+    If $\Supp f$ is non-empty, we can write $\Supp f = \{x_1, x_2, ..., x_n\}$ for some $n \geq 1$. We'll prove by induction on $n$ that $f = \sum_{x \in X} f\ x \cdot \eta_{\CM}(x)$.
+    \begin{itemize}
+      \item If $n = 1$, then $\Supp f = \{x_1\}$ and we have $f = f\ x_1 \cdot \eta_{\CM}(x_1) = \sum_{x \in X} f\ x \cdot \eta_{\CM}(x)$.
+      \item If $n > 1$, we have $\Supp f = \{x_1, x_2, ..., x_n\}$. 
+      
+      We can write $f = f\ x_1 \cdot \eta_{\CM}(x_1) + f'$ where $f' = \lambda x. \begin{cases}
+        0 &\text{ if } x = x_1\\
+        f\ x &\text{ otherwise}
+      \end{cases}$
+
+
+      We have $\Supp f' = \{x_2, ..., x_n\}$, so by the induction hypothesis, we have $f' = \sum_{x \in X} f'\ x \cdot \eta_{\CM}(x)$. Therefore, we have:
+      \begin{align*}
+        f &= f\ x_1 \cdot \eta_{\CM}(x_1) + f'\\
+        &= f\ x_1 \cdot \eta_{\CM}(x_1) + \sum_{x \in X} f'\ x \cdot \eta_{\CM}(x)\\
+        &= f\ x_1 \cdot \eta_{\CM}(x_1) + \sum_{x \in X} f\ x
+        \cdot \eta_{\CM}(x) - f\ x_1 \cdot \eta_{\CM}(x_1) &\text{by definition of $f'$}\\
+        &= \sum_{x \in X} f\ x \cdot \eta_{\CM}(x)
+      \end{align*}
+    \end{itemize}
+  \end{preuve}
+  
+  We then have:
+\begin{align*}
+  h(f) &= h\lp \sum_{x \in X} f\ x \cdot \eta_{\CM}(x) \rp\\
+  &= \sum_{x \in X} f\ x \cdot h(\eta_{\CM}(x)) \\
+  &= \sum_{x \in X} f\ x \cdot \phi_A(x) & \text{since the diagram commutes} \\
+  &= \Sigma\phi_A(f)
+\end{align*}
+\end{itemize}
+\end{itemize}
+
+\fbox{Therefore we proved that $F_\CM X$ is a free $\CM$-model over $X$.}
 
 \newpage
+
+\nocite{*}
+\printbibliography
+
 
 \appendix
 
@@ -739,6 +977,9 @@ We pose $$SX = \{l \in X^* \mid l \text{ is non-empty}\}$$
   Gave examples of uses of universal arrows: defining adjunctions, defining products and coproducts, and defining free algebras.
   
   Defined and proved the free algebra for commutative semigroups, started to work on the free algebra for semigroups.
+  \item 08/05/2026: Defined and proved the free algebra for semigroups and commutative monoids. Proved the details that were missing for the free algebra for commutative semirings (in the commutative monoid part). 
+  
+  Started to work on the free algebra for the combination of semigroups and commutative semigroups, but still need to define the product operator and check that the distributivity axioms hold, and that the resulting algebra is indeed a free algebra for the combination.
 \end{itemize}
 
 
@@ -747,7 +988,7 @@ We pose $$SX = \{l \in X^* \mid l \text{ is non-empty}\}$$
 \begin{itemize}
   \item dig in the paper about frexes to learn more about that (both frexes and frals) and write the relevant definitions down
   \item write the definition of free extensions with universal arrows
-  \item compute the free algebras for the semigroup (and commutative semigroup), then combine them and see if this equals the free algebra for the combination (also check that the distributive laws hold)
+  \item combine free algebras and see if this equals the free algebra for the combination (also check that the distributive laws hold)
   \item look at what was done with involution to take inspiration
 \end{itemize}
 
