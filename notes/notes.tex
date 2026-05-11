@@ -218,16 +218,50 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   such that the following diagrams commute:
   \[
   \begin{tikzcd}
-    T \arrow[r, "T\eta"] \arrow[d, "\eta T"] & T^2 \arrow[d, "\mu"] \\
-    T^2 \arrow[r, "\mu"] & T
+    T \arrow[r, "T\eta"] \arrow[d, "\eta T"'] \arrow[equal, dr, ""] & T^2 \arrow[d, "\mu"] \\
+    T^2 \arrow[r, "\mu"'] & T
   \end{tikzcd}
   \quad\quad
   \begin{tikzcd}
-    T^3 \arrow[r, "T\mu"] \arrow[d, "\mu T"] & T^2 \arrow[d, "\mu"] \\
-    T^2 \arrow[r, "\mu"] & T
+    T^3 \arrow[r, "T\mu"] \arrow[d, "\mu T"'] & T^2 \arrow[d, "\mu"] \\
+    T^2 \arrow[r, "\mu"'] & T
   \end{tikzcd}
   \]
 \end{definition}
+
+\begin{definition}[Distributive law between monads]
+  Given two monads $(T, \eta^T, \mu^T)$ and $(S, \eta^S, \mu^S)$ on a category $\mathcal{C}$, a \emph{distributive law} of $T$ over $S$ is a natural transformation $\lambda: TS \to ST$ such that the following diagrams commute:
+  \[
+  \begin{tikzcd}
+                          & T \arrow[ld, "T\eta^S"'] \arrow[rd, "\eta^ST"] &    \\
+TS \arrow[rr, "\lambda"'] &                                                & ST
+\end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+                          & S \arrow[ld, "\eta^TS"'] \arrow[rd, "S\eta^T"] &    \\
+TS \arrow[rr, "\lambda"'] &                                                & ST
+\end{tikzcd}
+  \]
+
+  \[
+  \begin{tikzcd}
+    T^2 S \arrow[r, "T\lambda"] \arrow[d, "\mu^T S"'] & TST \arrow[r, "\lambda T"] & ST^2 \arrow[d, "S\mu^T"] \\
+    TS \arrow[rr, "\lambda"'] & & ST
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    TS^2 \arrow[r, "\lambda S"] \arrow[d, "T\mu^S"'] & STS \arrow[r, "S\lambda"] & S^2T \arrow[d, "\mu^S T"] \\
+    TS \arrow[rr, "\lambda"'] & & ST
+  \end{tikzcd}
+  \]
+
+  This law induces a composite monad $ST$ on $\mathcal{C}$ with
+  \begin{itemize}
+    \item unit $\eta^{ST} = \eta^S \circ \eta^T$
+    \item multiplication $STST \xrightarrow{S \lambda T} SSTT \xrightarrow {\mu^S \mu^T} ST$
+  \end{itemize}
+\end{definition}
+
 
 \begin{definition}[Adjunction]
   Given two categories $\mathcal{C}$ and $\mathcal{D}$, a functor $F: \mathcal{C} \to \mathcal{D}$ is a \emph{left adjoint} to a functor $G: \mathcal{D} \to \mathcal{C}$ (and $G$ is a \emph{right adjoint} to $F$) if there is a natural isomorphism:
@@ -647,11 +681,12 @@ We define $\eta_{\CSG} : X \to S X$ for all $x \in X$ by $$\eta_{\CSG} (x) = \la
 
 We pose $F_{\CSG}X = (S X, (+))$ where $+$ is the operator defined above. 
 
-We want to show that $F_{\CSG}X$ is a free $\CSG$-model over $X$.
+\begin{proposition}
+  $F_{\CSG}X$ is a free $\CSG$-model over $X$.
+\end{proposition}
 
-\medskip 
-
-\begin{itemize}[label=$\triangleright$]
+\begin{preuve}
+  \begin{itemize}[label=$\triangleright$]
   \item Let's first check that $F_{\CSG}X$ is indeed a $\CSG$-model. We need to check that the axioms of $\CSG$ are valid in $F_{\CSG}X$. This is straightforward and comes down to the commutativity and associativity of addition in $\N$.
   \item Let $A$ be a $\CSG$-model over $X$ with environment $\phi_A : X \to U\,A$. We want to show that there exists a unique morphism $h$ of $\CSG$-models from $F_{\CSG}X$ to $A$ such that the following diagram commutes:
 \[
@@ -703,6 +738,56 @@ Therefore, the diagram commutes.
 
 \fbox{Therefore, we proved that $F_{\CSG}X$ is a free $\CSG$-model over $X$.}
 
+\end{preuve}
+
+Finally we'll define a multiplication $\mu_\CSG$ so that we have a monad structure $(S, \eta_\CSG, \mu_\CSG)$ on $\Set$. For all $f \in S S X$, we pose $$\mu_\CSG(f) = \lambda x. \sum_{g \in S X} f\ g \cdot g\ x$$
+
+\begin{proposition}
+  $(S, \eta_\CSG, \mu_\CSG)$ is a monad on $\Set$.
+\end{proposition}
+
+\begin{preuve}
+  We need to check the monad axioms:
+  \begin{itemize}
+    \item Left unit: let $f \in S X$. We have:
+\begin{align*}
+  \mu_\CSG(\eta_\CSG S(f)) &= \mu_\CSG\lp \lambda g. \begin{cases}
+    1 \text{ if } g = f\\
+    0 \text{ otherwise}
+  \end{cases} \rp\\
+  &= \lambda x. \sum_{g \in S X} \begin{cases}
+    1 \cdot g\ x &\text{ if } g = f\\
+    0 &\text{ otherwise}
+  \end{cases}\\
+  &= \lambda x. f\ x\\
+  &= f
+\end{align*}
+    \item Right unit: let $f \in S X$. We have:
+  \begin{align*}
+    \mu_\CSG(S\eta_\CSG(f)) &= \mu_\CSG\lp \lambda g. \begin{cases}
+      f\ x &\text{ if $g = \eta_\CSG(x)$ for some $x \in X$}\\
+      0 &\text{ otherwise}
+    \end{cases} \rp\\
+    &= \lambda x. \sum_{g \in S X} \begin{cases}
+      f\ x \cdot g\ x &\text{ if $g = \eta_\CSG(x)$ for some $x \in X$}\\
+      0 &\text{ otherwise}
+    \end{cases}\\
+    &= \lambda x. f(x) \cdot \eta_\CSG(x)(x)\\
+    &= \lambda x. f\ x\\
+    &= f
+  \end{align*}
+    \item Associativity: let $f \in S S S X$. We have:
+  \begin{align*}
+    \mu_\CSG(S\mu_\CSG(f)) &= \mu_\CSG\lp \lambda g. \sum_{h \in S S X} f\ h \cdot h\ g \rp\\
+    &= \lambda x. \sum_{g \in S X}
+      \lp\sum_{h \in S S X} f\ h \cdot h\ g \rp \cdot g\ x\\
+    &= \lambda x. \sum_{h \in S S X} f\ h \cdot \lp \sum_{g \in S X} h\ g \cdot g\ x \rp\\
+    &= \lambda x. \sum_{h \in S S X} f\ h \cdot \mu_\CSG(h)\\
+    &= \mu_\CSG(\mu_\CSG S(f))
+  \end{align*}
+\end{itemize}
+\end{preuve}
+
 \bigskip
 
 \minisection{Free semigroups}
@@ -727,9 +812,11 @@ We define $\eta_{\SG} : X \to T X$ for all $x \in X$ by $$\eta_{\SG} (x) = [x]$$
 
 We pose $F_{\SG}X = (T X, (\cdot))$ where $\cdot$ is the operator defined above.
 
-We want to show that $F_{\SG}X$ is a free $\SG$-model over $X$.
+\begin{proposition}
+  $F_{\SG}X$ is a free $\SG$-model over $X$.
+\end{proposition}
 
-\medskip
+\begin{preuve}
 
 \begin{itemize}[label=$\triangleright$]
   \item $F_\SG$ is a $\SG$-model: the associativity of $\cdot$ in $F_\SG$ comes from the associativity of list concatenation.
@@ -769,6 +856,41 @@ We want to show that $F_{\SG}X$ is a free $\SG$-model over $X$.
 
 \fbox{Therefore we proved that $F_\SG X$ is a free $\SG$-model over $X$.}
 
+\end{preuve}
+
+We'll also define a multiplication $\mu_\SG$ so that we have a monad structure $(T, \eta_\SG, \mu_\SG)$ on $\Set$. For all $l \in T T X$, we pose $$\mu_\SG(l) = \concat_{x \in l} x$$ where the concatenation is taken in the order of the list $l$, which is well defined because the list $l$ is finite, non-empty, and the concatenation is associative.
+
+\begin{proposition}
+  $(T, \eta_\SG, \mu_\SG)$ is a monad on $\Set$.
+\end{proposition}
+
+\begin{preuve}
+  We need to check the monad axioms:
+  \begin{itemize}
+    \item Left unit: let $l \in T X$. We have:
+\begin{align*}  
+  \mu_\SG(\eta_\SG T(l)) &= \mu_\SG ([l])\\
+  &= \concat_{x \in [l]} x\\
+  &= l
+\end{align*}
+    \item Right unit: let $l \in T X$. We have:
+  \begin{align*}   
+    \mu_\SG(T\eta_\SG(l)) &= \mu_\SG\lp \crochets{[x_i] \mid x_i \in l} \rp\\
+    &= \concat_{x \in \crochets{[x_i] \mid x_i \in l}} x\\
+    &= \concat_{x_i \in l} [x_i]\\
+    &= l
+  \end{align*}
+    \item Associativity: let $l \in T T T X$. We have:
+  \begin{align*}   
+    \mu_\SG(T\mu_\SG(l)) &= \mu_\SG\lp \crochets{\concat_{x \in l_i} x \mid l_i \in l} \rp\\
+    &= \concat_{x \in \crochets{\concat_{x \in l_i} x \mid l_i \in l}} x\\
+    &= \concat_{l_i \in l} \concat_{x \in l_i} x\\
+    &= \concat_{x \in \concat_{l_j \in l} l_j} x\\
+    &= \concat_{x \in l} x\\
+    &= \mu_\SG(\mu_\SG T(l))
+  \end{align*}
+\end{itemize}
+\end{preuve}
 
 \subsection{A first combination}
 
@@ -781,7 +903,7 @@ The signature of $\SG + \CSG$ has two operators: $(\cdot)$ of arity 2, and $(+)$
   a, b, c &\vdash a + (b + c) = (a + b) + c
 \end{align*}
 
-We'll also add the distributivity axioms\footnote{one thing to be careful about here is that the product on the left is on $TSX$ while the product on the right is on $STX$}: \begin{align*}
+We'll also add the distributivity axioms: \begin{align*}
   a, b, c &\vdash a \cdot (b + c) = a \cdot b + a \cdot c & \text{left distributivity}\\
   a, b, c &\vdash (a + b) \cdot c = a \cdot c + b \cdot c & \text{right distributivity}
 \end{align*}
@@ -796,22 +918,16 @@ The carrier set of our candidate for the free $\SG + \CSG$-model over $X$ is $ST
 
 We will keep the same definition for the operator $+$ as in the free commutative semigroup, but we'll need to change the definition of the operator $\cdot$ to take into account the fact that we are now working with $STX$ instead of $TX$.
 
+If we write $(p : n) \in f$ when $f(p) = n$, then what we want is $$f \cdot g = \sum_{(p : n) \in f}\sum_{(q : m) \in g} (p \cdot_\SG q : n \cdot m)$$
 
-
-\medskip
-
-We define a distribution operator\footnote{It works when there are two elements in the list, but I still need to make sure that it works in the general case} $\lambda : TSX \to STX$ for all $l \in TSX$ by $$\lambda (l) = \lambda x : TX. \sum_{y \in x} \sum_{f \in l} f(y)$$
-
-
-
-% We pose $F_\SGCSG X = (STX, (\cdot), (+))$, where $(\cdot)$ and $(+)$ are defined above.
+Formaly, this can be defined for all $f, g \in STX$ as $$f \cdot g = \lambda l : TX. \sum_{l = l_1 \cdot_{\SG} l_2} f(l_1) \cdot g(l_2)$$
 
 \medskip
 
 We define $\eta_\SGCSG : X \to STX = \eta_\CSG \circ \eta_\SG$. Let's first prove that the following diagram commutes:
 \[
 \begin{tikzcd}
-  X \arrow[r, "\eta_\SG"] \arrow[dr, "\eta_\CSG"'] & T X \arrow[r, "\eta_\CSG"] & S T X\\
+  X \arrow[r, "\eta_\SG"] \arrow[dr, "\eta_\CSG"'] & T X \arrow[r, "\eta_\CSG T"] & S T X\\
   & S X \arrow[ur, "S \eta_\SG"'] 
 \end{tikzcd}
 \]
@@ -828,6 +944,217 @@ Let $x \in X$. We have:
   \end{cases}\\
   &= \eta_\CSG(\eta_\SG(x))
 \end{align*}
+
+We pose $F_\SGCSG X = (STX, (\cdot), (+))$, where $(\cdot)$ and $(+)$ are defined above.
+
+\medskip
+
+\begin{proposition}
+  $F_\SGCSG X$ is a free $\SG + \CSG$-model over $X$.
+\end{proposition}
+
+\begin{preuve}
+  \begin{itemize}[label=$\triangleright$]
+  \item Let's first check that $F_\SGCSG X$ is indeed a $\SG + \CSG$-model. 
+  
+  The associativity and commutativity of $(+)$ was already proven for $F_\CSG X$.
+  
+  For the associativity of $(\cdot)$: let $f, g, h \in STX$. We have:
+\begin{align*}
+  (f \cdot g) \cdot h &= \lambda l : TX. \sum_{l = l_1 \cdot_{\SG} l_2} (f \cdot g)(l_1) \cdot h(l_2)\\
+  &= \lambda l : TX. \sum_{l = l_1 \cdot_{\SG} l_2} \sum_{l_1 = l_{11} \cdot_{\SG} l_{12}} f(l_{11}) \cdot g(l_{12}) \cdot h(l_2)\\
+  &= \lambda l : TX. \sum_{l = l_{11} \cdot_{\SG} (l_{12} \cdot_{\SG} l_2)} f(l_{11}) \cdot g(l_{12}) \cdot h(l_2) &\text{by associativity of $\cdot_{\SG}$}\\
+  &= \lambda l : TX. \sum_{l = l_{11} \cdot_{\SG} l_3} \sum_{l_3 =l_{12} \cdot_{\SG} l_2} f(l_{11}) \cdot g(l_{12}) \cdot h(l_2)\\
+  &= \lambda l : TX. \sum_{l = l_{11} \cdot_{\SG} l_3} f(l_{11}) \cdot (g \cdot h)(l_3)\\
+  &= f \cdot (g \cdot h)
+\end{align*}
+
+The distributivity of $(\cdot)$ over $(+)$ comes from the distributivity of the product in $\N$ over addition, and from the definition of $(+)$.
+
+Therefore, $F_\SGCSG X$ is a $\SG + \CSG$-model.
+  \item Let $A$ be a $\SG + \CSG$-model over $X$ with environment $\phi_A : X \to U\,A$. We want to show that there exists a unique morphism $h$ of $\SG + \CSG$-models from $F_\SGCSG X$ to $A$ such that the following diagram commutes:
+\[
+\begin{tikzcd}
+  X \arrow[r, "\eta_\SGCSG"] \arrow[dr, "\phi_A"'] & S T X \arrow[d, "h"] \\
+  & U A
+\end{tikzcd}
+\]
+
+We define $\Sigma\phi_A : S T X \to \underline{A}$ for all $f \in S T X$ by $$\Sigma\phi_A(f) = \sum_{l \in T X} f\ l \cdot \prod_{x \in l} \phi_A(x)$$
+
+Let's show that $\Sigma\phi_A$ is the unique morphism $h$ of $\SG + \CSG$-models from $F_\SGCSG X$ to $A$ above. We need to check that $\Sigma\phi_A$ preserves the operators $(\cdot)$ and $(+)$, and that the diagram above commutes.
+
+\begin{itemize}
+  \item Preservation of the operator $(\cdot)$: let $f, g \in S T X$. We have:
+\begin{align*}
+  \Sigma\phi_A(f \cdot g) &= \Sigma\phi_A(\lambda l : TX. \sum_{l = l_1 \cdot_{\SG} l_2} f(l_1) \cdot g(l_2))\\
+  &= \sum_{l \in T X} \lp \sum_{l = l_1 \cdot_{\SG} l_2} f(l_1) \cdot g(l_2) \rp \cdot \prod_{x \in l} \phi_A(x)\\
+  &= \sum_{l_1, l_2 \in T X} f(l_1) \cdot g(l_2) \cdot \prod_{x \in l_1 \cdot_{\SG} l_2} \phi_A(x)\\
+  &= \sum_{l_1, l_2 \in T X} f(l_1) \cdot g(l_2) \cdot \prod_{x \in l_1} \phi_A(x) \cdot \prod_{x \in l_2} \phi_A(x) &\text{by associativity of the product}\\
+  &= \sum_{l_1 \in T X} f(l_1) \cdot \prod_{x \in l_1} \phi_A(x) \cdot \sum_{l_2 \in T X} g(l_2) \cdot \prod_{x \in l_2} \phi_A(x)\\
+  &= \Sigma\phi_A(f) \cdot \Sigma\phi_A(g)
+\end{align*}
+  \item Preservation of the operator $(+)$: let $f, g \in S T X$. We have:
+\begin{align*}
+  \Sigma\phi_A(f + g) &= \Sigma\phi_A(\lambda l : TX. f\ l + g\ l)\\
+  &= \sum_{l \in T X} (f\ l + g\ l) \cdot \prod_{x \in l} \phi_A(x)\\
+  &= \sum_{l \in T X} f\ l \cdot \prod_{x \in l} \phi_A(x) + \sum_{l \in T X} g\ l \cdot \prod_{x \in l} \phi_A(x)\\
+  &= \Sigma\phi_A(f) + \Sigma\phi_A(g)
+\end{align*}
+  \item Commutation of the diagram: let $x \in X$. We have:
+\begin{align*}
+  (\Sigma\phi_A)(\eta_\SGCSG(x)) &= \Sigma\phi_A(\eta_\CSG(\eta_\SG(x)))\\
+  &= \Sigma\phi_A \lp \lambda y. \begin{cases}
+    1 &\text{ if }\eta_\SG(x) = y\\
+    0 &\text{ otherwise }
+  \end{cases} \rp\\
+  &= \sum_{y \in T X} \begin{cases}
+    1 \cdot \prod_{x' \in y} \phi_A(x') &\text{ if } \eta_\SG(x) = y\\
+    0 &\text{ otherwise }
+  \end{cases}\\
+  &= \prod_{x' \in \eta_\SG(x)} \phi_A(x')\\
+  &= \phi_A(x)
+\end{align*}
+  \item Uniqueness: let $h : F_\SGCSG X \to A$ be a morphism of $\SG + \CSG$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $f \in S T X$. We have:
+\begin{align*}
+  h(f) &= h\lp \sum_{l \in T X} f\ l \cdot \prod_{x \in l} \eta_\SG(x) \rp\\
+  &= \sum_{l \in T X} f\ l \cdot \prod_{x \in l} h(\eta_\SG(x)) &\text{since $h$ is a morphism}  \\
+  &= \sum_{l \in T X} f\ l \cdot \prod_{x \in l} \phi_A(x) &\text{since the diagram commutes} \\
+  &= \Sigma\phi_A(f)
+\end{align*}
+\end{itemize}
+
+\fbox{Therefore $F_\SGCSG X$ is a free $\SGCSG$-model over $X$.}
+
+\end{itemize}
+\end{preuve}
+
+We also define a distributive law $\lambda : TSX \to STX$ for all $l \in TSX$ by
+$$\lambda ([f_1, \dots, f_n]) = \sum_{(x_1 : n_1) \in f_1} \dots \sum_{(x_n : n_n) \in f_n} \lp [x_1, \cdots, x_n] : \prod_{i=1}^n n_i \rp $$
+
+Formaly, this can be defined for all $l \in TSX$ as
+
+$$\lambda (l) = \lambda x : TX. \begin{cases}
+  0 &\text{ if $\abs{x} \neq \abs{l}$}\\
+  \prodd{(y, f) \in x \ast l}{} f(y) &\text{ otherwise}
+\end{cases}$$ where $x \ast l$ is the elementwise pairing of the list $x$ and the list $l$, which is well defined because $x$ and $l$ have the same length.
+
+\begin{proposition}
+  $\lambda$ is a distributive law of the monad $T$ over the monad $S$.
+\end{proposition}
+
+\begin{preuve}
+  We need to check the following axioms:
+  \begin{itemize}
+    \item $\lambda \circ T \eta_S = \eta_S T$: let $l \in T X$. We have:
+\begin{align*}
+  (\lambda \circ T \eta_S)(l) &= \lambda(T \eta_S(l))\\
+  &= \lambda \lp \crochets{\eta_S(x) \mid x \in l} \rp\\
+  &= \lambda x : TX. \begin{cases}
+    0 &\text{ if $\abs{x} \neq \abs{l}$}\\
+    \prodd{(y, f) \in x \ast \crochets{\eta_S(x) \mid x \in l}}{} f(y) &\text{ otherwise}
+  \end{cases}\\
+  &= \lambda x : TX. \begin{cases}
+    0 &\text{ if $\abs{x} \neq \abs{l}$}\\
+    \prodd{(y, z) \in x \ast l}{} \eta_S(z)(y) &\text{ otherwise}
+  \end{cases}\\
+  &= \eta_S T(l)
+\end{align*}
+    \item $\lambda \circ \eta_T S = S \eta_T$: let $f \in S X$. We have:
+\begin{align*}
+  (\lambda \circ \eta_T S)(f) &= \lambda(\eta_T S(f))\\
+  &= \lambda(\crochets{f})\\
+  &= \lambda x : TX. \begin{cases}
+    0 &\text{ if $\abs{x} \neq 1$}\\
+    \prodd{(y, g) \in x \ast \crochets{f}}{} g(y) &\text{ otherwise}
+  \end{cases}\\
+  &= S \eta_T(f)
+\end{align*}
+
+\item $\lambda \circ T \mu_S = \mu_S T \circ S \lambda \circ \lambda S$: let $l = [f_1, \dots, f_n] \in T S S X$. We have:
+\begin{align*}
+  (\lambda \circ T \mu_S)(l) &= \lambda(T \mu_S(l))\\
+  &= \lambda\lp \crochets{\mu_S(f_i) \mid i = 1, \dots, n} \rp\\
+  &= \lambda x : TX. \begin{cases}
+    \prodd{i = 1}{n} \mu_S(f_i)(x_i) &x = [x_1, \dots, x_n]\\
+    0 &\text{ otherwise}
+  \end{cases}\\
+  &= \lambda x : TX. \begin{cases}
+    \prodd{i = 1}{n} \sum_{g \in S X} f_i(g) \cdot g(x_i) &x = [x_1, \dots, x_n]\\
+    0 &\text{ otherwise}
+  \end{cases}\\
+  &= \lambda x : TX. \begin{cases}
+    \summ{g_1, \dots, g_n \in S X}{} \prodd{i = 1}{n} f_i(g_i) \cdot g_i(x_i) &x = [x_1, \dots, x_m]\\
+    0 &\text{ otherwise}
+  \end{cases}
+\end{align*}
+
+\begin{align*}
+  (\mu_S T \circ S \lambda \circ \lambda S)(l) &= \mu_S T(S \lambda(\lambda S(l)))\\
+  &= \mu_S T \lp S \lambda \lp \lambda y : TSX. \begin{cases}
+    \prodd{i=1}{n} \sum_{g \in S X} f_i(g) \cdot g(y_i) &y = [y_1, \dots, y_n]\\
+    0 &\text{ otherwise}
+  \end{cases} \rp\rp\\
+  &= \mu_S T \lp \lambda h : STX. \summ{g_1, \dots, g_n \in S X \wedge \lambda ([g_1, \dots, g_n]) = h}{} \prodd{i=1}{n} f_i(g_i) \cdot g_i(x_i) \rp\\
+  &= \lambda x : TX. \summ{g_1, \dots, g_n \in S X}{} \lp\prodd{i=1}{n} f_i(g_i)\rp \cdot \lambda ([g_1, \dots, g_n])(x)\\
+  &= \lambda x : TX. \begin{cases} 
+    \summ{g_1, \dots, g_n \in S X}{} \lp\prodd{i=1}{n} f_i(g_i)\rp \cdot \lp \prodd{i=1}{n} g_i(x_i) \rp &x = [x_1, \dots, x_n]\\
+    0 &\text{ otherwise}
+  \end{cases}
+\end{align*}
+
+Therefore, we have $(\lambda \circ T \mu_S)(l) = (\mu_S T \circ S \lambda \circ \lambda S)(l)$.
+
+\item $\lambda \circ \mu_T S = S \mu_T \circ \lambda T \circ T \lambda$: let $l = [[f_{11}, \dots, f_{1m_1}], \dots, [f_{n1}, \dots, f_{nm_n}]] \in T T S X$. We have:
+\begin{align*}
+  (\lambda \circ \mu_T S)(l) &= \lambda(\mu_T S(l))\\
+  &= \lambda(\concat_{i=1}^n [f_{i1}, \dots, f_{im_i}])\\
+  &= \lambda x : TX. \begin{cases}
+    \prodd{i=1}{n} \prodd{j=1}{m_i} f_{ij}(x_{ij}) &x = \concat_{i=1}^n [x_{i1}, \dots, x_{im_i}]\\
+    0 &\text{ otherwise}
+  \end{cases}
+\end{align*}
+
+\begin{align*}
+  &(S \mu_T \circ \lambda T \circ T \lambda)(l)\\
+  &= S \mu_T(\lambda T(T \lambda(l)))\\
+  &= S \mu_T(\lambda T([\lambda([f_{11}, \dots, f_{1m_1}]), \dots, \lambda([f_{n1}, \dots, f_{nm_n}])]))\\
+  &= S \mu_T\lp\lambda T\lp \left[\lambda y : TX. \begin{cases}
+    \prodd{j=1}{m_1} f_{1j}(y_j) &y = [y_1, \dots, y_{m_1}]\\
+    0 &\text{ otherwise}
+  \end{cases}, \dots, \lambda y : TX. \begin{cases}
+    \prodd{j=1}{m_n} f_{nj}(y_j) &y = [y_1, \dots, y_{m_n}]\\
+    0 &\text{ otherwise}
+  \end{cases}\right]\rp\rp\\
+  &= S \mu_T\lp \lambda h : STX. \summ{i=1}{n} \summ{y_1, \dots, y_{m_i} \in TX}{} \begin{cases}
+    \prodd{j=1}{m_i} f_{ij}(y_j) &h = \lambda y : TX. \begin{cases}
+      \prodd{j=1}{m_i} f_{ij}(y_j) &y = [y_1, \dots, y_{m_i}]\\
+      0 &\text{ otherwise}
+    \end{cases}\\
+    0 &\text{ otherwise}
+  \end{cases}\rp\\
+  &= \lambda x : TX. \begin{cases}
+    \summ{i=1}{n} \summ{y_1, \dots, y_{m_i} \in TX}{} \begin{cases}
+      \prodd{j=1}{m_i} f_{ij}(y_j) &y_i = [y_{i1}, \dots, y_{im_i}]\\
+      0 &\text{ otherwise}
+    \end{cases} &x = \concat_{i=1}^n [y_1, \dots, y_{m_i}]\\
+    0 &\text{ otherwise}
+  \end{cases}\\
+  &= \lambda x : TX. \begin{cases}
+    \prodd{i=1}{n} \prodd{j=1}{m_i} f_{ij}(x_{ij}) &x = \concat_{i=1}^n [x_{i1}, \dots, x_{im_i}]\\
+    0 &\text{ otherwise}
+  \end{cases}
+\end{align*}
+
+Therefore, we have $(\lambda \circ \mu_T S)(l) = (S \mu_T \circ \lambda T \circ T \lambda)(l)$.
+\end{itemize}
+\end{preuve}
+
+\begin{corollaire}
+  $(ST, \eta_\SGCSG, \mu_\SGCSG)$ is a monad on $\Set$, where $$\mu_\SGCSG : STST \xrightarrow{S \lambda T} SSTT \xrightarrow{\mu_S\mu_T} ST$$.
+\end{corollaire}
+
+
 
 \subsection{Monoids}
 
@@ -980,6 +1307,11 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
   \item 08/05/2026: Defined and proved the free algebra for semigroups and commutative monoids. Proved the details that were missing for the free algebra for commutative semirings (in the commutative monoid part). 
   
   Started to work on the free algebra for the combination of semigroups and commutative semigroups, but still need to define the product operator and check that the distributivity axioms hold, and that the resulting algebra is indeed a free algebra for the combination.
+  \item 11/05/2026: finished the definition of the product operator for the free algebra for the combination of semigroups and commutative semigroups, and proved that it is indeed a free algebra for the combination.
+  
+  Defined multiplication for the free semigroup and commutative semigroup, and proved that we get a monad structure on $\Set$ in both cases.
+
+  Defined the distributive law of the monad for the free semigroup over the monad for the free commutative semigroup, and proved that it is indeed a distributive law $\rightarrow$ we get a monad structure on $\Set$ for the free algebra for the combination of semigroups and commutative semigroups.
 \end{itemize}
 
 
@@ -988,7 +1320,6 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
 \begin{itemize}
   \item dig in the paper about frexes to learn more about that (both frexes and frals) and write the relevant definitions down
   \item write the definition of free extensions with universal arrows
-  \item combine free algebras and see if this equals the free algebra for the combination (also check that the distributive laws hold)
   \item look at what was done with involution to take inspiration
 \end{itemize}
 
