@@ -208,60 +208,6 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   \]
 \end{definition}
 
-\begin{definition}[Monad]
-  A \emph{monad} on a category $\mathcal{C}$ is a triple $(T, \eta, \mu)$ where:
-  \begin{itemize}
-    \item $T: \mathcal{C} \to \mathcal{C}$ is a functor,
-    \item $\eta: \text{Id}_{\mathcal{C}} \to T$ is a natural transformation called the unit,
-    \item $\mu: T^2 \to T$ is a natural transformation called the multiplication,
-  \end{itemize}
-  such that the following diagrams commute:
-  \[
-  \begin{tikzcd}
-    T \arrow[r, "T\eta"] \arrow[d, "\eta T"'] \arrow[equal, dr, ""] & T^2 \arrow[d, "\mu"] \\
-    T^2 \arrow[r, "\mu"'] & T
-  \end{tikzcd}
-  \quad\quad
-  \begin{tikzcd}
-    T^3 \arrow[r, "T\mu"] \arrow[d, "\mu T"'] & T^2 \arrow[d, "\mu"] \\
-    T^2 \arrow[r, "\mu"'] & T
-  \end{tikzcd}
-  \]
-\end{definition}
-
-\begin{definition}[Distributive law between monads]
-  Given two monads $(T, \eta^T, \mu^T)$ and $(S, \eta^S, \mu^S)$ on a category $\mathcal{C}$, a \emph{distributive law} of $T$ over $S$ is a natural transformation $\lambda: TS \to ST$ such that the following diagrams commute:
-  \[
-  \begin{tikzcd}
-                          & T \arrow[ld, "T\eta^S"'] \arrow[rd, "\eta^ST"] &    \\
-TS \arrow[rr, "\lambda"'] &                                                & ST
-\end{tikzcd}
-  \quad\quad
-  \begin{tikzcd}
-                          & S \arrow[ld, "\eta^TS"'] \arrow[rd, "S\eta^T"] &    \\
-TS \arrow[rr, "\lambda"'] &                                                & ST
-\end{tikzcd}
-  \]
-
-  \[
-  \begin{tikzcd}
-    T^2 S \arrow[r, "T\lambda"] \arrow[d, "\mu^T S"'] & TST \arrow[r, "\lambda T"] & ST^2 \arrow[d, "S\mu^T"] \\
-    TS \arrow[rr, "\lambda"'] & & ST
-  \end{tikzcd}
-  \quad\quad
-  \begin{tikzcd}
-    TS^2 \arrow[r, "\lambda S"] \arrow[d, "T\mu^S"'] & STS \arrow[r, "S\lambda"] & S^2T \arrow[d, "\mu^S T"] \\
-    TS \arrow[rr, "\lambda"'] & & ST
-  \end{tikzcd}
-  \]
-
-  This law induces a composite monad $ST$ on $\mathcal{C}$ with
-  \begin{itemize}
-    \item unit $\eta^{ST} = \eta^S \circ \eta^T$
-    \item multiplication $STST \xrightarrow{S \lambda T} SSTT \xrightarrow {\mu^S \mu^T} ST$
-  \end{itemize}
-\end{definition}
-
 
 \begin{definition}[Adjunction]
   Given two categories $\mathcal{C}$ and $\mathcal{D}$, a functor $F: \mathcal{C} \to \mathcal{D}$ is a \emph{left adjoint} to a functor $G: \mathcal{D} \to \mathcal{C}$ (and $G$ is a \emph{right adjoint} to $F$) if there is a natural isomorphism:
@@ -277,15 +223,6 @@ TS \arrow[rr, "\lambda"'] &                                                & ST
   \]
   We often denote this adjunction by $F \dashv G$.
 \end{definition}
-
-\begin{exemple}[Monad from an Adjunction]
-  Given an adjunction $F \dashv G$ between categories $\mathcal{C}$ and $\mathcal{D}$, we can construct a monad on $\mathcal{C}$ as follows:
-  \begin{itemize}
-    \item The functor $T: \mathcal{C} \to \mathcal{C}$ is defined by $T = GF$.
-    \item The unit $\eta: \text{Id}_{\mathcal{C}} \to T$ is given by the natural transformation that assigns to each object $a$ in $\mathcal{C}$ the morphism $\eta_a: a \to GFa$ corresponding to the identity morphism on $Fa$ under the adjunction.
-    \item The multiplication $\mu: T^2 \to T$ is given by the natural transformation that assigns to each object $a$ in $\mathcal{C}$ the morphism $\mu_a: GFGFa \to GFa$ corresponding to the composition of morphisms in $\mathcal{D}$ under the adjunction.
-  \end{itemize}
-\end{exemple}
 
 There are actually several different but equivalent ways to define adjunctions. They are linked thanks to the Yoneda lemma.
 
@@ -384,6 +321,258 @@ Universal arrows have more uses than just defining adjunctions. Here are other e
   We have $\epsilon_{(a, b)} = \langle f, g\rangle$.
 \end{exemple}
 
+
+\subsection{Monads}
+
+\begin{definition}[Monad]
+  A \emph{monad} on a category $\mathcal{C}$ is a triple $(T, \eta, \mu)$ where:
+  \begin{itemize}
+    \item $T: \mathcal{C} \to \mathcal{C}$ is a functor,
+    \item $\eta: \text{Id}_{\mathcal{C}} \to T$ is a natural transformation called the unit,
+    \item $\mu: T^2 \to T$ is a natural transformation called the multiplication,
+  \end{itemize}
+  such that the following diagrams commute:
+  \[
+  \begin{tikzcd}
+    T \arrow[r, "T\eta"] \arrow[d, "\eta T"'] \arrow[equal, dr, ""] & T^2 \arrow[d, "\mu"] \\
+    T^2 \arrow[r, "\mu"'] & T
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    T^3 \arrow[r, "T\mu"] \arrow[d, "\mu T"'] & T^2 \arrow[d, "\mu"] \\
+    T^2 \arrow[r, "\mu"'] & T
+  \end{tikzcd}
+  \]
+\end{definition}
+
+\begin{exemple}[Monad from an Adjunction]
+  Given an adjunction $F \dashv G$ between categories $\mathcal{C}$ and $\mathcal{D}$, we can construct a monad on $\mathcal{C}$ as follows:
+  \begin{itemize}
+    \item The functor $T: \mathcal{C} \to \mathcal{C}$ is defined by $T = GF$.
+    \item The unit $\eta: \text{Id}_{\mathcal{C}} \to T$ is given by the natural transformation that assigns to each object $a$ in $\mathcal{C}$ the morphism $\eta_a: a \to GFa$ corresponding to the identity morphism on $Fa$ under the adjunction.
+    \item The multiplication $\mu: T^2 \to T$ is given by the natural transformation that assigns to each object $a$ in $\mathcal{C}$ the morphism $\mu_a: GFGFa \to GFa$ corresponding to the composition of morphisms in $\mathcal{D}$ under the adjunction.
+  \end{itemize}
+\end{exemple}
+
+\begin{definition}[Distributive law between monads]
+  Given two monads $(T, \eta^T, \mu^T)$ and $(S, \eta^S, \mu^S)$ on a category $\mathcal{C}$, a \emph{distributive law} of $T$ over $S$ is a natural transformation $\lambda: TS \to ST$ such that the following diagrams commute:
+  \[
+  \begin{tikzcd}
+                          & T \arrow[ld, "T\eta^S"'] \arrow[rd, "\eta^ST"] &    \\
+TS \arrow[rr, "\lambda"'] &                                                & ST
+\end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+                          & S \arrow[ld, "\eta^TS"'] \arrow[rd, "S\eta^T"] &    \\
+TS \arrow[rr, "\lambda"'] &                                                & ST
+\end{tikzcd}
+  \]
+
+  \[
+  \begin{tikzcd}
+    T^2 S \arrow[r, "T\lambda"] \arrow[d, "\mu^T S"'] & TST \arrow[r, "\lambda T"] & ST^2 \arrow[d, "S\mu^T"] \\
+    TS \arrow[rr, "\lambda"'] & & ST
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    TS^2 \arrow[r, "\lambda S"] \arrow[d, "T\mu^S"'] & STS \arrow[r, "S\lambda"] & S^2T \arrow[d, "\mu^S T"] \\
+    TS \arrow[rr, "\lambda"'] & & ST
+  \end{tikzcd}
+  \]
+
+  This law induces a composite monad $ST$ on $\mathcal{C}$ with
+  \begin{itemize}
+    \item unit $\eta^{ST} = \eta^S \circ \eta^T$
+    \item multiplication $STST \xrightarrow{S \lambda T} SSTT \xrightarrow {\mu^S \mu^T} ST$
+  \end{itemize}
+\end{definition}
+
+
+\begin{definition}[Algebra over a monad]
+  Let $(T, \eta, \mu)$ be a monad on a category $\mathcal{C}$. 
+  
+  \medskip
+  
+  An \emph{algebra over the monad $T$} (or simply a $T$-algebra) consists of:
+  \begin{itemize}
+    \item An object $A$ in $\mathcal{C}$,
+    \item A morphism $a: TA \to A$ in $\mathcal{C}$, called the structure map, such that the following diagrams commute:
+    \[
+    \begin{tikzcd}
+      A \arrow[r, "\eta_A"] \arrow[dr, "\text{id}_A"'] & TA \arrow[d, "a"] \\
+      & A
+    \end{tikzcd}
+    \quad\quad
+    \begin{tikzcd}
+      T^2A \arrow[r, "Ta"] \arrow[d, "\mu_A"'] & TA \arrow[d, "a"] \\
+      TA \arrow[r, "a"'] & A
+    \end{tikzcd}
+    \]
+    The left one is called the unit property, and the right one is called the action property.
+  \end{itemize}
+\end{definition}
+
+
+We'll now reformulate the definition of monads in terms of Kleisli categories and extension operators.
+
+\begin{definition}[Kleisli category]
+  Given a monad $(T, \eta, \mu)$ on a category $\mathcal{C}$, the \emph{Kleisli category} $\mathcal{C}_T$ has:
+  \begin{itemize}
+    \item The same objects as $\mathcal{C}$,
+    \item For each pair of objects $a, b$, the morphisms from $a$ to $b$ in $\mathcal{C}_T$ are given by $\text{Hom}_{\mathcal{C}_T}(a, b) = \text{Hom}_{\mathcal{C}}(a, Tb)$,
+    \item The identity morphism on an object $a$ is given by $\eta_a: a \to Ta$,
+    \item The composition of morphisms $f: a \to Tb$ and $g: b \to Tc$ in $\mathcal{C}_T$ is given by the morphism $g \circ_T f: a \to Tc$ defined as the composition:
+      \[
+      a \xrightarrow{f} Tb \xrightarrow{Tg} T^2c \xrightarrow{\mu_c} Tc
+      \]
+  \end{itemize}
+\end{definition}
+
+
+\begin{definition}[Extension operator]
+  Given a monad $(T, \eta, \mu)$ on a category $\mathcal{C}$, the \emph{extension operator} $(-)^\sharp$ is defined for each morphism $f: a \to Tb$ in $\mathcal{C}$ as the morphism $f^\sharp: Ta \to Tb$ given by the composition:
+  \[
+  Ta \xrightarrow{Tf} T^2b \xrightarrow{\mu_b} Tb
+  \]
+  In other words, $f^\sharp = \mu_b \circ Tf$.
+
+  \medskip
+
+  We have the following properties of the extension operator:
+  \begin{itemize}
+    \item $\eta_a^\sharp = \text{id}_{Ta}$ for all objects $a$ in $\mathcal{C}$.
+    \item For any morphism $f: a \to Tb$, we have $f^\sharp \circ \eta_a = f$.
+    \item For any morphisms $f: a \to Tb$ and $g: b \to Tc$, we have $(g^\sharp \circ f)^\sharp = g^\sharp \circ f^\sharp$.
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Kleisli triple]
+  A \emph{Kleisli triple} on a category $\mathcal{C}$ consists of:
+  \begin{itemize}
+    \item A mapping $T: \text{Ob}(\mathcal{C}) \to \text{Ob}(\mathcal{C})$,
+    \item For each object $a$ in $\mathcal{C}$, a morphism $\eta_a: a \to Ta$,
+    \item For each morphism $f: a \to Tb$ in $\mathcal{C}$, a morphism $f^\sharp: Ta \to Tb$,
+  \end{itemize}
+  such that the following conditions hold:
+  \begin{itemize}
+    \item $\eta_a^\sharp = \text{id}_{Ta}$ for all objects $a$ in $\mathcal{C}$.
+    \item the following diagrams commute
+    \[
+    \begin{tikzcd}
+      a \arrow[dr, "f"'] \arrow[r, "\eta_a"] & T a \arrow[d, "f^\sharp"] \\
+      & T b
+    \end{tikzcd}
+    \quad\quad
+    \begin{tikzcd}
+      Ta \arrow[dr, "\lp g^\sharp \cdot f \rp^\sharp"'] \arrow[r, "f^\sharp"] & T b \arrow[d, "g^\sharp"] \\
+      & T c
+    \end{tikzcd}
+    \]
+  \end{itemize}
+\end{definition}
+
+\begin{proposition}
+  Given a category $\mathcal{C}$, there is a one-to-one correspondence between monads on $\mathcal{C}$ and Kleisli triples on $\mathcal{C}$.
+\end{proposition}
+
+\begin{preuve}
+  Given a monad $(T, \eta, \mu)$ on $\mathcal{C}$, we can construct a Kleisli triple by defining the extension operator as $f^\sharp = \mu_b \circ Tf$ for each morphism $f: a \to Tb$.
+
+  \medskip
+
+  Conversely, given a Kleisli triple $(T, \eta, (-)^\sharp)$ on $\mathcal{C}$, we can construct a monad by defining the multiplication $\mu_a: T^2a \to Ta$ as $\mu_a = (\text{id}_{Ta})^\sharp$ for each object $a$ in $\mathcal{C}$.
+
+  The conditions of the Kleisli triple ensure that the monad axioms are satisfied, and the construction is reversible, establishing the one-to-one correspondence.
+\end{preuve}
+
+\begin{remarque}
+  Kleisli triples are sometimes referred to as \emph{monads in extensive form}.
+\end{remarque}
+
+\begin{exemple}[Monads in terms of binds and returns]
+  In the context of programming languages, a monad can be described in terms of a type constructor $T$ and two operations: \texttt{return} (or \texttt{unit}) and \texttt{bind}. The \texttt{return} operation corresponds to the unit $\eta$ of the monad, while the \texttt{bind} operation corresponds to the extension operator $(-)^\sharp$. Specifically, for a monad $(T, \eta, \mu)$ on a category $\mathcal{C}$, we can define:
+  \begin{itemize}
+    \item $\texttt{return}_a = \eta_a: a \to Ta$ for each object $a$ in $\mathcal{C}$,
+    \item $\texttt{bind}_{a,b}(f) = f^\sharp: Ta \to Tb$ for each morphism $f: a \to Tb$ in $\mathcal{C}$.
+  \end{itemize}
+\end{exemple}
+
+We use the notion of $\mathbb S$-algebra of \cite{Marmolejo2010MonadsAE} to define the distributive laws for monads in extensive form.
+
+\begin{definition}[$\mathbb S$-algebra, \cite{Marmolejo2010MonadsAE}]
+  Given a monad in extensive form $\mathbb S = (S, \eta, (-)^{\mathbb{S}})$ on a category $\mathcal C$, an \textit{$\mathbb S$-algebra} is a pair $\mathbb B = (B, (-)^{\mathbb B})$ where:
+  \begin{itemize}
+    \item $B \in \mathcal{C}$
+    \item $(-)^{\mathbb B}_{X} : \mathcal C (X, B) \to \mathcal C(SX, B)$
+  \end{itemize}
+  such that the following diagrams commute for every $h : X \to B$ and $k : Y \to SX$:
+  \[
+  \begin{tikzcd}
+    X \arrow[r, "\eta X"] \arrow[dr, "h"'] & SX \arrow[d, "{h^{\mathbb B}}"]\\
+    & B
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    SY \arrow[r, "{k^{\mathbb S}}"] \arrow[dr, "{(h^{\mathbb B} k)^{\mathbb B}}"'] & SX \arrow[d, "{h^{\mathbb B}}"] \\
+    & B
+  \end{tikzcd}
+  \]
+  A morphism of $\mathbb S$-algebras $(B, (-)^\mathbb{B})$ to $(A, (-)^\mathbb{A})$ can be defined as an arrow $l : B \to A$ in $\mathcal C$ such that the following diagram commutes for every $h : X \to B$:
+  \[
+  \begin{tikzcd}
+    SX \arrow[r, "h^\mathbb{B}"] \arrow[dr, "{(l \cdot h)^\mathbb{A}}"'] & B \arrow[d, "l"] \\
+    & A
+  \end{tikzcd}
+  \]
+\end{definition}
+
+
+\begin{theorem}[Distributive law between monads in extensive form, \cite{Marmolejo2010MonadsAE}]
+Let $\mathbb T = (T, \eta_T, (-)^{\mathbb T})$ and $\mathbb S = (S, \eta_S, (-)^{\mathbb S})$ be monads on $\mathcal C$. A distributive law of $\mathbb T$ over $\mathbb S$ can equivalently be given by an $\mathbb T$-algebra $(STA, (-)^\lambda)$ for every $A \in \mathcal C$ such that
+\begin{itemize}
+  \item $(S\eta_TA \cdot \eta_SA)^\lambda = \eta_S TA$
+  \item for every $f : B \to TSA$, $(f^\lambda)^\mathbb{S} : (STB, (-)^\lambda) \to (STA, (-)^\lambda)$ is a morphism of $\mathbb T$-algebras.
+\end{itemize}
+Unfolding the conditions for the $\mathbb T$-algebra and for the morphism, the following diagrams must commute for every $h : X \to STA$, $k : Y \to TX$, $f : B \to STA$ and $g : X \to STB$:
+\[
+\begin{tikzcd}
+    X \arrow[r, "\eta_T X"] \arrow[dr, "h"'] & TX \arrow[d, "{h^{\lambda}}"]\\
+    & STA
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    TY \arrow[r, "{k^{\mathbb T}}"] \arrow[dr, "{(h^{\lambda} k)^{\lambda}}"'] & TX \arrow[d, "{h^{\lambda}}"] \\
+    & STA
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    TB \arrow[r, "g^\lambda"] \arrow[dr, "{\lp (f^\lambda)^\mathbb{S} \cdot g\rp^\lambda}"'] & STB \arrow[d, "(f^\lambda)^\mathbb{S}"] \\
+    & STA
+  \end{tikzcd}
+\]
+\end{theorem}
+
+\begin{proposition}[\cite{Marmolejo2010MonadsAE}]
+  Given a distributive law $\lambda$ of $\mathbb T$ over $\mathbb S$, the composite monad is given by $\mathbb S \circ_\lambda \mathbb T = (ST, S\eta_T \cdot \eta_S, \lp(-)^\lambda)^\mathbb{S}\rp$
+\end{proposition}
+
+\begin{proposition}[\cite{Marmolejo2010MonadsAE}]
+  Let $\mathbb S$ and $\mathbb T$ be monads on $\mathcal C$. There is a bijection between distributive laws of $\mathbb T$ over $\mathbb S$ and monad structures $(ST, S\eta_T \cdot \eta_S, (-)^{(\mathbb{ST})})$ on $ST$ such that:
+  \begin{itemize}
+    \item for every $k : Y \to TX, S(k^\mathbb{T}) = (\eta_S TX \cdot k)^{(\mathbb{ST})}$
+    \item for every $m : Y \to ST X$ and $h : X \to STU$:
+    \begin{itemize}
+      \item $h^{(\mathbb{ST})} = (h^{(\mathbb{ST})} \cdot \eta_S TX)^\mathbb{T}$
+      \item the following diagram commutes
+      \[
+      \begin{tikzcd}
+        SY \arrow[r, "m^\mathbb{S}"] \arrow[dr, "\lp h^{(\mathbb{ST})} \cdot m \rp^\mathbb{S}"'] & STX \arrow[d, "h^{(\mathbb{ST})}"] \\
+        & STU
+      \end{tikzcd}
+      \]
+    \end{itemize}
+  \end{itemize}
+  \end{proposition}
 
 \subsection{2-categories}
 
@@ -893,6 +1082,7 @@ We'll also define a multiplication $\mu_\SG$ so that we have a monad structure $
 \end{preuve}
 
 \subsection{A first combination}
+\label{sec:comb1}
 
 There is no name for a presentation composed of a semigroup for the product and a commutative semigroup for the sum, so we'll just call it $\SG + \CSG$ for now.
 
@@ -1151,9 +1341,21 @@ Therefore, we have $(\lambda \circ \mu_T S)(l) = (S \mu_T \circ \lambda T \circ 
 \end{preuve}
 
 \begin{corollaire}
-  $(ST, \eta_\SGCSG, \mu_\SGCSG)$ is a monad on $\Set$, where $$\mu_\SGCSG : STST \xrightarrow{S \lambda T} SSTT \xrightarrow{\mu_S\mu_T} ST$$.
+  $(ST, \eta_\SGCSG, \mu_\SGCSG)$ is a monad on $\Set$, where $$\mu_\SGCSG : STST \xrightarrow{S \lambda T} SSTT \xrightarrow{\mu_S\mu_T} ST$$
 \end{corollaire}
 
+
+Another approach to get a monad structure on $ST$ is to use monads in extension form. 
+
+\medskip
+
+\cite{Marmolejo2010MonadsAE} shows\footnote{example 8.5} that we can define an $\SG$-algebra $(STX, (-)^\lambda)$ where for all $f : X \to STY$, we have $f^\lambda : TX \to STY$ defined by $f^\lambda([x_1, \dots, x_n]) = \lambda([f(x_1), \dots, f(x_n)])$.  It is then showed that this $\SG$-algebra gives a distributive law of the monad $T$ over the monad $S$, and therefore a monad structure on $ST$. 
+
+\medskip
+
+In extensive form, the monad is $(ST, \eta_\SGCSG, (-)^{(ST)})$ where for all $f : X \to STY$, we have $f^{(ST)} : STX \to STY$ defined by $f^{(ST)} = (f^\lambda)^T$.
+
+We also have that $\lambda = (S \eta_T)^\lambda$ as expected.
 
 
 \subsection{Monoids}
@@ -1312,15 +1514,23 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
   Defined multiplication for the free semigroup and commutative semigroup, and proved that we get a monad structure on $\Set$ in both cases.
 
   Defined the distributive law of the monad for the free semigroup over the monad for the free commutative semigroup, and proved that it is indeed a distributive law $\rightarrow$ we get a monad structure on $\Set$ for the free algebra for the combination of semigroups and commutative semigroups.
+  \item 12/05/2026: definition of Kleisli category and related objects, research and definition of algebra and distributive laws of monads in extension form, and link with the previous definition of distributive laws. Example 8.5 of \cite{Marmolejo2010MonadsAE} is almost the same thing as Section~\ref{sec:comb1}.
 \end{itemize}
 
 
 \section{TODO}
 
 \begin{itemize}
+  \item follow Ohad's abstract picture
   \item dig in the paper about frexes to learn more about that (both frexes and frals) and write the relevant definitions down
   \item write the definition of free extensions with universal arrows
   \item look at what was done with involution to take inspiration
+\end{itemize}
+
+\section{Questions for Ohad}
+
+\begin{itemize}
+  \item what exactly is meant by an operad spanned by an operation (e.g what is the operad $\mathcal O$ spanned by $(\cdot) : 2$)
 \end{itemize}
 
 \end{document}

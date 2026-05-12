@@ -15,4 +15,4 @@
 *.run.xml
 *.nav
 *.bcf
-*.bbl-SAVE-ERROR
+*.bbl*
