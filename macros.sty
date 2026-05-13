@@ -17,6 +17,7 @@
 \usepackage{mathtools}
 \usepackage[e]{esvect}
 \usepackage{MnSymbol}
+\usepackage{extpfeil}
 
 \usepackage{url}
 \IfClassLoadedTF{beamer}{
@@ -172,6 +173,7 @@
 \newcommand{\cs}[2]{\xrightarrow[#1\rightarrow#2]{\text{CS}}} % Conv simple
 \newcommand{\cu}[2]{\xrightarrow[#1\rightarrow#2]{\text{CU}}} % Conv uniforme
 \newcommand{\equi}[2]{\underset{\tiny{#1 \to #2}}{\sim}} % ... ~ ...
+\newcommand{\threeheadrightarrow}{\mathrel{\text{\tikz[baseline=-0.5ex,line width=0.5pt]\draw[->>>](0,0)--(0.5,0);}}} % flèche avec trois têtes
 
 \newcommand{\multibox}[1]{\fbox{\parbox{\textwidth}{#1}}}
 
@@ -197,6 +199,7 @@
 \newcommand{\Set}{\mathbf{Set}}
 \newcommand{\Multicat}{\mathbf{Multicat}}
 \newcommand{\Mod}{\mathbf{Mod}}
+\newcommand{\Mon}{\mathbf{Mon}}
 \newcommand{\id}{\text{id}}
 \DeclareMathOperator{\arity}{arity}
 \DeclareMathOperator{\op}{op}
@@ -210,3 +213,5 @@
 \newcommand\concat{\ensuremath{\mathbin{+\mkern-7mu+}}}
 \DeclareMathOperator{\Supp}{Supp}
 \newcommand{\Fin}{\mathbf{Fin}}
+\DeclareMathOperator{\Ax}{Ax}
+

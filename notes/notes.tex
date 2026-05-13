@@ -104,6 +104,26 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   \end{itemize}
 \end{exemple}
 
+\begin{definition}[Renaming]
+  A \emph{renaming} $\rho : n \to m$ is any function from the set of $n$ variables to the set of $m$ variables.
+\end{definition}
+
+\begin{exemple}[of renaming]
+  Let $\rho : 3 \to 2$ be the renaming defined by $\rho(x_1) = y_1$, $\rho(x_2) = y_2$, and $\rho(x_3) = y_1$. Then for any term $t \in \pres_3$, we have $\rho(t) \in \pres_2$ obtained by substituting $y_1$ for $x_1$ and $x_3$, and $y_2$ for $x_2$ in $t$.
+\end{exemple}
+
+\begin{definition}[Translation]
+  Let $\mathcal O$ be an operad and $\pres$ be a theory.
+
+  \medskip
+
+  A \emph{translation} $\mathfrak T : \mathcal O \to \pres$ consists of an assignment $\mathfrak T f \in \pres_n$ for every $f \in \mathcal O_n$ such that:
+  \begin{itemize}
+    \item the identity $\id : \mathcal O_1$ is sent the the unique variable projection: $\mathfrak T \id = x \in \pres_1$
+    \item the translation respects composition, for all $f \in \mathcal O_n$ composable with $g_i \in \mathcal O_{m_i}$: $$\mathfrak T (f \circ (g_1, \dots, g_n)) = \mathfrak T f [x_i \mapsto \mathfrak T g_i]_{i=1}^n$$
+  \end{itemize}
+  A translation is \emph{surjective}, written $\mathfrak T : \mathcal O \twoheadrightarrow \pres$, if for every term $t \in \pres_n$, there exists an operator $f \in \mathcal O_m$ and a renaming $\rho : m \to n$ such that $t = \mathfrak T f[\rho]$.
+\end{definition}
 
 
 \subsection{Categories}
@@ -1084,7 +1104,9 @@ We'll also define a multiplication $\mu_\SG$ so that we have a monad structure $
 \subsection{A first combination}
 \label{sec:comb1}
 
-There is no name for a presentation composed of a semigroup for the product and a commutative semigroup for the sum, so we'll just call it $\SG + \CSG$ for now.
+We will call $\SG + \CSG$ the distributive combination of $\SG$ and $\CSG$.
+
+\medskip
 
 The signature of $\SG + \CSG$ has two operators: $(\cdot)$ of arity 2, and $(+)$ of arity 2, and the axioms are the union of the axioms of $\SG$ and $\CSG$ : 
 \begin{align*}
@@ -1093,7 +1115,7 @@ The signature of $\SG + \CSG$ has two operators: $(\cdot)$ of arity 2, and $(+)$
   a, b, c &\vdash a + (b + c) = (a + b) + c
 \end{align*}
 
-We'll also add the distributivity axioms: \begin{align*}
+We also have the distributivity axioms: \begin{align*}
   a, b, c &\vdash a \cdot (b + c) = a \cdot b + a \cdot c & \text{left distributivity}\\
   a, b, c &\vdash (a + b) \cdot c = a \cdot c + b \cdot c & \text{right distributivity}
 \end{align*}
@@ -1357,6 +1379,20 @@ In extensive form, the monad is $(ST, \eta_\SGCSG, (-)^{(ST)})$ where for all $f
 
 We also have that $\lambda = (S \eta_T)^\lambda$ as expected.
 
+\bigskip
+
+We now may want to see whether the monad we got from the distributive law is the same as the one we get from the free $\SG + \CSG$-model construction. 
+
+Informally, we want to check whether the following diagram commutes (also see Definition \ref{def:comb_theory}):
+\[
+\begin{tikzcd}
+{\SG, \CSG} \arrow[rr, "\text{combining theory}"] \arrow[dd, "\text{adding monad structure}"'] &                 & \SG \triangleleft \CSG \arrow[dd, "\text{adding monad structure}"] \\
+                                                                                               & \stackrel{?}{=} &                                                                    \\
+{\Mon(\SG), \Mon(\CSG)} \arrow[rr, "\text{distributive law}"']                                 &                 & \Mon(\SG \triangleleft \CSG)                                      
+\end{tikzcd}
+\]
+
+
 
 \subsection{Monoids}
 
@@ -1488,6 +1524,130 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
 
 \fbox{Therefore we proved that $F_\CM X$ is a free $\CM$-model over $X$.}
 
+
+\section{Distributive combination}
+
+\subsection{Definitions}
+
+\begin{definition}[Coproduct of signatures]
+  Given two signatures $\Sigma_1$ and $\Sigma_2$, we define their coproduct $\Sigma_1 + \Sigma_2$ as the signature with operators the disjoint union of the operators, but retaining their arity:
+  $$\Sigma_1 + \Sigma_2 = \{ \iota_i f : n \mid (f : n) \in \Sigma_i, i = 1, 2 \}$$
+  Given a $\Sigma_i$-term-in-context $ n \vdash_{\Sigma_i} t$, we denote by $n \vdash_{\Sigma_1 + \Sigma_2} \iota_i [t]$ the $\Sigma_1 + \Sigma_2$-term-in-context obtained by applying the injection $\iota_i$ to all the operators of $t$.
+
+  \medskip
+
+  Similarly, given a $\Sigma_i$-equation in context $eq := (n \vdash_{\Sigma_i} t = t')$, we denote by $\iota_i [eq]$ the $\Sigma_1 + \Sigma_2$-equation in context $n \vdash_{\Sigma_1 + \Sigma_2} \iota_i [t] = \iota_i [t']$.
+\end{definition}
+
+\begin{definition}[Distributive combination of theories]
+  Let $\mathfrak T : \mathcal O \to \mathcal M$ be a translation from an operad $\mathcal O$ to a theory $\mathcal M$ and $\mathcal A$ be any theory.
+
+  \medskip
+
+  We define the \emph{distributive combination of $\mathfrak T$ over $\mathcal A$} to be the theory $\mathfrak T \triangleleft \mathcal A$ given by
+
+  \begin{align*}
+    \Sigma_{\mathfrak T \triangleleft A} &:= \Sigma_M + \Sigma_A\\
+    \Ax_{\mathfrak T \triangleleft A} &:= \iota_1[\Ax_\mathcal{M}] \cup \iota_2[\Ax]\\
+    & \cup
+      \left\{
+      \left.
+      \begin{array}{c}
+      \la x_i\ra_{\stackrel{i=1}{i\neq i_0}}^{n},
+      \;
+      \mathbf{y} + \mathfrak T f(x_1,\ldots,x_{i_0-1},s \mathbf{y},x_{i_0+1},\ldots,x_n)
+      \\[4pt]
+      \qquad\qquad
+      =
+      s\left\langle
+      \mathfrak T f(x_1,\ldots,x_{i_0-1},\mathbf{y}_j,x_{i_0+1},\ldots,x_n)
+      \right\rangle_{j=1}^{|\mathbf{y}|}
+      \end{array}
+      \;\right|\;
+      \begin{array}{l}
+      (f:n)\in O_n \\
+      (s:|\mathbf{y}|)\in \Sigma_\mathcal{A}
+      \end{array}
+      \right\}
+  \end{align*}
+  \label{def:comb_theory}
+\end{definition}
+
+\subsection{Combination of semigroups and commutative semigroups}
+
+Let's first start with a case of study. We'll take $\mathcal A$ to be commutative semigroups and $\mathcal M$ to be semigroups. We denote by $(+)$ the operator on $\mathcal A$, and $(\cdot)$ the operator on $\mathcal M$.
+
+\medskip
+
+We define $\mathcal O$ by $\mathcal O_0 = \varnothing$ and $\mathcal O_n = \{ x_1, \dots, x_n \vdash x_1 \cdots x_n \}$ for $n \ge 1$. We will simply write $\mathcal O_n = \{\mu_n\}$.
+
+\begin{proposition}
+  $\mathcal O$ is the smallest operad containing\footnote{we may say that $\mathcal O$ is the operad spanned by $(\cdot)$} $(\cdot)$.
+\end{proposition}
+
+\begin{preuve}
+  \begin{itemize}[label=$\triangleright$]
+    \item \textbf{$\mathcal O$ is an operad.} 
+    
+    associativity comes from the associativity of $(\cdot)$ and the neutrality of the identity is trivial.
+    \item \textbf{minimality condition.} 
+    
+    Let $\mathcal O'$ be an operad containing $(\cdot)$. We want to show that $\mathcal O$ is a sub-operad of $\mathcal O'$. We have $\mu_2 \in \mathcal O'_2$ since $\mathcal O'$ contains $(\cdot)$. We can then construct $\mu_n$ for all $n \ge 1$ by composition of $\mu_2$ with itself, and using the identity for the case $n=1$. Therefore, we have $\mu_n \in \mathcal O'_n$ for all $n \ge 1$, which means that $\mathcal O$ is a sub-operad of $\mathcal O'$.
+  \end{itemize}
+\end{preuve}
+
+We then define a translation $\mathfrak T : \mathcal O \to \mathcal M$ by interpreting each operator as the $n$-ary multiplication, i.e $\mathfrak T \mu_n (x_1, \dots, x_n) = x_1\cdots x_n$.
+
+\begin{proposition}
+  $\mathfrak T : \mathcal O \to \mathcal M$ is a surjective translation.
+\end{proposition}
+
+\begin{preuve}
+  \begin{itemize}[label=$\triangleright$]
+    \item \textbf{$\mathfrak T$ is a translation.}
+    \begin{itemize}
+      \item the identity condition is trivialy true.
+      \item the translation respects composition thanks to the associativity of $(\cdot)$.
+    \end{itemize}
+    \item \textbf{$\mathfrak T$ is surjective.}
+    
+    Let \(t \in \mathcal M_n\). Since \(\mathcal M\) is the algebraic theory of semigroups, \(t\) is represented by a nonempty word in the variables \(x_1,\dots,x_n\). Thus we may write
+    \[
+    t = x_{i_1}x_{i_2}\cdots x_{i_m}
+    \]
+    for some \(m \ge 1\) and indices \(i_j \in \{1,\dots,n\}\).
+
+    Consider the unique \(m\)-ary operation \(\mu_m \in \mathcal O_m\). By definition of the translation,
+    \[
+    \mathfrak T(\mu_m)=x_1x_2\cdots x_m.
+    \]
+
+    We define a renaming $\rho : m \to n$
+    by
+    \[
+    \rho(j)=i_j.
+    \]
+
+    Applying this renaming to \(\mathfrak T(\mu_m)\) gives
+    \[
+    \mathfrak T(\mu_m)[\rho]
+    =
+    (x_1x_2\cdots x_m)[\rho]
+    =
+    x_{\rho(1)}x_{\rho(2)}\cdots x_{\rho(m)}
+    =
+    x_{i_1}x_{i_2}\cdots x_{i_m}
+    =
+    t.
+    \]
+
+    Therefore every term \(t \in \mathcal M_n\) is of the form $t=\mathfrak T \mu_m[\rho]$ for some renaming \(\rho : m \to n\). 
+    
+    Hence the translation $\mathfrak T : \mathcal O \to \mathcal M$ is surjective.
+  \end{itemize}
+\end{preuve}
+
+
 \newpage
 
 \nocite{*}
@@ -1515,6 +1675,7 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
 
   Defined the distributive law of the monad for the free semigroup over the monad for the free commutative semigroup, and proved that it is indeed a distributive law $\rightarrow$ we get a monad structure on $\Set$ for the free algebra for the combination of semigroups and commutative semigroups.
   \item 12/05/2026: definition of Kleisli category and related objects, research and definition of algebra and distributive laws of monads in extension form, and link with the previous definition of distributive laws. Example 8.5 of \cite{Marmolejo2010MonadsAE} is almost the same thing as Section~\ref{sec:comb1}.
+  \item 13/05/2026: started looking into the distributive combination of semigroups and commutative semigroups. Defined the operad $\mathcal O$ spanned by the multiplication operator of semigroups, and defined a translation from $\mathcal O$ to the theory of semigroups. Proved that $\mathcal O$ is minimal and that the translation is surjective.
 \end{itemize}
 
 
