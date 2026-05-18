@@ -66,65 +66,6 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   \end{itemize}
 \end{definition}
 
-\begin{definition}[Operad]
-  An \emph{operad} $\mathcal{O}$ consists of:
-  \begin{itemize}
-    \item A collection of sets $\{\mathcal{O}_n\}_{n \geq 0}$, where $\mathcal{O}_n$ is the set of $n$-ary operations,
-    \item A composition function $\gamma: \mathcal{O}_n \times \mathcal{O}_{k_1} \times \cdots \times \mathcal{O}_{k_n} \to \mathcal{O}_{k_1 + \cdots + k_n}$,
-    \item An identity element $e \in \mathcal{O}_1$,
-  \end{itemize}
-  satisfying the following axioms:
-  \begin{itemize}
-    \item Associativity: For all $f \in \mathcal{O}_n$, $g_i \in \mathcal{O}_{k_i}$, and $h_{ij} \in \mathcal{O}_{m_{ij}}$, we have
-      \[
-      \gamma(f; g_1, ..., g_n) = f(g_1(h_{11}, ..., h_{1k_1}), ..., g_n(h_{n1}, ..., h_{nk_n})).
-      \]
-    \item Identity: For all $f \in \mathcal{O}_n$, we have
-      \[
-      f(e, ..., e) = f.
-      \]
-  \end{itemize}
-\end{definition}
-
-\begin{definition}[Algrebraic Theory]
-  An \emph{algebraic theory} $\mathcal{T}$ consists of:
-  \begin{itemize}
-    \item A collection of sets $\{\mathcal{T}_n\}_{n \geq 0}$, where $\mathcal{T}_n$ is the set of $n$-ary operations,
-    \item A collection of equations between terms built from these operations,
-  \end{itemize}
-  such that the operations and equations define a class of algebras (models) that satisfy the given equations.
-\end{definition}
-
-\begin{exemple}[Operad from an Algebraic Theory]
-  Given an algebraic theory $\mathcal{T}$, we can construct an operad $\mathcal{O}^{\mathcal T}$ where:
-  \begin{itemize}
-    \item $\mathcal{O}_n^{\mathcal T}$ consists of the $n$-ary operations in $\mathcal{T}$,
-    \item The composition function $\gamma$ is defined by substituting operations according to the equations of the theory,
-    \item The identity element $e$ corresponds to the identity operation in the theory.
-  \end{itemize}
-\end{exemple}
-
-\begin{definition}[Renaming]
-  A \emph{renaming} $\rho : n \to m$ is any function from the set of $n$ variables to the set of $m$ variables.
-\end{definition}
-
-\begin{exemple}[of renaming]
-  Let $\rho : 3 \to 2$ be the renaming defined by $\rho(x_1) = y_1$, $\rho(x_2) = y_2$, and $\rho(x_3) = y_1$. Then for any term $t \in \pres_3$, we have $\rho(t) \in \pres_2$ obtained by substituting $y_1$ for $x_1$ and $x_3$, and $y_2$ for $x_2$ in $t$.
-\end{exemple}
-
-\begin{definition}[Translation]
-  Let $\mathcal O$ be an operad and $\pres$ be a theory.
-
-  \medskip
-
-  A \emph{translation} $\mathfrak T : \mathcal O \to \pres$ consists of an assignment $\mathfrak T f \in \pres_n$ for every $f \in \mathcal O_n$ such that:
-  \begin{itemize}
-    \item the identity $\id : \mathcal O_1$ is sent the the unique variable projection: $\mathfrak T \id = x \in \pres_1$
-    \item the translation respects composition, for all $f \in \mathcal O_n$ composable with $g_i \in \mathcal O_{m_i}$: $$\mathfrak T (f \circ (g_1, \dots, g_n)) = \mathfrak T f [x_i \mapsto \mathfrak T g_i]_{i=1}^n$$
-  \end{itemize}
-  A translation is \emph{surjective}, written $\mathfrak T : \mathcal O \twoheadrightarrow \pres$, if for every term $t \in \pres_n$, there exists an operator $f \in \mathcal O_m$ and a renaming $\rho : m \to n$ such that $t = \mathfrak T f[\rho]$.
-\end{definition}
-
 
 \subsection{Categories}
 
@@ -143,9 +84,9 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   \end{itemize}
 \end{definition}
 
-\begin{exemple}[Set Category]
+\begin{example}[Set Category]
   The category $\mathbf{Set}$ has sets as objects and functions as morphisms. The identity morphism for a set $a$ is the identity function $\text{id}_a: a \to a$ defined by $\text{id}_a(x) = x$ for all $x \in a$. Composition of morphisms is given by function composition.
-\end{exemple}
+\end{example}
 
 \begin{definition}[Product]
   Given two objects $a$ and $b$ in a category $\mathcal{C}$, a \emph{product} of $a$ and $b$ is an object $a \times b$ together with two morphisms $\pi_a: a \times b \to a$ and $\pi_b: a \times b \to b$ such that for any object $c$ and morphisms $f: c \to a$ and $g: c \to b$, there exists a unique morphism $\langle f, g \rangle: c \to a \times b$ making the following diagram commute:
@@ -214,9 +155,13 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
 
 \textbf{Notation:} We often denote the image of an object $a$ under a functor $F$ as $Fa$ instead of $F(a)$ and the image of a morphism $f: a \to b$ as $Ff: Fa \to Fb$.
 
-\begin{exemple}[Diagonal functor]
+\begin{example}[Diagonal functor]
   Given a category $\mathcal{C}$, the \emph{diagonal functor} $\Delta: \mathcal{C} \to \mathcal{C} \times \mathcal{C}$ is defined by $\Delta(a) = (a, a)$ for each object $a$ in $\mathcal{C}$ and $\Delta(f) = (f, f)$ for each morphism $f: a \to b$ in $\mathcal{C}$.
-\end{exemple}
+\end{example}
+
+\begin{definition}[Product preserving functor]
+  A functor $F: \mathcal{C} \to \mathcal{D}$ is said to \emph{preserve products} if for every collection of objects $\{a_i\}_{i \in I}$ in $\mathcal{C}$, the natural morphism from $F(\prod_{i \in I} a_i)$ to $\prod_{i \in I} F(a_i)$ is an isomorphism in $\mathcal{D}$. In other words, $F$ preserves the structure of products up to isomorphism.
+\end{definition}
 
 \begin{definition}[Natural Transformation]
   Given two functors $F, G: \mathcal{C} \to \mathcal{D}$ between categories $\mathcal{C}$ and $\mathcal{D}$, a \emph{natural transformation} $\eta: F \to G$ consists of a family of morphisms $\{\eta_a: Fa \to Ga\}_{a \in \text{Ob}(\mathcal{C})}$ such that for every morphism $f: a \to b$ in $\mathcal{C}$, the following diagram commutes:
@@ -299,17 +244,17 @@ One important definition is that of the universal arrow from MacLane's \textit{C
   \]
 \end{definition}
 
-\begin{exemple}[Adjunction from Universal Arrows]
+\begin{example}[Adjunction from Universal Arrows]
   Given a functor $U : A \to C$ such that for every object $c \in C$, there exists a universal arrow from $c$ to $U$, we can construct an adjunction $F \dashv U$ where:
   \begin{itemize}
     \item The functor $F : C \to A$ is defined by sending each object $c$ in $C$ to the object $Fc$ in $A$ that appears in the universal arrow from $c$ to $U$, and sending each morphism $f: c \to c'$ in $C$ to the unique morphism $Ff: Fc \to Fc'$ in $A$ that makes the corresponding diagram commute.
     \item The unit $\eta: \text{Id}_C \to UF$ is given by the family of morphisms $\{\eta_c: c \to UFc\}_{c \in C}$ that are part of the universal arrows.
   \end{itemize}
-\end{exemple}
+\end{example}
 
 Universal arrows have more uses than just defining adjunctions. Here are other examples.
 
-\begin{exemple}[Defining the coproduct with an universal arrow]
+\begin{example}[Defining the coproduct with an universal arrow]
   Let $A$ be a category, and let $a, b \in A$. A \emph{coproduct} of $a$ and $b$ is a universal arrow from $(a, b)$ to the diagonal functor $\Delta: A \to A \times A$, where $\Delta(c) = (c, c)$ for any object $c \in A$.
   $$
   \begin{tikzcd}
@@ -323,9 +268,9 @@ Universal arrows have more uses than just defining adjunctions. Here are other e
   \end{tikzcd}
   $$
   We have $\eta_{(a, b)} = (\iota_a, \iota_b)$.
-\end{exemple}
+\end{example}
 
-\begin{exemple}[Defining the product with an universal arrow]
+\begin{example}[Defining the product with an universal arrow]
   Let $A$ be a category, and let $a, b \in A$. A \emph{product} of $a$ and $b$ is a universal arrow from the diagonal functor $\Delta: A \to A \times A$ to $(a, b)$.
   $$
   \begin{tikzcd}
@@ -339,7 +284,74 @@ Universal arrows have more uses than just defining adjunctions. Here are other e
   \end{tikzcd}
   $$
   We have $\epsilon_{(a, b)} = \langle f, g\rangle$.
-\end{exemple}
+\end{example}
+
+
+
+\begin{definition}[Pullback of two morphisms]
+  Let $f : X \to Z$ and $g : Y \to Z$ be two morphisms in a category $\mathcal{C}$. A \emph{pullback} of $f$ and $g$ consists of an object $P$ and two morphisms $p_1 : P \to X$ and $p_2 : P \to Y$ such that the following diagram commutes:
+  \[
+  \begin{tikzcd}
+    P \arrow[r, "p_2"] \arrow[d, "p_1"'] & Y \arrow[d, "g"]\\
+    X \arrow[r, "f"'] & Z
+  \end{tikzcd}
+  \]
+  Moreover, for any triple $(Q, q_1, q_2)$ where $q_1 : Q \to X$ and $q_2 : Q \to Y$ are morphisms with $f q_1 = g q_2$, there must exist $u : Q \to P$ such that $p_1 \circ u = q_1$ and $p_2 \circ u = q_2$.
+
+  The situation is illustrated in the following commutative diagram:
+  \[
+  \begin{tikzcd}
+Q \arrow[rdd, "q_1"', bend right] \arrow[rrd, "q_2", bend left] \arrow[rd, "u", dashed] &                                      &                  \\
+                                                                                        & P \arrow[r, "p_2"] \arrow[d, "p_1"'] & Y \arrow[d, "g"] \\
+                                                                                        & X \arrow[r, "f"']                    & Z               
+\end{tikzcd}
+  \]
+  This condition can be reformulated with universal arrows as follows: a pullback of $f$ and $g$ is a universal arrow from the functor $\Delta : \mathcal{C} \to \mathcal{C} \times \mathcal{C}$ to the object $(f, g)$ in $\mathcal{C} \times \mathcal{C}$.
+\end{definition}
+
+\begin{example}[Pullback in the category of categories]
+  Let $\mathcal A, \mathcal B, \mathcal Z \in \Set$ such that we have functors $F : \mathcal A \to \mathcal Z$ and $G : \mathcal B \to \mathcal Z$. 
+  
+  \medskip
+
+  The pullback of $F$ and $G$ is the category $\mathcal P$ defined as follows:
+\begin{itemize}
+  \item The objects of $\mathcal P$ are pairs $(a, b)$ where $a$ is an object of $\mathcal A$, $b$ is an object of $\mathcal B$, and $Fa = Gb$.
+  \item The morphisms of $\mathcal P$ from $(a, b)$ to $(a', b')$ are pairs $(f, g)$ where $f : a \to a'$ is a morphism in $\mathcal A$, $g : b \to b'$ is a morphism in $\mathcal B$, and $Ff = Gg$.
+  \item The composition of morphisms in $\mathcal P$ is defined componentwise: if $(f, g) : (a, b) \to (a', b')$ and $(f', g') : (a', b') \to (a'', b'')$ are morphisms in $\mathcal P$, then their composition is given by $(f' \circ f, g' \circ g) : (a, b) \to (a'', b'')$.
+  \item The identity morphism on an object $(a, b)$ in $\mathcal P$ is given by $(\text{id}_a, \text{id}_b)$, where $\text{id}_a$ is the identity morphism on $a$ in $\mathcal A$ and $\text{id}_b$ is the identity morphism on $b$ in $\mathcal B$.
+\end{itemize}
+\begin{proof}
+    Consider the following commuting diagram:
+    \[
+    \begin{tikzcd}
+      {\mathcal Q} && \\
+      & {\mathcal P} & {\mathcal B} \\
+      & {\mathcal A} & {\mathcal Z}
+      \arrow["U"{description}, dashed, from=1-1, to=2-2]
+      \arrow["{Q_2}", curve={height=-12pt}, from=1-1, to=2-3]
+      \arrow["{Q_1}"', curve={height=12pt}, from=1-1, to=3-2]
+      \arrow["{\pi_2}", from=2-2, to=2-3]
+      \arrow["{\pi_1}"', from=2-2, to=3-2]
+      \arrow["G", from=2-3, to=3-3]
+      \arrow["F"', from=3-2, to=3-3]
+    \end{tikzcd}
+    \]
+    We need to find $U$ and to prove that it is unique up to isomorphism.
+    
+    \medskip
+
+    We define $U$ as follows: for any object $q$ in $\mathcal Q$, we have $Q_1 q \in \mathcal A$ and $Q_2 q \in \mathcal B$. Since $F Q_1 q = G Q_2 q$, we can define $U q = (Q_1 q, Q_2 q)$. For any morphism $m : q \to q'$ in $\mathcal Q$, we have $Q_1 m : Q_1 q \to Q_1 q'$ and $Q_2 m : Q_2 q \to Q_2 q'$. Since $F Q_1 m = G Q_2 m$, we can define $U m = (Q_1 m, Q_2 m)$.
+
+    \medskip
+
+    It is straightforward to check that $U$ is a functor and that the diagram commutes.
+    
+    \medskip
+    
+    Moreover, if $U' : \mathcal Q \to \mathcal P$ is another functor such that the diagram commutes, then for any object $q$ in $\mathcal Q$, we have $U' q = (Q_1 q, Q_2 q) = U q$. For any morphism $m : q \to q'$ in $\mathcal Q$, we have $U' m = (Q_1 m, Q_2 m) = U m$. Hence, $U$ is unique up to isomorphism.
+\end{proof}
+\end{example}
 
 
 \subsection{Monads}
@@ -365,14 +377,14 @@ Universal arrows have more uses than just defining adjunctions. Here are other e
   \]
 \end{definition}
 
-\begin{exemple}[Monad from an Adjunction]
+\begin{example}[Monad from an Adjunction]
   Given an adjunction $F \dashv G$ between categories $\mathcal{C}$ and $\mathcal{D}$, we can construct a monad on $\mathcal{C}$ as follows:
   \begin{itemize}
     \item The functor $T: \mathcal{C} \to \mathcal{C}$ is defined by $T = GF$.
     \item The unit $\eta: \text{Id}_{\mathcal{C}} \to T$ is given by the natural transformation that assigns to each object $a$ in $\mathcal{C}$ the morphism $\eta_a: a \to GFa$ corresponding to the identity morphism on $Fa$ under the adjunction.
     \item The multiplication $\mu: T^2 \to T$ is given by the natural transformation that assigns to each object $a$ in $\mathcal{C}$ the morphism $\mu_a: GFGFa \to GFa$ corresponding to the composition of morphisms in $\mathcal{D}$ under the adjunction.
   \end{itemize}
-\end{exemple}
+\end{example}
 
 \begin{definition}[Distributive law between monads]
   Given two monads $(T, \eta^T, \mu^T)$ and $(S, \eta^S, \mu^S)$ on a category $\mathcal{C}$, a \emph{distributive law} of $T$ over $S$ is a natural transformation $\lambda: TS \to ST$ such that the following diagrams commute:
@@ -495,7 +507,7 @@ We'll now reformulate the definition of monads in terms of Kleisli categories an
   Given a category $\mathcal{C}$, there is a one-to-one correspondence between monads on $\mathcal{C}$ and Kleisli triples on $\mathcal{C}$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   Given a monad $(T, \eta, \mu)$ on $\mathcal{C}$, we can construct a Kleisli triple by defining the extension operator as $f^\sharp = \mu_b \circ Tf$ for each morphism $f: a \to Tb$.
 
   \medskip
@@ -503,19 +515,19 @@ We'll now reformulate the definition of monads in terms of Kleisli categories an
   Conversely, given a Kleisli triple $(T, \eta, (-)^\sharp)$ on $\mathcal{C}$, we can construct a monad by defining the multiplication $\mu_a: T^2a \to Ta$ as $\mu_a = (\text{id}_{Ta})^\sharp$ for each object $a$ in $\mathcal{C}$.
 
   The conditions of the Kleisli triple ensure that the monad axioms are satisfied, and the construction is reversible, establishing the one-to-one correspondence.
-\end{preuve}
+\end{proof}
 
 \begin{remarque}
   Kleisli triples are sometimes referred to as \emph{monads in extensive form}.
 \end{remarque}
 
-\begin{exemple}[Monads in terms of binds and returns]
+\begin{example}[Monads in terms of binds and returns]
   In the context of programming languages, a monad can be described in terms of a type constructor $T$ and two operations: \texttt{return} (or \texttt{unit}) and \texttt{bind}. The \texttt{return} operation corresponds to the unit $\eta$ of the monad, while the \texttt{bind} operation corresponds to the extension operator $(-)^\sharp$. Specifically, for a monad $(T, \eta, \mu)$ on a category $\mathcal{C}$, we can define:
   \begin{itemize}
     \item $\texttt{return}_a = \eta_a: a \to Ta$ for each object $a$ in $\mathcal{C}$,
     \item $\texttt{bind}_{a,b}(f) = f^\sharp: Ta \to Tb$ for each morphism $f: a \to Tb$ in $\mathcal{C}$.
   \end{itemize}
-\end{exemple}
+\end{example}
 
 We use the notion of $\mathbb S$-algebra of \cite{Marmolejo2010MonadsAE} to define the distributive laws for monads in extensive form.
 
@@ -626,7 +638,7 @@ Unfolding the conditions for the $\mathbb T$-algebra and for the morphism, the f
   \end{itemize}
 \end{definition}
 
-\begin{exemple}[2-category of Categories]
+\begin{example}[2-category of Categories]
   The 2-category $\Cat$ has:
   \begin{itemize}
     \item 0-cells: categories,
@@ -636,8 +648,7 @@ Unfolding the conditions for the $\mathbb T$-algebra and for the morphism, the f
     \item pointwise composition of natural transformations as vertical composition,
     \item horizontal composition of natural transformations defined by the composition of functors.
   \end{itemize}
-\end{exemple}
-
+\end{example}
 
 \begin{definition}[Adjunction in a 2-category]
   Given a 2-category $C$, an \emph{adjunction} between 0-cells $a$ and $b$ in $C$ consists of:
@@ -653,6 +664,75 @@ Unfolding the conditions for the $\mathbb T$-algebra and for the morphism, the f
   \]
 \end{definition}
 
+\begin{definition}[2-functor]
+  Given two 2-categories $C$ and $D$, a \emph{2-functor} $F: C \to D$ consists of three mappings:
+  \begin{itemize}
+    \item $F: C_0 \to D_0$ that assigns to each 0-cell $a$ in $C$ a 0-cell $Fa$ in $D$,
+    \item $F: C_1(a, b) \to D_1(Fa, Fb)$ for each pair of 0-cells $a, b$ in $C$, that assigns to each 1-cell $f: a \to b$ in $C$ a 1-cell $Ff: Fa \to Fb$ in $D$,
+    \item $F: C_2(f, g) \to D_2(Ff, Fg)$ for each pair of 1-cells $f, g: a \to b$ in $C$, that assigns to each 2-cell $\alpha: f \imp g$ in $C$ a 2-cell $F\alpha: Ff \imp Fg$ in $D$,
+  \end{itemize}
+  such that $F$ preserves identities and compositions of 1-cells and 2-cells.
+\end{definition}
+
+\begin{lemma}
+  Let $F : C \to D$ be a 2-functor.
+
+  \medskip
+
+  If $\la f : a \to b, u, \eta, \epsilon \ra$ is an adjunction in $C$, then $\la Ff : Fa \to Fb, Fu, F\eta, F\epsilon \ra$ is an adjunction in $D$.
+\end{lemma}
+
+\begin{proof}
+  The candidate adjunction has the right type, and a 2-functor preserves pasting diagrams and identities, so the triangle identities are preserved.
+\end{proof}
+
+
+\begin{definition}[natural 2-transformation]
+  Let $F, G : C \to D$ be two 2-functors between 2-categories.
+
+  \medskip
+
+  A \emph{(strict) natural 2-transformation} \begin{tikzcd}
+	C & D
+	\arrow[""{name=0, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow["\Xi", between={0.2}{0.8}, Rightarrow, from=1, to=0]
+\end{tikzcd} consists of a 1-cell $\Xi_a : F_0 a \to G_0 a$ for each 0-cell $a$ such that:
+\begin{itemize}
+  \item for every 1-cell $f : a \to b$ in $C$: \[\begin{tikzcd}
+	{F_0a} & {F_0b} \\
+	{G_0a} & {G_0b}
+	\arrow["{F_1f}", from=1-1, to=1-2]
+	\arrow["{\Xi_a}"', from=1-1, to=2-1]
+	\arrow["{\Xi_b}", from=1-2, to=2-2]
+	\arrow["{G_1f}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+\item for every 2-cell \begin{tikzcd}
+	a & b
+	\arrow[""{name=0, anchor=center, inner sep=0}, "f", curve={height=-6pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "g"', curve={height=6pt}, from=1-1, to=1-2]
+	\arrow["\alpha", between={0.2}{0.8}, Rightarrow, from=0, to=1]
+\end{tikzcd}:
+\[\begin{tikzcd}
+	& Ga &&&& Ga & \\
+	Fa && Gb & {=} & Fa && Gb \\
+	& Fb &&&& Fb
+	\arrow[""{name=0, anchor=center, inner sep=0}, "Gf", curve={height=-12pt}, from=1-2, to=2-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "Gg"', curve={height=12pt}, from=1-2, to=2-3]
+	\arrow["Gf", from=1-6, to=2-7]
+	\arrow["{\Xi_a}", from=2-1, to=1-2]
+	\arrow["Fg"', from=2-1, to=3-2]
+	\arrow["{\Xi_a}", from=2-5, to=1-6]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "Fg"', curve={height=12pt}, from=2-5, to=3-6]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "Ff", curve={height=-12pt}, from=2-5, to=3-6]
+	\arrow["{\Xi_b}"', from=3-2, to=2-3]
+	\arrow["{\Xi_b}"', from=3-6, to=2-7]
+	\arrow["{G\alpha}", between={0.2}{0.8}, Rightarrow, from=0, to=1]
+	\arrow["{F\alpha}", between={0.2}{0.8}, Rightarrow, from=3, to=2]
+\end{tikzcd}\]
+\end{itemize}
+\end{definition}
+
 \subsection{Multicategories}
 
 \begin{definition}[Multicategory]
@@ -665,9 +745,7 @@ Unfolding the conditions for the $\mathbb T$-algebra and for the morphism, the f
   \end{itemize}
 \end{definition}
 
-We denote by $\Multicat$ the set of all multicategories.
-
-\begin{exemple}[Category with Finite Products as a Multicategory]
+\begin{example}[Category with Finite Products as a Multicategory]
   Given a category $\mathcal{C}$ with finite products, we can construct a multicategory $\mathcal{U}$ where:
   \begin{itemize}
     \item The objects of $\mathcal{U}$ are the same as the objects of $\mathcal{C}$,
@@ -676,15 +754,16 @@ We denote by $\Multicat$ the set of all multicategories.
     }na \cong a$$
     \item The composition is defined using the universal property of products and the composition in $\mathcal{C}$.
   \end{itemize}
-\end{exemple}
+  \label{ex:cat_product_multicat}
+\end{example}
 
-\begin{exemple}[Monoidal Category as a Multicategory]
+\begin{example}[Monoidal Category as a Multicategory]
   A monoidal category $(\mathcal{C}, \otimes, I)$ can be viewed as a multicategory where:
   \begin{itemize}
     \item The objects of the multicategory are the same as the objects of $\mathcal{C}$,
     \item The morphisms ${\mathcal{U}}(a_1, a_2, ..., a_n; b)$ are given by the morphisms in $\mathcal{C}$ from $a_1 \otimes a_2 \otimes ... \otimes a_n$ to $b$ (by nesting the monoidal product)
   \end{itemize}
-\end{exemple}
+\end{example}
 
 \begin{definition}[Multifunctor]
   A \emph{multi-functor} $F: \mathcal{U} \to \mathcal{V}$ between multicategories $\mathcal{U}$ and $\mathcal{V}$ consists of two mappings:
@@ -713,6 +792,100 @@ We denote by $\Multicat$ the set of all multicategories.
   \]
 \end{definition}
 
+\begin{example}[Category of multicategories]
+  We have a 2-category $\Multicat$ where:
+  \begin{itemize}
+    \item 0-cells are multi-categories
+    \item 1-cells are multi-functors
+    \item 2-cells are multi-natural transformations
+  \end{itemize} with multi-functor composition and identities: $$\Id_C a := a \quad \Id_C f := f$$ vertical, horizontal composition of multi-natural transformations, with identities: $$(\id_F)_a := \id_{Fa} : (a) \to a$$
+\end{example}
+
+\begin{example}[Ordinary 2-functor]
+  We have a 2-functor structure $-_{o} : \Multicat \to \Cat$ sending:
+  \begin{itemize}
+    \item each multi-category $\mathcal U$ to its (\textbf{o}rdinary) category of morphisms:
+    \begin{itemize}
+      \item $\Ob(\mathcal U_o) := \Ob (\mathcal U)$
+      \item $\mathcal U_o(a, b) := \mathcal U (a; b)$, i.e the morphisms in $\mathcal U_o$ are the multi-morphisms with a length-1 source
+      \item identities and composition are given by identity morphisms and composition in the multi-category
+    \end{itemize}
+    \item each multi-functor $F : \mathcal U \to \mathcal V$ to the functor sending:
+    \begin{itemize}
+      \item $a \in \Ob(\mathcal U)$ to $Fa \in \Ob(\mathcal V)$
+      \item $f : (a) \to b$ to $F_of := Ff : (Fa) \to Fb$
+    \end{itemize}
+    \item each multi-natural transformation \begin{tikzcd}
+	{\mathcal U} & {\mathcal V}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow["\alpha", between={0.2}{0.8}, Rightarrow, from=1, to=0]
+\end{tikzcd} to $(\alpha_o)_a := \alpha_a$
+  \end{itemize}
+  It is 2-faithful.
+\end{example}
+
+
+\subsection{Operads}
+
+\begin{definition}[Operad]
+  An \emph{operad} $\mathcal{O}$ consists of:
+  \begin{itemize}
+    \item A collection of sets $\{\mathcal{O}_n\}_{n \geq 0}$, where $\mathcal{O}_n$ is the set of $n$-ary operations,
+    \item A composition function $\gamma: \mathcal{O}_n \times \mathcal{O}_{k_1} \times \cdots \times \mathcal{O}_{k_n} \to \mathcal{O}_{k_1 + \cdots + k_n}$,
+    \item An identity element $e \in \mathcal{O}_1$,
+  \end{itemize}
+  satisfying the following axioms:
+  \begin{itemize}
+    \item Associativity: For all $f \in \mathcal{O}_n$, $g_i \in \mathcal{O}_{k_i}$, and $h_{ij} \in \mathcal{O}_{m_{ij}}$, we have
+      \[
+      \gamma(f; g_1, ..., g_n) = f(g_1(h_{11}, ..., h_{1k_1}), ..., g_n(h_{n1}, ..., h_{nk_n})).
+      \]
+    \item Identity: For all $f \in \mathcal{O}_n$, we have
+      \[
+      f(e, ..., e) = f.
+      \]
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Algrebraic Theory]
+  An \emph{algebraic theory} $\mathcal{T}$ consists of:
+  \begin{itemize}
+    \item A collection of sets $\{\mathcal{T}_n\}_{n \geq 0}$, where $\mathcal{T}_n$ is the set of $n$-ary operations,
+    \item A collection of equations between terms built from these operations,
+  \end{itemize}
+  such that the operations and equations define a class of algebras (models) that satisfy the given equations.
+\end{definition}
+
+\begin{example}[Operad from an Algebraic Theory]
+  Given an algebraic theory $\mathcal{T}$, we can construct an operad $\mathcal{O}^{\mathcal T}$ where:
+  \begin{itemize}
+    \item $\mathcal{O}_n^{\mathcal T}$ consists of the $n$-ary operations in $\mathcal{T}$,
+    \item The composition function $\gamma$ is defined by substituting operations according to the equations of the theory,
+    \item The identity element $e$ corresponds to the identity operation in the theory.
+  \end{itemize}
+\end{example}
+
+\begin{definition}[Renaming]
+  A \emph{renaming} $\rho : n \to m$ is any function from the set of $n$ variables to the set of $m$ variables.
+\end{definition}
+
+\begin{example}[of renaming]
+  Let $\rho : 3 \to 2$ be the renaming defined by $\rho(x_1) = y_1$, $\rho(x_2) = y_2$, and $\rho(x_3) = y_1$. Then for any term $t \in \pres_3$, we have $\rho(t) \in \pres_2$ obtained by substituting $y_1$ for $x_1$ and $x_3$, and $y_2$ for $x_2$ in $t$.
+\end{example}
+
+\begin{definition}[Translation]
+  Let $\mathcal O$ be an operad and $\pres$ be a theory.
+
+  \medskip
+
+  A \emph{translation} $\mathfrak T : \mathcal O \to \pres$ consists of an assignment $\mathfrak T f \in \pres_n$ for every $f \in \mathcal O_n$ such that:
+  \begin{itemize}
+    \item the identity $\id : \mathcal O_1$ is sent the the unique variable projection: $\mathfrak T \id = x \in \pres_1$
+    \item the translation respects composition, for all $f \in \mathcal O_n$ composable with $g_i \in \mathcal O_{m_i}$: $$\mathfrak T (f \circ (g_1, \dots, g_n)) = \mathfrak T f [x_i \mapsto \mathfrak T g_i]_{i=1}^n$$
+  \end{itemize}
+  A translation is \emph{surjective}, written $\mathfrak T : \mathcal O \twoheadrightarrow \pres$, if for every term $t \in \pres_n$, there exists an operator $f \in \mathcal O_m$ and a renaming $\rho : m \to n$ such that $t = \mathfrak T f[\rho]$.
+\end{definition}
 
 \begin{definition}[Model]
   Let $\mathcal O$ be an operad, and $\mathcal U$ be a multicategory. A \emph{model} of $\mathcal O$ in $\mathcal U$ is a multi-functor $\mathcal A: \mathcal O \to \mathcal U$ that preserves the operadic structure, i.e., it respects the composition and identity of the operad.
@@ -722,13 +895,55 @@ We denote by $\Multicat$ the set of all multicategories.
   A \emph{homomorphism} $h : \mathcal A \to \mathcal B$ between $\mathcal O$-models in $\mathcal U$ consists of a morphism $\underline{h} : (\underline{\mathcal A}) \to \underline{\mathcal B}$ such that for all $f \in \mathcal O_n$, $$\underline{h} \circ (\mathcal A \brak{f}) = \mathcal B \brak{f} (\underline{h}, \dots, \underline{h})$$
 \end{definition}
 
-\begin{exemple}[Category of Models]
+\begin{example}[Category of Models]
   Given an operad $\mathcal O$ and a multicategory $\mathcal U$, we can construct a category $\Mod(\mathcal O, \mathcal U)$ where:
   \begin{itemize}
     \item The objects are the models of $\mathcal O$ in $\mathcal U$,
     \item The morphisms are the homomorphisms between these models.
   \end{itemize}
-\end{exemple}
+\end{example}
+
+\begin{proposition}
+  \label{prop:mod_translation_functor}
+  Let $\mathfrak T : \mathcal O \to \pres$ be a translation, and let $\mathcal C$ be a category with chosen finite product $\prod$.
+
+  \medskip
+
+  There is a carrier-preserving, fully-faithful functor $\Mod(\mathfrak T, \la \mathcal C, \prod \ra) : \Mod(\pres, \mathcal C) \to \Mod(\mathcal O, \la \mathcal C, \prod \ra)$ given by: $$\lp \Mod(\mathfrak T, \la \mathcal C, \prod \ra) A \rp \brak{f} := A \brak{\mathfrak T f} \qquad \Mod(\mathfrak T, \la \mathcal C, \prod \ra) h := h$$
+\end{proposition}
+
+\begin{proposition}
+  The compatibility with composition and identities of the operad follows from their preservation by $\mathfrak T$. Preservation of identities and composition, and fully-faithfulness are evident.
+\end{proposition}
+
+\begin{proposition}
+  \label{prop:mod_2_functor}
+  We define a 2-functor $\Mod(\mathcal O, -) : \Multicat \to \Cat$ such that:
+  \begin{itemize}
+    \item for every multi-category $\mathcal U$, $\Mod(\mathcal O, \mathcal U)$ is the category of $\mathcal O$-models in $\mathcal U$.
+    \item for every multi-functor $F : \mathcal U \to \mathcal V$, the functor $\Mod(\mathcal O, F) : \Mod(\mathcal O, \mathcal U) \to \Mod(\mathcal O, \mathcal V)$ sends:
+    \begin{itemize}
+      \item each $\mathcal O$-model $\mathcal A$ in $\mathcal U$ to the $\mathcal O$-model:
+      \begin{itemize}
+        \item $\underline{F \mathcal A} := F \underline{\mathcal A}$
+        \item $(F \mathcal A) \brak{f} : (F \underline{\mathcal A}, \dots, F \underline{\mathcal A}) \xrightarrow{F(\mathcal A\brak f)} F \underline{\mathcal A}$
+      \end{itemize}
+      \item each $\mathcal O$-homomorphism $h : \mathcal A \to \mathcal B$ to the $\mathcal O$-homomorphism over $F \underline{h} : F \mathcal A \to F \mathcal B$
+    \end{itemize}
+    \item for every multi-natural transformation \begin{tikzcd}
+	{\mathcal U} & {\mathcal V}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["\alpha", between={0.2}{0.8}, Rightarrow, from=0, to=1]
+\end{tikzcd} we have a natural transformation\\ \begin{tikzcd}
+	{\Mod(\mathcal O, \mathcal U)} &&& {\Mod(\mathcal O, \mathcal V)}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Mod(\mathcal O, F)}", curve={height=-12pt}, from=1-1, to=1-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Mod(\mathcal O, G)}"', curve={height=12pt}, from=1-1, to=1-4]
+	\arrow["{\Mod(\mathcal O, \alpha)}", between={0.2}{0.8}, Rightarrow, from=0, to=1]
+\end{tikzcd} given, for every model $\mathcal A$, by $$\Mod(\mathcal O, \alpha)_{\mathcal A} : (F \underline{\mathcal A}) \xrightarrow{\alpha_{\underline{\mathcal A}}} G \underline{\mathcal A}$$
+  \end{itemize}
+\end{proposition}
+
 
 
 \subsection{Free algebras}
@@ -844,7 +1059,7 @@ We can give an equivalent definition for free algebras using universal arrows.
   Then, a free $\pres$-model over $X$ is a universal arrow from $X$ to $U$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   Let $F\,X$ be a free $\pres$-model over $X$. We want to show that $(F\,X, \eta_X)$ is a universal arrow from $X$ to $U$, where $\eta_X : X \to UF\,X$ is the function that sends each variable in $X$ to its interpretation in $F\,X$.
 
   \medskip
@@ -862,7 +1077,113 @@ We can give an equivalent definition for free algebras using universal arrows.
   \medskip
   
   Conversely, if $(F\,X, \eta_X)$ is a universal arrow from $X$ to $U$, then for any $\pres$-model $A$ over $X$, there exists a unique morphism of $\pres$-models from $F\,X$ to $A$, which means that $F\,X$ is a free $\pres$-model over $X$. Therefore, the two definitions are equivalent.
-\end{preuve}
+\end{proof}
+
+
+\subsection{Multi-homomorphisms}
+
+This section will be a subset of Ohad's note. In particular, all proofs will be omitted.
+
+\medskip
+
+In all of this section, we fix an algebraic theory $\mathcal T$ and $\la \mathcal C, \prod \ra$ a category with chosen finite products.
+
+\begin{definition}[Strength]
+  For all $k \in \N^*$ and $X, Y \in \mathcal C$, we define the \emph{strength} (for the reader monad $X^k$) by $$\str : X^k \times Y \xrightarrow{\la \pi_i \times \id \ra_{i=1}^k} (X \times Y)^k$$
+\end{definition}
+
+\begin{definition}[Multi-$\mathcal T$-homomorphism]
+  Let $A_1, A_2, \dots, A_k$ and $B$ be $\mathcal T$-models in $\mathcal C$. 
+  
+  \medskip
+
+  A \emph{multi-$\mathcal T$-homomorphism} from $A_1, A_2, \dots, A_k$ to $B$ is a morphism $h : \prod_{i=1}^k \underline{A_i} \to \underline{B}$ such that for every term $t \in \mathcal T_k$ and $1 \le i_0 \le n$, the following diagram commutes:
+  \[
+  \begin{tikzcd}
+  \mathcal A_{i_0}^k \times \prodd{\stackrel{1 \le i \le n}{i \neq i_0}}{} \mathcal A_i \arrow[r, "\str"] \arrow[dd, "\mathcal A_{i_0} \brak{t} \times \id"'] & \lp\mathcal A_{i_0} \times \prodd{\stackrel{1 \le i \le n}{i \neq i_0}}{} \mathcal A_i\rp^k \arrow[r, "\cong"] & \lp \prodd{i=1}{n} \mathcal A_i \rp^k \arrow[d, "f^k"] \\
+                                                                                                                                                            &                                                                                                              & \mathcal B^k \arrow[d, "\mathcal B \brak{t}"]         \\
+  \mathcal A_{i_0} \times \prodd{\stackrel{1 \le i \le n}{i \neq i_0}}{} \mathcal A_i \arrow[r, "\cong"']                                                     & \prodd{i=1}{n} \mathcal A_i \arrow[r, "f"']                                                                   & \mathcal B                                           
+  \end{tikzcd}
+  \]
+\end{definition}
+
+$\triangleright$ We can then define a multi-category structure $\Multi(\mathcal T, \mathcal C)$ over the finite-product multi-category:
+\begin{itemize}
+  \item the objects are $\mathcal T$-algebra
+  \item the multi-morphisms are the multi-$\mathcal T$-homomorphisms
+  \item the identities are the identity morphisms
+  \item composition is inherited from $\la \mathcal C, \prod, \ra$
+\end{itemize}
+
+$\triangleright$ We also define a multi-functor $\underline{-} : \Multi(\mathcal T, \mathcal C) \to \la \mathcal C, \prod \ra$ which sends an algebra to its carrier and a multi-$\mathcal T$-homomorphism to its underlying morphism.
+
+\medskip
+
+$\triangleright$ We define another 2-category $\Cat_\times$ consisting of:
+\begin{itemize}
+  \item 0-cells are $\la \mathcal C, \prod \ra$, categories with chosen finite products
+  \item 1-cells are finite product preserving functors, not necessarily preserving the chosen products
+  \item 2-cells are the natural transformations between these functors
+\end{itemize}
+
+Therefore, this is a sub-category of $\Cat$.
+
+\medskip
+
+$\triangleright$ We define the data of a 2-functor $\Multi(\mathcal T, -) : \Cat_\times \to \Multicat$ sending:
+\begin{itemize}
+  \item each category with chosen products (0-cells) $\mathcal C$ to the multi-category (0-cell) $\Multi(\mathcal T, \mathcal C)$
+  \item each finite-product preserving functor (1-cell) $H : \mathcal C \to \mathcal D$ to the following multi-functor $\Multi(\pres, H) : \Multi(\pres, \mathcal C) \to \Multi(\pres, \mathcal D)$, sending:
+  \begin{itemize}
+    \item each $\mathcal T$-algebra $\mathcal A$ to the $\pres$-algebra $\Multi(\pres, H) := H \mathcal A$, given by:
+    \begin{itemize}
+      \item its carrier $\underline{H \mathcal A}$ is $H \underline{\mathcal A}$
+      \item the interpretation of each $t \in \pres_n$ is $H \mathcal A \brak{t} : (H \underline{\mathcal A}^n) \xrightarrow{\cong} H(\underline{\mathcal A}^n) \xrightarrow{\mathcal A \brak{t}} H \underline{\mathcal A}$
+    \end{itemize}
+    \item each multi-$\pres$-homomorphism $h : (\mathcal A_1, \dots, \mathcal A_n) \to \mathcal B$ to the multi-$\pres$-homomorphism $\Multi(\pres, H) h : (H \mathcal A_1, \dots, H\mathcal A_n)$ given by: $$\Multi(\pres, H) h : \prod_{i=1}^{n} H \mathcal A_i \xrightarrow{\cong} H\lp \prod_{i=1}^{n} \mathcal A_i \rp \xrightarrow{Hh} H \mathcal B$$
+  \end{itemize}
+  \item each natural transformation \begin{tikzcd}
+    \mathcal C \arrow[r, bend left=50, ""{name=U, below}, "H"]
+    \arrow[r, bend right=50, ""{name=D}, "K"']
+    & \mathcal D
+    \arrow[Rightarrow, from=U, to=D, "\alpha"]
+  \end{tikzcd} (2-cell) to the multi-natural transformation\\
+  \begin{tikzcd}
+    \Multi(\mathcal T, \mathcal C) \arrow[rr, bend left=20, ""{name=U, below}, "{\Multi(\mathcal T, H)}"]
+    \arrow[rr, bend right=20, ""{name=D}, "{\Multi(\mathcal T, K)}"']
+    &  & \Multi(\mathcal T, \mathcal D)
+    \arrow[Rightarrow, from=U, to=D, "{\Multi(\mathcal T, \alpha)}"]
+  \end{tikzcd}, given, at an algebra $\mathcal A \in \Mod(\mathcal T, \mathcal C)$, by the unary multi-$\pres$-homomorphism corresponding to the following $\mathcal T$-homomorphism: $$\Multi(\pres,\alpha)_{\mathcal A}' : H \underline{\mathcal A} \xrightarrow{\alpha_{\underline{\mathcal A}}} K \underline{\mathcal A}$$
+\end{itemize}
+
+$\triangleright$ We define another 2-functor $\la - \ra : \Cat_\times \to \Multicat$, sending:
+\begin{itemize}
+  \item 0-cells: categories with specified products $\la \mathcal C, \prod \ra$ to their associated multi-category $\la \mathcal C, \prod \ra$ (cf. Example \ref{ex:cat_product_multicat})
+  \item 1-cells: finite-product preserving functors $H : \mathcal C \to \mathcal D$ to the multi-functor sending:
+  \begin{itemize}
+    \item objects $a \in \Ob\lp \la \mathcal C, \prod \ra \rp = \Ob \mathcal C$ to $\la H \ra a \in \Ob \mathcal D$
+    \item multi-morphisms $f : (a_1, \dots, a_n) \to b$ to the multi-morphism: $$\la H \ra f : \prod_{i=1}^{n} H a_i \xrightarrow{\cong} H \lp \prod_{i=1}^{n} a_i \rp \xrightarrow{H f} Hb$$
+  \end{itemize}
+  \item 2-cells: natural transformations \begin{tikzcd}
+    \mathcal C \arrow[r, bend left=50, ""{name=U, below}, "H"]
+    \arrow[r, bend right=50, ""{name=D}, "K"']
+    & \mathcal D
+    \arrow[Rightarrow, from=U, to=D, "\alpha"]
+  \end{tikzcd} to the multi-natural transformation given for each $a \in \Ob(\mathcal C)$, by: $$\la \alpha \ra_a : \prod_{i=1}^{1} H a \cong H a \xrightarrow{\alpha_a} Ka$$
+\end{itemize}
+
+$\triangleright$ Finally, we have a natural 2-transformation \begin{tikzcd}
+    \Cat_\times \arrow[rr, bend left=20, ""{name=U, below}, "{\Multi(\mathcal T,-)}"]
+    \arrow[rr, bend right=20, ""{name=D}, "{\la - \ra}"']
+    &  & \Multicat
+    \arrow[Rightarrow, from=U, to=D, "{\underline{-}}"]
+  \end{tikzcd} whose components, for each category $\la \mathcal C, \prod \ra$ with chosen finite products, consists of the forgetful multi-functors sending:
+  \begin{itemize}
+    \item each $\pres$-algebra $\mathcal A$ to its carrier $\underline{\mathcal A}$
+    \item each multi-$\pres$-homomorphism $h : (\mathcal A_1, \dots, \mathcal A_n) \to \mathcal B$ to its underlying morphism $\underline{h} : \prod_{i=1}^{n} \underline{\mathcal A_i} \to \underline{\mathcal B}$
+  \end{itemize}
+
+  All of the proofs that the following definitions are indeed of the nature they were described of are in Ohad's notes.
 
 \section{Some free algebras}
 
@@ -894,7 +1215,7 @@ We pose $F_{\CSG}X = (S X, (+))$ where $+$ is the operator defined above.
   $F_{\CSG}X$ is a free $\CSG$-model over $X$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   \begin{itemize}[label=$\triangleright$]
   \item Let's first check that $F_{\CSG}X$ is indeed a $\CSG$-model. We need to check that the axioms of $\CSG$ are valid in $F_{\CSG}X$. This is straightforward and comes down to the commutativity and associativity of addition in $\N$.
   \item Let $A$ be a $\CSG$-model over $X$ with environment $\phi_A : X \to U\,A$. We want to show that there exists a unique morphism $h$ of $\CSG$-models from $F_{\CSG}X$ to $A$ such that the following diagram commutes:
@@ -947,7 +1268,7 @@ Therefore, the diagram commutes.
 
 \fbox{Therefore, we proved that $F_{\CSG}X$ is a free $\CSG$-model over $X$.}
 
-\end{preuve}
+\end{proof}
 
 Finally we'll define a multiplication $\mu_\CSG$ so that we have a monad structure $(S, \eta_\CSG, \mu_\CSG)$ on $\Set$. For all $f \in S S X$, we pose $$\mu_\CSG(f) = \lambda x. \sum_{g \in S X} f\ g \cdot g\ x$$
 
@@ -955,7 +1276,7 @@ Finally we'll define a multiplication $\mu_\CSG$ so that we have a monad structu
   $(S, \eta_\CSG, \mu_\CSG)$ is a monad on $\Set$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   We need to check the monad axioms:
   \begin{itemize}
     \item Left unit: let $f \in S X$. We have:
@@ -995,7 +1316,7 @@ Finally we'll define a multiplication $\mu_\CSG$ so that we have a monad structu
     &= \mu_\CSG(\mu_\CSG S(f))
   \end{align*}
 \end{itemize}
-\end{preuve}
+\end{proof}
 
 \bigskip
 
@@ -1025,7 +1346,7 @@ We pose $F_{\SG}X = (T X, (\cdot))$ where $\cdot$ is the operator defined above.
   $F_{\SG}X$ is a free $\SG$-model over $X$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
 
 \begin{itemize}[label=$\triangleright$]
   \item $F_\SG$ is a $\SG$-model: the associativity of $\cdot$ in $F_\SG$ comes from the associativity of list concatenation.
@@ -1065,7 +1386,7 @@ We pose $F_{\SG}X = (T X, (\cdot))$ where $\cdot$ is the operator defined above.
 
 \fbox{Therefore we proved that $F_\SG X$ is a free $\SG$-model over $X$.}
 
-\end{preuve}
+\end{proof}
 
 We'll also define a multiplication $\mu_\SG$ so that we have a monad structure $(T, \eta_\SG, \mu_\SG)$ on $\Set$. For all $l \in T T X$, we pose $$\mu_\SG(l) = \concat_{x \in l} x$$ where the concatenation is taken in the order of the list $l$, which is well defined because the list $l$ is finite, non-empty, and the concatenation is associative.
 
@@ -1073,7 +1394,7 @@ We'll also define a multiplication $\mu_\SG$ so that we have a monad structure $
   $(T, \eta_\SG, \mu_\SG)$ is a monad on $\Set$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   We need to check the monad axioms:
   \begin{itemize}
     \item Left unit: let $l \in T X$. We have:
@@ -1099,7 +1420,7 @@ We'll also define a multiplication $\mu_\SG$ so that we have a monad structure $
     &= \mu_\SG(\mu_\SG T(l))
   \end{align*}
 \end{itemize}
-\end{preuve}
+\end{proof}
 
 \subsection{A first combination}
 \label{sec:comb1}
@@ -1165,7 +1486,7 @@ We pose $F_\SGCSG X = (STX, (\cdot), (+))$, where $(\cdot)$ and $(+)$ are define
   $F_\SGCSG X$ is a free $\SG + \CSG$-model over $X$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   \begin{itemize}[label=$\triangleright$]
   \item Let's first check that $F_\SGCSG X$ is indeed a $\SG + \CSG$-model. 
   
@@ -1239,7 +1560,7 @@ Let's show that $\Sigma\phi_A$ is the unique morphism $h$ of $\SG + \CSG$-models
 \fbox{Therefore $F_\SGCSG X$ is a free $\SGCSG$-model over $X$.}
 
 \end{itemize}
-\end{preuve}
+\end{proof}
 
 We also define a distributive law $\lambda : TSX \to STX$ for all $l \in TSX$ by
 $$\lambda ([f_1, \dots, f_n]) = \sum_{(x_1 : n_1) \in f_1} \dots \sum_{(x_n : n_n) \in f_n} \lp [x_1, \cdots, x_n] : \prod_{i=1}^n n_i \rp $$
@@ -1255,7 +1576,7 @@ $$\lambda (l) = \lambda x : TX. \begin{cases}
   $\lambda$ is a distributive law of the monad $T$ over the monad $S$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   We need to check the following axioms:
   \begin{itemize}
     \item $\lambda \circ T \eta_S = \eta_S T$: let $l \in T X$. We have:
@@ -1360,7 +1681,7 @@ Therefore, we have $(\lambda \circ T \mu_S)(l) = (\mu_S T \circ S \lambda \circ 
 
 Therefore, we have $(\lambda \circ \mu_T S)(l) = (S \mu_T \circ \lambda T \circ T \lambda)(l)$.
 \end{itemize}
-\end{preuve}
+\end{proof}
 
 \begin{corollaire}
   $(ST, \eta_\SGCSG, \mu_\SGCSG)$ is a monad on $\Set$, where $$\mu_\SGCSG : STST \xrightarrow{S \lambda T} SSTT \xrightarrow{\mu_S\mu_T} ST$$
@@ -1392,6 +1713,95 @@ Informally, we want to check whether the following diagram commutes (also see De
 \end{tikzcd}
 \]
 
+The classical monadic structure on $\SGCSG$ comes from the adjunction between $\Set$ and $\SGCSG$-models given by the free $\SGCSG$-model construction. 
+
+\begin{lemma}
+  $F_\SGCSG \dashv U$ is an adjunction, where $U : \SGCSG\text{-}\mathbf{Mod} \to \Set$ is the forgetful functor.
+\end{lemma}
+
+\begin{proof}
+  We need to show that for all $X \in \Set$ and all $\SGCSG$-model $A$, there is a natural bijection between $\SGCSG$-model morphisms from $F_\SGCSG X$ to $A$ and functions from $X$ to $U\,A$. 
+
+  \medskip
+
+  Let $X \in \Set$ and let $A = (\underline{A}, \cdot_A, +_A)$ be a $\SGCSG$-model. We have already shown that there is a unique morphism of $\SGCSG$-models from $F_\SGCSG X$ to $A$ such that the diagram below commutes:
+\[
+\begin{tikzcd}
+  X \arrow[r, "\eta_\SGCSG"] \arrow[dr, "\phi_A"'] & S T X \arrow[d, "\Sigma\phi_A"] \\
+  & \underline{A}
+\end{tikzcd}
+\]
+  Therefore, we have a function $\Phi_{X, A}$ from $\SGCSG$-model morphisms from $F_\SGCSG X$ to $A$ to functions from $X$ to $U\,A$ defined by $\Phi_{X, A}(h) = h \circ \eta_\SGCSG$. 
+
+  \medskip
+
+  Conversely, we have a function $\Psi_{X, A}$ from functions from $X$ to $U\,A$ to $\SGCSG$-model morphisms from $F_\SGCSG X$ to $A$ defined by $\Psi_{X, A}(\phi_A) = \Sigma\phi_A$. 
+
+  \medskip
+
+  We need to show that $\Phi_{X, A}$ and $\Psi_{X, A}$ are inverses of each other. 
+  
+  Let $h : F_\SGCSG X \to A$ be a morphism of $\SGCSG$-models. We have:
+  \begin{align*}
+    (\Psi_{X, A} \circ \Phi_{X, A})(h) &= \Psi_{X, A}(h \circ \eta_\SGCSG)\\
+    &= \Sigma(h \circ \eta_\SGCSG)\\
+    &= h
+  \end{align*}
+
+  Let $\phi_A : X \to U\,A$ be a function. We have:
+  \begin{align*}
+    (\Phi_{X, A} \circ \Psi_{X, A})(\phi_A) &= \Phi_{X, A}(\Sigma\phi_A)\\
+    &= \Sigma\phi_A \circ \eta_\SGCSG\\
+    &= \phi_A
+  \end{align*}
+
+  Therefore, $\Phi_{X, A}$ and $\Psi_{X, A}$ are inverses of each other, and we have a natural bijection between $\SGCSG$-model morphisms from $F_\SGCSG X$ to $A$ and functions from $X$ to $U\,A$.
+\end{proof}
+
+This adjunction gives us a monad structure on $ST$.
+
+\begin{theorem}
+  The monad structure on $ST$ given by the adjunction $F_\SGCSG \dashv U$ is the same as the one given by the distributive law $\lambda$.
+\end{theorem}
+
+\begin{proof}
+  We'll consider the extensive form of the monads.
+  \begin{itemize}[label=$\triangleright$]
+    \item \textbf{Carrier sets.}
+
+    Let $X \in \Set$. $UF_\SGCSG X$ is the carrier set of the free $\SGCSG$-model over $X$, which is $STX$. The carrier set of the monad given by the distributive law is also $STX$. Therefore, the carrier sets are the same.
+    \item \textbf{Unit.}
+    
+    The unit is the same for both monads, sending $x \in X$ to the sum of the singleton list $[x]$ in $STX$.
+    \item \textbf{Extension.}
+    
+    Let $f : X \to STY$. Since $F_\SGCSG Y$ is a model of $\SGCSG$, freeness of $F_\SGCSG X$ gives us a unique morphism of $\SGCSG$-models from $F_\SGCSG X$ to $F_\SGCSG Y$ such that the diagram below commutes:
+    \[
+    \begin{tikzcd}
+      X \arrow[r, "\eta_\SGCSG"] \arrow[dr, "f"'] & S T X \arrow[d, "\Sigma f"] \\
+      & S T Y
+    \end{tikzcd}
+    \]
+    Therefore, the extension of $f$ in the monad given by the adjunction is $\Sigma f$. The extension of $f$ in the monad given by the distributive law is $f^{(ST)} = (f^\lambda)^T$. We need to show that $\Sigma f = (f^\lambda)^T$.
+
+    \medskip
+
+    Let $f : X \to STY$. Suppose that $$f(x_k) = \summ{j}{}u_{k,j}$$ for some $u_{k, j} \in TY$. Then $$\Sigma f ([x_1, \dots, x_n]) = \summ{j_1, \dots, j_n}{} u_{1,j_1} \cdots u_{n, j_n}$$
+    
+    On the other hand, we have:
+    \begin{align*}
+      f^\lambda([x_1, \dots, x_n]) &= \lambda([f(x_1), \dots, f(x_n)])\\
+      &= \lambda([ \summ{j_1}{}u_{1,j_1}, \dots, \summ{j_n}{}u_{n, j_n}])\\
+      &= \summ{j_1, \dots, j_n}{} u_{1,j_1} \cdots u_{n, j_n}
+    \end{align*}
+    Therefore, we have $f^\lambda([x_1, \dots, x_n]) = \Sigma f ([x_1, \dots, x_n])$ for all $[x_1, \dots, x_n] \in T X$.
+
+    \medskip
+
+    We can apply $(-)^T$ to both sides of the equation $f^\lambda = \Sigma f$ to get $(f^\lambda)^T = (\Sigma f)^T$. We have $(\Sigma f)^T = \Sigma f$ because $\Sigma f$ is a morphism of $\SGCSG$-models, and therefore preserves the operators of $\SGCSG$. Therefore, we have $f^{(ST)} = (f^\lambda)^T = \Sigma f$.
+  \end{itemize}
+  This shows that the monad structure on $ST$ given by the adjunction $F_\SGCSG \dashv U$ is the same as the one given by the distributive law $\lambda$.
+\end{proof}
 
 
 \subsection{Monoids}
@@ -1438,7 +1848,7 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
     For all $f \in S X$, the sum $\sum_{x \in X} f\ x \cdot \phi_A(x)$ is well defined.
   \end{proposition}
 
-  \begin{preuve}
+  \begin{proof}
     Let $f \in S X \setminus \{\mathbf{0}\}$. We note $\Supp f = \{x \in X \mid f(x) \neq 0\}$.
     
     Since $f$ has finite support, $\Supp f$ is a finite set. Moreover, since $f \neq \mathbf{0}$, $\Supp f$ is non-empty. Therefore, we can write $\Supp f = \{x_1, x_2, ..., x_n\}$ for some $n \geq 1$ and we have a bijection $\sigma$ between $\{1, 2, ..., n\}$ and $\Supp f$ given by $i \mapsto x_i$. 
@@ -1460,7 +1870,7 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
     Therefore, the definition of $\Sigma\phi_A(f)$ does not depend on the choice of the bijection between $\{1, 2, ..., n\}$ and $\Supp f$, and is well defined.
 
     Now if $f = \mathbf{0}$, we have $\Supp f = \varnothing$, and the sum is the empty sum, which is defined to be $0_A$.
-  \end{preuve}
+  \end{proof}
 
   We can now prove that $\Sigma\phi_A$ is the unique morphism $h$ of $\CM$-models from $F_{\CM}X$ to $A$ such that the following diagram commutes:
 \[
@@ -1480,11 +1890,11 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
   \item Commutation of the diagram: $\eta_\CM = \eta_\CSG$, so the proof is the same as for the free commutative semigroup.
   \item Uniqueness: let $h : F_{\CM}X \to A$ be a morphism of $\CM$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $f \in S X$. We'll show this lemma first:
   
-  \begin{lemme}
+  \begin{lemma}
   For all $f \in S X$, we have $f = \sum_{x \in X} f\ x \cdot \eta_{\CM}(x)$.
-  \end{lemme}
+  \end{lemma}
 
-  \begin{preuve}
+  \begin{proof}
     Let $f \in S X$. We have $\Supp f = \{x \in X \mid f(x) \neq 0\}$. Since $f$ has finite support, $\Supp f$ is a finite set. Moreover, since $f$ is not necessarily non-zero, $\Supp f$ can be empty. 
 
     If $\Supp f$ is empty, then $f = \mathbf{0}$ and we have:
@@ -1510,7 +1920,7 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
         &= \sum_{x \in X} f\ x \cdot \eta_{\CM}(x)
       \end{align*}
     \end{itemize}
-  \end{preuve}
+  \end{proof}
   
   We then have:
 \begin{align*}
@@ -1548,7 +1958,7 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
 
   \begin{align*}
     \Sigma_{\mathfrak T \triangleleft A} &:= \Sigma_M + \Sigma_A\\
-    \Ax_{\mathfrak T \triangleleft A} &:= \iota_1[\Ax_\mathcal{M}] \cup \iota_2[\Ax]\\
+    \Ax_{\mathfrak T \triangleleft A} &:= \iota_1[\Ax_\mathcal{M}] \cup \iota_2[\Ax_{\mathcal A}]\\
     & \cup
       \left\{
       \left.
@@ -1585,7 +1995,7 @@ We define $\mathcal O$ by $\mathcal O_0 = \varnothing$ and $\mathcal O_n = \{ x_
   $\mathcal O$ is the smallest operad containing\footnote{we may say that $\mathcal O$ is the operad spanned by $(\cdot)$} $(\cdot)$.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   \begin{itemize}[label=$\triangleright$]
     \item \textbf{$\mathcal O$ is an operad.} 
     
@@ -1594,7 +2004,7 @@ We define $\mathcal O$ by $\mathcal O_0 = \varnothing$ and $\mathcal O_n = \{ x_
     
     Let $\mathcal O'$ be an operad containing $(\cdot)$. We want to show that $\mathcal O$ is a sub-operad of $\mathcal O'$. We have $\mu_2 \in \mathcal O'_2$ since $\mathcal O'$ contains $(\cdot)$. We can then construct $\mu_n$ for all $n \ge 1$ by composition of $\mu_2$ with itself, and using the identity for the case $n=1$. Therefore, we have $\mu_n \in \mathcal O'_n$ for all $n \ge 1$, which means that $\mathcal O$ is a sub-operad of $\mathcal O'$.
   \end{itemize}
-\end{preuve}
+\end{proof}
 
 We then define a translation $\mathfrak T : \mathcal O \to \mathcal M$ by interpreting each operator as the $n$-ary multiplication, i.e $\mathfrak T \mu_n (x_1, \dots, x_n) = x_1\cdots x_n$.
 
@@ -1602,7 +2012,7 @@ We then define a translation $\mathfrak T : \mathcal O \to \mathcal M$ by interp
   $\mathfrak T : \mathcal O \to \mathcal M$ is a surjective translation.
 \end{proposition}
 
-\begin{preuve}
+\begin{proof}
   \begin{itemize}[label=$\triangleright$]
     \item \textbf{$\mathfrak T$ is a translation.}
     \begin{itemize}
@@ -1645,8 +2055,139 @@ We then define a translation $\mathfrak T : \mathcal O \to \mathcal M$ by interp
     
     Hence the translation $\mathfrak T : \mathcal O \to \mathcal M$ is surjective.
   \end{itemize}
-\end{preuve}
+\end{proof}
 
+Let's give an explicit description of the theory $\mathfrak T \triangleleft \mathcal A$.
+
+\begin{itemize}
+  \item \textbf{Signature.} The signature $\Sigma_{\mathfrak T \triangleleft \mathcal A}$ contains the operators of $\mathcal M$ and the operators of $\mathcal A$. Therefore, it contains the operator $(\cdot)$ of arity 2 and the operator $(+)$ of arity 2.
+  \item \textbf{Axioms.}
+  \begin{align*}
+    &\text{$\mathcal M$ axioms}\\
+    x, y, z &\vdash x \cdot (y \cdot z) = (x \cdot y) \cdot z\\
+    &\text{$\mathcal A$ axioms}\\
+    x, y &\vdash x + y = y + x\\
+    x, y, z &\vdash x + (y + z) = (x + y) + z\\
+    &\text{distributivity axioms}\\
+    x, y, z &\vdash x \cdot (y + z) = x \cdot y + x \cdot z\\
+    x, y, z &\vdash (x + y) \cdot z = x \cdot z + y \cdot z
+  \end{align*}
+\end{itemize}
+
+We define the functor $\underline{-} : \Multi(\pres, \mathcal U) \to \la \mathcal U, \prod \ra$ such that the following diagram commutes:
+\[
+\begin{tikzcd}
+	{\Multi(\pres, \mathcal U)} & {\la \mathcal U, \prod \ra} \\
+	{\Mod(\mathcal T, \mathcal U)} & {\mathcal U}
+	\arrow["{\underline{-}}", from=1-1, to=1-2]
+	\arrow["{-_o}"', maps to, from=1-1, to=2-1]
+	\arrow["{-_o}", maps to, from=1-2, to=2-2]
+	\arrow["U"', from=2-1, to=2-2]
+\end{tikzcd}
+\]
+This is the anaology in $\Multicat$ of the forgetful functor in $\Cat$.
+
+\medskip
+
+Now we'll try to give an explicite description of each element of the following pullback square:
+\[
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXE1vZChcXG1hdGhmcmFrIFQgXFx0cmlhbmdsZWxlZnRcXG1hdGhjYWwgQSwgXFxTZXQpIl0sWzAsMSwiXFxNb2QoXFxtYXRoY2FsIE0sIFxcU2V0KSJdLFsxLDEsIlxcTW9kKFxcbWF0aGNhbCBPLCBcXGxhIFxcU2V0LCBcXHByb2QgXFxyYSkiXSxbMSwwLCJcXE1vZChcXG1hdGhjYWwgTywgXFxNdWx0aShcXG1hdGhjYWwgQSwgXFxTZXQpKSJdLFszLDIsIlxcTW9kKFxcbWF0aGNhbCBPLCBcXHVuZGVybGluZXstfSkiXSxbMCwzLCJcXHVuZGVybGluZXstfV97XFxtYXRoY2FsIE8gXFx0cmlhbmdsZWxlZnQgXFxtYXRoY2FsIEF9Il0sWzEsMiwiXFxNb2QoXFxtYXRoZnJhayBULCBcXFNldCkiLDJdLFswLDEsIlxcdW5kZXJsaW5ley19X3tcXG1hdGhjYWwgTX0iLDJdLFswLDYsIiIsMSx7ImxldmVsIjoxLCJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XV0=&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+\begin{tikzcd}
+	{\Mod(\mathfrak T \triangleleft\mathcal A, \Set)} & {\Mod(\mathcal O, \Multi(\mathcal A, \Set))} \\
+	{\Mod(\mathcal M, \Set)} & {\Mod(\mathcal O, \la \Set, \prod \ra)}
+	\arrow["{\underline{-}_{\mathcal O \triangleleft \mathcal A}}", from=1-1, to=1-2]
+	\arrow["{\underline{-}_{\mathcal M}}"', from=1-1, to=2-1]
+	\arrow["{\Mod(\mathcal O, \underline{-})}", from=1-2, to=2-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Mod(\mathfrak T, \Set)}"', from=2-1, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=0]
+\end{tikzcd}
+\]
+
+For vertices:
+\begin{itemize}
+  \item $\Mod(\mathfrak T \triangleleft \mathcal A, \Set)$ is the category of $\mathfrak T \triangleleft \mathcal A$-models in $\Set$ (i.e with carrier sets in $\Set$), i.e the category of sem-rgs.
+  \item $\Mod(\mathcal M, \Set)$ is the category of $\mathcal M$-models in $\Set$, i.e the category of semigroups.
+  \item $\Mod(\mathcal O, \la \Set, \prod \ra)$ is the category of $\mathcal O$-models in $\la \Set, \prod \ra$. This category coincides with the category of semigroups in $\Set$ (cf. example 9 of Ohad's notes).
+  \item $\Mod(\mathcal O, \Multi(\mathcal A, \Set))$ is the category of $\mathcal O$-models in $\Multi(\mathcal A, \Set)$. 
+  
+  $\Multi(\mathcal A, \Set)$ is the multicategory where:
+  \begin{itemize}
+    \item objects are $\mathcal A$-models in $\Set$, i.e commutative semigroups.
+    \item multi-morphisms are multi-$\mathcal A$-homomorphisms, i.e ?
+  \end{itemize}
+  Similarly to the previous case, $\Mod(\mathcal O, \Multi(\mathcal A, \Set))$ coincides with the category of sem-rgs in $\Set$, except that we cannot guarantee that the distributivity axioms hold in $\Mod(\mathcal O, \Multi(\mathcal A, \Set))$.
+\end{itemize}
+
+For arrows:
+\begin{itemize}
+  \item $\underline{-}_{\mathcal O \triangleleft \mathcal A}$ is such that for $A = (UA, (+), (\cdot)) \in \Mod(\mathfrak T \triangleleft \mathcal A, \Set)$, $\ul{A}_{\mathcal O \triangleleft \mathcal A}$ consists of:
+  \begin{itemize}
+    \item $\ul A = (UA, (+))$ the $\mathcal A$-model given by the interpretation of the operators of $\mathcal A$ in $A$.
+    \item $\ul{A}_{\mathcal O \triangleleft \mathcal A} \brak{\mu_n} (x_1, \dots, x_n) = x_1 \cdot\ \cdots\ \cdot x_n \in \ul A$
+  \end{itemize}
+
+  \item $\underline{-}_{\mathcal M \triangleleft}$ is the functor sending a $\mathfrak T \triangleleft \mathcal A$-model $M$ to the $\mathcal M$-model in $\Set$ given by the interpretation of the operators of $\mathcal M$ in $M$, i.e the semigroup structure of $M$.
+  
+  For $A = (\underline{A}, (+), (\cdot)) \in \Mod(\mathfrak T \triangleleft \mathcal A, \Set)$, we have $\underline{A}_{\mathcal M \triangleleft} = (\underline{A}, (\cdot))$. It is easy to check that this is indeed a $\mathcal M$-model in $\Set$ because the axioms of $\mathcal M$ are included in the axioms of $\mathfrak T \triangleleft \mathcal A$.
+  \item $\Mod(\mathfrak T, \Set)$ is defined in Proposition~\ref{prop:mod_translation_functor}. We have $$\lp \Mod(\mathfrak T, \la \mathcal C, \prod \ra) A \rp \brak{f} := A \brak{\mathfrak T f} \qquad \Mod(\mathfrak T, \la \mathcal C, \prod \ra) h := h$$
+  \item $\Mod(\mathcal O, \underline{-})$ is defined in Proposition~\ref{prop:mod_2_functor}. It forgets about the model structure for $\mathcal A$, keeping only its carrier set, therefore we are left with a $\mathcal O$-model in $\Set$.
+\end{itemize}
+
+\begin{remarque}
+  $\Mod(\mathfrak T, \Set)$ is therefore an isomorphism of categories.
+\end{remarque}
+
+\begin{proposition}
+  The square above is a pullback square.
+\end{proposition}
+
+\begin{proof}
+  \begin{itemize}[label=$\triangleright$]
+    \item \textbf{commutativity.}
+    
+    Let $A \in \Mod(\mathfrak T \triangleleft \mathcal A, \Set)$. 
+    
+    We clearly have $\underline{\Mod(\mathfrak T, \Set)(\underline{A}_{\mathcal M \triangleleft})} = \underline{\Mod(\mathcal O, \underline{-})(\underline{A}_{\mathcal O \triangleleft \mathcal A})}$, since both sides are equal to $\underline{A}$.
+
+    Moreover, for $f \in \mathcal O_n$, we have:
+    \begin{align*}
+      \Mod(\mathfrak T, \Set)(\underline{A}_{\mathcal M \triangleleft}) \brak{f} &= \underline{A}_{\mathcal M \triangleleft} \brak{\mathfrak T f} &\text{by definition of $\Mod(\mathfrak T, \Set)$}\\
+      &= \underline{A}_{\mathcal M \triangleleft} \brak{\mu_n} &\text{since $\mathcal O$ is spanned by $\mu_n$}\\
+      &= \underline{A}_{\mathcal O \triangleleft \mathcal A} \brak{\mu_n} &\text{by definition of $\underline{-}_{\mathcal O \triangleleft \mathcal A}$}\\
+      &= \Mod(\mathcal O, \underline{-})(\underline{A}_{\mathcal O \triangleleft \mathcal A}) \brak{f} &\text{by definition of $\Mod(\mathcal O, \underline{-})$}
+    \end{align*}
+    \item \textbf{pullback.}
+    
+    Let $\mathcal C$ be a category, $F : \mathcal C \to \Mod(\mathcal M, \Set)$ and $G : \mathcal C \to \Mod(\mathcal O, \la \Set, \prod \ra)$ be two functors such that $\Mod(\mathfrak T, \Set) \circ F = \Mod(\mathcal O, \underline{-}) \circ G$. We want to show that there exists a unique functor $H : \mathcal C \to \Mod(\mathfrak T \triangleleft \mathcal A, \Set)$ such that the following diagram commutes:
+    \[
+    % https://q.uiver.app/#q=WzAsNSxbMSwxLCJcXE1vZChcXG1hdGhmcmFrIFQgXFx0cmlhbmdsZWxlZnRcXG1hdGhjYWwgQSwgXFxTZXQpIl0sWzEsMiwiXFxNb2QoXFxtYXRoY2FsIE0sIFxcU2V0KSJdLFsyLDIsIlxcTW9kKFxcbWF0aGNhbCBPLCBcXGxhIFxcU2V0LCBcXHByb2QgXFxyYSkiXSxbMiwxLCJcXE1vZChcXG1hdGhjYWwgTywgXFxNdWx0aShcXG1hdGhjYWwgQSwgXFxTZXQpKSJdLFswLDAsIlxcbWF0aGNhbCBDIl0sWzMsMiwiXFxNb2QoXFxtYXRoY2FsIE8sIFxcdW5kZXJsaW5ley19KSJdLFswLDMsIlxcdW5kZXJsaW5ley19X3tcXG1hdGhjYWwgTyBcXHRyaWFuZ2xlbGVmdCBcXG1hdGhjYWwgQX0iXSxbMSwyLCJcXE1vZChcXG1hdGhmcmFrIFQsIFxcU2V0KSIsMl0sWzAsMSwiXFx1bmRlcmxpbmV7LX1fe1xcbWF0aGNhbCBNfSIsMl0sWzQsMywiRyIsMCx7ImN1cnZlIjotM31dLFs0LDEsIkYiLDIseyJjdXJ2ZSI6M31dLFs0LDAsIkgiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCw3LCIiLDEseyJsZXZlbCI6MSwic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV1d&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+    \begin{tikzcd}
+      {\mathcal C} && \\
+      & {\Mod(\mathfrak T \triangleleft\mathcal A, \Set)} & {\Mod(\mathcal O, \Multi(\mathcal A, \Set))} \\
+      & {\Mod(\mathcal M, \Set)} & {\Mod(\mathcal O, \la \Set, \prod \ra)}
+      \arrow["H"{description}, dashed, from=1-1, to=2-2]
+      \arrow["G", curve={height=-18pt}, from=1-1, to=2-3]
+      \arrow["F"', curve={height=18pt}, from=1-1, to=3-2]
+      \arrow["{\underline{-}_{\mathcal O \triangleleft \mathcal A}}", from=2-2, to=2-3]
+      \arrow["{\underline{-}_{\mathcal M}}"', from=2-2, to=3-2]
+      \arrow["{\Mod(\mathcal O, \underline{-})}", from=2-3, to=3-3]
+      \arrow[""{name=0, anchor=center, inner sep=0}, "{\Mod(\mathfrak T, \Set)}"', from=3-2, to=3-3]
+    \end{tikzcd}
+    \]
+    We define $H : \mathcal C \to \Mod(\mathfrak T \triangleleft \mathcal A, \Set)$ as follows: for $c \in \mathcal C$, we have $H c = (U F c, (+_c), (\cdot_c))$ where:
+    \begin{itemize}
+      \item $U F c$ is the underlying set of the $\mathcal M$-model $F c$.
+      \item $(+_c)$ is the binary operation on $U F c$ given by the interpretation of the operator $(+)$ of $\mathcal A$ in $G c$, i.e $(+_c) = G c \brak{+}$.
+      \item $(\cdot_c)$ is the binary operation on $U F c$ given by the interpretation of the operator $(\cdot)$ of $\mathcal M$ in $F c$, i.e $(\cdot_c) = F c \brak{\cdot}$.
+    \end{itemize}
+    We then have to check that $H c$ is indeed a $\mathfrak T \triangleleft \mathcal A$-model, i.e that the axioms of $\mathfrak T \triangleleft \mathcal A$ hold in $H c$. This is true because:
+    \begin{itemize}
+      \item the axioms of $\mathcal M$ hold in $H c$ since $F c$ is a $\mathcal M$-model and the interpretation of the operators of $\mathcal M$ in $H c$ is the same as the interpretation of the operators of $\mathcal M$ in $F c$.
+      \item the axioms of $\mathcal A$ hold in $H c$ since $G c$ is a $\mathcal O$-model in $\Multi(\mathcal A, \Set)$ and the interpretation of the operators of $\mathcal A$ in $H c$ is the same as the interpretation of the operators of $\mathcal A$ in $G c$.
+      \item the distributivity axioms ...
+    \end{itemize}
+  \end{itemize}
+\end{proof}
 
 \newpage
 
@@ -1676,6 +2217,13 @@ We then define a translation $\mathfrak T : \mathcal O \to \mathcal M$ by interp
   Defined the distributive law of the monad for the free semigroup over the monad for the free commutative semigroup, and proved that it is indeed a distributive law $\rightarrow$ we get a monad structure on $\Set$ for the free algebra for the combination of semigroups and commutative semigroups.
   \item 12/05/2026: definition of Kleisli category and related objects, research and definition of algebra and distributive laws of monads in extension form, and link with the previous definition of distributive laws. Example 8.5 of \cite{Marmolejo2010MonadsAE} is almost the same thing as Section~\ref{sec:comb1}.
   \item 13/05/2026: started looking into the distributive combination of semigroups and commutative semigroups. Defined the operad $\mathcal O$ spanned by the multiplication operator of semigroups, and defined a translation from $\mathcal O$ to the theory of semigroups. Proved that $\mathcal O$ is minimal and that the translation is surjective.
+  \item 14/05/2026: defined the monad on $\SGCSG$ with the adjunction, and proved that it is the same as the one given by the distributive law.
+  
+  Copied over relevant information to start describing the pullback square for the combination of models in more details. A lot of reading Ohad's notes.
+  \item 15/05/2026: more copying definitions to understand the pullback square. Figured out what all of the objects (both vertices and arrows) are. 2-hour meeting with Ohad to check that I got everything right, and to talk about what I have to do next.
+  \item 18/05/2026: finished giving the full description of all objects in the pullback square.
+  
+  Jesse helped me understand how to create the pullback in the category of categories, and started working on the proof that the square is a pullback square. Proved the commutativity of the square, and started working on the pullback condition. It seems like the distributivity axioms pose a problem.
 \end{itemize}
 
 
@@ -1691,7 +2239,7 @@ We then define a translation $\mathfrak T : \mathcal O \to \mathcal M$ by interp
 \section{Questions for Ohad}
 
 \begin{itemize}
-  \item what exactly is meant by an operad spanned by an operation (e.g what is the operad $\mathcal O$ spanned by $(\cdot) : 2$)
-\end{itemize}
+  \item what is the reader monad
+\end{itemize} 
 
 \end{document}

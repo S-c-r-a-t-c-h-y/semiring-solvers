@@ -157,7 +157,7 @@
    \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Proposition\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
    {\end{mdframed}}
    
-   \newenvironment{lemme}[1][]{%
+   \newenvironment{lemma}[1][]{%
       \refstepcounter{ptl}%
       \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Lemma\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
       {\end{mdframed}}
@@ -221,7 +221,7 @@
    \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Corollary\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
    {\end{mdframed}}
  
- %%%%%%%% ENVIRONNEMENT PREUVE %%%%%%%%%
+ %%%%%%%% ENVIRONNEMENT PROOF %%%%%%%%%
  
  \mdfdefinestyle{myproof}{
    linecolor=black, 
@@ -240,11 +240,11 @@
    nobreak=false
  }
  
-  \newenvironment{preuve}[1][]{
+  \renewenvironment{proof}[1][]{
     \begin{mdframed}[style=myproof, frametitle={Proof\ifstrempty{#1}{}{ (#1)}}]}%
     {\hfill\qedsymbol\end{mdframed}}
  
- %%%%%%%% ENVIRONNEMENT EXEMPLE %%%%%%%%%
+ %%%%%%%% ENVIRONNEMENT EXAMPLE %%%%%%%%%
  
  \mdfdefinestyle{myexpl}{
     linewidth=1pt,
@@ -262,8 +262,9 @@
     linecolor=blue1
   }
   
-  \newenvironment{exemple}[1][]{%
-    \begin{mdframed}[style=myexpl, frametitle={\textcolor{blue1}{Example\ \ifstrempty{#1}{}{(#1)}}}]}%
+  \newenvironment{example}[1][]{%
+    \refstepcounter{ptl}%
+    \begin{mdframed}[style=myexpl, frametitle={\textcolor{blue1}{Example\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
     {\end{mdframed}}
  
  
