@@ -310,6 +310,7 @@ Q \arrow[rdd, "q_1"', bend right] \arrow[rrd, "q_2", bend left] \arrow[rd, "u", 
 \end{definition}
 
 \begin{example}[Pullback in the category of categories]
+  \label{ex:pullback_cat_cat}
   Let $\mathcal A, \mathcal B, \mathcal Z \in \Set$ such that we have functors $F : \mathcal A \to \mathcal Z$ and $G : \mathcal B \to \mathcal Z$. 
   
   \medskip
@@ -1188,6 +1189,7 @@ $\triangleright$ Finally, we have a natural 2-transformation \begin{tikzcd}
 \section{Some free algebras}
 
 \subsection{Semigroups}
+\label{sec:free_semigroups}
 
 \minisection{Free commutative semigroups}
 
@@ -1483,6 +1485,7 @@ We pose $F_\SGCSG X = (STX, (\cdot), (+))$, where $(\cdot)$ and $(+)$ are define
 \medskip
 
 \begin{proposition}
+  \label{prop:F_SGCSG_free}
   $F_\SGCSG X$ is a free $\SG + \CSG$-model over $X$.
 \end{proposition}
 
@@ -2074,7 +2077,7 @@ Let's give an explicit description of the theory $\mathfrak T \triangleleft \mat
   \end{align*}
 \end{itemize}
 
-We define the functor $\underline{-} : \Multi(\pres, \mathcal U) \to \la \mathcal U, \prod \ra$ such that the following diagram commutes:
+We define the multi-functor $\underline{-} : \Multi(\pres, \mathcal U) \to \la \mathcal U, \prod \ra$ such that the following diagram commutes:
 \[
 \begin{tikzcd}
 	{\Multi(\pres, \mathcal U)} & {\la \mathcal U, \prod \ra} \\
@@ -2085,7 +2088,16 @@ We define the functor $\underline{-} : \Multi(\pres, \mathcal U) \to \la \mathca
 	\arrow["U"', from=2-1, to=2-2]
 \end{tikzcd}
 \]
-This is the anaology in $\Multicat$ of the forgetful functor in $\Cat$.
+This is the anaology in $\Multicat$ of the forgetful functor in $\Cat$, i.e the forgetful multi-functor.
+
+\begin{proposition}
+  \label{prop:forgetful_multi_comm}
+  Let $\mathcal T$ be a theory. $\underline{-} : \Multi(\pres, \Set) \to \la \Set, \prod \ra$ has a left adjoint if and only if $\mathcal T$ is commutative.
+\end{proposition}
+
+\begin{proof}
+  See section 6 of Ohad's notes.
+\end{proof}
 
 \medskip
 
@@ -2113,9 +2125,9 @@ For vertices:
   $\Multi(\mathcal A, \Set)$ is the multicategory where:
   \begin{itemize}
     \item objects are $\mathcal A$-models in $\Set$, i.e commutative semigroups.
-    \item multi-morphisms are multi-$\mathcal A$-homomorphisms, i.e ?
+    \item multi-morphisms are multi-$\mathcal A$-homomorphisms. It can be showed\footnote{maybe do it?} that multi-$\mathcal A$-homomorphisms are multi-linear.
   \end{itemize}
-  Similarly to the previous case, $\Mod(\mathcal O, \Multi(\mathcal A, \Set))$ coincides with the category of sem-rgs in $\Set$, except that we cannot guarantee that the distributivity axioms hold in $\Mod(\mathcal O, \Multi(\mathcal A, \Set))$.
+  Similarly to the previous case, $\Mod(\mathcal O, \Multi(\mathcal A, \Set))$ coincides with the category of sem-rgs in $\Set$. The the distributivity axioms hold in $\Mod(\mathcal O, \Multi(\mathcal A, \Set))$ thanks to the multi-linearity of the multi-morphisms in $\Multi(\mathcal A, \Set)$.
 \end{itemize}
 
 For arrows:
@@ -2142,6 +2154,12 @@ For arrows:
 \end{proposition}
 
 \begin{proof}
+  Informaly, this is true because a model of $\mathfrak T \triangleleft \mathcal A$ consists of a model of $\mathcal M$ and a model of $\mathcal A$ such that the operations of $\mathcal O$ distribute over the operations of $\mathcal A$. Conversely, we can reconstruct a model for the combination with both those models.
+  
+  \medskip
+
+  We'll give a constructive proof anyway.
+
   \begin{itemize}[label=$\triangleright$]
     \item \textbf{commutativity.}
     
@@ -2184,9 +2202,174 @@ For arrows:
     \begin{itemize}
       \item the axioms of $\mathcal M$ hold in $H c$ since $F c$ is a $\mathcal M$-model and the interpretation of the operators of $\mathcal M$ in $H c$ is the same as the interpretation of the operators of $\mathcal M$ in $F c$.
       \item the axioms of $\mathcal A$ hold in $H c$ since $G c$ is a $\mathcal O$-model in $\Multi(\mathcal A, \Set)$ and the interpretation of the operators of $\mathcal A$ in $H c$ is the same as the interpretation of the operators of $\mathcal A$ in $G c$.
-      \item the distributivity axioms ...
+      \item the distributivity axioms hold in $H c$ since $G c$ is a $\mathcal O$-model in $\Multi(\mathcal A, \Set)$ and the interpretation of the operators of $\mathcal M$ in $H c$ is the same as the interpretation of the operators of $\mathcal M$ in $F c$, and the interpretation of the operators of $\mathcal A$ in $H c$ is the same as the interpretation of the operators of $\mathcal A$ in $G c$, and the distributivity axioms hold in $\Multi(\mathcal A, \Set)$.
     \end{itemize}
   \end{itemize}
+\end{proof}
+
+We can construct another pullback using the generic construction of Example~\ref{ex:pullback_cat_cat}. We can deduce an isomorphism $$\Mod(\mathfrak T \triangleleft \mathcal T, \Set) \cong \la \Mod(\mathcal{M}, \Set), \Mod(\mathcal O, \Multi(\mathcal A, \Set)) \ra$$
+
+\medskip
+
+As in \cite{HYLAND2006144}, we can obtain an universal characterisation of $\mathfrak T \triangleleft \mathcal A$ as a pushout of theories: $$\begin{tikzcd}
+	{\mathfrak T \triangleleft \mathcal A} & {\mathcal O \ast \mathcal A} \\
+	{\mathcal M} & {F \mathcal O}
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+	\arrow[from=1-2, to=1-1]
+	\arrow[from=2-1, to=1-1]
+	\arrow[from=2-2, to=1-2]
+	\arrow[from=2-2, to=2-1]
+\end{tikzcd}$$
+
+\subsection{Free algebras}
+
+We continue with the example of the previous section and we now try to construct the free algebra for $\mathfrak T \triangleleft \mathcal A$ using the free algebras for $\mathcal M$ and $\mathcal A$, similarly to Section~\ref{sec:comb1}, but in a more abstract way. We fix a set $X$.
+
+\medskip
+
+We'll use the results of Section~\ref{sec:free_semigroups}, and we write\footnote{acutally that's not correct since we need to define functors} $F_\mathcal{M} = F_\SG$ and $F_\mathcal{A} = F_\CSG$.
+
+\medskip
+
+\textbcf{Step 1.} 
+
+Let $A_0 := F_\mathcal{M} X \models \mathcal M$ be the free $\mathcal M$-algebra over $X$. $$\underline{A_0} = TX \qquad A_0\brak{(\cdot)} = (\concat) \qquad \eta^{A_0}(x) = [x]$$
+
+\textbcf{Step 2.} 
+
+We apply the functor $$\underline{-}_\mathfrak{T} := \Mod(\mathfrak T, \Set) : \Mod(\mathcal M, \Set) \to \Mod(\mathcal O, \la \Set, \prod \ra)$$ to $A_0$. This gives $A_1 := \underline{A_0}_\mathfrak{T} \models \mathcal O$.
+
+$$\underline{A_1} = \underline{A_0} = TX \qquad A_1 \brak{\mu_n}(x_1, \dots, x_n) = x_1 \concat \cdots \concat x_n \qquad \eta_{A_0}^{A_1} = \id$$
+
+\textbcf{Step 3.} 
+
+By Proposition~\ref{prop:forgetful_multi_comm}, we have an adjunction $$F_\mathcal{A} \dashv \underline{-} : \Multi(\mathcal A, \Set) \to \la \Set, \prod \ra$$ in $\Multicat$ since $\mathcal A$ is commutative. Applying the 2-functor $\Mod(\mathcal O, -) : \Multicat \to \Cat$ gives a left adjoint $$F_{\mathcal O \to \mathcal A} : \Mod(\mathcal O, F_\mathcal{A}) : \Mod(\mathcal O, \la \Set, \prod \ra) \to \Mod (\mathcal O, \Multi(\mathcal A, \Set))$$
+
+We pose $A_2 := F_{\mathcal O \to \mathcal A} A_1 \models \mathcal O \ast \mathcal A$.
+
+$$\underline{A_2} = STX \qquad \eta_{A_1}^{A_2} (x) = \sum_{w \in TX} \delta_x^w \cdot w$$
+
+$F_\mathcal{A}$ extends the morphisms in $\la \Set, \prod \ra$ multi-linearly. Therefore if $a_i = \summ{w \in TX}{} n_w^{(i)} \cdot w \in STX$, then 
+\begin{align*}
+  A_2\brak{\mu_n} (a_1, \dots, a_n) &= \sum_{w_1, \dots, w_n \in TX} (n_{w_1}^{(1)} \cdots n_{w_n}^{(n)}) \cdot (A_1 \brak{\mu_n} (w_1, \dots, w_n))\\
+  &= \sum_{w_1, \dots, w_n \in TX} (n_{w_1}^{(1)} \cdots n_{w_n}^{(n)}) \cdot (w_1 \concat \cdots \concat w_n)
+\end{align*}
+
+Lemma 33 of Ohad's notes then is just saying that any $x \in STX$ can be written as $$x = \sum_{i=1}^n w_i$$ for some $(w_i) \in (TX)^n$, which is no surprise.
+
+\medskip
+
+\textbcf{Step 4.}
+
+Let $A_3 := \Mod(\mathcal O, \underline{-}) A_2 \models O$ be the underlying operadic algebra. 
+
+$$\underline{A_3} = \underline{A_2} = STX \qquad A_3 \brak{\mu_n} = A_2 \brak{\mu_n} \qquad \eta_{A_2}^{A_3} = \id$$
+
+For each $t \in \mathcal M_n$, we use surjectivity to get some $f \in \mathcal O_m$ and $\theta : m \to n$ such that $t = \mathfrak T f [\theta]$. Then $A_\mathcal{M} \brak t e := A_3 \brak f e \circ \theta$.
+
+\begin{lemma}
+  \label{lem:A_M_ind_mod}
+  With the preceding notation:
+  \begin{itemize}
+    \item the interpretation $A_\mathcal{M} \brak{t} e$ is independent of the decomposition $t = \mathfrak T f [\theta]$
+    \item the resulting algebra validates $\mathcal M$, i.e $A_\mathcal{M} \models \mathcal M$
+  \end{itemize}
+\end{lemma}
+
+\begin{proof}
+  We will show that, given $f_i \in \mathcal O_{n_i}, \theta_i : n_i \to m$, if $m \vdash_\mathcal{M} \mathfrak T f_1 [\theta_1] = \mathfrak T f_2 [\theta_2]$, then for all $e : [m] \to \underline{A_\mathcal{M}} = \underline{A_3} = \underline{A_2}$, we have $$A_2 \brak{f_1} (e \circ \theta_1) = A_2 \brak{f_2} (e \circ \theta_2)$$
+  For $r \in [m]$, let $e(r) = \summ{w \in TX}{} n_w^r \cdot w$. Then
+  \begin{align*}
+    A_2 \brak{f_1} (e \circ \theta_1) &= A_2 \brak{f_1}  \la e(\theta_1(j)) \ra_{j=1}^m &\text{evaluation in an operadic algebra}\\
+    &= A_2 \brak{f_1}  \la \summ{w \in TX}{} n_w^{\theta_1(j)} \cdot w \ra_{j=1}^m &\text{substitution}\\
+    &= \sum_{w_1, \dots, w_{n_1} \in TX} (n_{w_1}^{\theta_1(1)} \cdots n_{w_{n_1}}^{\theta_1(m)}) \cdot (A_1 \brak{f_1} (w_1, \dots, w_{n_1})) & \Mod(\mathcal O, F_\mathcal{A})\text{-def}\\
+    &= \sum_{w_1, \dots, w_{n_1} \in TX} (n_{w_1}^{\theta_1(1)} \cdots n_{w_{n_1}}^{\theta_1(m)}) \cdot (A_0 \brak{\mathfrak T f_1}(w_1, \dots, w_{n_1})) &\underline{-}_\mathfrak{T}\text{-def}\\
+    &= \sum_{w_1, \dots, w_{n_2} \in TX} (n_{w_1}^{\theta_2(1)} \cdots n_{w_{n_2}}^{\theta_2(m)}) \cdot (A_0 \brak{\mathfrak T f_2}(w_1, \dots, w_{n_2})) &\text{by hypothesis}\\
+    &= \dots &\text{reverse steps}\\
+    &= A_2 \brak{f_2} (e \circ \theta_2)
+  \end{align*}
+  This proves the first point. The second point is then a direct consequence of the first one and the fact that $A_3 \models \mathcal O$.
+\end{proof}
+
+At this point we managed to go from a model of $\mathcal M$ with carrier set $TX$ to a model of $\mathcal M$ with carrier set $STX$.
+
+$$\underline{A_\mathcal{M}} = \underline{A_3} = \underline{A_2} = STX \qquad A_\mathcal{M} \brak{m \vdash x_{i_1} \cdots x_{i_n}} e = A_3\brak{\mu_n} (e \circ (j \mapsto i_j)) \qquad \eta_{A_2}^{A_\mathcal{M}} = \id$$
+
+\medskip
+
+\textbcf{Step 5.}
+
+We have $A_\mathcal{M} \models \mathcal M$ and $A_2 \models \mathcal O \ast \mathcal A$. We can then use the pullback square to get a model $A := A_\mathcal{M} \triangleleft A_2$ of $\mathfrak T \triangleleft \mathcal A$:
+\begin{itemize}
+  \item $\underline{A} = \underline{A_\mathcal{M}} = \underline{A_2} = STX$
+  \item $A \brak{(\cdot)}(x, y) = A_\mathcal{M} \brak{(\cdot)} (x, y) = A_2 \brak{\mu_2}(x, y)$
+  \item $A \brak{(+)}(x, y) = A_2 \brak{(+)}(x, y)$
+\end{itemize}
+
+All axioms hold since they hold either in $A_\mathcal{M}$ or in $A_2$.
+
+\medskip
+
+We define $\eta : X \xrightarrow{\eta^{A_0}} \underline{A_0} = \underline{A_1} \xrightarrow{\eta_{A_1}^{A_2}} \underline{A_2} = STX = \underline{A}$.
+
+\begin{proposition}
+  $A$ is the free $\mathfrak T \triangleleft \mathcal A$-algebra over $X$.
+\end{proposition}
+
+\begin{proof}
+  We need to show that $(A, \eta)$ is an universal arrow from $X$ to the forgetful functor $\mathcal{A} \to \Set$. Since the definitions for $(+)$ and $(\cdot)$ in $A$ are the same as we defined in Section~\ref{sec:comb1}, the same proof as in Section~\ref{prop:F_SGCSG_free} works here.
+\end{proof}
+
+\medskip
+
+Here is a little diagram that summarizes the steps:
+
+% https://q.uiver.app/#q=WzAsMTAsWzMsMCwiQV8wIDo9IEZfXFxtYXRoY2Fse019IFggXFxtb2RlbHMgXFxtYXRoY2FsIE0iXSxbNCwwLCJBXzEgXFxtb2RlbHMgXFxtYXRoY2FsIE8iXSxbNiwyLCJBXzIgXFxtb2RlbHMgXFxtYXRoY2FsIE8gXFxhc3QgXFxtYXRoY2FsIEEiXSxbNCwyLCJBXzMgXFxtb2RlbHMgXFxtYXRoY2FsIE8iXSxbMywyLCJBX1xcbWF0aGNhbHtNfSBcXG1vZGVscyBcXG1hdGhjYWwgTSJdLFsxLDAsIlxcdGV4dHtjYXJyaWVyfSA9IFRcXCxcXCFYIl0sWzEsMiwiXFx0ZXh0e2NhcnJpZXJ9ID0gU1RcXCxcXCFYIl0sWzQsNCwiQSBcXG1vZGVscyBcXG1hdGhmcmFrIFQgXFx0cmlhbmdsZWxlZnQgXFxtYXRoY2FsIEEiXSxbMCwxXSxbNywxXSxbMCwxLCJcXHVuZGVybGluZXstfV9cXG1hdGhmcmFre1R9IiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFsxLDIsIlxcTW9kKFxcbWF0aGNhbCBPLCBGX1xcbWF0aGNhbHtBfSkiLDAseyJjdXJ2ZSI6LTQsInN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifX19XSxbMiwzLCJcXE1vZChcXG1hdGhjYWwgTywgXFx1bmRlcmxpbmV7LX0pIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFszLDQsIlxcdGV4dHtzdXJqZWN0aXZpdHl9IiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFs0LDcsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyLDcsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs4LDksIiIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRvdHRlZCJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzE0LDE1LCJcXHRleHR7Y29tYmluYXRpb259IiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjEsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+\[\begin{tikzcd}
+	& {\text{carrier} = T\,\!X} && {A_0 := F_\mathcal{M} X \models \mathcal M} & {A_1 \models \mathcal O} &&& \\
+	{} &&&&&&& {} \\
+	& {\text{carrier} = ST\,\!X} && {A_\mathcal{M} \models \mathcal M} & {A_3 \models \mathcal O} && {A_2 \models \mathcal O \ast \mathcal A} \\
+	\\
+	&&&& {A \models \mathfrak T \triangleleft \mathcal A}
+	\arrow["{\underline{-}_\mathfrak{T}}"', maps to, from=1-4, to=1-5]
+	\arrow["{\Mod(\mathcal O, F_\mathcal{A})}", curve={height=-24pt}, maps to, from=1-5, to=3-7]
+	\arrow[dotted, no head, from=2-1, to=2-8]
+	\arrow[""{name=0, anchor=center, inner sep=0}, maps to, no head, from=3-4, to=5-5]
+	\arrow["{\text{surjectivity}}", maps to, from=3-5, to=3-4]
+	\arrow["{\Mod(\mathcal O, \underline{-})}", maps to, from=3-7, to=3-5]
+	\arrow[""{name=1, anchor=center, inner sep=0}, maps to, no head, from=3-7, to=5-5]
+	\arrow["{\text{combination}}"', draw=none, from=0, to=1]
+\end{tikzcd}\]
+
+
+\subsection{General case}
+
+Steps 1 to 4 of the previous section can be adapted to the general case. Since we cannot access the internal structure anymore, we have the following lemma:
+
+\begin{lemma}
+  \label{lem:decom_A2}
+  For every $e \in \underline{A_2}$, there is some $s \in \mathcal A_k$ and $\ebf \in \ul{A_1}^k$ such that $$e = A_2 \brak s \la \eta_{A_1}^{A_2} \ebf_i \ra_{i=1}^k$$
+\end{lemma}
+
+\begin{proof}
+  This is proved in Ohad's notes.
+\end{proof}
+
+We also need to give a general proof of Lemma~\ref{lem:A_M_ind_mod} which still holds.
+
+\workingpoint
+
+\begin{proof}
+  We will show that, given $f_i \in \mathcal O_{n_i}, \theta_i : n_i \to m$, if $m \vdash_\mathcal{M} \mathfrak T f_1 [\theta_1] = \mathfrak T f_2 [\theta_2]$, then for all $e : [m] \to \underline{A_\mathcal{M}} = \underline{A_3} = \underline{A_2}$, we have $$A_2 \brak{f_1} (e \circ \theta_1) = A_2 \brak{f_2} (e \circ \theta_2)$$
+  By Lemma~\ref{lem:decom_A2}, we have $s_r \in \mathcal A_{k_r}$ and $\ebf^r \in \underline{A_2}^{k_r}$ such that: $$e(r) = A_2 \brak{s_r} \la \eta_{A_1}^{A_2} \ebf_l^r \ra_{l=1}^{k_r}$$
+  We calculate
+  \begin{align*}
+    A_2 \brak{f_1} (e \circ \theta_1) &= A_2 \brak{f_1} \la e(\theta_1 j) \ra_{j=1}^{n_1} &\text{evaluation in an operadic algebra}\\
+    &= A_2 \brak{f_1} \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\text{substitution}\\
+    &= F_\mathcal{A} (A_1 \brak{f_1}) \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\Mod(\mathcal O, F_\mathcal{A})\text{-def}\\
+    &= F_\mathcal{A} (A_0 \brak{\mathfrak T f_1}) \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\underline{-}_\mathfrak{T}\text{-def}\\
+    &=
+  \end{align*}
 \end{proof}
 
 \newpage
@@ -2224,6 +2407,8 @@ For arrows:
   \item 18/05/2026: finished giving the full description of all objects in the pullback square.
   
   Jesse helped me understand how to create the pullback in the category of categories, and started working on the proof that the square is a pullback square. Proved the commutativity of the square, and started working on the pullback condition. It seems like the distributivity axioms pose a problem.
+  \item 19/05/2026: sick day, stayed home. Solved the distributivity problem thanks to Ohad. Finished proving the pullback and started working on constructing the free algebra for the example of the semigroups.
+  \item 20/05/2026: finished constructing the free algebra for the semigroups, giving explicit description at each step, and proved that the resulting algebra is the free algebra for the combination. Starting working on completing Ohad's notes for the general case.
 \end{itemize}
 
 

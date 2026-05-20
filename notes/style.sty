@@ -419,3 +419,16 @@
     {\hfill\qedsymbol\end{mdframed}}
 
 \newcommand{\minisection}[1]{\textbf{\textcolor{blue2}{#1}}\medskip}
+\newcommand{\textbcf}[1]{\textbf{\textcolor{blue1}{#1}}}
+
+\newcommand{\workingpoint}{%
+  % Works both in text and math modes: in math mode use an \mbox; otherwise keep original paragraph styling
+  \ifmmode
+    \mbox{{\color{red}\rule{\linewidth}{1.2pt}}\,\textbf{\textcolor{red}{working point}}}%
+  \else
+    \par\noindent
+    {\color{red}\rule{\linewidth}{1.2pt}}\par
+    \noindent\textbf{\textcolor{red}{working point}}\par
+  \fi
+}
+

@@ -44,12 +44,48 @@
 \usetikzlibrary{patterns}
 \usetikzlibrary{shadows}
 \usetikzlibrary{shapes,decorations,automata,backgrounds,petri}
+
  
+\usepackage{tikz-cd}
 \usepackage{tikz-3dplot}
 \usepackage{pgfplots}
 \usepackage{capt-of}
 \usepackage{subcaption}
 \usepackage{caption}
+\usepackage{quiver}
+
+% -------------------------- QUIVER PACKAGE CONTENT SINCE IT DOESNT WORK OTHERWISE ------------------------
+
+% `pathmorphing` is necessary to draw squiggly arrows.
+\usetikzlibrary{decorations.pathmorphing}
+% `spath3` is necessary to draw shortened edges.
+\usetikzlibrary{spath3}
+
+% A TikZ style for curved arrows of a fixed height, due to AndrÃ©C.
+\tikzset{curve/.style={settings={#1},to path={(\tikztostart)
+    .. controls ($(\tikztostart)!\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+    and ($(\tikztostart)!1-\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+    .. (\tikztotarget)\tikztonodes}},
+    settings/.code={\tikzset{quiver/.cd,#1}
+        \def\pv##1{\pgfkeysvalueof{/tikz/quiver/##1}}},
+    quiver/.cd,pos/.initial=0.35,height/.initial=0}
+
+% A TikZ style for shortening paths without the poor behaviour of `shorten <' and `shorten >'.
+\tikzset{between/.style n args={2}{/tikz/execute at end to={
+    \tikzset{spath/split at keep middle={current}{#1}{#2}}
+}}}
+
+% TikZ arrowhead/tail styles.
+\tikzset{tail reversed/.code={\pgfsetarrowsstart{tikzcd to}}}
+\tikzset{2tail/.code={\pgfsetarrowsstart{Implies[reversed]}}}
+\tikzset{2tail reversed/.code={\pgfsetarrowsstart{Implies}}}
+% TikZ arrow styles.
+\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}
+
+
+% ---------------------------------------------------------------------------------------------------------
+
+
 
 \usepackage{geometry}
 \usepackage{graphicx}
@@ -179,7 +215,7 @@
 
 %%%%%%%%%%%%% PARENTHESAGE %%%%%%%%%%%%%%%%%
 
-\DeclarePairedDelimiter\brak{[\![}{]\!]}
+\DeclarePairedDelimiter\brak{[\!\!\!\:[}{]\!\!\!\:]}
 \DeclarePairedDelimiter\set{\lbrace}{\rbrace}
 \newcommand{\la}{\left\langle}
 \newcommand{\ra}{\right\rangle}
@@ -199,6 +235,7 @@
 \newcommand{\Set}{\mathbf{Set}}
 \newcommand{\Multicat}{\mathbf{Multicat}}
 \newcommand{\Mod}{\mathbf{Mod}}
+\newcommand{\Multi}{\mathbf{Multi}}
 \newcommand{\Mon}{\mathbf{Mon}}
 \newcommand{\id}{\text{id}}
 \DeclareMathOperator{\arity}{arity}
@@ -214,4 +251,8 @@
 \DeclareMathOperator{\Supp}{Supp}
 \newcommand{\Fin}{\mathbf{Fin}}
 \DeclareMathOperator{\Ax}{Ax}
+\DeclareMathOperator{\str}{str}
+\renewcommand\ul\underline
+\newcommand{\ebf}{\mathbf{e}}
 
+\newcommand{\tocheck}[1]{\textbf{\textcolor{red}{\ifstrempty{#1}{TO CHECK}{#1}}}}
