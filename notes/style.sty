@@ -432,3 +432,14 @@
   \fi
 }
 
+\newenvironment{digression}[1][]
+  {
+    \par\noindent
+    {\color{blue1}\rule{\linewidth}{1.2pt}}\par
+    \noindent\textbf{\textcolor{blue1}{digression\ifstrempty{#1}{}{ (#1)}}}\par
+  }
+  {
+    \par\noindent
+    {\noindent\textbf{\textcolor{blue1}{end of digression}}\par
+    \color{blue1}\rule{\linewidth}{1.2pt}}\par
+  }

@@ -311,7 +311,7 @@ Q \arrow[rdd, "q_1"', bend right] \arrow[rrd, "q_2", bend left] \arrow[rd, "u", 
 
 \begin{example}[Pullback in the category of categories]
   \label{ex:pullback_cat_cat}
-  Let $\mathcal A, \mathcal B, \mathcal Z \in \Set$ such that we have functors $F : \mathcal A \to \mathcal Z$ and $G : \mathcal B \to \mathcal Z$. 
+  Let $\mathcal A, \mathcal B, \mathcal Z \in \Cat$ such that we have functors $F : \mathcal A \to \mathcal Z$ and $G : \mathcal B \to \mathcal Z$. 
   
   \medskip
 
@@ -2223,6 +2223,8 @@ As in \cite{HYLAND2006144}, we can obtain an universal characterisation of $\mat
 
 \subsection{Free algebras}
 
+\label{sec:free_alg_ex}
+
 We continue with the example of the previous section and we now try to construct the free algebra for $\mathfrak T \triangleleft \mathcal A$ using the free algebras for $\mathcal M$ and $\mathcal A$, similarly to Section~\ref{sec:comb1}, but in a more abstract way. We fix a set $X$.
 
 \medskip
@@ -2344,7 +2346,15 @@ Here is a little diagram that summarizes the steps:
 
 \subsection{General case}
 
-Steps 1 to 4 of the previous section can be adapted to the general case. Since we cannot access the internal structure anymore, we have the following lemma:
+Steps 1 to 4 of the previous section can be adapted to the general case. 
+
+\medskip
+
+$\eta^{A_0}$ comes from the adjunction $F_\mathcal{M} \dashv U : \Mod(\mathcal M, \Set) \to \Set$ and $\eta_{A_1}^{A_2}$ comes from the adjunction $\Mod(\mathcal O, F_\mathcal{A}) \dashv \Mod(\OO, \underline{-}) : \Mod(\OO, \Multi(\mathcal A, \Set)) \to \Mod(\OO, \la \Set ,\prod \ra)$.
+
+\medskip
+
+Since we cannot access the internal structure anymore, we have the following lemma:
 
 \begin{lemma}
   \label{lem:decom_A2}
@@ -2357,20 +2367,195 @@ Steps 1 to 4 of the previous section can be adapted to the general case. Since w
 
 We also need to give a general proof of Lemma~\ref{lem:A_M_ind_mod} which still holds.
 
+\begin{lemma}
+  \label{lem:A_M_ind_mod2}
+  With the preceding notation:
+  \begin{itemize}
+    \item the interpretation $A_\mathcal{M} \brak{t} e$ is independent of the decomposition $t = \mathfrak T f [\theta]$
+    \item the resulting algebra validates $\mathcal M$, i.e $A_\mathcal{M} \models \mathcal M$
+  \end{itemize}
+\end{lemma}
+
 \workingpoint
 
 \begin{proof}
   We will show that, given $f_i \in \mathcal O_{n_i}, \theta_i : n_i \to m$, if $m \vdash_\mathcal{M} \mathfrak T f_1 [\theta_1] = \mathfrak T f_2 [\theta_2]$, then for all $e : [m] \to \underline{A_\mathcal{M}} = \underline{A_3} = \underline{A_2}$, we have $$A_2 \brak{f_1} (e \circ \theta_1) = A_2 \brak{f_2} (e \circ \theta_2)$$
-  By Lemma~\ref{lem:decom_A2}, we have $s_r \in \mathcal A_{k_r}$ and $\ebf^r \in \underline{A_2}^{k_r}$ such that: $$e(r) = A_2 \brak{s_r} \la \eta_{A_1}^{A_2} \ebf_l^r \ra_{l=1}^{k_r}$$
+  By Lemma~\ref{lem:decom_A2}, we have $s_r \in \mathcal A_{k_r}$ and $\ebf^r \in \underline{A_1}^{k_r}$ such that: $$e(r) = A_2 \brak{s_r} \la \eta_{A_1}^{A_2} \ebf_l^r \ra_{l=1}^{k_r}$$
   We calculate
   \begin{align*}
-    A_2 \brak{f_1} (e \circ \theta_1) &= A_2 \brak{f_1} \la e(\theta_1 j) \ra_{j=1}^{n_1} &\text{evaluation in an operadic algebra}\\
+    A_2 \brak{f_1} (e \circ \theta_1) &= A_2 \brak{f_1} \la e(\theta_1 j) \ra_{j=1}^{n_1} &\hspace{-4cm}\text{evaluation in an operadic algebra}\\
     &= A_2 \brak{f_1} \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\text{substitution}\\
     &= F_\mathcal{A} (A_1 \brak{f_1}) \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\Mod(\mathcal O, F_\mathcal{A})\text{-def}\\
     &= F_\mathcal{A} (A_0 \brak{\mathfrak T f_1}) \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\underline{-}_\mathfrak{T}\text{-def}\\
-    &=
+    &= A_2 \brak{s_{\theta_1 1}} \la \cdots\ A_2\brak{s_{\theta_1 n_1}} \la F_\mathcal{A} (A_0 \brak{\mathfrak T f_1}) \la \eta_{A_1}^{A_2} \ebf_{l_j}^{\theta_1 j} \ra_{j=1}^{n_1} \ra_{l_n = 1}^{k_{\theta_1 n_1}} \cdots \ra_{l_1 = 1}^{k_{\theta_1 1}} &\text{multi-}\mathcal A\text{-homomorphism}\\
+    &= A_2 \brak{s_{\theta_1 1}} \la \cdots\ A_2\brak{s_{\theta_1 n_1}} \la A_0 \brak{\mathfrak T f_1} \la \ebf_{l_j}^{\theta_1 j} \ra_{j=1}^{n_1} \ra_{l_n = 1}^{k_{\theta_1 n_1}} \cdots \ra_{l_1 = 1}^{k_{\theta_1 1}} &F_\mathcal{A}\text{-def}\\
+    &= A_2 \brak{s_{\theta_2 1}} \la \cdots\ A_2\brak{s_{\theta_2 n_1}} \la A_0 \brak{\mathfrak T f_2} \la \ebf_{l_j}^{\theta_2 j} \ra_{j=1}^{n_2} \ra_{l_n = 1}^{k_{\theta_2 n_2}} \cdots \ra_{l_1 = 1}^{k_{\theta_2 1}} &\text{by hypothesis}\\
+    &=\ \cdots&\text{inverse steps}\\
+    &= A_2 \brak{f_2} (e \circ \theta_2)
   \end{align*}
+
+  Now for the second point
 \end{proof}
+
+\textbcf{Step 5.} 
+
+\begin{lemma}
+  \label{lem:decomp_A2_strong}
+  For all $e \in \ul{A_2}$, there exists $s \in \mathcal A_k$ such that for all $i \in [k]$, there exists $t_i \in \mathcal M_{k_i}$ and $\ebf_{\la i, j \ra} \in X$ such that:
+  $$e = A_2 \brak s \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+\end{lemma}
+
+\begin{proof}
+  Similar to the proof of Lemma~\ref{lem:decom_A2}.
+\end{proof}
+
+We define $A \models \mathfrak T \triangleleft \mathcal A$ the same way as in the example of Section~\ref{sec:free_alg_ex}, i.e as the pullback of $A_\mathcal{M}$ and $A_2$. Let's prove that it is free.
+
+\medskip
+
+Let $B$ be any sem-rg algebra and $f : X \to \underline{B}$ be a function.
+
+\medskip
+
+$A_0$ is the free $\mathcal M$-algebra over $X$, so we have a unique morphism $h_0 : A_0 \to B_\mathcal{M}$ of $\mathcal M$-algebras such that $h_0 \circ \eta^{A_0} = f$.
+\[
+\begin{tikzcd}
+  X \arrow[r, "\eta^{A_0}"] \arrow[dr, "f"'] & A_0 \arrow[d, "h_0"]\\
+  & B_\mathcal{M}
+\end{tikzcd}
+\]
+There is also an homomorphism $h_1 : A_1 \to B_\mathcal O$ of $\mathcal O$-algebras such that $h_1 \circ \eta_{A_0}^{A_1} = h_0$, and $h_1 = h_0$ since $\eta_{A_0}^{A_1} = \id$.
+
+\[
+\begin{tikzcd}
+  X \arrow[r, "\id \circ \eta^{A_0}"] \arrow[dr, "f"'] & A_1 \arrow[d, "h_1 = h_0"]\\
+  & B_\mathcal{O}
+\end{tikzcd}
+\]
+
+$B$ has an $\mathcal A$-structure that distributes over $\OO$, therefore thanks to the adjunction $\Mod(\mathcal O, F_\mathcal{A}) \dashv \Mod(\OO, \underline{-})$, we have a unique morphism $h_2 : A_2 \to B$ of $\mathcal O \ast \mathcal A$-algebras such that $h_2 \circ \eta_{A_1}^{A_2} = h_1$.
+\[
+\begin{tikzcd}
+  A_1 \arrow[r, "\eta_{A_1}^{A_2}"] \arrow[dr, "h_1"'] & A_2 \arrow[d, "h_2"]\\
+  & B_{\OO \ast \mathcal A}
+\end{tikzcd}
+\]
+
+Apply the 2-functor $\Mod(\mathcal O, \underline{-})$ to the morphism $h_2 : A_2 \to B$ gives a morphism $h_3 : A_3 \to B_\mathcal O$ of $\mathcal O$-algebras such that $h_3 \circ \eta_{A_2}^{A_3} = h_2$ and $h_3 = h_2$ since $\eta_{A_2}^{A_3} = \id$.
+
+\medskip
+
+By the surjectivity of $\mathfrak T$ and the independance of the decomposition given by Lemma~\ref{lem:A_M_ind_mod2}, we now have a $\mathcal{M}$-morphism $h_4 = h_3 : A_\mathcal{M} \to B_\mathcal{M}$ such that $h_4 \circ \eta_{A_3}^{A_\mathcal{M}} = h_3$. \tocheck{}\footnote{If you read this Ohad I believe this is the part where you weren't too sure about how to go from an $\OO$-homomorphism to a $\mathcal M$-homomorphism}
+
+\medskip
+
+In the end we have the following diagram:
+% https://q.uiver.app/#q=WzAsNyxbMCwwLCJYIl0sWzEsMCwiXFx1bHtBXzB9Il0sWzIsMCwiXFx1bHtBXzF9Il0sWzEsMSwiXFx1bHtCfSJdLFsyLDEsIlxcdWx7QV8yfSJdLFsyLDIsIlxcdWx7QV8zfSJdLFsxLDIsIlxcdWx7QV80fSJdLFswLDMsImYiLDJdLFswLDEsIlxcZXRhXntBXzB9Il0sWzEsMiwiXFxpZCJdLFsxLDMsImhfMCIsMV0sWzIsMywiaF8xIiwxXSxbNCwzLCJoXzIiLDFdLFs1LDMsImhfMyIsMV0sWzIsNCwiXFxldGFfe0FfMX1ee0FfMn0iXSxbNCw1LCJcXGlkIl0sWzYsMywiaF80IiwxXSxbNSw2LCJcXGlkIl1d&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+\[\begin{tikzcd}
+	X & {\ul{A_0}} & {\ul{A_1}} \\
+	& {\ul{B}} & {\ul{A_2}} \\
+	& {\ul{A_4}} & {\ul{A_3}}
+	\arrow["{\eta^{A_0}}", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-2]
+	\arrow["\id", from=1-2, to=1-3]
+	\arrow["{h_0}"{description}, from=1-2, to=2-2]
+	\arrow["{h_1}"{description}, from=1-3, to=2-2]
+	\arrow["{\eta_{A_1}^{A_2}}", from=1-3, to=2-3]
+	\arrow["{h_2}"{description}, from=2-3, to=2-2]
+	\arrow["\id", from=2-3, to=3-3]
+	\arrow["{h_4}"{description}, from=3-2, to=2-2]
+	\arrow["{h_3}"{description}, from=3-3, to=2-2]
+	\arrow["\id", from=3-3, to=3-2]
+\end{tikzcd}\]
+
+We then consider the walking morphism $I : \{0 \xrightarrow{u} 1\}$ and the two functors $F_1 : I \to \Mod(\OO, \Multi(\mathcal A, \Set))$ and $F_2 : I \to \Mod(\mathcal M, \Set)$ defined by $F_1\, 0 = A_2,\ F_1\, 1 = B_{\OO \ast \mathcal A},\ F_1\, u = h_2$ and $F_2\, 0 = A_\mathcal{M},\ F_2\, 1 = B_\mathcal{M},\ F_2\, u = h_4$. By the construction, we can then use the pullback square to get a unique $H : I \to \Mod(\mathfrak T \triangleleft \mathcal A)$ such that the following diagram commutes:
+
+% https://q.uiver.app/#q=WzAsNSxbMSwxLCJcXE1vZChcXG1hdGhmcmFrIFQgXFx0cmlhbmdsZWxlZnRcXG1hdGhjYWwgQSwgXFxTZXQpIl0sWzEsMiwiXFxNb2QoXFxtYXRoY2FsIE0sIFxcU2V0KSJdLFsyLDIsIlxcTW9kKFxcbWF0aGNhbCBPLCBcXGxhIFxcU2V0LCBcXHByb2QgXFxyYSkiXSxbMiwxLCJcXE1vZChcXG1hdGhjYWwgTywgXFxNdWx0aShcXG1hdGhjYWwgQSwgXFxTZXQpKSJdLFswLDAsIkkiXSxbMywyLCJcXE1vZChcXG1hdGhjYWwgTywgXFx1bmRlcmxpbmV7LX0pIl0sWzAsMywiXFx1bmRlcmxpbmV7LX1fe1xcbWF0aGNhbCBPIFxcdHJpYW5nbGVsZWZ0IFxcbWF0aGNhbCBBfSJdLFsxLDIsIlxcTW9kKFxcbWF0aGZyYWsgVCwgXFxTZXQpIiwyXSxbMCwxLCJcXHVuZGVybGluZXstfV97XFxtYXRoY2FsIE19IiwyXSxbNCwzLCJGXzEiLDAseyJjdXJ2ZSI6LTN9XSxbNCwxLCJGXzIiLDIseyJjdXJ2ZSI6M31dLFs0LDAsIkgiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCw3LCIiLDEseyJsZXZlbCI6MSwic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV1d&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+\[\begin{tikzcd}
+	I && \\
+	& {\Mod(\mathfrak T \triangleleft\mathcal A, \Set)} & {\Mod(\mathcal O, \Multi(\mathcal A, \Set))} \\
+	& {\Mod(\mathcal M, \Set)} & {\Mod(\mathcal O, \la \Set, \prod \ra)}
+	\arrow["H"{description}, dashed, from=1-1, to=2-2]
+	\arrow["{F_1}", curve={height=-18pt}, from=1-1, to=2-3]
+	\arrow["{F_2}"', curve={height=18pt}, from=1-1, to=3-2]
+	\arrow["{\underline{-}_{\mathcal O \triangleleft \mathcal A}}", from=2-2, to=2-3]
+	\arrow["{\underline{-}_{\mathcal M}}"', from=2-2, to=3-2]
+	\arrow["{\Mod(\mathcal O, \underline{-})}", from=2-3, to=3-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Mod(\mathfrak T, \Set)}"', from=3-2, to=3-3]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-2, to=0]
+\end{tikzcd}\]
+
+This gives us a unique morphism $h = H\, u : A \to B$ of $\mathfrak T \triangleleft \mathcal A$-algebras.
+
+\medskip
+
+We need to show that $h$ extends $f$ along $\eta$. \tocheck{TODO}
+
+\medskip
+
+This morphism is unique for a given $h_2$ and $h_4$, but these are also uniquely determined by $h_0$ and $h_1$, which are themselves uniquely determined by $f$. Therefore $h$ is the unique morphism of $\mathfrak T \triangleleft \mathcal A$-algebras such that the following diagram commutes:
+\[\begin{tikzcd}
+  X \arrow[r, "\eta"] \arrow[dr, "f"'] & A \arrow[d, "h"]\\
+  & B
+\end{tikzcd}\]
+
+This proves that $A$ is the free $\mathfrak T \triangleleft \mathcal A$-algebra over $X$.
+
+\begin{digression}[constructive approach of $h$]
+  \tocheck{THIS ASSUMES THAT $A$ IS INDEED THE FREE ALGEBRA}
+
+
+  Let $e \in \underline{A} = \underline{A_2}$. By Lemma~\ref{lem:decomp_A2_strong}, we can write $$e = A_2 \brak s \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+  
+  We can then define $h : X \to \underline{B}$ by $$h\, e = B \brak{s} \la B \brak{t_i} \la f\,\ebf_{\la i,j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+
+  \begin{lemma}
+    $h$ is well-defined, i.e. it does not depend on the choice of $s, t_i$ and $\ebf_{\la i, j \ra}$.
+  \end{lemma}
+
+  \begin{proof}
+    Suppose $$e = A_2 \brak{s_1} \la \eta_{A_1}^{A_2} A_0 \brak{t_{1, k}} \la \eta^{A_1} \ebf_{\la 1, k, j \ra} \ra_{j=1}^{k_{1, k}} \ra_{k=1}^{n_1}$$ and $$e = A_2 \brak{s_2} \la \eta_{A_1}^{A_2} A_0 \brak{t_{2, k}} \la \eta^{A_1} \ebf_{\la 2, k, j \ra} \ra_{j=1}^{k_{2, k}} \ra_{k=1}^{n_2}$$
+
+    Equalities in $A$ are exactly generated by the equations of $\mathfrak T \triangleleft \mathcal A$.
+    
+    Since $B$ is a model of $\mathfrak T \triangleleft \mathcal A$, we have that $B$ validates the same equations, and therefore
+    \begin{align*}
+      &B \brak{s_1} \la B \brak{t_{1, k}} \la f\,\ebf_{\la 1, k, j \ra} \ra_{j=1}^{k_{1, k}} \ra_{k=1}^{n_1}\\
+      =& B \brak{s_2} \la B \brak{t_{2, k}} \la f\,\ebf_{\la 2, k, j \ra} \ra_{j=1}^{k_{2, k}} \ra_{k=1}^{n_2}
+    \end{align*}
+  \end{proof}
+
+  We now prove that this is indeed a $\mathfrak T \triangleleft \mathcal A$-homomorphism and that it is the unique one such that the following diagram commutes:
+  \[\begin{tikzcd}
+    X & {\underline{A}} \\
+    & {\underline{B}}
+    \arrow["\eta", from=1-1, to=1-2]
+    \arrow["f"', from=1-1, to=2-2]
+    \arrow["h", from=1-2, to=2-2]
+  \end{tikzcd}\]
+
+  \begin{itemize}[label=$\triangleright$]
+    \item \textbf{preservation of $\mathcal A$-structure.}
+    
+    \item \textbf{preservation of $\mathcal M$-structure.}
+    \item \textbf{commutation of the diagram.}
+    
+    We need to show that for all $x \in X$, we have $h(\eta\, x) = f\, x$. We have $\eta x = \eta_{A_1}^{A_2} \eta^{A_0}\, x$. We notice that
+    \begin{align*}
+      \eta\, x &= \eta_{A_1}^{A_2} \eta^{A_0}\, x\\
+      &= \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra\\
+      &= A_2 \brak{\id} \la \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra \ra
+    \end{align*}
+    Therefore
+    \begin{align*}
+      h(\eta\, x) &= h \lp A_2 \brak{\id} \la \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra \ra \rp\\
+      &= B \brak{\id} \la B \brak{\id} \la f\, x \ra \ra\\
+      &= f\, x
+    \end{align*}
+    
+    \item \textbf{uniqueness.}
+  \end{itemize}
+\end{digression}
 
 \newpage
 
@@ -2409,6 +2594,8 @@ We also need to give a general proof of Lemma~\ref{lem:A_M_ind_mod} which still 
   Jesse helped me understand how to create the pullback in the category of categories, and started working on the proof that the square is a pullback square. Proved the commutativity of the square, and started working on the pullback condition. It seems like the distributivity axioms pose a problem.
   \item 19/05/2026: sick day, stayed home. Solved the distributivity problem thanks to Ohad. Finished proving the pullback and started working on constructing the free algebra for the example of the semigroups.
   \item 20/05/2026: finished constructing the free algebra for the semigroups, giving explicit description at each step, and proved that the resulting algebra is the free algebra for the combination. Starting working on completing Ohad's notes for the general case.
+  \item 21/05/2026: finished Ohad's proof of lemma 34 in the general case. Started proving step 5 for the general case $\to$ 2 approaches: build morphisms along the steps or constructive approach (which I think might work).
+  \item 22/05/2026: the constructive approach cannot be used to prove that we indeed have a free algebra: we need the fact that the algebra is free so that the morphism is well-defined. Almost finished the proof using the construction with the adjunctions and the pullback, still need to tie some loose ends.
 \end{itemize}
 
 
