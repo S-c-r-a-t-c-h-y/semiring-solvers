@@ -88,6 +88,10 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   The category $\mathbf{Set}$ has sets as objects and functions as morphisms. The identity morphism for a set $a$ is the identity function $\text{id}_a: a \to a$ defined by $\text{id}_a(x) = x$ for all $x \in a$. Composition of morphisms is given by function composition.
 \end{example}
 
+\begin{example}[Walking Morphism]
+  The \emph{walking morphism} category $\mathbf{2}$ or $I$ has two objects, say $0$ and $1$, and a single non-identity morphism $f: 0 \to 1$. The identity morphisms are $\text{id}_0: 0 \to 0$ and $\text{id}_1: 1 \to 1$. The composition is defined by the identities and the morphism $f$.
+\end{example}
+
 \begin{definition}[Product]
   Given two objects $a$ and $b$ in a category $\mathcal{C}$, a \emph{product} of $a$ and $b$ is an object $a \times b$ together with two morphisms $\pi_a: a \times b \to a$ and $\pi_b: a \times b \to b$ such that for any object $c$ and morphisms $f: c \to a$ and $g: c \to b$, there exists a unique morphism $\langle f, g \rangle: c \to a \times b$ making the following diagram commute:
   $$
@@ -1968,7 +1972,7 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
       \begin{array}{c}
       \la x_i\ra_{\stackrel{i=1}{i\neq i_0}}^{n},
       \;
-      \mathbf{y} + \mathfrak T f(x_1,\ldots,x_{i_0-1},s \mathbf{y},x_{i_0+1},\ldots,x_n)
+      \mathbf{y} \mid \mathfrak T f(x_1,\ldots,x_{i_0-1},s \mathbf{y},x_{i_0+1},\ldots,x_n)
       \\[4pt]
       \qquad\qquad
       =
@@ -2445,7 +2449,16 @@ Apply the 2-functor $\Mod(\mathcal O, \underline{-})$ to the morphism $h_2 : A_2
 
 \medskip
 
-By the surjectivity of $\mathfrak T$ and the independance of the decomposition given by Lemma~\ref{lem:A_M_ind_mod2}, we now have a $\mathcal{M}$-morphism $h_4 = h_3 : A_\mathcal{M} \to B_\mathcal{M}$ such that $h_4 \circ \eta_{A_3}^{A_\mathcal{M}} = h_3$. \tocheck{}\footnote{If you read this Ohad I believe this is the part where you weren't too sure about how to go from an $\OO$-homomorphism to a $\mathcal M$-homomorphism}
+By the surjectivity of $\mathfrak T$ and the independance of the decomposition given by Lemma~\ref{lem:A_M_ind_mod2}, we now have a $\mathcal{M}$-morphism $h_4 = h_3 : A_\mathcal{M} \to B_\mathcal{M}$ such that $h_4 \circ \eta_{A_3}^{A_\mathcal{M}} = h_3$. 
+
+\begin{proof}
+  Let $t \in \mathcal M_n$ and $e : [n] \to \underline{A_\mathcal{M}}$. By surjectivity, there is some $f \in \mathcal O_m$ and $\theta : m \to n$ such that $t = \mathfrak T f [\theta]$. We define $h_4$ as $$h_4 \lp A_\mathcal{M} \brak{t} e \rp = h_3 \lp A_3 \brak{f} e \circ \theta \rp$$ This is well-defined by Lemma~\ref{lem:A_M_ind_mod2}. We then check that $h_4$ is a morphism of $\mathcal M$-algebras. Since $h_3$ is a morphism of $\mathcal O$-algebras, 
+  \begin{align*}
+    h_3 \lp A_3 \brak{f} e \circ \theta \rp &= B_\mathcal{O} \brak{f} (h_3 \circ e \circ \theta, \dots, h_3 \circ e \circ \theta)\\
+    &= B_\mathcal{M} \brak{f} (h_4 \circ e, \dots, h_4 \circ e)\\
+  \end{align*}
+  This proves that $h_4 \lp A_\mathcal{M} \brak{t} e \rp = B_\mathcal{M} \brak{t} (h_4 \circ e)$, so $h_4$ is a morphism of $\mathcal M$-algebras\footnote{I should really work on notations before writing the report as the current ones are really hard to read and don't really make sense sometimes.}.
+\end{proof}
 
 \medskip
 
@@ -2489,7 +2502,7 @@ This gives us a unique morphism $h = H\, u : A \to B$ of $\mathfrak T \trianglel
 
 \medskip
 
-We need to show that $h$ extends $f$ along $\eta$. \tocheck{TODO}
+We need to show that $h$ extends $f$ along $\eta$. $h_2 \circ \eta = h_4 \circ \eta = f$, therefore $h \circ \eta = f$ since $\eta$ comes from the pullback square.
 
 \medskip
 
@@ -2499,63 +2512,104 @@ This morphism is unique for a given $h_2$ and $h_4$, but these are also uniquely
   & B
 \end{tikzcd}\]
 
-This proves that $A$ is the free $\mathfrak T \triangleleft \mathcal A$-algebra over $X$.
+\fbox{This proves that $A$ is the free $\mathfrak T \triangleleft \mathcal A$-algebra over $X$.}
 
-\begin{digression}[constructive approach of $h$]
-  \tocheck{THIS ASSUMES THAT $A$ IS INDEED THE FREE ALGEBRA}
+\medskip
 
+Now that we proved that $A$ is the free $\mathfrak T \triangleleft \mathcal A$-algebra over $X$, we can give an explicit description of the unique morphism $h : A \to B$ of $\mathfrak T \triangleleft \mathcal A$-algebras such that $h \circ \eta = f$.
 
-  Let $e \in \underline{A} = \underline{A_2}$. By Lemma~\ref{lem:decomp_A2_strong}, we can write $$e = A_2 \brak s \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+\medskip
+
+Let $e \in \underline{A} = \underline{A_2}$. By Lemma~\ref{lem:decomp_A2_strong}, we can write $$e = A_2 \brak s \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+
+We can then define $h : X \to \underline{B}$ by $$h\, e = B \brak{s} \la B \brak{t_i} \la f\,\ebf_{\la i,j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+
+\begin{lemma}
+  $h$ is well-defined, i.e. it does not depend on the choice of $s, t_i$ and $\ebf_{\la i, j \ra}$.
+\end{lemma}
+
+\begin{proof}
+  Suppose $$e = A_2 \brak{s_1} \la \eta_{A_1}^{A_2} A_0 \brak{t_{1, k}} \la \eta^{A_1} \ebf_{\la 1, k, j \ra} \ra_{j=1}^{k_{1, k}} \ra_{k=1}^{n_1}$$ and $$e = A_2 \brak{s_2} \la \eta_{A_1}^{A_2} A_0 \brak{t_{2, k}} \la \eta^{A_1} \ebf_{\la 2, k, j \ra} \ra_{j=1}^{k_{2, k}} \ra_{k=1}^{n_2}$$
+
+  Equalities in $A$ are exactly generated by the equations of $\mathfrak T \triangleleft \mathcal A$.
   
-  We can then define $h : X \to \underline{B}$ by $$h\, e = B \brak{s} \la B \brak{t_i} \la f\,\ebf_{\la i,j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+  Since $B$ is a model of $\mathfrak T \triangleleft \mathcal A$, we have that $B$ validates the same equations, and therefore
+  \begin{align*}
+    &B \brak{s_1} \la B \brak{t_{1, k}} \la f\,\ebf_{\la 1, k, j \ra} \ra_{j=1}^{k_{1, k}} \ra_{k=1}^{n_1}\\
+    =& B \brak{s_2} \la B \brak{t_{2, k}} \la f\,\ebf_{\la 2, k, j \ra} \ra_{j=1}^{k_{2, k}} \ra_{k=1}^{n_2}
+  \end{align*}
+\end{proof}
 
-  \begin{lemma}
-    $h$ is well-defined, i.e. it does not depend on the choice of $s, t_i$ and $\ebf_{\la i, j \ra}$.
-  \end{lemma}
+We now prove that this is indeed a $\mathfrak T \triangleleft \mathcal A$-homomorphism and that it is the unique one such that the following diagram commutes:
+\[\begin{tikzcd}
+  X & {\underline{A}} \\
+  & {\underline{B}}
+  \arrow["\eta", from=1-1, to=1-2]
+  \arrow["f"', from=1-1, to=2-2]
+  \arrow["h", from=1-2, to=2-2]
+\end{tikzcd}\]
 
-  \begin{proof}
-    Suppose $$e = A_2 \brak{s_1} \la \eta_{A_1}^{A_2} A_0 \brak{t_{1, k}} \la \eta^{A_1} \ebf_{\la 1, k, j \ra} \ra_{j=1}^{k_{1, k}} \ra_{k=1}^{n_1}$$ and $$e = A_2 \brak{s_2} \la \eta_{A_1}^{A_2} A_0 \brak{t_{2, k}} \la \eta^{A_1} \ebf_{\la 2, k, j \ra} \ra_{j=1}^{k_{2, k}} \ra_{k=1}^{n_2}$$
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{preservation of $\mathcal A$-structure.}
+  
+  Take any $s \in \mathcal A_n$ and $e_1, \dots, e_n \in \underline{A}$. We can write $$e_l = A_2 \brak{s^l} \la \eta_{A_1}^{A_2} A_0 \brak{t_i^l} \la \eta^{A_1} \ebf_{\la i, j \ra}^l \ra_{j=1}^{k_i^l} \ra_{i=1}^{k^l}$$
+  Taking $p := \sum_l k^l$ and $s' := s [i \mapsto s^i]_{i=1}^n \in \mathcal A_p$, we have:
+  \begin{align*}
+    h \lp A_2 \brak{s} \la e_l \ra_{l=1}^n \rp &= h \lp A_2 \brak{s} \la A_2 \brak{s^l} \la \eta_{A_1}^{A_2} A_0 \brak{t_i^l} \la \eta^{A_1} \ebf_{\la i, j \ra}^l \ra_{j=1}^{k_i^l} \ra_{i=1}^{k^l} \ra_{l=1}^n \rp\\
+    &= h \lp A_2 \brak{s'} \la \eta_{A_1}^{A_2} A_0 \brak{t_m} \la \eta^{A_1} \ebf_j^m \ra_{j=1}^{k_m} \ra_{m=1}^p \rp\\
+    &= B \brak{s'} \la B \brak{t_m} \la f\,\ebf_j^m \ra_{j=1}^{k_m} \ra_{m=1}^p\\
+    &= B \brak{s} \la B \brak{s^l} \la B \brak{t_i^l} \la f\,\ebf_{\la i, j \ra}^l \ra_{j=1}^{k_i^l} \ra_{i=1}^{k^l} \ra_{l=1}^n\\
+    &= B \brak{s} \la h\, e_l \ra_{l=1}^n
+  \end{align*}
 
-    Equalities in $A$ are exactly generated by the equations of $\mathfrak T \triangleleft \mathcal A$.
-    
-    Since $B$ is a model of $\mathfrak T \triangleleft \mathcal A$, we have that $B$ validates the same equations, and therefore
-    \begin{align*}
-      &B \brak{s_1} \la B \brak{t_{1, k}} \la f\,\ebf_{\la 1, k, j \ra} \ra_{j=1}^{k_{1, k}} \ra_{k=1}^{n_1}\\
-      =& B \brak{s_2} \la B \brak{t_{2, k}} \la f\,\ebf_{\la 2, k, j \ra} \ra_{j=1}^{k_{2, k}} \ra_{k=1}^{n_2}
-    \end{align*}
-  \end{proof}
 
-  We now prove that this is indeed a $\mathfrak T \triangleleft \mathcal A$-homomorphism and that it is the unique one such that the following diagram commutes:
-  \[\begin{tikzcd}
-    X & {\underline{A}} \\
-    & {\underline{B}}
-    \arrow["\eta", from=1-1, to=1-2]
-    \arrow["f"', from=1-1, to=2-2]
-    \arrow["h", from=1-2, to=2-2]
-  \end{tikzcd}\]
+  \item \textbf{preservation of $\mathcal M$-structure.}
+  
+  Take any $t \in \mathcal M_n$ and $e_1, \dots, e_n \in \underline{A}$. We can write $$e_l = A_2 \brak{s^l} \la \eta_{A_1}^{A_2} A_0 \brak{t_i^l} \la \eta^{A_1} \ebf_{\la i, j \ra}^l \ra_{j=1}^{k_i^l} \ra_{i=1}^{k^l}$$
+  Since the operations of $\mathcal M$ distribute over the operations of $\mathcal A$, we have:
+  \begin{align*}
+    \hspace{-2cm} h \lp A_2 \brak{t} \la e_l \ra_{l=1}^n \rp &= h \lp A_2 \brak{t} \la A_2 \brak{s^l} \la \eta_{A_1}^{A_2} A_0 \brak{t_i^l} \la \eta^{A_1} \ebf_{\la i, j \ra}^l \ra_{j=1}^{k_i^l} \ra_{i=1}^{k^l} \ra_{l=1}^n \rp\\
+    &= h \lp A_2 \brak{s^1} \la \cdots A_2 \brak{s^n} \la A_2 \brak{t} \la \eta_{A_1}^{A_2} A_0 \brak{t_{i_l}^l} \la \eta^{A_0} \ebf_{\la i_l, m \ra}^l \ra_{m=1}^{k_{i_l}^l} \ra_{l=1}^n \ra_{i_n = 1}^{k^n} \cdots \ra_{i_1 = 1}^{k^1} \rp\\ 
+    &= h \lp A_2 \brak{s^1 \la \cdots s^n \la x_{i_1}, \dots, x_{i_n} \ra_{i_n = 1}^{k^n} \cdots \ra_{i_1 = 1}^{k^1}} \la A_2 \brak{t} \la \eta_{A_1}^{A_2} A_0 \brak{t_{\la q \ra_l^{-1}}^l} \la \eta^{A_0} \ebf_{\la \la q \ra_l^{-1}, m \ra}^l \ra_{m=1}^{k_{\la q \ra_l^{-1}}^l} \ra_{l=1}^n \ra_{q=1}^{\prod_{l=1}^n k^l} \rp\\
+    &= h \lp A_2 \brak{s^1 \la \cdots s^n \la x_{i_1}, \dots, x_{i_n} \ra_{i_n = 1}^{k^n} \cdots \ra_{i_1 = 1}^{k^1}} \la \eta_{A_1}^{A_2} A_0 \brak{t'_{q}} \la \eta^{A_0} \ebf^m \ra_{m=1}^{\sum_l k_{\la q \ra_l^{-1}}^l} \ra_{q=1}^{\prod_{l=1}^n k^l} \rp\\
+    &= B \brak{s^1 \la \cdots s^n \la x_{i_1}, \dots, x_{i_n} \ra_{i_n = 1}^{k^n} \cdots \ra_{i_1 = 1}^{k^1}} \la B \brak{t'_{q}} \la f\,\ebf^m \ra_{m=1}^{\sum_l k_{\la q \ra_l^{-1}}^l} \ra_{q=1}^{\prod_{l=1}^n k^l}\\
+    &= B \brak{s^1 \la \cdots s^n \la x_{i_1}, \dots, x_{i_n} \ra_{i_n = 1}^{k^n} \cdots \ra_{i_1 = 1}^{k^1}} \la B \brak{t} \la B \brak{t_{\la q \ra_l^{-1}}^l} \la f\,\ebf_{\la \la q \ra_l^{-1}, m \ra}^l \ra_{m=1}^{k_{\la q \ra_l^{-1}}^l} \ra_{l=1}^n \ra_{q=1}^{\prod_{l=1}^n k^l}\\
+    &= B \brak{s^1} \la \cdots B \brak{s^n} \la B \brak{t} \la B \brak{t_{i_l}^l} \la f\, \ebf_{\la i_l, m \ra}^l \ra_{m=1}^{k_{i_l}^l} \ra_{l=1}^n \ra_{i_n = 1}^{k^n} \cdots \ra_{i_1 = 1}^{k^1}\\
+    &= B \brak{t} \la B \brak{s^l} \la B \brak{t_i^l} \la f\,\ebf_{\la i, j \ra}^l \ra_{j=1}^{k_i^l} \ra_{i=1}^{k^l} \ra_{l=1}^n\\
+    &= B \brak{t} \la h\, e_l \ra_{l=1}^n
+  \end{align*}
 
-  \begin{itemize}[label=$\triangleright$]
-    \item \textbf{preservation of $\mathcal A$-structure.}
-    
-    \item \textbf{preservation of $\mathcal M$-structure.}
-    \item \textbf{commutation of the diagram.}
-    
-    We need to show that for all $x \in X$, we have $h(\eta\, x) = f\, x$. We have $\eta x = \eta_{A_1}^{A_2} \eta^{A_0}\, x$. We notice that
-    \begin{align*}
-      \eta\, x &= \eta_{A_1}^{A_2} \eta^{A_0}\, x\\
-      &= \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra\\
-      &= A_2 \brak{\id} \la \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra \ra
-    \end{align*}
-    Therefore
-    \begin{align*}
-      h(\eta\, x) &= h \lp A_2 \brak{\id} \la \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra \ra \rp\\
-      &= B \brak{\id} \la B \brak{\id} \la f\, x \ra \ra\\
-      &= f\, x
-    \end{align*}
-    
-    \item \textbf{uniqueness.}
-  \end{itemize}
-\end{digression}
+  Note to self: never again.
+
+  \item \textbf{commutation of the diagram.}
+  
+  We need to show that for all $x \in X$, we have $h(\eta\, x) = f\, x$. We have $\eta x = \eta_{A_1}^{A_2} \eta^{A_0}\, x$. We notice that
+  \begin{align*}
+    \eta\, x &= \eta_{A_1}^{A_2} \eta^{A_0}\, x\\
+    &= \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra\\
+    &= A_2 \brak{\id} \la \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra \ra
+  \end{align*}
+  Therefore
+  \begin{align*}
+    h(\eta\, x) &= h \lp A_2 \brak{\id} \la \eta_{A_1}^{A_2} A_0 \brak{\id} \la \eta^{A_1}\, x \ra \ra \rp\\
+    &= B \brak{\id} \la B \brak{\id} \la f\, x \ra \ra\\
+    &= f\, x
+  \end{align*}
+  
+  \item \textbf{uniqueness.}
+  
+  Let $h' : A \to B$ be another morphism of $\mathfrak T \triangleleft \mathcal A$-algebras such that $h' \circ \eta = f$. We need to show that for all $e \in \underline{A}$, we have $h\, e = h'\, e$. We can write $$e = A_2 \brak s \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+  Therefore
+  \begin{align*}
+    h\, e &= B \brak{s} \la B \brak{t_i} \la f\,\ebf_{\la i,j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k &\text{by definition}\\
+    &= B \brak{s} \la B \brak{t_i} \la  h'\eta\, \ebf_{\la i,j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k &\text{since the diagram commutes}\\
+    &= h' \lp A_2 \brak{s} \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k \rp &\text{since } h' \text{ is an homomorphism}\\
+    &= h'\, e
+  \end{align*}
+  and $h = h'$.
+\end{itemize}
+
+\fbox{Therefore $h$ is the unique morphism of $\mathfrak T \triangleleft \mathcal A$-algebras such that $h \circ \eta = f$.}
 
 \newpage
 
@@ -2596,6 +2650,9 @@ This proves that $A$ is the free $\mathfrak T \triangleleft \mathcal A$-algebra 
   \item 20/05/2026: finished constructing the free algebra for the semigroups, giving explicit description at each step, and proved that the resulting algebra is the free algebra for the combination. Starting working on completing Ohad's notes for the general case.
   \item 21/05/2026: finished Ohad's proof of lemma 34 in the general case. Started proving step 5 for the general case $\to$ 2 approaches: build morphisms along the steps or constructive approach (which I think might work).
   \item 22/05/2026: the constructive approach cannot be used to prove that we indeed have a free algebra: we need the fact that the algebra is free so that the morphism is well-defined. Almost finished the proof using the construction with the adjunctions and the pullback, still need to tie some loose ends.
+  \item 26/05/2026: finished the proof. Proved that the homomorphism defined constructively is indeed the right one.
+  
+  Started reading about free extensions.
 \end{itemize}
 
 

@@ -215,7 +215,7 @@
 
 %%%%%%%%%%%%% PARENTHESAGE %%%%%%%%%%%%%%%%%
 
-\DeclarePairedDelimiter\brak{[\!\!\!\:[}{]\!\!\!\:]}
+\newcommand{\brak}[1]{\left[\!\!\!\:\left[ #1 \right]\!\!\!\:\right]}
 \DeclarePairedDelimiter\set{\lbrace}{\rbrace}
 \newcommand{\la}{\left\langle}
 \newcommand{\ra}{\right\rangle}
@@ -254,6 +254,6 @@
 \DeclareMathOperator{\str}{str}
 \renewcommand\ul\underline
 \newcommand{\ebf}{\mathbf{e}}
-\newcommand{\OO}{\mathcal O}
+\newcommand{\OO}{\mathcal{O}}
 
 \newcommand{\tocheck}[1]{\textbf{\textcolor{red}{\ifstrempty{#1}{TO CHECK}{#1}}}}
