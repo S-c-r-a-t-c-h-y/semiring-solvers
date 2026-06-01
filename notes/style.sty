@@ -9,6 +9,9 @@
 \usepackage{titling}
 \usepackage{fontawesome5}
 \usepackage{footmisc}
+
+\usepackage{todonotes}
+
 % \usepackage[side]{footmisc}
 
 
@@ -214,9 +217,9 @@
    \begin{mdframed}[style=mydef, frametitle={\textcolor{blue1}{Definition\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
    {\end{mdframed}}
  
- %%%%%%%% ENVIRONNEMENT COROLLAIRE %%%%%%%%%
+ %%%%%%%% ENVIRONNEMENT corollary %%%%%%%%%
  
- \newenvironment{corollaire}[1][]{%
+ \newenvironment{corollary}[1][]{%
    \refstepcounter{ptl}%
    \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Corollary\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
    {\end{mdframed}}
@@ -430,6 +433,7 @@
     {\color{red}\rule{\linewidth}{1.2pt}}\par
     \noindent\textbf{\textcolor{red}{working point}}\par
   \fi
+  \medskip
 }
 
 \newenvironment{digression}[1][]

@@ -358,6 +358,76 @@ Q \arrow[rdd, "q_1"', bend right] \arrow[rrd, "q_2", bend left] \arrow[rd, "u", 
 \end{proof}
 \end{example}
 
+\begin{definition}[Pushout of two morphisms]
+  Let $f : Z \to X$ and $g : Z \to Y$ be two morphisms in a category $\mathcal{C}$. 
+  
+  \medskip
+
+  A \emph{pushout} of $f$ and $g$ consists of an object $P$ and two morphisms $p_1 : X \to P$ and $p_2 : Y \to P$ such that the following diagram commutes:
+  \[
+  \begin{tikzcd}
+    Z \arrow[r, "g"] \arrow[d, "f"'] & Y \arrow[d, "p_2"]\\
+    X \arrow[r, "p_1"'] & P
+  \end{tikzcd}
+  \]
+  Moreover, for any triple $(Q, q_1, q_2)$ where $q_1 : X \to Q$ and $q_2 : Y \to Q$ are morphisms with $q_1 f = q_2 g$, there must exist $u : P \to Q$ such that $u \circ p_1 = q_1$ and $u \circ p_2 = q_2$.
+
+  The situation is illustrated in the following commutative diagram:
+  \[\begin{tikzcd}
+    Z & Y & \\
+    X & P \\
+    && Q
+    \arrow["g", from=1-1, to=1-2]
+    \arrow["f"', from=1-1, to=2-1]
+    \arrow["{p_2}", from=1-2, to=2-2]
+    \arrow["{q_2}", curve={height=-12pt}, from=1-2, to=3-3]
+    \arrow["{p_1}"', from=2-1, to=2-2]
+    \arrow["{q_1}"', curve={height=12pt}, from=2-1, to=3-3]
+    \arrow["u"{description}, dashed, from=2-2, to=3-3]
+  \end{tikzcd}\]
+
+  This condition can be reformulated with universal arrows as follows: a pushout of $f$ and $g$ is a universal arrow from the object $(f, g)$ in $\mathcal{C} \times \mathcal{C}$ to the functor $\Delta : \mathcal{C} \to \mathcal{C} \times \mathcal{C}$.
+\end{definition}
+
+\begin{definition}[Coequalizer]
+  Let $f, g : X \to Y$ be two morphisms in a category $\mathcal{C}$. 
+  
+  \medskip
+  
+  A \emph{coequalizer} of $f$ and $g$ consists of an object $Q$ and a morphism $q : Y \to Q$ such that the following diagram commutes:
+  \[
+  \begin{tikzcd}
+    X \arrow[r, shift left, "f"] \arrow[r, shift right, "g"'] & Y \arrow[r, "q"] & Q
+  \end{tikzcd}
+  \]
+  Moreover, for any pair $(R, r)$ where $r : Y \to R$ is a morphism with $r \circ f = r \circ g$, there must exist a unique morphism $u : Q \to R$ such that $u \circ q = r$.
+
+  The situation is illustrated in the following commutative diagram:
+  \[
+  \begin{tikzcd}
+    X \arrow[r, shift left, "f"] \arrow[r, shift right, "g"'] & Y \arrow[r, "q"] \arrow[dr, "r"'] & Q \arrow[dashed, d, "u"]\\
+    && R
+  \end{tikzcd}
+  \]
+\end{definition}
+
+\begin{lemma}[Pushout as coproducts and coequalizers]
+  Let $f : Z \to X$ and $g : Z \to Y$ be two morphisms in a category $\mathcal{C}$. The pushout of $f$ and $g$ can be constructed as the coequalizer of the morphisms $\iota_X f : Z \to X \coprod Y$ and $\iota_Y g : Z \to X \coprod Y$, where $X \coprod Y$ is the coproduct of $X$ and $Y$, and $\iota_X : X \to X + Y$ and $\iota_Y : Y \to X \coprod Y$ are the canonical injections:
+  \[\begin{tikzcd}
+    Z && Y \\
+    & {X\coprod Y} \\
+    X && P
+    \arrow["g", from=1-1, to=1-3]
+    \arrow["{\tilde f}"', shift right, from=1-1, to=2-2]
+    \arrow["{\tilde g}", shift left, from=1-1, to=2-2]
+    \arrow["f"', from=1-1, to=3-1]
+    \arrow["{\iota_Y}"{description}, from=1-3, to=2-2]
+    \arrow["{\iota_Y\circ q}", from=1-3, to=3-3]
+    \arrow["q"{description}, from=2-2, to=3-3]
+    \arrow["{\iota_X}"{description}, from=3-1, to=2-2]
+    \arrow["{\iota_X \circ q}"', from=3-1, to=3-3]
+  \end{tikzcd}\]
+\end{lemma}
 
 \subsection{Monads}
 
@@ -1190,7 +1260,93 @@ $\triangleright$ Finally, we have a natural 2-transformation \begin{tikzcd}
 
   All of the proofs that the following definitions are indeed of the nature they were described of are in Ohad's notes.
 
-\section{Some free algebras}
+\subsection{Free extensions}
+
+Free extensions where introduced in \cite{10.1145/3236795}. They are a unifying theory for specifying (generalized) partially-static data-structures by recourse to universal algebra.
+
+\medskip
+
+In this section, let $\pres$ be a presentation, $X$ be a set of variables and $A$ be a $\pres$-algebra.
+
+\begin{definition}[Extension]
+  An \emph{extension} of $A$ by $X$ is a triple $\la B, h, e \ra$ where:
+  \begin{itemize}
+    \item $B$ is a $\pres$-algebra
+    \item $h : A \to B$ is a $\pres$-homomorphism
+    \item $e : X \to B$ is a function
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Morphism of extensions]
+  Let $b_1 = \la B_1, h_1, e_1 \ra, b_2 = \la B_2, h_2, e_2 \ra$ be two extensions of $A$ by $X$.
+
+  \medskip
+
+  A \emph{morphism of extensions} $h : b_1 \to b_2$ is a $\pres$-homomorphism $h : B_1 \to B_2$ that makes the following diagram commute:
+  \[\begin{tikzcd}
+    & {B_1} & \\
+    X && A \\
+    & {B_2}
+    \arrow["h", from=1-2, to=3-2]
+    \arrow["{e_1}", from=2-1, to=1-2]
+    \arrow["{e_2}"', from=2-1, to=3-2]
+    \arrow["{h_1}"', from=2-3, to=1-2]
+    \arrow["{h_2}", from=2-3, to=3-2]
+  \end{tikzcd}\]
+\end{definition}
+
+\begin{definition}[Free extension]
+  A \emph{free extension} of $A$ by $X$ is an extension for which there exists a unique morphism of extensions to every other extension of $A$ by $X$.
+\end{definition}
+
+\subsection{Distributive combination of theories}
+
+\begin{definition}[Coproduct of signatures]
+  Given two signatures $\Sigma_1$ and $\Sigma_2$, we define their coproduct $\Sigma_1 + \Sigma_2$ as the signature with operators the disjoint union of the operators, but retaining their arity:
+  $$\Sigma_1 + \Sigma_2 = \{ \iota_i f : n \mid (f : n) \in \Sigma_i, i = 1, 2 \}$$
+  Given a $\Sigma_i$-term-in-context $ n \vdash_{\Sigma_i} t$, we denote by $n \vdash_{\Sigma_1 + \Sigma_2} \iota_i [t]$ the $\Sigma_1 + \Sigma_2$-term-in-context obtained by applying the injection $\iota_i$ to all the operators of $t$.
+
+  \medskip
+
+  Similarly, given a $\Sigma_i$-equation in context $eq := (n \vdash_{\Sigma_i} t = t')$, we denote by $\iota_i [eq]$ the $\Sigma_1 + \Sigma_2$-equation in context $n \vdash_{\Sigma_1 + \Sigma_2} \iota_i [t] = \iota_i [t']$.
+\end{definition}
+
+\begin{definition}[Distributive combination of theories]
+  Let $\mathfrak T : \mathcal O \to \mathcal M$ be a translation from an operad $\mathcal O$ to a theory $\mathcal M$ and $\mathcal A$ be any theory.
+
+  \medskip
+
+  We define the \emph{distributive combination of $\mathfrak T$ over $\mathcal A$} to be the theory $\mathfrak T \triangleleft \mathcal A$ given by
+
+  \begin{align*}
+    \Sigma_{\mathfrak T \triangleleft A} &:= \Sigma_M + \Sigma_A\\
+    \Ax_{\mathfrak T \triangleleft A} &:= \iota_1[\Ax_\mathcal{M}] \cup \iota_2[\Ax_{\mathcal A}]\\
+    & \cup
+      \left\{
+      \left.
+      \begin{array}{c}
+      \la x_i\ra_{\stackrel{i=1}{i\neq i_0}}^{n},
+      \;
+      \mathbf{y} \mid \mathfrak T f(x_1,\ldots,x_{i_0-1},s \mathbf{y},x_{i_0+1},\ldots,x_n)
+      \\[4pt]
+      \qquad\qquad
+      =
+      s\left\langle
+      \mathfrak T f(x_1,\ldots,x_{i_0-1},\mathbf{y}_j,x_{i_0+1},\ldots,x_n)
+      \right\rangle_{j=1}^{|\mathbf{y}|}
+      \end{array}
+      \;\right|\;
+      \begin{array}{l}
+      (f:n)\in O_n \\
+      (s:|\mathbf{y}|)\in \Sigma_\mathcal{A}
+      \end{array}
+      \right\}
+  \end{align*}
+  \label{def:comb_theory}
+\end{definition}
+
+
+\section{Constructing free algebras}
 
 \subsection{Semigroups}
 \label{sec:free_semigroups}
@@ -1428,14 +1584,14 @@ We'll also define a multiplication $\mu_\SG$ so that we have a monad structure $
 \end{itemize}
 \end{proof}
 
-\subsection{A first combination}
+\subsection{Combining semigroups and commutative semigroups}
 \label{sec:comb1}
 
-We will call $\SG + \CSG$ the distributive combination of $\SG$ and $\CSG$.
+We will call $\SG \triangleleft \CSG$ the distributive combination of $\SG$ and $\CSG$.
 
 \medskip
 
-The signature of $\SG + \CSG$ has two operators: $(\cdot)$ of arity 2, and $(+)$ of arity 2, and the axioms are the union of the axioms of $\SG$ and $\CSG$ : 
+The signature of $\SG \triangleleft \CSG$ has two operators: $(\cdot)$ of arity 2, and $(+)$ of arity 2, and the axioms are the union of the axioms of $\SG$ and $\CSG$ : 
 \begin{align*}
   a, b, c &\vdash a \cdot (b \cdot c) = (a \cdot b) \cdot c\\
   a, b &\vdash a + b = b + a\\
@@ -1451,7 +1607,7 @@ We'll try to combine the two previous examples to hopefully get the free algebra
 
 \medskip
 
-The carrier set of our candidate for the free $\SG + \CSG$-model over $X$ is $STX$.
+The carrier set of our candidate for the free $\SG \triangleleft \CSG$-model over $X$ is $STX$.
 
 \medskip
 
@@ -1490,12 +1646,12 @@ We pose $F_\SGCSG X = (STX, (\cdot), (+))$, where $(\cdot)$ and $(+)$ are define
 
 \begin{proposition}
   \label{prop:F_SGCSG_free}
-  $F_\SGCSG X$ is a free $\SG + \CSG$-model over $X$.
+  $F_\SGCSG X$ is a free $\SG \triangleleft \CSG$-model over $X$.
 \end{proposition}
 
 \begin{proof}
   \begin{itemize}[label=$\triangleright$]
-  \item Let's first check that $F_\SGCSG X$ is indeed a $\SG + \CSG$-model. 
+  \item Let's first check that $F_\SGCSG X$ is indeed a $\SG \triangleleft \CSG$-model. 
   
   The associativity and commutativity of $(+)$ was already proven for $F_\CSG X$.
   
@@ -1511,8 +1667,8 @@ We pose $F_\SGCSG X = (STX, (\cdot), (+))$, where $(\cdot)$ and $(+)$ are define
 
 The distributivity of $(\cdot)$ over $(+)$ comes from the distributivity of the product in $\N$ over addition, and from the definition of $(+)$.
 
-Therefore, $F_\SGCSG X$ is a $\SG + \CSG$-model.
-  \item Let $A$ be a $\SG + \CSG$-model over $X$ with environment $\phi_A : X \to U\,A$. We want to show that there exists a unique morphism $h$ of $\SG + \CSG$-models from $F_\SGCSG X$ to $A$ such that the following diagram commutes:
+Therefore, $F_\SGCSG X$ is a $\SG \triangleleft \CSG$-model.
+  \item Let $A$ be a $\SG \triangleleft \CSG$-model over $X$ with environment $\phi_A : X \to U\,A$. We want to show that there exists a unique morphism $h$ of $\SG \triangleleft \CSG$-models from $F_\SGCSG X$ to $A$ such that the following diagram commutes:
 \[
 \begin{tikzcd}
   X \arrow[r, "\eta_\SGCSG"] \arrow[dr, "\phi_A"'] & S T X \arrow[d, "h"] \\
@@ -1522,7 +1678,7 @@ Therefore, $F_\SGCSG X$ is a $\SG + \CSG$-model.
 
 We define $\Sigma\phi_A : S T X \to \underline{A}$ for all $f \in S T X$ by $$\Sigma\phi_A(f) = \sum_{l \in T X} f\ l \cdot \prod_{x \in l} \phi_A(x)$$
 
-Let's show that $\Sigma\phi_A$ is the unique morphism $h$ of $\SG + \CSG$-models from $F_\SGCSG X$ to $A$ above. We need to check that $\Sigma\phi_A$ preserves the operators $(\cdot)$ and $(+)$, and that the diagram above commutes.
+Let's show that $\Sigma\phi_A$ is the unique morphism $h$ of $\SG \triangleleft \CSG$-models from $F_\SGCSG X$ to $A$ above. We need to check that $\Sigma\phi_A$ preserves the operators $(\cdot)$ and $(+)$, and that the diagram above commutes.
 
 \begin{itemize}
   \item Preservation of the operator $(\cdot)$: let $f, g \in S T X$. We have:
@@ -1555,7 +1711,7 @@ Let's show that $\Sigma\phi_A$ is the unique morphism $h$ of $\SG + \CSG$-models
   &= \prod_{x' \in \eta_\SG(x)} \phi_A(x')\\
   &= \phi_A(x)
 \end{align*}
-  \item Uniqueness: let $h : F_\SGCSG X \to A$ be a morphism of $\SG + \CSG$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $f \in S T X$. We have:
+  \item Uniqueness: let $h : F_\SGCSG X \to A$ be a morphism of $\SG \triangleleft \CSG$-models such that the diagram above commutes. We want to show that $h = \Sigma\phi_A$. Let $f \in S T X$. We have:
 \begin{align*}
   h(f) &= h\lp \sum_{l \in T X} f\ l \cdot \prod_{x \in l} \eta_\SG(x) \rp\\
   &= \sum_{l \in T X} f\ l \cdot \prod_{x \in l} h(\eta_\SG(x)) &\text{since $h$ is a morphism}  \\
@@ -1690,9 +1846,9 @@ Therefore, we have $(\lambda \circ \mu_T S)(l) = (S \mu_T \circ \lambda T \circ 
 \end{itemize}
 \end{proof}
 
-\begin{corollaire}
+\begin{corollary}
   $(ST, \eta_\SGCSG, \mu_\SGCSG)$ is a monad on $\Set$, where $$\mu_\SGCSG : STST \xrightarrow{S \lambda T} SSTT \xrightarrow{\mu_S\mu_T} ST$$
-\end{corollaire}
+\end{corollary}
 
 
 Another approach to get a monad structure on $ST$ is to use monads in extension form. 
@@ -1709,7 +1865,7 @@ We also have that $\lambda = (S \eta_T)^\lambda$ as expected.
 
 \bigskip
 
-We now may want to see whether the monad we got from the distributive law is the same as the one we get from the free $\SG + \CSG$-model construction. 
+We now may want to see whether the monad we got from the distributive law is the same as the one we get from the free $\SG \triangleleft \CSG$-model construction. 
 
 Informally, we want to check whether the following diagram commutes (also see Definition \ref{def:comb_theory}):
 \[
@@ -1942,55 +2098,7 @@ We want to show that $F_{\CM}X$ is a free $\CM$-model over $X$.
 \fbox{Therefore we proved that $F_\CM X$ is a free $\CM$-model over $X$.}
 
 
-\section{Distributive combination}
-
-\subsection{Definitions}
-
-\begin{definition}[Coproduct of signatures]
-  Given two signatures $\Sigma_1$ and $\Sigma_2$, we define their coproduct $\Sigma_1 + \Sigma_2$ as the signature with operators the disjoint union of the operators, but retaining their arity:
-  $$\Sigma_1 + \Sigma_2 = \{ \iota_i f : n \mid (f : n) \in \Sigma_i, i = 1, 2 \}$$
-  Given a $\Sigma_i$-term-in-context $ n \vdash_{\Sigma_i} t$, we denote by $n \vdash_{\Sigma_1 + \Sigma_2} \iota_i [t]$ the $\Sigma_1 + \Sigma_2$-term-in-context obtained by applying the injection $\iota_i$ to all the operators of $t$.
-
-  \medskip
-
-  Similarly, given a $\Sigma_i$-equation in context $eq := (n \vdash_{\Sigma_i} t = t')$, we denote by $\iota_i [eq]$ the $\Sigma_1 + \Sigma_2$-equation in context $n \vdash_{\Sigma_1 + \Sigma_2} \iota_i [t] = \iota_i [t']$.
-\end{definition}
-
-\begin{definition}[Distributive combination of theories]
-  Let $\mathfrak T : \mathcal O \to \mathcal M$ be a translation from an operad $\mathcal O$ to a theory $\mathcal M$ and $\mathcal A$ be any theory.
-
-  \medskip
-
-  We define the \emph{distributive combination of $\mathfrak T$ over $\mathcal A$} to be the theory $\mathfrak T \triangleleft \mathcal A$ given by
-
-  \begin{align*}
-    \Sigma_{\mathfrak T \triangleleft A} &:= \Sigma_M + \Sigma_A\\
-    \Ax_{\mathfrak T \triangleleft A} &:= \iota_1[\Ax_\mathcal{M}] \cup \iota_2[\Ax_{\mathcal A}]\\
-    & \cup
-      \left\{
-      \left.
-      \begin{array}{c}
-      \la x_i\ra_{\stackrel{i=1}{i\neq i_0}}^{n},
-      \;
-      \mathbf{y} \mid \mathfrak T f(x_1,\ldots,x_{i_0-1},s \mathbf{y},x_{i_0+1},\ldots,x_n)
-      \\[4pt]
-      \qquad\qquad
-      =
-      s\left\langle
-      \mathfrak T f(x_1,\ldots,x_{i_0-1},\mathbf{y}_j,x_{i_0+1},\ldots,x_n)
-      \right\rangle_{j=1}^{|\mathbf{y}|}
-      \end{array}
-      \;\right|\;
-      \begin{array}{l}
-      (f:n)\in O_n \\
-      (s:|\mathbf{y}|)\in \Sigma_\mathcal{A}
-      \end{array}
-      \right\}
-  \end{align*}
-  \label{def:comb_theory}
-\end{definition}
-
-\subsection{Combination of semigroups and commutative semigroups}
+\subsection{Distributive combination of semigroups and commutative semigroups}
 
 Let's first start with a case of study. We'll take $\mathcal A$ to be commutative semigroups and $\mathcal M$ to be semigroups. We denote by $(+)$ the operator on $\mathcal A$, and $(\cdot)$ the operator on $\mathcal M$.
 
@@ -2225,7 +2333,7 @@ As in \cite{HYLAND2006144}, we can obtain an universal characterisation of $\mat
 	\arrow[from=2-2, to=2-1]
 \end{tikzcd}$$
 
-\subsection{Free algebras}
+\subsection{Free algebras for the combination}
 
 \label{sec:free_alg_ex}
 
@@ -2348,6 +2456,49 @@ Here is a little diagram that summarizes the steps:
 \end{tikzcd}\]
 
 
+
+\subsection{Counter example of Lemma~\ref{lem:A_M_ind_mod}}
+\label{sec:counter_ex_lem}
+
+\workingpoint
+
+Let $\mathcal M = \BA$ be the theory of barycentric algebras, $\mathcal A = \SL$ be the theory of join-semilattices, $\OO$ be the simplex operad and $\mathfrak T : \OO \to \mathcal M$ be the usual translation sending a weight vector to the corresponding convex-combination term. \todo{to explicit}
+
+\medskip
+
+The free semilattice on a set $X$ is $F_\SL X = \mathcal P_f^+(X)$ the set of non-empty finite subsets of $X$, with union as join. \todo{to prove}
+
+\medskip
+
+The free barycentric algebra on $X$ is $F_\BA X = \mathcal D_f(X)$ the set of finitely-supported probability distributions on $X$. \todo{to prove}
+
+\medskip
+
+Let $X = \{x, y\}$. Following the pipeline of the previous section, let \begin{align*}
+  A_0 &= F_\BA (X) = \mathcal D_f(X)\\
+  A_1 &= \Mod(\mathfrak T, \Set) A_0\\
+  A_2 &= \Mod(\OO, F_\SL) A_1
+\end{align*}
+
+The carrier set of $A_2$ is $$\ul{A_2} = \mathcal P_f^+ (\mathcal D_f (X))$$ the set of non-empty finite subsets of finitely supported probability distributions on $X$.
+
+\medskip
+
+For $p \in ]0, 1[$, let $f_p \in \OO_2$ be the binary convex-combination operation of weight $p$.
+
+The lifted operation on $A_2$ is $$A_2 \brak{f_p} \la S, T\ra = \{p \mu + (1-p) \nu \mid \mu \in S,\ \nu \in T\}$$
+
+Considering the barycentric axiom $x \oplus_p x = x$, it is of the form $$1 \vdash_\BA \mathfrak T f_p [\theta] = \mathfrak T \id$$ where \begin{itemize}
+  \item $\theta : 2 \to 1$ is the constant map
+  \item $\id \in \OO_1$ is the unary identity operation
+\end{itemize}
+
+Take $e := \{\delta_x,\; \delta_y\} \in \mathcal P_f^+ (\mathcal D_f (X))$.
+
+$$A_2 \brak{f_p} \la e, e \ra = \{ \delta_x,\; p \delta_x + (1-p) \delta_y,\; p \delta_y + (1-p) \delta_x,\; \delta_y\}$$ whereas $$A_2 \brak{\id} e = e = \{\delta_x,\; \delta_y\}$$
+
+Since $0 < p < 1$, $p \delta_x + (1-p) \delta_y$ and $p \delta_y + (1-p) \delta_x$ do not belong to $e$. Therefore $$A_2 \brak{f_p} \la e, e \ra \neq A_2 \brak{\id} e$$ and Lemma~\ref{lem:A_M_ind_mod} does not hold.
+
 \subsection{General case}
 
 Steps 1 to 4 of the previous section can be adapted to the general case. 
@@ -2358,60 +2509,122 @@ $\eta^{A_0}$ comes from the adjunction $F_\mathcal{M} \dashv U : \Mod(\mathcal M
 
 \medskip
 
-Since we cannot access the internal structure anymore, we have the following lemma:
+We encounter a problem when trying to generalize Lemma~\ref{lem:A_M_ind_mod}: it doesn't hold anymore (counter example of Section~\ref{sec:counter_ex_lem}). We need to replace it with another weaker lemma which limits which theories we can apply the construction to.
 
-\begin{lemma}
-  \label{lem:decom_A2}
-  For every $e \in \underline{A_2}$, there is some $s \in \mathcal A_k$ and $\ebf \in \ul{A_1}^k$ such that $$e = A_2 \brak s \la \eta_{A_1}^{A_2} \ebf_i \ra_{i=1}^k$$
+% ------------------------------------------------------------------------------------
+
+\begin{definition}[$\mathfrak T$-regular presentation]
+Let $\mathfrak T : \OO \to \mathcal{M}$ be a surjective translation.
+
+A presentation of $\mathcal{M}$ over $\mathfrak T$ is \emph{$\mathfrak T$-regular} if:
+\begin{itemize}
+  \item for every operation symbol $g : n$ of the chosen presentation of $\mathcal{M}$, there is a chosen operation $\widetilde g \in \OO_n$ such that
+  $$
+  n \vdash_\mathcal{M} \mathfrak T\widetilde g = g(x_1,\dots,x_n),
+  $$
+  \item the chosen operations $\widetilde g$ generate $\OO$ under identities and operadic composition,
+  \item every axiom of the presentation is of the form
+  $$
+  x_1,\dots,x_n \vdash_\mathcal{M} \mathfrak T f_1[\pi_1] = \mathfrak T f_2[\pi_2],
+  $$
+  for some $f_1,f_2 \in \OO_n$ and permutations $\pi_1,\pi_2 \in S_n$.
+\end{itemize}
+\end{definition}
+
+\begin{lemma}[Step 4 in the $\mathfrak T$-regular case]
+\label{lem:step4_correct}
+With the preceding notation, assume that $\mathcal{M}$ admits a $\mathfrak T$-regular presentation. Let
+$$
+A_3 := \Mod(\OO,-)(A_2).
+$$
+For each operation symbol $g:n$ of the chosen presentation of $\mathcal{M}$, define
+$$
+A_\mathcal{M}\brak{g} := A_3\brak{\widetilde g}.
+$$
+Then:
+\begin{itemize}
+  \item for every $f \in \OO_n$, the interpretation in $A_\mathcal{M}$ of the $M$-term $\mathfrak Tf$ is equal to $A_3\brak{f}$;
+  \item $A_\mathcal{M} \models M$.
+\end{itemize}
 \end{lemma}
 
 \begin{proof}
-  This is proved in Ohad's notes.
+Let $Y := \ul{A_1}$ and let $\eta_Y : Y \to \ul{F_\mathcal{A} Y}$ be the unit of the adjunction $F_\mathcal{A} \dashv U_\mathcal{A}$.
+
+By construction of
+$$
+A_2 = \Mod(\OO,F_\mathcal{A})(A_1),
+$$
+for every $f \in \OO_n$, the operation $A_2\brak{f}$ is the unique multi-$A$-homomorphism extending
+$$
+Y^n \xrightarrow{A_1\brak{f}} Y \xrightarrow{\eta_Y} \ul{F_\mathcal{A} Y}.
+$$
+
+We first prove that, for every $f \in \OO_n$, the interpretation in $A_\mathcal{M}$ of the term $\mathfrak T f$ is equal to $A_3\brak{f}$. Since the chosen operations $\widetilde g$ generate $\OO$, we may prove this by induction on the operadic expression of $f$.
+
+\begin{itemize}
+  \item If $f = \mathrm{id}$, the claim is immediate.
+  \item If $f = \widetilde g$ is one of the chosen generators, the claim is exactly the definition of $A_\mathcal{M}\brak{g}$.
+  \item If $f = h \circ (f_1,\dots,f_k)$, then, using preservation of operadic composition by $\mathfrak T$, the induction hypothesis, and the fact that $A_3$ is an $\OO$-model, we get
+  $$
+  A_\mathcal{M}\brak{\mathfrak T f}
+  = A_\mathcal{M}\brak{\mathfrak T h[\mathfrak T f_1,\dots,\mathfrak T f_k]}
+  = A_3\brak{h} \circ (A_3\brak{f_1},\dots,A_3\brak{f_k})
+  = A_3\brak{f}.
+  $$
+\end{itemize}
+
+Now let
+$$
+x_1,\dots,x_n \vdash_\mathcal{M} \mathfrak T f_1[\pi_1] = \mathfrak T f_2[\pi_2]
+$$
+be an axiom of the chosen $\mathfrak T$-regular presentation. Since $A_0 \models \mathcal{M}$, we have equality of the corresponding operations on $Y$:
+$$
+A_1\brak{f_1} \circ \pi_1 = A_1\brak{f_2} \circ \pi_2.
+$$
+After postcomposing with $\eta_Y$, the resulting maps $Y^n \to \ul{F_\mathcal{A} Y}$ are still equal. By uniqueness of multi-$\mathcal A$-homomorphic extension, their extensions to $A_2$ are equal:
+$$
+A_2\brak{f_1} \circ \pi_1 = A_2\brak{f_2} \circ \pi_2.
+$$
+Forgetting from $A_2$ to $A_3$ preserves these equalities, so
+$$
+A_3\brak{f_1} \circ \pi_1 = A_3\brak{f_2} \circ \pi_2.
+$$
+By the first part of the proof, this means exactly that the two sides of the axiom have the same interpretation in $A_\mathcal{M}$. Hence all axioms of the chosen presentation hold in $A_\mathcal{M}$, and therefore $A_\mathcal{M} \models \mathcal{M}$.
 \end{proof}
 
-We also need to give a general proof of Lemma~\ref{lem:A_M_ind_mod} which still holds.
 
-\begin{lemma}
-  \label{lem:A_M_ind_mod2}
-  With the preceding notation:
-  \begin{itemize}
-    \item the interpretation $A_\mathcal{M} \brak{t} e$ is independent of the decomposition $t = \mathfrak T f [\theta]$
-    \item the resulting algebra validates $\mathcal M$, i.e $A_\mathcal{M} \models \mathcal M$
-  \end{itemize}
-\end{lemma}
+% ------------------------------------------------------------------------------------
 
-\workingpoint
+% \begin{lemma}
+%   \label{lem:A_M_ind_mod2}
+%   With the preceding notation:
+%   \begin{itemize}
+%     \item the interpretation $A_\mathcal{M} \brak{t} e$ is independent of the decomposition $t = \mathfrak T f [\theta]$
+%     \item the resulting algebra validates $\mathcal M$, i.e $A_\mathcal{M} \models \mathcal M$
+%   \end{itemize}
+% \end{lemma}
 
-\begin{proof}
-  We will show that, given $f_i \in \mathcal O_{n_i}, \theta_i : n_i \to m$, if $m \vdash_\mathcal{M} \mathfrak T f_1 [\theta_1] = \mathfrak T f_2 [\theta_2]$, then for all $e : [m] \to \underline{A_\mathcal{M}} = \underline{A_3} = \underline{A_2}$, we have $$A_2 \brak{f_1} (e \circ \theta_1) = A_2 \brak{f_2} (e \circ \theta_2)$$
-  By Lemma~\ref{lem:decom_A2}, we have $s_r \in \mathcal A_{k_r}$ and $\ebf^r \in \underline{A_1}^{k_r}$ such that: $$e(r) = A_2 \brak{s_r} \la \eta_{A_1}^{A_2} \ebf_l^r \ra_{l=1}^{k_r}$$
-  We calculate
-  \begin{align*}
-    A_2 \brak{f_1} (e \circ \theta_1) &= A_2 \brak{f_1} \la e(\theta_1 j) \ra_{j=1}^{n_1} &\hspace{-4cm}\text{evaluation in an operadic algebra}\\
-    &= A_2 \brak{f_1} \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\text{substitution}\\
-    &= F_\mathcal{A} (A_1 \brak{f_1}) \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\Mod(\mathcal O, F_\mathcal{A})\text{-def}\\
-    &= F_\mathcal{A} (A_0 \brak{\mathfrak T f_1}) \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\underline{-}_\mathfrak{T}\text{-def}\\
-    &= A_2 \brak{s_{\theta_1 1}} \la \cdots\ A_2\brak{s_{\theta_1 n_1}} \la F_\mathcal{A} (A_0 \brak{\mathfrak T f_1}) \la \eta_{A_1}^{A_2} \ebf_{l_j}^{\theta_1 j} \ra_{j=1}^{n_1} \ra_{l_n = 1}^{k_{\theta_1 n_1}} \cdots \ra_{l_1 = 1}^{k_{\theta_1 1}} &\text{multi-}\mathcal A\text{-homomorphism}\\
-    &= A_2 \brak{s_{\theta_1 1}} \la \cdots\ A_2\brak{s_{\theta_1 n_1}} \la A_0 \brak{\mathfrak T f_1} \la \ebf_{l_j}^{\theta_1 j} \ra_{j=1}^{n_1} \ra_{l_n = 1}^{k_{\theta_1 n_1}} \cdots \ra_{l_1 = 1}^{k_{\theta_1 1}} &F_\mathcal{A}\text{-def}\\
-    &= A_2 \brak{s_{\theta_2 1}} \la \cdots\ A_2\brak{s_{\theta_2 n_1}} \la A_0 \brak{\mathfrak T f_2} \la \ebf_{l_j}^{\theta_2 j} \ra_{j=1}^{n_2} \ra_{l_n = 1}^{k_{\theta_2 n_2}} \cdots \ra_{l_1 = 1}^{k_{\theta_2 1}} &\text{by hypothesis}\\
-    &=\ \cdots&\text{inverse steps}\\
-    &= A_2 \brak{f_2} (e \circ \theta_2)
-  \end{align*}
+% \begin{proof}
+%   We will show that, given $f_i \in \mathcal O_{n_i}, \theta_i : n_i \to m$, if $m \vdash_\mathcal{M} \mathfrak T f_1 [\theta_1] = \mathfrak T f_2 [\theta_2]$, then for all $e : [m] \to \underline{A_\mathcal{M}} = \underline{A_3} = \underline{A_2}$, we have $$A_2 \brak{f_1} (e \circ \theta_1) = A_2 \brak{f_2} (e \circ \theta_2)$$
+%   By Lemma~\ref{lem:decom_A2}, we have $s_r \in \mathcal A_{k_r}$ and $\ebf^r \in \underline{A_1}^{k_r}$ such that: $$e(r) = A_2 \brak{s_r} \la \eta_{A_1}^{A_2} \ebf_l^r \ra_{l=1}^{k_r}$$
+%   We calculate
+%   \begin{align*}
+%     A_2 \brak{f_1} (e \circ \theta_1) &= A_2 \brak{f_1} \la e(\theta_1 j) \ra_{j=1}^{n_1} &\hspace{-4cm}\text{evaluation in an operadic algebra}\\
+%     &= A_2 \brak{f_1} \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\text{substitution}\\
+%     &= F_\mathcal{A} (A_1 \brak{f_1}) \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\Mod(\mathcal O, F_\mathcal{A})\text{-def}\\
+%     &= F_\mathcal{A} (A_0 \brak{\mathfrak T f_1}) \la A_2 \brak{s_{\theta_1 j}} \la \eta_{A_1}^{A_2} \ebf_l^{\theta_1 j} \ra_{l=1}^{k_{\theta_1 j}} \ra_{j=1}^{n_1} &\underline{-}_\mathfrak{T}\text{-def}\\
+%     &= A_2 \brak{s_{\theta_1 1}} \la \cdots\ A_2\brak{s_{\theta_1 n_1}} \la F_\mathcal{A} (A_0 \brak{\mathfrak T f_1}) \la \eta_{A_1}^{A_2} \ebf_{l_j}^{\theta_1 j} \ra_{j=1}^{n_1} \ra_{l_n = 1}^{k_{\theta_1 n_1}} \cdots \ra_{l_1 = 1}^{k_{\theta_1 1}} &\text{multi-}\mathcal A\text{-homomorphism}\\
+%     &= A_2 \brak{s_{\theta_1 1}} \la \cdots\ A_2\brak{s_{\theta_1 n_1}} \la A_0 \brak{\mathfrak T f_1} \la \ebf_{l_j}^{\theta_1 j} \ra_{j=1}^{n_1} \ra_{l_n = 1}^{k_{\theta_1 n_1}} \cdots \ra_{l_1 = 1}^{k_{\theta_1 1}} &F_\mathcal{A}\text{-def}\\
+%     &= A_2 \brak{s_{\theta_2 1}} \la \cdots\ A_2\brak{s_{\theta_2 n_1}} \la A_0 \brak{\mathfrak T f_2} \la \ebf_{l_j}^{\theta_2 j} \ra_{j=1}^{n_2} \ra_{l_n = 1}^{k_{\theta_2 n_2}} \cdots \ra_{l_1 = 1}^{k_{\theta_2 1}} &\text{by hypothesis}\\
+%     &=\ \cdots&\text{inverse steps}\\
+%     &= A_2 \brak{f_2} (e \circ \theta_2)
+%   \end{align*}
 
-  Now for the second point
-\end{proof}
+%   Now for the second point
+% \end{proof}
 
 \textbcf{Step 5.} 
-
-\begin{lemma}
-  \label{lem:decomp_A2_strong}
-  For all $e \in \ul{A_2}$, there exists $s \in \mathcal A_k$ such that for all $i \in [k]$, there exists $t_i \in \mathcal M_{k_i}$ and $\ebf_{\la i, j \ra} \in X$ such that:
-  $$e = A_2 \brak s \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
-\end{lemma}
-
-\begin{proof}
-  Similar to the proof of Lemma~\ref{lem:decom_A2}.
-\end{proof}
 
 We define $A \models \mathfrak T \triangleleft \mathcal A$ the same way as in the example of Section~\ref{sec:free_alg_ex}, i.e as the pullback of $A_\mathcal{M}$ and $A_2$. Let's prove that it is free.
 
@@ -2449,10 +2662,10 @@ Apply the 2-functor $\Mod(\mathcal O, \underline{-})$ to the morphism $h_2 : A_2
 
 \medskip
 
-By the surjectivity of $\mathfrak T$ and the independance of the decomposition given by Lemma~\ref{lem:A_M_ind_mod2}, we now have a $\mathcal{M}$-morphism $h_4 = h_3 : A_\mathcal{M} \to B_\mathcal{M}$ such that $h_4 \circ \eta_{A_3}^{A_\mathcal{M}} = h_3$. 
+By the surjectivity of $\mathfrak T$ and the independance of the decomposition given by Lemma~\ref{lem:step4_correct}, we now have a $\mathcal{M}$-morphism $h_4 = h_3 : A_\mathcal{M} \to B_\mathcal{M}$ such that $h_4 \circ \eta_{A_3}^{A_\mathcal{M}} = h_3$. 
 
 \begin{proof}
-  Let $t \in \mathcal M_n$ and $e : [n] \to \underline{A_\mathcal{M}}$. By surjectivity, there is some $f \in \mathcal O_m$ and $\theta : m \to n$ such that $t = \mathfrak T f [\theta]$. We define $h_4$ as $$h_4 \lp A_\mathcal{M} \brak{t} e \rp = h_3 \lp A_3 \brak{f} e \circ \theta \rp$$ This is well-defined by Lemma~\ref{lem:A_M_ind_mod2}. We then check that $h_4$ is a morphism of $\mathcal M$-algebras. Since $h_3$ is a morphism of $\mathcal O$-algebras, 
+  Let $t \in \mathcal M_n$ and $e : [n] \to \underline{A_\mathcal{M}}$. By surjectivity, there is some $f \in \mathcal O_m$ and $\theta : m \to n$ such that $t = \mathfrak T f [\theta]$. We define $h_4$ as $$h_4 \lp A_\mathcal{M} \brak{t} e \rp = h_3 \lp A_3 \brak{f} e \circ \theta \rp$$ This is well-defined by Lemma~\ref{lem:step4_correct}. We then check that $h_4$ is a morphism of $\mathcal M$-algebras. Since $h_3$ is a morphism of $\mathcal O$-algebras, 
   \begin{align*}
     h_3 \lp A_3 \brak{f} e \circ \theta \rp &= B_\mathcal{O} \brak{f} (h_3 \circ e \circ \theta, \dots, h_3 \circ e \circ \theta)\\
     &= B_\mathcal{M} \brak{f} (h_4 \circ e, \dots, h_4 \circ e)\\
@@ -2519,6 +2732,29 @@ This morphism is unique for a given $h_2$ and $h_4$, but these are also uniquely
 Now that we proved that $A$ is the free $\mathfrak T \triangleleft \mathcal A$-algebra over $X$, we can give an explicit description of the unique morphism $h : A \to B$ of $\mathfrak T \triangleleft \mathcal A$-algebras such that $h \circ \eta = f$.
 
 \medskip
+
+Since we cannot access the internal structure anymore, we have the following lemma:
+
+\begin{lemma}
+  \label{lem:decom_A2}
+  For every $e \in \underline{A_2}$, there is some $s \in \mathcal A_k$ and $\ebf \in \ul{A_1}^k$ such that $$e = A_2 \brak s \la \eta_{A_1}^{A_2} \ebf_i \ra_{i=1}^k$$
+\end{lemma}
+
+\begin{proof}
+  This is proved in Ohad's notes.
+\end{proof}
+
+We can actually prove a stronger statement:
+
+\begin{lemma}
+  \label{lem:decomp_A2_strong}
+  For all $e \in \ul{A_2}$, there exists $s \in \mathcal A_k$ such that for all $i \in [k]$, there exists $t_i \in \mathcal M_{k_i}$ and $\ebf_{\la i, j \ra} \in X$ such that:
+  $$e = A_2 \brak s \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
+\end{lemma}
+
+\begin{proof}
+  Similar to the proof of Lemma~\ref{lem:decom_A2}.
+\end{proof}
 
 Let $e \in \underline{A} = \underline{A_2}$. By Lemma~\ref{lem:decomp_A2_strong}, we can write $$e = A_2 \brak s \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k$$
 
@@ -2611,6 +2847,292 @@ We now prove that this is indeed a $\mathfrak T \triangleleft \mathcal A$-homomo
 
 \fbox{Therefore $h$ is the unique morphism of $\mathfrak T \triangleleft \mathcal A$-algebras such that $h \circ \eta = f$.}
 
+
+\section{Constructing free extensions}
+
+\subsection{Semigroups}
+\label{sec:free_extension_semigroups}
+
+\minisection{Semigroup}
+
+\medskip
+
+Let's construct the free extension of an $\SG$-model $A = (\ul{A}, +)$ by a set of variable $X$.
+
+\medskip
+
+We define a $\SG$-algebra $\Frex_A(X)$ as follows:
+\begin{itemize}
+  \item The carrier set of $\Frex_A(X)$ is the set of non-empty alternating lists of elements of $A$ and $X^+$.
+  \item The operator $\cdot$ on $\Frex_A(X)$ is defined by concatenation of lists, and by using the operator $+$ of $A$ to combine adjacent elements of $A$ in the resulting list and list concatenation to combine adjacent elements of $X^+$.
+\end{itemize}
+
+This is indeed an $\SG$-aglebra, as list concatenation is associative, and the operator $+$ of $A$ is associative.
+
+\medskip
+
+We define $\embed : A \to \Frex_A(X)$ by $\embed(n) = [n]$ for all $n \in A$. For all $m, n \in A$, we have $\embed(m + n) = [m + n] = [m] \cdot [n] = \embed(m) \cdot \embed(n)$, so $\embed$ is a morphism of $\SG$-algebras.
+
+\medskip
+
+We also define $\var : X \to \Frex_A(X)$ by $\var(x) = [x]$ for all $x \in X$.
+
+\medskip
+
+\begin{proposition}
+  $\la \Frex_A(X), \embed, \var\ra$ is the free extension of $A$ by $X$.
+\end{proposition}
+
+\begin{proof}
+  Suppose $\la B, f, g\ra$ is another extension of $A$ by $X$. 
+  
+  We extend $g$ to $X^+$ by defining $g(x_1 \cdots x_n) = g(x_1) \cdots g(x_n)$ for all $x_1, \dots, x_n \in X$. 
+  
+  Now for an element $[b_1, \dots, b_n]$ of $\Frex_A(X)$, we define $h([b_1, \dots, b_n]) = \brak{b_1} \cdot \cdots \cdot \brak{b_n}$ where:
+  \begin{itemize}
+    \item if $b_i \in A$, then $\brak{b_i} = f(b_i)$
+    \item if $b_i \in X^+$, then $\brak{b_i} = g(b_i)$
+  \end{itemize}
+  This is well-defined and homomorphic because the only merges in the extension are:
+  \begin{itemize}
+    \item concrete/concrete, handled by $f(a+b) = f(a) \cdot f(b)$
+    \item abstract/abstract, handled by $g(uv) = g(u) \cdot g(v)$
+  \end{itemize}
+  The diagram below commutes:
+\[
+\begin{tikzcd}
+  A \arrow[r, "\embed"] \arrow[dr, "f"'] & \Frex_A(X) \arrow[d, "h"] & X \arrow[l, "\var"'] \arrow[dl, "g"] \\
+  & B &
+\end{tikzcd}
+\]
+  Uniqueness of $h$ is straightforward, as $h$ is defined by the values of $f$ and $g$ on the elements of $A$ and $X$, and by the homomorphic property of $h$.
+\end{proof}
+
+\minisection{Commutative semigroup}
+
+\medskip
+
+Let's construct the free extension of an $\SG$-model $A = (\ul{A}, +)$ by a set of variable $X$. It is going to be linear polynomials in $A[X]$.
+
+\medskip
+
+We define a $\SG$-algebra $\Frex_A(X)$ as follows:
+\begin{itemize}
+  \item The carrier set of $\Frex_A(X)$ is the set $\{c + a_1 x_1 + \cdots + a_n x_n \mid n \ge 0, c \in A, x_1, \dots, x_n \in X\}$ \tocheck{TO REVISE: there can be no constant part (currently more suited for commutative monoids)}
+  \item The operator $+$ on $\Frex_A(X)$ is defined by $$(c + a_1 x_1 + \cdots + a_n x_n) + (d + b_1 y_1 + \cdots + b_m y_m) = (c + d) + \sum_{z_i \in \{x_1, \dots, x_n \} \cup \{y_1, \dots, y_m\}}c_i z_i$$ where $c_i$ is the sum of the coefficients of $z_i$ in the two polynomials.
+\end{itemize}
+
+This is indeed an $\SG$-algebra, as addition of polynomials is associative and commutative.
+
+\medskip
+
+We define $\embed : A \to \Frex_A(X)$ by $\embed(n) = n$ for all $n \in A$. For all $m, n \in A$, we have $\embed(m + n) = m + n = \embed(m) + \embed(n)$, so $\embed$ is a morphism of $\SG$-algebras.
+
+\medskip
+
+We also define $\var : X \to \Frex_A(X)$ by $\var(x) = x$ for all $x \in X$.
+
+\begin{proposition}
+  $\la \Frex_A(X), \embed, \var\ra$ is the free extension of $A$ by $X$.
+\end{proposition}
+
+\begin{proof}
+  Suppose $\la B, f, g\ra$ is another extension of $A$ by $X$. We define $h : \Frex_A(X) \to B$ by $$h(c + a_1 x_1 + \cdots + a_n x_n) = f(c) + \sum_{i=1}^n f(a_i) \cdot g(x_i)$$
+
+  This is well-defined and homomorphic because the only merges in the extension are:
+  \begin{itemize}
+    \item concrete/concrete, handled by $f(a+b) = f(a) + f(b)$
+  \end{itemize}
+
+  The diagram below commutes:
+\[\begin{tikzcd}
+  A \arrow[r, "\embed"] \arrow[dr, "f"'] & \Frex_A(X) \arrow[d, "h"] & X \arrow[l, "\var"'] \arrow[dl, "g"] \\
+  & B &
+\end{tikzcd}\]
+  Uniqueness of $h$ is straightforward, as $h$ is defined by the values of $f$ and $g$ on the elements of $A$ and $X$, and by the homomorphic property of $h$.
+\end{proof}
+
+\subsection{Sem-rgs}
+
+Let $A = (\ul{A}, (+), (\cdot))$ be a $\SGCSG$-model and $X$ be a set.
+
+\medskip
+
+We define $$\Mon_A(X) = \set{ [b_1, \dots, b_n] \mid n \ge 1,\ b_i \in X^+ \sqcup \ul{A},\ b_ib_{i+1}\text{ alternating kinds},\ \exists i,b_i \in X^+}$$
+
+We pose $A_\bot = \ul{A} \sqcup \{\bot\}$ where $\bot$ is a new element, designating the absence of a concrete part in the polynomial. We extend the operators $+$ and $\cdot$ of $A$ to $A_\bot$ by defining $\bot + a = a + \bot = a$, $\bot \cdot a = a \cdot \bot = \bot$ for all $a \in A$ and $\bot + \bot = \bot$, $\bot \cdot \bot = \bot$.
+
+\medskip
+
+We define $$\Frex_A(X) = \set{ (c, M) \mid c \in A_\bot,\ M \in \Bag(\Mon_A(X)),\ c \neq \bot \text{ or } M \neq \varnothing }$$
+
+\medskip
+
+Defining the addition is straightforward: $$(c, M) + (d, N) = (c + d, M \uplus N)$$
+
+We define the monomial multiplication $m \otimes n$ for $m, n \in \Mon_A(X)$ by concatenation of lists, and by using the operator $\cdot$ of $A$ to combine adjacent elements of $A$ in the resulting list and list concatenation to combine adjacent elements of $X^+$ (as in Section~\ref{sec:free_extension_semigroups}).
+
+\medskip
+
+We also define multiplication of a concrete element with a monomial by treating the concrete element as a monomial of length 1:
+\begin{itemize}
+  \item $r \triangleright m = [r] \otimes m$
+  \item $m \triangleleft r = m \otimes [r]$
+\end{itemize}
+This is well-defined because $m$ already contains an element of $X^+$.
+
+\medskip
+
+We naturaly extend the multiplication to bags, which then gives us a definition for the multiplication of two elements of $\Frex_A(X)$:
+$$(c, M) \cdot (d, N) = (c \cdot d, (c \triangleright N) \uplus (M \otimes N) \uplus (M \triangleleft d))$$ 
+
+\medskip
+
+We define $\embed : A \to \Frex_A(X)$ by $\embed(a) = (a, \varnothing)$ for all $a \in A$. For all $a, b \in A$, we have $\embed(a + b) = (a + b, \varnothing) = (a, \varnothing) + (b, \varnothing) = \embed(a) + \embed(b)$ and $\embed(a \cdot b) = (a \cdot b, \varnothing) = (a, \varnothing) \cdot (b, \varnothing) = \embed(a) \cdot \embed(b)$, so $\embed$ is a morphism of $\SGCSG$-algebras.
+
+\medskip
+
+We also define $\var : X \to \Frex_A(X)$ by $\var(x) = (\bot, \{[x]\})$ for all $x \in X$.
+
+\begin{proposition}
+  $\la \Frex_A(X), \embed, \var\ra$ is the free extension of $A$ by $X$.
+\end{proposition}
+
+\begin{proof}
+  \begin{itemize}
+    \item \textbf{$\Frex_A(X)$ is a $\SGCSG$-model.} All axioms of $\SGCSG$ but the distributivity axioms are straightforward to check. For the distributivity axioms, we have:
+\begin{align*}
+  (c, M) \cdot ((d, N) + (e, P)) &= (c, M) \cdot (d + e, N \uplus P)\\
+  &= (c \cdot (d + e), (c \triangleright (N \uplus P)) \uplus (M \otimes (N \uplus P)) \uplus (M \triangleleft (d + e)))\\
+  &= (c \cdot d + c \cdot e, (c \triangleright N) \uplus (c \triangleright P) \uplus (M \otimes N) \uplus (M \otimes P) \uplus (M \triangleleft d) \uplus (M \triangleleft e))\\
+  &= (c, M) \cdot (d, N) + (c, M) \cdot (e, P)
+\end{align*}
+and
+\begin{align*}
+  ((c, M) + (d, N)) \cdot (e, P) &= (c + d, M \uplus N) \cdot (e, P)\\
+  &= ((c + d) \cdot e, ((c + d) \triangleright P) \uplus ((M \uplus N) \otimes P \uplus ((M \uplus N) \triangleleft e)))\\
+  &= (c \cdot e + d \cdot e, (c \triangleright P) \uplus (d \triangleright P) \uplus (M \otimes P) \uplus (N \otimes P) \uplus (M \triangleleft e) \uplus (N \triangleleft e))\\
+  &= (c, M) \cdot (e, P) + (d, N) \cdot (e, P)
+\end{align*}
+  \item \textbf{Universality.} Let $B$ be any $\SGCSG$-model and let $f : A \to B$ and $g : X \to B$ be morphisms of $\SGCSG$-algebras. 
+  
+  We extend $g$ to $X^+$ by defining $g(x_1 \cdots x_n) = g(x_1) \cdots g(x_n)$ for all $x_1, \dots, x_n \in X$.
+
+  We define $h([b_1, \dots, b_n]) = \brak{b_1} \cdot \cdots \cdot \brak{b_n}$ where:
+  \begin{itemize}
+    \item if $b_i \in A$, then $\brak{b_i} = f(b_i)$
+    \item if $b_i \in X^+$, then $\brak{b_i} = g(b_i)$
+  \end{itemize}
+  We extend $h$ to $\Frex_A(X)$ by defining $$h(c, M) = \begin{cases}
+    f(c) + \sum_{m \in M} h(m) &\text{ if } c \neq \bot\\
+    \sum_{m \in M} h(m) &\text{ if } c = \bot
+  \end{cases}$$
+
+  This is well-defined and homomorphic\footnote{it is less straightforward than in the examples for the semigroups, so doing it may be a good idea} because the only merges in the extension are:
+  \begin{itemize}
+    \item concrete/concrete, handled by $f(a+b) = f(a) + f(b)$ and $f(a \cdot b) = f(a) \cdot f(b)$
+    \item abstract/abstract, handled by $g(uv) = g(u) \cdot g(v)$
+  \end{itemize}
+  The diagram below commutes:
+\[\begin{tikzcd}
+  A \arrow[r, "\embed"] \arrow[dr, "f"'] & \Frex_A(X) \arrow[d, "h"] & X \arrow[l, "\var"'] \arrow[dl, "g"] \\
+  & B &
+\end{tikzcd}\]
+  Uniqueness of $h$ is straightforward, as $h$ is defined by the values of $f$ and $g$ on the elements of $A$ and $X$, and by the homomorphic property of $h$.
+\end{itemize}
+\end{proof}
+
+
+\subsection{Distributive combination of free extensions}
+
+We'll try to adapt the construction of Section~\ref{sec:free_alg_ex} to the case of free extensions.
+
+\medskip
+
+Let $B$ be a $\mathfrak T \triangleleft \mathcal A$ model, and $X$ be a set.
+
+\medskip
+
+\textbcf{Step 1.} 
+
+Let $B_\mathcal M$ be the underlying $\mathcal M$-model of $B$. Let $E_0 := \Frex_{B_\mathcal{M}}(X) \models \mathcal M$ be the free extension of $B_\mathcal{M}$ by $X$. From the free extension construction, we also have the canonical inclusion $i_\mathcal{M} : B_\mathcal{M} \to E_0$.
+
+\medskip
+
+\textbcf{Step 2.} 
+
+We apply the functor $$\underline{-}_\mathfrak{T} := \Mod(\mathfrak T, \Set) : \Mod(\mathcal M, \Set) \to \Mod(\mathcal O, \la \Set, \prod \ra)$$ to $E_0$. This gives $E_1 := \underline{E_0}_\mathfrak{T} \models \mathcal O$, and the canonical inclusion $i_\mathcal{O} : B_\mathcal{O} \to E_1$.
+
+\medskip
+
+\textbcf{Step 3.}
+
+Now the next part is tricky. Let's first look at this abstractly, and then find a way to actually construct the required elements.
+
+\medskip
+
+From \cite{Allais2025}, we know that we can construct free extensions based on free algebras. This means that there exists $E_1^{\mathrm{new}}$ such that $E_1 \cong B_\mathcal{O} \coprod E_1^{\mathrm{new}}$. The model of $\OO \triangleleft \mathcal A$ that we want is then $$E_2 = B_{\OO \triangleleft \mathcal A} \coprod F_{\mathcal O \to \mathcal A} E_1^{\mathrm{new}}$$ with $$F_{\mathcal O \to \mathcal A} : \Mod(\mathcal O, F_\mathcal{A}) : \Mod(\mathcal O, \la \Set, \prod \ra) \to \Mod (\mathcal O, \Multi(\mathcal A, \Set))$$ obtained as in step 3 of Section~\ref{sec:free_alg_ex}. The problem with this is that we can't get $E_1^{\mathrm{new}}$ from $E_1$, so we'll have to find another approach.
+
+\medskip
+
+Let's note $F_{\OO \to \mathcal A} \dashv U_{\OO \to \mathcal A}$ the adjunction between $\Mod(\mathcal O, \la \Set, \prod \ra)$ and $\Mod (\mathcal O, \Multi(\mathcal A, \Set))$. We have $B_\OO = U_{\OO \to \mathcal A} B_{\OO \triangleleft \mathcal A}$. Therefore the identity $\id_{B_\OO} : B_\OO \to U_{\OO \to \mathcal A} B_{\OO \triangleleft \mathcal A}$ has an adjunct $\epsilon_B : F_{\OO \to \mathcal A} B_\OO \to B_{\OO \triangleleft \mathcal A}$. We can then define $E_2$ as the pushout of $\epsilon_B$ and $F_{\OO \to \mathcal A} i_\mathcal{O}$:
+\[\begin{tikzcd}
+	{F_{\OO \to \mathcal A} B_\OO} & {F_{\OO \to \mathcal A}E_1} \\
+	{B_{\OO \triangleleft \mathcal A}} & {E_2}
+	\arrow["{F_{\OO \to \mathcal A}i_0}", from=1-1, to=1-2]
+	\arrow["{\epsilon_B}"', from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+
+\begin{lemma}
+  \label{lem:pushout_coprod_inj}
+  Let $\mathcal C$ be a category, $X, Y, Z$ be objects of $\mathcal C$, and $f : X \to Z$. 
+  
+  The pushout of $\iota_X : X \to X \coprod Y$ and $f$ is isomorphic to $Y \coprod Z$: $$(X \coprod Y) \amalg_X Z \cong Y \coprod Z$$
+\end{lemma}
+
+\begin{proof}
+  % This is Theorem 2.2 of \cite{ITA_2005__39_3_511_0}.
+%   We have the following pushout square:
+%   \[\begin{tikzcd}
+%   X & {X \coprod Y} \\
+%   Z & P
+%   \arrow["\iota_X", from=1-1, to=1-2]
+%   \arrow["f"', from=1-1, to=2-1]
+%   \arrow["u",from=1-2, to=2-2]
+%   \arrow["v"', from=2-1, to=2-2]
+% \end{tikzcd}\]
+%   We want to show that $P$ is isomorphic to $Y \coprod Z$. Define $w : [v, u \circ \iota_Y] : Y \coprod Z \to P$.
+\end{proof}
+
+\begin{lemma}
+  $$E_2 := B_{\OO \triangleleft A} \coprod_{F_{\OO \to \mathcal A} B_\OO} F_{\OO \to \mathcal A} E_1 \cong B_{\OO \triangleleft \mathcal A} \coprod F_{\OO \to \mathcal A} E_1^{\mathrm{new}}$$
+\end{lemma}
+
+\begin{proof}
+  Because $F_{\OO \to \mathcal A}$ is a left adjoint, it preserves coproducts, so $$F_{\OO \to \mathcal A} E_1 \cong F_{\OO \to \mathcal A} B_\OO \coprod F_{\OO \to \mathcal A} E_1^{\mathrm{new}}$$ $F_{\OO \to \mathcal A} i_\OO : F_{\OO \to \mathcal A} B_\OO \to F_{\OO \to \mathcal A} E_1$ is then the first coproduct injection. Therefore the pushout span for $E_2$ is $$B_{\OO \to \mathcal A} \xleftarrow{\epsilon_B} F_{\OO \to \mathcal A} B_\OO \xrightarrow{\iota_1} F_{\OO \to \mathcal A} B_\OO \coprod F_{\OO \to \mathcal A} E_1^{\mathrm{new}}$$
+  By Lemma~\ref{lem:pushout_coprod_inj}, the pushout of this span is isomorphic to the coproduct $B_{\OO \triangleleft \mathcal A} \coprod F_{\OO \to \mathcal A} E_1^{\mathrm{new}}$.
+\end{proof}
+
+Since the pushout is taken in $\Mod(\OO, \Multi(\mathcal A, \Set))$, $E_2$ is a model of $\OO$ in $\Multi(\mathcal A, \Set)$ and we have the canonical inclusion $B_{\OO \triangleleft \mathcal A} \to E_2$.
+
+\medskip
+
+\textbf{Intuition:} The intuition behind this construction is that we can't directly apply $F_{\OO \to \mathcal A}$ to $E_1$ because the concrete part is then duplicated. By doing the pushout, we separate the concrete part (with $\epsilon_B$) from the new part (with $F_{\OO \to \mathcal A} i_\OO$), and we get the desired result.
+
+\medskip
+
+\textbcf{Step 4.}
+
+Let $E_3 := \Mod(\OO, \underline{-}) E_2 \models \OO$ be the underlying operadic algebra. We use surjectivity as in step 4 of Section~\ref{sec:free_alg_ex} to get an $\mathcal M$-model $E_\mathcal{M} \models \mathcal M$.
+
+\medskip
+
+\textbcf{Step 5.}
+
+We can the define $E$ as the pullback of $E_\mathcal{M}$ and $E_2$. This should give us the free extension of $B$ by $X$.
+
 \newpage
 
 \nocite{*}
@@ -2653,6 +3175,12 @@ We now prove that this is indeed a $\mathfrak T \triangleleft \mathcal A$-homomo
   \item 26/05/2026: finished the proof. Proved that the homomorphism defined constructively is indeed the right one.
   
   Started reading about free extensions.
+  \item 27/05/2026: read about free extensions. I'm pretty sure I know how to adapt the construction of the free algebra to free extensions.
+  \item 28/05/2026: wrote the definition of free extensions. Defined and proved the free extensions for the semigroups and commutative semigroups. Started looking into extending the result to free extensions.
+  \item 29/05/2026: (almost) proved that you can indeed extend the result to free extensions with some modifications. Meeting with Ohad $\to$ what I came up with works but it uses a pushout which is not easy to calculate, so we started searching for another way to do this.
+  \item 01/06/2026: Started learning some Idris2.
+  
+  Ohad gave a counter-example to the construction of the free algebra $\to$ I had overlooked something in the proof of Lemma 34 of Ohad's notes. Partially fixed things, but stronger hypothesis now.
 \end{itemize}
 
 
@@ -2660,9 +3188,8 @@ We now prove that this is indeed a $\mathfrak T \triangleleft \mathcal A$-homomo
 
 \begin{itemize}
   \item follow Ohad's abstract picture
-  \item dig in the paper about frexes to learn more about that (both frexes and frals) and write the relevant definitions down
   \item write the definition of free extensions with universal arrows
-  \item look at what was done with involution to take inspiration
+  % \item look at what was done with involution to take inspiration
 \end{itemize}
 
 \section{Questions for Ohad}
