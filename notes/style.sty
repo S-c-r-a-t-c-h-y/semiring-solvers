@@ -102,6 +102,16 @@
  	{-\SideSpace+8mm}
  	{1.5\baselineskip}
  	{1.5\baselineskip}
+
+\titleformat{\subsubsection}[hang]
+ 	{\fontfamily{pbk}\selectfont}
+ 	{\textcolor{blue2}{\thesubsubsection}}
+ 	{1em}
+ 	{\textbf}
+\titlespacing{\subsubsection}
+ 	{-\SideSpace+5.5mm}
+ 	{1.5\baselineskip}
+ 	{1.5\baselineskip}
  	
  \newcommand{\minititre}[1]{\bigskip\textbf{#1}\medskip}
 
@@ -109,9 +119,9 @@
   \href{#1}{#2\hspace{0.2em}\raisebox{0.5ex}{\tiny\faExternalLink*}}%
 }
   
- %%%%%%%% ENVIRONNEMENTs REMARQUE %%%%%%%%%
+ %%%%%%%% ENVIRONNEMENTs REMARK %%%%%%%%%
  
- \newenvironment{remarque}[1]{\medskip\textbf{Remark\ :}\ #1}{\medskip}
+ \newenvironment{remark}[1]{\medskip\textbf{Remark\ :}\ #1}{\medskip}
  
  \usepackage{enumitem}
  \newcommand{\remarklist}[1]{%
@@ -125,7 +135,7 @@
  	\par\medskip
  }
  
- \NewEnviron{remarques}{\remarklist{\BODY}}
+ \NewEnviron{remarks}{\remarklist{\BODY}}
  
  %%%%%%%% ENVIRONNEMENT PROPOSITION %%%%%%%%%
  

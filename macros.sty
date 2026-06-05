@@ -216,8 +216,10 @@
 %%%%%%%%%%%%% PARENTHESAGE %%%%%%%%%%%%%%%%%
 
 % \newcommand{\brak}[1]{\left\llbracket #1 \right\rrbracket}
-\newcommand{\brak}[1]{\left[\!\!\!\:\left[ #1 \right]\!\!\!\:\right]}
-\DeclarePairedDelimiter\set{\lbrace}{\rbrace}
+\newcommand{\llbracket}{\left[\!\!\!\:\left[}
+\newcommand{\rrbracket}{\right]\!\!\!\:\right]}
+\newcommand{\brak}[1]{\llbracket #1 \rrbracket}
+\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
 \newcommand{\la}{\left\langle}
 \newcommand{\ra}{\right\rangle}
 \newcommand{\lp}{\left(}

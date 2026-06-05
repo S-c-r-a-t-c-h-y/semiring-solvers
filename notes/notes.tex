@@ -85,7 +85,7 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
 \end{definition}
 
 \begin{example}[Set Category]
-  The category $\mathbf{Set}$ has sets as objects and functions as morphisms. The identity morphism for a set $a$ is the identity function $\text{id}_a: a \to a$ defined by $\text{id}_a(x) = x$ for all $x \in a$. Composition of morphisms is given by function composition.
+  The category $\Set$ has sets as objects and functions as morphisms. The identity morphism for a set $a$ is the identity function $\text{id}_a: a \to a$ defined by $\text{id}_a(x) = x$ for all $x \in a$. Composition of morphisms is given by function composition.
 \end{example}
 
 \begin{example}[Walking Morphism]
@@ -461,7 +461,7 @@ Q \arrow[rdd, "q_1"', bend right] \arrow[rrd, "q_2", bend left] \arrow[rd, "u", 
   \end{itemize}
 \end{example}
 
-\begin{definition}[Distributive law between monads]
+\begin{definition}[Distributive law between monads, \cite{10.1007/BFb0083084}]
   Given two monads $(T, \eta^T, \mu^T)$ and $(S, \eta^S, \mu^S)$ on a category $\mathcal{C}$, a \emph{distributive law} of $T$ over $S$ is a natural transformation $\lambda: TS \to ST$ such that the following diagrams commute:
   \[
   \begin{tikzcd}
@@ -592,9 +592,9 @@ We'll now reformulate the definition of monads in terms of Kleisli categories an
   The conditions of the Kleisli triple ensure that the monad axioms are satisfied, and the construction is reversible, establishing the one-to-one correspondence.
 \end{proof}
 
-\begin{remarque}
+\begin{remark}
   Kleisli triples are sometimes referred to as \emph{monads in extensive form}.
-\end{remarque}
+\end{remark}
 
 \begin{example}[Monads in terms of binds and returns]
   In the context of programming languages, a monad can be described in terms of a type constructor $T$ and two operations: \texttt{return} (or \texttt{unit}) and \texttt{bind}. The \texttt{return} operation corresponds to the unit $\eta$ of the monad, while the \texttt{bind} operation corresponds to the extension operator $(-)^\sharp$. Specifically, for a monad $(T, \eta, \mu)$ on a category $\mathcal{C}$, we can define:
@@ -1045,9 +1045,9 @@ We'll use the definitions from \cite{Allais2025}.
   \end{itemize}
 \end{definition}
 
-\begin{remarque}
+\begin{remark}
   The definition of algebraic theory seen before can be reformulated as a finitary signature together with a set of equations between terms built from the operators in the signature.
-\end{remarque}
+\end{remark}
 
 \begin{definition}[Environment and Interpretation]
   An \emph{environment} $\rho$ for a context $X$ in an algebra $A$ is a function $\rho : X \to \underline{A}$ that assigns to each variable in $X$ an element of the carrier of $A$.
@@ -1351,7 +1351,7 @@ In this section, let $\pres$ be a presentation, $X$ be a set of variables and $A
 \subsection{Semigroups}
 \label{sec:free_semigroups}
 
-\minisection{Free commutative semigroups}
+\subsubsection{Free commutative semigroups}
 
 Let's try to construct the free algebra for the presentation of commutative semigroups. We cannot rely on the order of the terms, nor the order of applying the operations.
 
@@ -1480,9 +1480,7 @@ Finally we'll define a multiplication $\mu_\CSG$ so that we have a monad structu
 \end{itemize}
 \end{proof}
 
-\bigskip
-
-\minisection{Free semigroups}
+\subsubsection{Free semigroups}
 
 Compared to the free commutative semigroup, we can rely on the order of the terms. We'll use lists to represent the terms of the free semigroup.
 
@@ -1971,9 +1969,7 @@ This adjunction gives us a monad structure on $ST$.
 
 Now that we have the free semigroup, we can easily construct the free monoid by adding a new constant (arity 0 operator) to the signature, and adding the corresponding axioms.
 
-\medskip
-
-\minisection{Free commutative monoids}
+\subsubsection{Free commutative monoids}
 
 Let $X$ be a set. We consider the theory of commutative monoids $\CM$, with a signature $\Sigma$ with two operators: $(+)$ of arity 2, and $0$ of arity 0, and with the three axioms \begin{align*}
   a, b &\vdash a + b = b + a\\
@@ -2257,9 +2253,9 @@ For arrows:
   \item $\Mod(\mathcal O, \underline{-})$ is defined in Proposition~\ref{prop:mod_2_functor}. It forgets about the model structure for $\mathcal A$, keeping only its carrier set, therefore we are left with a $\mathcal O$-model in $\Set$.
 \end{itemize}
 
-\begin{remarque}
+\begin{remark}
   $\Mod(\mathfrak T, \Set)$ is therefore an isomorphism of categories.
-\end{remarque}
+\end{remark}
 
 \begin{proposition}
   The square above is a pullback square.
@@ -2462,7 +2458,26 @@ Here is a little diagram that summarizes the steps:
 
 \workingpoint
 
-Let $\mathcal M = \BA$ be the theory of barycentric algebras, $\mathcal A = \SL$ be the theory of join-semilattices, $\OO$ be the simplex operad and $\mathfrak T : \OO \to \mathcal M$ be the usual translation sending a weight vector to the corresponding convex-combination term. \todo{to explicit}
+Let $\mathcal M = \BA$ be the theory of barycentric algebras, $\mathcal A = \SL$ be the theory of join-semilattices, $\OO$ be the simplex operad and $\mathfrak T : \OO \to \mathcal M$ be the usual translation sending a weight vector to the corresponding convex-combination term.
+
+\medskip
+
+Formaly:
+\begin{itemize}
+  \item $\BA$ consists of a binary operator $\oplus_p$ for every $p \in [0, 1]$ and the axioms \begin{align*}
+    x &\vdash x \oplus_p x = x &\text{idempotence}\\
+    x, y &\vdash x \oplus_p y = y \oplus_{1-p} x &\text{skew commutativity}\\
+    x, y, z &\vdash x \oplus_p (y \oplus_r z) = \lp x \oplus_{\frac{p}{p+(1-p)r}} y \rp \oplus_{p + (1-p) r} z &\text{skew associativity}
+  \end{align*}
+  \item $\SL$ consists of a binary operator $\vee$ and a constant $\bot$, along with the axioms \begin{align*}
+    x &\vdash x \vee \bot = x &\text{unit}\\
+    x, y, z &\vdash (x \vee y) \vee z = x \vee (y \vee z) &\text{associativity}\\
+    x, y &\vdash x \vee y = y \vee x &\text{commutativity}\\
+    x &\vdash x \vee x = x &\text{idempotence}
+  \end{align*}
+  \item $\OO$ is the operad where $$\OO_n = \set{\lambda = (\lambda_1, \dots, \lambda_n) \in [0, 1]^n \mid \summ{i=1}n \lambda_i = 1 }$$ Composition is substitution of convex combinations, and the identity is $(1) \in \OO_1$.
+  \item $\mathfrak T : \OO \to \BA$ sends a weighted vector $\lambda \in \OO_n$ to the corresponding barycentric term $\sum_i \lambda_i x_i$.
+\end{itemize}
 
 \medskip
 
@@ -2499,6 +2514,10 @@ $$A_2 \brak{f_p} \la e, e \ra = \{ \delta_x,\; p \delta_x + (1-p) \delta_y,\; p 
 
 Since $0 < p < 1$, $p \delta_x + (1-p) \delta_y$ and $p \delta_y + (1-p) \delta_x$ do not belong to $e$. Therefore $$A_2 \brak{f_p} \la e, e \ra \neq A_2 \brak{\id} e$$ and Lemma~\ref{lem:A_M_ind_mod} does not hold.
 
+\medskip
+
+It follows from this that the construction presented above does not yield the free algebra for the distributive combination of $\BA$ over $\SL$.
+
 \subsection{General case}
 
 Steps 1 to 4 of the previous section can be adapted to the general case. 
@@ -2513,10 +2532,10 @@ We encounter a problem when trying to generalize Lemma~\ref{lem:A_M_ind_mod}: it
 
 % ------------------------------------------------------------------------------------
 
-\begin{definition}[$\mathfrak T$-regular presentation]
+\begin{definition}[$\mathfrak T$-affine presentation]
 Let $\mathfrak T : \OO \to \mathcal{M}$ be a surjective translation.
 
-A presentation of $\mathcal{M}$ over $\mathfrak T$ is \emph{$\mathfrak T$-regular} if:
+A presentation of $\mathcal{M}$ over $\mathfrak T$ is \emph{$\mathfrak T$-affine} if:
 \begin{itemize}
   \item for every operation symbol $g : n$ of the chosen presentation of $\mathcal{M}$, there is a chosen operation $\widetilde g \in \OO_n$ such that
   $$
@@ -2525,15 +2544,15 @@ A presentation of $\mathcal{M}$ over $\mathfrak T$ is \emph{$\mathfrak T$-regula
   \item the chosen operations $\widetilde g$ generate $\OO$ under identities and operadic composition,
   \item every axiom of the presentation is of the form
   $$
-  x_1,\dots,x_n \vdash_\mathcal{M} \mathfrak T f_1[\pi_1] = \mathfrak T f_2[\pi_2],
+  x_1,\dots,x_n \vdash_\mathcal{M} \mathfrak T f_1[\theta_1] = \mathfrak T f_2[\theta_2],
   $$
-  for some $f_1,f_2 \in \OO_n$ and permutations $\pi_1,\pi_2 \in S_n$.
+  for some $f_1,f_2 \in \OO_n$, and injective renamings $$\theta_1 : [n_1] \hookrightarrow [m] \qquad \theta_2 : [n_2] \hookrightarrow [m]$$
 \end{itemize}
 \end{definition}
 
-\begin{lemma}[Step 4 in the $\mathfrak T$-regular case]
+\begin{lemma}[Step 4 in the $\mathfrak T$-affine case]
 \label{lem:step4_correct}
-With the preceding notation, assume that $\mathcal{M}$ admits a $\mathfrak T$-regular presentation. Let
+With the preceding notation, assume that $\mathcal{M}$ admits a $\mathfrak T$-affine presentation. Let
 $$
 A_3 := \Mod(\OO,-)(A_2).
 $$
@@ -2543,13 +2562,13 @@ A_\mathcal{M}\brak{g} := A_3\brak{\widetilde g}.
 $$
 Then:
 \begin{itemize}
-  \item for every $f \in \OO_n$, the interpretation in $A_\mathcal{M}$ of the $M$-term $\mathfrak Tf$ is equal to $A_3\brak{f}$;
-  \item $A_\mathcal{M} \models M$.
+  \item for every $f \in \OO_n$, the interpretation in $A_\mathcal{M}$ of the $\mathcal M$-term $\mathfrak Tf$ is equal to $A_3\brak{f}$;
+  \item $A_\mathcal{M} \models \mathcal{M}$.
 \end{itemize}
 \end{lemma}
 
 \begin{proof}
-Let $Y := \ul{A_1}$ and let $\eta_Y : Y \to \ul{F_\mathcal{A} Y}$ be the unit of the adjunction $F_\mathcal{A} \dashv U_\mathcal{A}$.
+Let $X := \ul{A_1}$ and let $\eta_X : X \to \ul{F_\mathcal{A} X}$ be the unit of the adjunction $F_\mathcal{A} \dashv U_\mathcal{A}$.
 
 By construction of
 $$
@@ -2557,13 +2576,13 @@ A_2 = \Mod(\OO,F_\mathcal{A})(A_1),
 $$
 for every $f \in \OO_n$, the operation $A_2\brak{f}$ is the unique multi-$A$-homomorphism extending
 $$
-Y^n \xrightarrow{A_1\brak{f}} Y \xrightarrow{\eta_Y} \ul{F_\mathcal{A} Y}.
+X^n \xrightarrow{A_1\brak{f}} X \xrightarrow{\eta_X} \ul{F_\mathcal{A} X}.
 $$
 
 We first prove that, for every $f \in \OO_n$, the interpretation in $A_\mathcal{M}$ of the term $\mathfrak T f$ is equal to $A_3\brak{f}$. Since the chosen operations $\widetilde g$ generate $\OO$, we may prove this by induction on the operadic expression of $f$.
 
 \begin{itemize}
-  \item If $f = \mathrm{id}$, the claim is immediate.
+  \item If $f = \id$, the claim is immediate.
   \item If $f = \widetilde g$ is one of the chosen generators, the claim is exactly the definition of $A_\mathcal{M}\brak{g}$.
   \item If $f = h \circ (f_1,\dots,f_k)$, then, using preservation of operadic composition by $\mathfrak T$, the induction hypothesis, and the fact that $A_3$ is an $\OO$-model, we get
   $$
@@ -2576,21 +2595,32 @@ We first prove that, for every $f \in \OO_n$, the interpretation in $A_\mathcal{
 
 Now let
 $$
-x_1,\dots,x_n \vdash_\mathcal{M} \mathfrak T f_1[\pi_1] = \mathfrak T f_2[\pi_2]
+x_1,\dots,x_m \vdash_\mathcal{M} \mathfrak T f_1[\theta_1] = \mathfrak T f_2[\theta_2]
 $$
-be an axiom of the chosen $\mathfrak T$-regular presentation. Since $A_0 \models \mathcal{M}$, we have equality of the corresponding operations on $Y$:
+be an axiom of the chosen $\mathfrak T$-affine presentation. For each $i = 1,2$, define $\Phi_i : X^m \to \ul{F_A X}$ by
 $$
-A_1\brak{f_1} \circ \pi_1 = A_1\brak{f_2} \circ \pi_2.
+\Phi_i(e) := \eta_X\bigl(A_1\brak{f_i}(e \circ \theta_i)\bigr).
 $$
-After postcomposing with $\eta_Y$, the resulting maps $Y^n \to \ul{F_\mathcal{A} Y}$ are still equal. By uniqueness of multi-$\mathcal A$-homomorphic extension, their extensions to $A_2$ are equal:
+Since $A_0 \models \mathcal{M}$, these two maps are equal: $\Phi_1 = \Phi_2$.
+
+\medskip
+
+For each $i = 1,2$, define $\overline{\Phi_i} : \ul{F_A X}^m \to \ul{F_A X}$ by
 $$
-A_2\brak{f_1} \circ \pi_1 = A_2\brak{f_2} \circ \pi_2.
+\overline{\Phi_i}(e) := A_2\brak{f_i}(e \circ \theta_i).
 $$
-Forgetting from $A_2$ to $A_3$ preserves these equalities, so
+Because $\theta_i$ is injective, each coordinate of $e$ is used in at most one argument of $A_2\brak{f_i}$, and therefore $\overline{\Phi_i}$ is a multi-$\mathcal A$-homomorphism in each variable. By construction, it extends $\Phi_i$.
+
+By uniqueness of multi-$\mathcal A$-homomorphic extension from generators, we conclude that
 $$
-A_3\brak{f_1} \circ \pi_1 = A_3\brak{f_2} \circ \pi_2.
+\overline{\Phi_1} = \overline{\Phi_2}.
 $$
-By the first part of the proof, this means exactly that the two sides of the axiom have the same interpretation in $A_\mathcal{M}$. Hence all axioms of the chosen presentation hold in $A_\mathcal{M}$, and therefore $A_\mathcal{M} \models \mathcal{M}$.
+Hence, for every environment $e : [m] \to \ul{A_2}$,
+$$
+A_2\brak{f_1}(e \circ \theta_1) = A_2\brak{f_2}(e \circ \theta_2).
+$$
+
+Forgetting from $A_2$ to $A_3$ preserves this equality, so the two sides of the axiom have the same interpretation in $A_\mathcal{M}$. Hence all axioms of the chosen presentation hold in $A_\mathcal{M}$, and therefore $A_\mathcal{M} \models \mathcal{M}$.
 \end{proof}
 
 
@@ -2848,12 +2878,61 @@ We now prove that this is indeed a $\mathfrak T \triangleleft \mathcal A$-homomo
 \fbox{Therefore $h$ is the unique morphism of $\mathfrak T \triangleleft \mathcal A$-algebras such that $h \circ \eta = f$.}
 
 
+\subsection{Link with distributive laws}
+
+There seem to be a strong link between the existence of a distributive law between the two monads underlying the theories we are trying to combine and the success of the construction we described.
+
+\medskip
+
+\cite{zwart2018donttryhomenogo} gives a bunch of theorems about the non-existence of distributive laws, and it would be useful to check that our construction indeed does not apply in the cases mentioned.
+
+\subsubsection{Plotkin-type no-go}
+
+One of the condition for the non-existence of a distributive law between two theories given in the Plotkin-like no-go theorems 3.5 and 3.12 of \cite{zwart2018donttryhomenogo} is the existence of an operator that is idempotent in both theories. Our construction forbids such axioms as the presentation would not be $\mathfrak T$-affine for any translation $\mathfrak T$.
+
+\subsubsection{Too many constants}
+
+A theory $\mathcal A$ is commutative iff for every $n$-ary operation $f$ and every $m$-ary operation $g$, \begin{equation}
+  f \bigl( g(x_{11}, \dots, x_{1m}), \dots, g(x_{n1}, \dots, x_{nm}) \bigr) = g \bigl( f (x_{11}, \dots, x_{n1}), \dots, f (x_{1m}, \dots, x_{nm}) \bigr)
+  \label{eq:commutativity_theory}
+\end{equation}
+
+This equation still holds for constants, therefore if \begin{align*}
+  f &= c \in \mathcal A_0\\
+  g &= d \in \mathcal A_0
+\end{align*} then the commutativity of $\mathcal A$ states that $c = d$.
+
+\medskip
+
+Therefore is the no-go theorem 4.7 of \cite{zwart2018donttryhomenogo} applies then there are two distinct constants and the theory can't be commutative, meaning our construction doesn't apply.
+
+\subsubsection{Lacking abides}
+
+For an operator $\ast$ of arity 2, abides hold if \begin{equation}
+  (a \ast b) \ast (c \ast d) = (a \ast c) \ast (b \ast d)
+  \label{eq:abides}
+\end{equation}
+
+Theorem 4.17 of \cite{zwart2018donttryhomenogo} states that if some conditions apply on the theories $\mathcal A$ and $\mathcal M$ and that additionaly equation~(\ref{eq:abides}) does not hold then there are no distributive law of $\mathcal M$ over $\mathcal A$.
+
+\medskip
+
+However if $\mathcal A$ is commutative, then (\ref{eq:abides}) holds by taking $f = g = \ast$ in (\ref{eq:commutativity_theory}). There are no contradiction here either.
+
+\subsubsection{Idempotence and units}
+
+Theorem 4.24 of \cite{zwart2018donttryhomenogo} states that if some conditions apply on the theories $\mathcal A$ and $\mathcal M$ and that moreover $\mathcal M$ has a binary term that is idempotent then there are no distributive law of $\mathcal M$ over $\mathcal A$.
+
+\medskip
+
+Our construction forbids idempotent terms, therefore there are no contradiction.
+
 \section{Constructing free extensions}
 
 \subsection{Semigroups}
 \label{sec:free_extension_semigroups}
 
-\minisection{Semigroup}
+\subsubsection{Semigroup}
 
 \medskip
 
@@ -2908,36 +2987,43 @@ We also define $\var : X \to \Frex_A(X)$ by $\var(x) = [x]$ for all $x \in X$.
   Uniqueness of $h$ is straightforward, as $h$ is defined by the values of $f$ and $g$ on the elements of $A$ and $X$, and by the homomorphic property of $h$.
 \end{proof}
 
-\minisection{Commutative semigroup}
+\subsubsection{Commutative semigroup}
 
 \medskip
 
-Let's construct the free extension of an $\SG$-model $A = (\ul{A}, +)$ by a set of variable $X$. It is going to be linear polynomials in $A[X]$.
+Let's construct the free extension of an $\CSG$-model $A = (\ul{A}, +)$ by a set of variable $X$. It is going to be linear polynomials in $A[X]$.
 
 \medskip
 
-We define a $\SG$-algebra $\Frex_A(X)$ as follows:
+We pose $A_\bot = \ul{A} \sqcup \{\bot\}$ where $\bot$ is a new element, designating the absence of a concrete part in the polynomial. We extend the operator $+$ and $\cdot$ of $A$ to $A_\bot$ by defining $\bot + a = a + \bot = a$ for all $a \in A$ and $\bot + \bot = \bot$.
+
+\medskip
+
+We define a $\CSG$-algebra $\Frex_A(X)$ as follows:
 \begin{itemize}
-  \item The carrier set of $\Frex_A(X)$ is the set $\{c + a_1 x_1 + \cdots + a_n x_n \mid n \ge 0, c \in A, x_1, \dots, x_n \in X\}$ \tocheck{TO REVISE: there can be no constant part (currently more suited for commutative monoids)}
-  \item The operator $+$ on $\Frex_A(X)$ is defined by $$(c + a_1 x_1 + \cdots + a_n x_n) + (d + b_1 y_1 + \cdots + b_m y_m) = (c + d) + \sum_{z_i \in \{x_1, \dots, x_n \} \cup \{y_1, \dots, y_m\}}c_i z_i$$ where $c_i$ is the sum of the coefficients of $z_i$ in the two polynomials.
+  \item The carrier set of $\Frex_A(X)$ is the set $\{(c, a_1 x_1 + \cdots + a_n x_n) \mid n \ge 0, c \in A_\bot, x_1, \dots, x_n \in X\}$. We note $(c, \varnothing) \in \Frex_A(X)$ when $n = 0$.
+  \item The operator $+$ on $\Frex_A(X)$ is defined by $$(c, a_1 x_1 + \cdots + a_n x_n) + (d, b_1 y_1 + \cdots + b_m y_m) = \lp (c + d), \sum_{z_i \in \{x_1, \dots, x_n \} \cup \{y_1, \dots, y_m\}}c_i z_i \rp$$ where $c_i$ is the sum of the coefficients of $z_i$ in the two polynomials.
 \end{itemize}
 
-This is indeed an $\SG$-algebra, as addition of polynomials is associative and commutative.
+This is indeed an $\CSG$-algebra, as addition of polynomials is associative and commutative, and so is addition in $A_\bot$.
 
 \medskip
 
-We define $\embed : A \to \Frex_A(X)$ by $\embed(n) = n$ for all $n \in A$. For all $m, n \in A$, we have $\embed(m + n) = m + n = \embed(m) + \embed(n)$, so $\embed$ is a morphism of $\SG$-algebras.
+We define $\embed : A \to \Frex_A(X)$ by $\embed(n) = (n, \varnothing)$ for all $n \in A$. For all $m, n \in A$, we have $\embed(m + n) = (m, \varnothing) + (n, \varnothing) = (m + n, \varnothing) = \embed(m) + \embed(n)$, so $\embed$ is a morphism of $\CSG$-algebras.
 
 \medskip
 
-We also define $\var : X \to \Frex_A(X)$ by $\var(x) = x$ for all $x \in X$.
+We also define $\var : X \to \Frex_A(X)$ by $\var(x) = (\bot, x)$ for all $x \in X$.
 
 \begin{proposition}
   $\la \Frex_A(X), \embed, \var\ra$ is the free extension of $A$ by $X$.
 \end{proposition}
 
 \begin{proof}
-  Suppose $\la B, f, g\ra$ is another extension of $A$ by $X$. We define $h : \Frex_A(X) \to B$ by $$h(c + a_1 x_1 + \cdots + a_n x_n) = f(c) + \sum_{i=1}^n f(a_i) \cdot g(x_i)$$
+  Suppose $\la B, f, g\ra$ is another extension of $A$ by $X$. We define $h : \Frex_A(X) \to B$ by $$h(c, a_1 x_1 + \cdots + a_n x_n) = \begin{cases}
+  f(c) + \sum_{i=1}^n a_i g(x_i) & \text{if } c \neq \bot\\
+  \sum_{i=1}^n a_i g(x_i) & \text{if } c = \bot
+  \end{cases}$$
 
   This is well-defined and homomorphic because the only merges in the extension are:
   \begin{itemize}
@@ -2953,6 +3039,7 @@ We also define $\var : X \to \Frex_A(X)$ by $\var(x) = x$ for all $x \in X$.
 \end{proof}
 
 \subsection{Sem-rgs}
+\label{sec:frex_sem-rgs}
 
 Let $A = (\ul{A}, (+), (\cdot))$ be a $\SGCSG$-model and $X$ be a set.
 
@@ -2960,7 +3047,7 @@ Let $A = (\ul{A}, (+), (\cdot))$ be a $\SGCSG$-model and $X$ be a set.
 
 We define $$\Mon_A(X) = \set{ [b_1, \dots, b_n] \mid n \ge 1,\ b_i \in X^+ \sqcup \ul{A},\ b_ib_{i+1}\text{ alternating kinds},\ \exists i,b_i \in X^+}$$
 
-We pose $A_\bot = \ul{A} \sqcup \{\bot\}$ where $\bot$ is a new element, designating the absence of a concrete part in the polynomial. We extend the operators $+$ and $\cdot$ of $A$ to $A_\bot$ by defining $\bot + a = a + \bot = a$, $\bot \cdot a = a \cdot \bot = \bot$ for all $a \in A$ and $\bot + \bot = \bot$, $\bot \cdot \bot = \bot$.
+We define $A_\bot$ as in the previous section, and extend the operations with $\bot \cdot a = a \cdot \bot = \bot$ for all $a \in A$, and $\bot \cdot \bot = \bot$.
 
 \medskip
 
@@ -3044,6 +3131,8 @@ and
 
 
 \subsection{Distributive combination of free extensions}
+
+\label{sec:free_ext_comb1}
 
 We'll try to adapt the construction of Section~\ref{sec:free_alg_ex} to the case of free extensions.
 
@@ -3133,6 +3222,722 @@ Let $E_3 := \Mod(\OO, \underline{-}) E_2 \models \OO$ be the underlying operadic
 
 We can the define $E$ as the pullback of $E_\mathcal{M}$ and $E_2$. This should give us the free extension of $B$ by $X$.
 
+\subsection{Practical combination}
+\label{sec:frex_practical_comb}
+
+While the construction of Section~\ref{sec:free_ext_comb1} works in thoery and has showed that we can indeed construct the free extension for the distributive combination using both of the free extensions, it is not practical as it uses a pushout, which is hard to compute.
+
+\medskip
+
+The goal of this section is to give a practical way of construction the free extension for the combination that could be implemented in Idris2.
+
+\medskip
+
+We call $B \models \mathfrak T \triangleleft \mathcal A$ the model we are trying to extend. We denote by $B_{\mathcal M} [-]$ (resp. $B_{\mathcal A} [-]$) the functor that takes a set $X$ and returns the free extension of $B$ by $X$ as an $\mathcal M$ (resp. $\mathcal A$) model. We write $B[X]$ for the free extension of $B$ by $X$ as a $\mathfrak T \triangleleft \mathcal A$-model.
+
+\medskip
+
+\textbf{Hypothesis:} We would need to have the following structure with the following property:
+
+\begin{itemize}
+  \item a model $C \models \mathcal O$
+  \item a function $X \xrightarrow{\nu} C$
+  \item a function $C \xrightarrow{u} B[X]$
+\end{itemize}
+such that
+\begin{itemize}
+  \item for all $D \models \OO$
+  \item for all function $X \xrightarrow{f} \ul D$
+  \item for all homomorphism $B_\OO \xrightarrow{p} D$
+\end{itemize}
+there exists a unique homomorphism $q : C \to D$ such that the following diagram commutes:
+% https://q.uiver.app/#q=WzAsNCxbMSwwLCJYIl0sWzAsMSwiQyJdLFsyLDEsIkQiXSxbMSwyLCJCX1xcT09bWF0iXSxbMSwyLCJxIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMSwiXFxudSIsMl0sWzEsMywidSIsMl0sWzMsMiwiW2YsIHBdIiwyXSxbMCwyLCJmIl1d&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+\[\begin{tikzcd}[sep=scriptsize]
+	& X & \\
+	C && D \\
+	& {B_\OO[X]}
+	\arrow["\nu"', from=1-2, to=2-1]
+	\arrow["f", from=1-2, to=2-3]
+	\arrow["q"{description}, dashed, from=2-1, to=2-3]
+	\arrow["u"', from=2-1, to=3-2]
+	\arrow["{[f, p]}"', from=3-2, to=2-3]
+\end{tikzcd}\]
+
+Then we would define $$A_2 := \Mod(\OO, B_{\mathcal A}[-])\; C \models \OO \ast \mathcal A$$ and continue the construction as for the case of the free algebra.
+
+\subsubsection{Example of the semigroups}
+
+\begin{remark}
+In the semigroup example, let
+$$
+\mathcal M = \SG,
+\qquad
+\mathcal A = \CSG,
+$$
+let $\mathcal O$ be the semigroup operad, with one operation $\mu_n \in \mathcal O_n$ for each $n \geq 1$, and let
+$$
+\mathfrak{T} : \mathcal O \to \mathcal M
+$$
+be the surjective translation defined by
+$$
+\mathfrak{T}(\mu_n) = x_1 \cdots x_n.
+$$
+If $D$ is an $\mathcal O$-model, then its underlying set carries a semigroup structure
+$$
+x \cdot_D y := D\brak{\mu_2}(x,y),
+$$
+and the operad laws imply that this multiplication is associative. We denote the resulting semigroup by
+$D_{\mathcal M}$. By construction,
+$$
+\Mod(\mathfrak{T},\Set)(D_{\mathcal M}) = D.
+$$
+\end{remark}
+
+\begin{proposition}[The translated monomial object]
+Let $B \models \mathcal M \triangleleft \mathcal A$, and write
+$$
+B_{\mathcal O} := \Mod(\mathfrak{T},\Set)(B_{\mathcal M}).
+$$
+Let
+$$
+\Mon_B(X)
+=
+\left\{
+[b_1,\dots,b_n]
+\;\middle|\;
+n \geq 1,\;
+b_i \in X^+ \sqcup \underline{B},
+\;
+b_i,b_{i+1}\text{ alternate kinds},
+\;
+\exists i,\; b_i \in X^+
+\right\}.
+$$
+Equip $\Mon_B(X)$ with the semigroup structure of Section~\ref{sec:frex_sem-rgs}, and write
+$$
+C_{\mathcal M} := \Mon_B(X).
+$$
+Set
+$$
+C := \Mod(\mathfrak{T},\Set)(C_{\mathcal M}).
+$$
+
+Let
+$$
+\nu : X \to \underline{C},
+\qquad
+\nu(x) := [x],
+$$
+and let
+$$
+u_{\mathcal M} : C_{\mathcal M} \to B_{\mathcal M}[X]
+$$
+be the inclusion of variable-containing alternating lists into the alternating-list representation of the
+multiplicative free extension $B_{\mathcal M}[X]$. Define
+$$
+u := \Mod(\mathfrak{T},\Set)(u_{\mathcal M}) : C \to B_{\mathcal O}[X],
+$$
+where
+$$
+B_{\mathcal O}[X] := \Mod(\mathfrak{T},\Set)(B_{\mathcal M}[X]).
+$$
+
+Then the triple $(C,\nu,u)$ satisfies the hypothesis of Section~\ref{sec:frex_practical_comb}.
+\end{proposition}
+
+\begin{proof}
+By definition, $C_{\mathcal M} = \Mon_B(X)$ is a semigroup: multiplication is given by
+concatenation followed by seam normalisation, and associativity follows from associativity of concatenation,
+associativity of multiplication in $B_{\mathcal M}$, and associativity of concatenation in $X^+$.
+Applying the translation functor
+$$
+\Mod(\mathfrak{T},\Set) : \Mod(\mathcal M,\Set) \to \Mod(\mathcal O,\Set)
+$$
+therefore yields an $\mathcal O$-model
+$$
+C = \Mod(\mathfrak{T},\Set)(C_{\mathcal M}).
+$$
+
+Now let $D \models \mathcal O$, let
+$$
+f : X \to \underline{D},
+$$
+and let
+$$
+p : B_{\mathcal O} \to D
+$$
+be an $\mathcal O$-homomorphism. By the preceding remark, the carrier of $D$ carries a semigroup structure
+$$
+x \cdot_D y := D\brak{\mu_2}(x,y),
+$$
+which we denote by $D_{\mathcal M}$, and we have
+$$
+\Mod(\mathfrak{T},\Set)(D_{\mathcal M}) = D.
+$$
+
+Since $p$ is an $\mathcal O$-homomorphism, it is also a semigroup homomorphism
+$$
+p_{\mathcal M} : B_{\mathcal M} \to D_{\mathcal M}.
+$$
+Indeed, for all $b,b' \in \underline{B}$,
+\begin{align*}
+p_{\mathcal M}(b \cdot b')
+&=
+p\bigl(B_{\mathcal O}\brak{\mu_2}(b,b')\bigr) \\
+&=
+D\brak{\mu_2}(p(b),p(b')) \\
+&=
+p_{\mathcal M}(b) \cdot_D p_{\mathcal M}(b').
+\end{align*}
+
+By freeness of the multiplicative extension $B_{\mathcal M}[X]$, there exists a unique semigroup homomorphism
+$$
+[f,p]_{\mathcal M} : B_{\mathcal M}[X] \to D_{\mathcal M}
+$$
+such that
+$$
+[f,p]_{\mathcal M} \circ \iota_{B_{\mathcal M}} = p_{\mathcal M}
+\qquad\text{and}\qquad
+[f,p]_{\mathcal M} \circ \eta_X = f.
+$$
+Applying $\Mod(\mathfrak{T},\Set)$ gives an $\mathcal O$-homomorphism
+$$
+[f,p]_{\mathcal O} : B_{\mathcal O}[X] \to D.
+$$
+
+Now define
+$$
+q := [f,p]_{\mathcal O} \circ u : C \to D.
+$$
+Since $u$ and $[f,p]_{\mathcal O}$ are $\mathcal O$-homomorphisms, $q$ is an $\mathcal O$-homomorphism.
+Moreover,
+$$
+q \circ \nu = [f,p]_{\mathcal O} \circ u \circ \nu = f,
+$$
+because $u \circ \nu$ is the variable map into $B_{\mathcal O}[X]$.
+
+Finally, if
+$$
+q' : C \to D
+$$
+is another $\mathcal O$-homomorphism satisfying the same condition from Section~\ref{sec:frex_practical_comb}, namely
+$$
+q' \circ \nu = f
+\qquad\text{and}\qquad
+q' = [f,p]_{\mathcal O} \circ u,
+$$
+then clearly $q' = q$. Thus $(C,\nu,u)$ satisfies the required hypothesis.
+\end{proof}
+
+\begin{theorem}[Applying the Section~\ref{sec:frex_practical_comb} construction in the semigroup case]
+Let $C$ be the $\mathcal O$-model defined in the previous proposition, and let
+$$
+E_2 := \Mod(\mathcal O,B_{\mathcal A}[-])(C).
+$$
+Let
+$$
+E_3 := \Mod(\mathcal O,-)(E_2).
+$$
+Using the surjectivity of
+$$
+\mathfrak{T} : \mathcal O \to \mathcal M,
+$$
+reconstruct from $E_3$ a semigroup model $E_{\mathcal M}$ on the same carrier, exactly as in Step~4 of the construction, and let $E$ be the resulting model of $\mathcal M \triangleleft \mathcal A$ obtained by Step~5.
+
+\medskip
+
+Then $E$ is the free extension of $B$ by $X$ for the distributive combination $\SG \triangleleft \CSG$.
+\end{theorem}
+
+\begin{proof}
+We compare the object obtained from Section~\ref{sec:frex_practical_comb} with the explicit free extension constructed in Section~\ref{sec:frex_sem-rgs}.
+
+\medskip
+
+\noindent\textbf{Underlying carrier of $E_2$.}
+
+By definition,
+$$
+E_2 = \Mod(\mathcal O,B_{\mathcal A}[-])(C),
+$$
+so the underlying $\mathcal A$-model of $E_2$ is the free extension of $B_{\mathcal A}$ by the carrier
+$\underline{C}$. Since
+$$
+\underline{C} = \Mon_B(X),
+$$
+the underlying carrier of $E_2$ is
+$$
+\left\{
+(c,M)
+\;\middle|\;
+c \in \underline{B}^{\bot},
+\;
+M \in \operatorname{Bag}(\Mon_B(X)),
+\;
+c \neq \bot \text{ or } M \neq \varnothing
+\right\}.
+$$
+This is exactly the carrier of the explicit model of Section~\ref{sec:frex_sem-rgs}.
+
+\medskip
+
+\noindent\textbf{The $\mathcal O$-structure on $E_2$.}
+
+% Since $\mathcal O$ is the semigroup operad, it is generated by the binary operation $\mu_2$, and every
+% $\mu_n$ is obtained from $\mu_2$ by operadic composition. Hence it suffices to compute
+% $$
+% E_2\brak{\mu_2}.
+% $$
+
+% On generators, the operation on $C$ is the multiplication of monomials in
+% $\Mon_B(X)$, transported along the functor
+% $$
+% \Mod(\mathfrak{T},\Set).
+% $$
+% By construction of
+% $$
+% \Mod(\mathcal O,B_{\mathcal A}[-])(C),
+% $$
+% the map $E_2\brak{\mu_2}$ is the unique bi-$\mathcal A$-homomorphism extending the following values on generators:
+% \begin{align*}
+% (c,\varnothing) \cdot (d,\varnothing) &= (c \cdot d,\varnothing),\\
+% (c,\varnothing) \cdot (\bot,\{m\}) &= (\bot,\{c \triangleright m\}),\\
+% (\bot,\{m\}) \cdot (d,\varnothing) &= (\bot,\{m \triangleleft d\}),\\
+% (\bot,\{m\}) \cdot (\bot,\{n\}) &= (\bot,\{m \otimes n\}),
+% \end{align*}
+% where $m \otimes n$ is the monomial multiplication in $\Mon_B(X)$.
+
+% Since $\mathcal A = \CSG$, bi-$\mathcal A$-homomorphic means bilinear with respect to the additive
+% structure. Therefore, for arbitrary
+% $$
+% (c,M), (d,N) \in \underline{E_2},
+% $$
+% one obtains
+% $$
+% E_2\brak{\mu_2}\bigl((c,M),(d,N)\bigr)
+% =
+% \bigl(c \cdot d,\; (c \triangleright N) \uplus (M \otimes N) \uplus (M \triangleleft d)\bigr).
+% $$
+% This is exactly the multiplication defined explicitly in Section~\ref{sec:frex_sem-rgs}.
+
+% Since all higher operations $\mu_n$ are obtained from $\mu_2$ by operadic composition, it follows that the
+% entire $\mathcal O$-structure on $E_2$ coincides with the one induced by the explicit multiplication of
+% Section~\ref{sec:frex_sem-rgs}.
+
+% \medskip
+
+% \noindent\textbf{Step~4 and the use of surjectivity.}
+
+% Now pass to
+% $$
+% E_3 := \Mod(\mathcal O,-)(E_2).
+% $$
+% To reconstruct a model of $\mathcal M = \SG$ from $E_3$, define on the same carrier
+% $$
+% x \cdot_E y := E_3\brak{\mu_2}(x,y).
+% $$
+% Because
+% $$
+% \mathfrak{T}(\mu_2) = x_1x_2
+% $$
+% and $\mathfrak{T}$ is surjective, this is the operation chosen in Step~4 for the reconstruction of the semigroup
+% structure from the $\mathcal O$-model.
+
+% The operad laws imply associativity. Indeed,
+% $$
+% \mu_2 \circ (\mu_2,\mathrm{id}) = \mu_3 = \mu_2 \circ (\mathrm{id},\mu_2)
+% $$
+% in $\mathcal O$, hence
+% \begin{align*}
+% (x \cdot_E y)\cdot_E z
+% &=
+% E_3\brak{\mu_2}\bigl(E_3\brak{\mu_2}(x,y),z\bigr) \\
+% &=
+% E_3\brak{\mu_2 \circ (\mu_2,\mathrm{id})}(x,y,z) \\
+% &=
+% E_3\brak{\mu_3}(x,y,z) \\
+% &=
+% E_3\brak{\mu_2 \circ (\mathrm{id},\mu_2)}(x,y,z) \\
+% &=
+% x \cdot_E (y \cdot_E z).
+% \end{align*}
+% Thus the reconstructed multiplication is exactly the semigroup multiplication already described above.
+
+% \medskip
+
+% \noindent\textbf{Step~5.}
+% Step~5 combines this reconstructed semigroup structure with the additive structure already present on $E_2$.
+% Since both carrier and operations agree with those of the explicit model of Section~\ref{sec:frex_sem-rgs}, the resulting model
+% $E$ is exactly that explicit model.
+
+% \medskip
+
+% \noindent\textbf{Conclusion.}
+% The explicit model of Section~\ref{sec:frex_sem-rgs} was proved there to be the free extension of $B$ by $X$ for the distributive combination $\SG \triangleleft \CSG$.
+
+% \medskip
+
+% Since $E$ coincides with that model, it follows that $E$ is the free extension of $B$ by $X$.
+\end{proof}
+
+% ----------------------------------------------------------------------------------------------------
+
+% \begin{definition}[Split multiplicative free extension]
+% Let $\mathfrak T : \mathcal{O} \to \mathcal{M}$ be a surjective translation, let $\mathcal{A}$ be a theory, and let
+% $B \models \mathfrak T \triangleleft \mathcal{A}$.
+% Write $B_{\mathcal{O}}$ for the underlying $\mathcal{O}$-model of the multiplicative reduct of $B$,
+% and $B_{\mathcal{A}}$ for the $\mathcal{A}$-reduct of $B$.
+
+% A \emph{split multiplicative free extension of $B_{\mathcal{O}}$ by a set $X$} consists of:
+% \begin{itemize}
+%   \item an $\mathcal{O}$-model $E_X^{\mathrm{tot}} \in \Mod(\mathcal{O},\Set)$,
+%   \item an $\mathcal{O}$-homomorphism
+%   $$
+%   j_X : B_{\mathcal{O}} \to E_X^{\mathrm{tot}},
+%   $$
+%   \item a set $N_X$, a map
+%   $$
+%   \eta_X : X \to N_X,
+%   $$
+%   and a bijection of underlying sets
+%   $$
+%   \sigma_X : \underline{E_X^{\mathrm{tot}}} \xrightarrow{\cong} \underline{B_{\mathcal{O}}} \sqcup N_X
+%   $$
+%   such that:
+%   \begin{itemize}
+%     \item $\sigma_X \circ j_X = \iota_B$, where
+%     $$
+%     \iota_B : \underline{B_{\mathcal{O}}} \to \underline{B_{\mathcal{O}}} \sqcup N_X
+%     $$
+%     is the left coproduct injection;
+%     \item if
+%     $$
+%     \nu_X := \sigma_X^{-1} \circ \iota_N \circ \eta_X : X \to \underline{E_X^{\mathrm{tot}}},
+%     $$
+%     where
+%     $$
+%     \iota_N : N_X \to \underline{B_{\mathcal{O}}} \sqcup N_X
+%     $$
+%     is the right coproduct injection, then $(E_X^{\mathrm{tot}},j_X,\nu_X)$ is a free extension of
+%     $B_{\mathcal{O}}$ by $X$ in $\Mod(\mathcal{O},\Set)$.
+%   \end{itemize}
+% \end{itemize}
+
+% Equivalently, for every extension $(C,k,\rho)$ of $B_{\mathcal{O}}$ by $X$ in
+% $\Mod(\mathcal{O},\Set)$, there exists a unique $\mathcal{O}$-homomorphism
+% $$
+% \alpha : E_X^{\mathrm{tot}} \to C
+% $$
+% such that
+% $$
+% \alpha \circ j_X = k
+% \qquad\text{and}\qquad
+% \alpha \circ \nu_X = \rho.
+% $$
+% \end{definition}
+
+% \begin{remark}
+
+% The notation
+% $$
+% \Mod(\mathcal{O},\operatorname{Frex}_{B_{\mathcal{A}}}(-))(N)
+% $$
+% is shorthand.
+
+% The ordinary free extension
+% $$
+% \operatorname{Frex}_{B_{\mathcal{A}}}(N)
+% $$
+% is an object of the category
+% $$
+% B_{\mathcal{A}} / \Mod(\mathcal{A},\Set),
+% $$
+% characterised by the usual unary universal property. Its existence does not by itself require
+% $\mathcal{A}$ to be commutative.
+
+% What is used in the construction below is a stronger \emph{multivariate} extension property,
+% which allows one to lift the $\mathcal{O}$-operations from the split multiplicative extension to
+% $\operatorname{Frex}_{B_{\mathcal{A}}}(N)$. Thus the notation
+% $$
+% \Mod(\mathcal{O},\operatorname{Frex}_{B_{\mathcal{A}}}(-))(N)
+% $$
+% should be read as an abbreviation for this lifting process, rather than as the application of a
+% previously defined functor, unless one has separately proved the corresponding multi-categorical
+% adjunction theorem for extensions.
+% \end{remark}
+
+% \textbf{Assumption: Multivariate universal property of the additive free extension}
+
+% \medskip
+
+% Fix a $\mathcal{A}$-model $B_{\mathcal{A}}$. For every set $N$, let
+% $$
+% \operatorname{Frex}_{B_{\mathcal{A}}}(N)
+% $$
+% denote the ordinary free extension of $B_{\mathcal{A}}$ by $N$, with structure maps
+% $$
+% \mathrm{emb}_N : B_{\mathcal{A}} \to \operatorname{Frex}_{B_{\mathcal{A}}}(N),
+% \qquad
+% \mathrm{var}_N : N \to \underline{\operatorname{Frex}_{B_{\mathcal{A}}}(N)}.
+% $$
+
+% Assume that for every $\mathcal{A}$-extension $C$ of $B_{\mathcal{A}}$, every natural number $n$,
+% and every function
+% $$
+% \phi : (\underline{B_{\mathcal{A}}} \sqcup N)^n \to \underline{C},
+% $$
+% there exists a unique multi-$\mathcal{A}$-homomorphism
+% $$
+% \overline{\phi} :
+% \underline{\operatorname{Frex}_{B_{\mathcal{A}}}(N)}^n \to \underline{C}
+% $$
+% such that the diagram
+% $$
+% \begin{tikzcd}
+% (\underline{B_{\mathcal{A}}} \sqcup N)^n
+%   \arrow[r,"\phi"]
+%   \arrow[d,"{[\mathrm{emb}_N,\mathrm{var}_N]^n}"']
+% &
+% \underline{C}
+% \\
+% \underline{\operatorname{Frex}_{B_{\mathcal{A}}}(N)}^n
+%   \arrow[ru,"\overline{\phi}"']
+% &
+% \end{tikzcd}
+% $$
+% commutes.
+
+% \medskip
+
+% \textbf{Abstract additive lifting from a split multiplicative free extension}
+
+% \medskip
+
+% Let $(E_X^{\mathrm{tot}},j_X,\sigma_X,\eta_X)$ be a split multiplicative free extension of
+% $B_{\mathcal{O}}$ by $X$.
+
+% Set
+% $$
+% E_2^{\mathcal{A}} := \Frex_{B_{\mathcal{A}}}(N_X).
+% $$
+
+% For every $f \in \mathcal{O}_n$, let
+% $$
+% \gamma_f :
+% (\underline{B_{\mathcal{O}}} \sqcup N_X)^n
+% \to
+% \underline{B_{\mathcal{O}}} \sqcup N_X
+% $$
+% be the transport of the operation $E_X^{\mathrm{tot}}\brak{f}$ along the bijection $\sigma_X$, i.e.
+% the unique map making the diagram
+% $$
+% \begin{tikzcd}
+% \underline{E_X^{\mathrm{tot}}}^n
+%   \arrow[r,"E_X^{\mathrm{tot}}\brak{f}"]
+%   \arrow[d,"\sigma_X^n"']
+% &
+% \underline{E_X^{\mathrm{tot}}}
+%   \arrow[d,"\sigma_X"]
+% \\
+% (\underline{B_{\mathcal{O}}} \sqcup N_X)^n
+%   \arrow[r,"\gamma_f"']
+% &
+% \underline{B_{\mathcal{O}}} \sqcup N_X
+% \end{tikzcd}
+% $$
+% commute.
+
+% Now define
+% $$
+% \delta_f :=
+% [\embed_{N_X},\var_{N_X}] \circ \gamma_f :
+% (\underline{B_{\mathcal{O}}} \sqcup N_X)^n
+% \to
+% \underline{E_2^{\mathcal{A}}}.
+% $$
+
+% By the multivariate universal property of $\Frex_{B_{\mathcal{A}}}(N_X)$, there exists a unique
+% multi-$\mathcal{A}$-homomorphism
+% $$
+% E_2\brak{f} : \underline{E_2^{\mathcal{A}}}^n \to \underline{E_2^{\mathcal{A}}}
+% $$
+% such that
+% $$
+% E_2\brak{f} \circ [\embed_{N_X},\var_{N_X}]^n = \delta_f.
+% $$
+
+% We write
+% $$
+% E_2 := \bigl(E_2^{\mathcal{A}}, \{E_2\brak{f}\}_{f \in \mathcal{O}}\bigr).
+% $$
+
+% \begin{proposition}
+% With the preceding notation, $E_2$ is an object of
+% $$
+% \Mod\bigl(\mathcal{O},\Multi(\mathcal{A},\Set)\bigr).
+% $$
+% \end{proposition}
+
+% \begin{proof}
+% For each $f \in \mathcal{O}_n$, the map
+% $$
+% E_2\brak{f} : \underline{E_2^{\mathcal{A}}}^n \to \underline{E_2^{\mathcal{A}}}
+% $$
+% is multi-$\mathcal{A}$-homomorphic by construction. It therefore remains to check the operad
+% identities and composition laws.
+
+% For the identity operation $\id \in \mathcal{O}_1$, the transported generator-level map
+% $\gamma_{\id}$ is the identity on $\underline{B_{\mathcal{O}}} \sqcup N_X$, because $E_X^{\mathrm{tot}}$
+% is an $\mathcal{O}$-model. Hence
+% $$
+% \delta_{\id} = [\embed_{N_X},\var_{N_X}],
+% $$
+% which is exactly the generator map for the free extension
+% $E_2^{\mathcal{A}} = \Frex_{B_{\mathcal{A}}}(N_X)$.
+% Since the identity map on $E_2^{\mathcal{A}}$ is a multi-$\mathcal{A}$-homomorphism extending the same
+% generator-level map, uniqueness implies
+% $$
+% E_2\brak{\id} = \id_{E_2^{\mathcal{A}}}.
+% $$
+
+% Now let $h \in \mathcal{O}_k$ and $g_i \in \mathcal{O}_{n_i}$ for $1 \leq i \leq k$.
+% Both maps
+% $$
+% E_2\brak{h \circ (g_1,\dots,g_k)}
+% \qquad\text{and}\qquad
+% E_2\brak{h} \circ \bigl(E_2\brak{g_1},\dots,E_2\brak{g_k}\bigr)
+% $$
+% are multi-$\mathcal{A}$-homomorphisms
+% $$
+% \underline{E_2^{\mathcal{A}}}^{\,n_1+\cdots+n_k} \to \underline{E_2^{\mathcal{A}}}.
+% $$
+% By uniqueness of multivariate extension, it suffices to show that they agree on generators.
+% But on generators this is exactly the operad composition law in $E_X^{\mathrm{tot}}$, transported
+% along $\sigma_X$. Therefore the two generator-level maps are equal, hence the two extensions are equal.
+% So the operad composition law holds.
+
+% Therefore $E_2$ is an $\mathcal{O}$-model in $\Multi(\mathcal{A},\Set)$.
+% \end{proof}
+
+% \begin{theorem}[Abstract construction of the free extension]
+% Assume:
+% \begin{itemize}
+%   \item $\mathcal{A}$ is commutative;
+%   \item $\mathfrak T : \mathcal{O} \to \mathcal{M}$ is surjective;
+%   \item the Step~4 reconstruction theorem applies to $E_2$, i.e. the underlying
+%   $\mathcal{O}$-model
+%   $$
+%   E_3 := \Mod(\mathcal{O},-)(E_2)
+%   $$
+%   carries a compatible $\mathcal{M}$-model structure $E_{\mathcal{M}}$ on the same carrier;
+%   \item Step~5 combines $E_{\mathcal{M}}$ and $E_2$ into a model $E_X$ of the distributive combination
+%   $\mathfrak T \triangleleft \mathcal{A}$.
+% \end{itemize}
+
+% Then $E_X$ is the free extension of $B$ by $X$ in the theory
+% $\mathfrak T \triangleleft \mathcal{A}$.
+% \end{theorem}
+
+% \begin{proof}
+% Let $C$ be any extension of $B$ by $X$ in $\mathfrak T \triangleleft \mathcal{A}$.
+% Write $C_{\mathcal{O}}$ for the underlying $\mathcal{O}$-model of the multiplicative reduct of $C$,
+% and $C_{\mathcal{A}}$ for the $\mathcal{A}$-reduct of $C$.
+% All these reducts have the same underlying set, which we denote by $\underline{C}$.
+
+% Since $(E_X^{\mathrm{tot}},j_X,\nu_X)$ is the free extension of $B_{\mathcal{O}}$ by $X$ in
+% $\Mod(\mathcal{O},\Set)$, there exists a unique $\mathcal{O}$-homomorphism
+% $$
+% \alpha : E_X^{\mathrm{tot}} \to C_{\mathcal{O}}
+% $$
+% such that
+% $$
+% \alpha \circ j_X = j_C
+% \qquad\text{and}\qquad
+% \alpha \circ \nu_X = \rho_C,
+% $$
+% where $(C_{\mathcal{O}},j_C,\rho_C)$ is the underlying $\mathcal{O}$-extension of
+% $B_{\mathcal{O}}$ by $X$.
+
+% Define
+% $$
+% u := \alpha \circ \sigma_X^{-1} \circ \iota_N : N_X \to \underline{C}.
+% $$
+% Since $E_2^{\mathcal{A}} = \Frex_{B_{\mathcal{A}}}(N_X)$ is the free $\mathcal{A}$-extension of
+% $B_{\mathcal{A}}$ by $N_X$, there exists a unique $\mathcal{A}$-homomorphism
+% $$
+% \beta : E_2^{\mathcal{A}} \to C_{\mathcal{A}}
+% $$
+% such that
+% $$
+% \beta \circ \embed_{N_X} = \embed_C
+% \qquad\text{and}\qquad
+% \beta \circ \var_{N_X} = u.
+% $$
+
+% We claim that $\beta$ is an $\mathcal{O}$-homomorphism.
+% Fix $f \in \mathcal{O}_n$. Both maps
+% $$
+% \beta \circ E_2\brak{f}
+% \qquad\text{and}\qquad
+% C\brak{f} \circ \beta^n
+% $$
+% are multi-$\mathcal{A}$-homomorphisms
+% $$
+% \underline{E_2^{\mathcal{A}}}^n \to \underline{C}.
+% $$
+% Hence, by uniqueness of multivariate extension, it suffices to show that they agree on generators.
+% On generators, the first map is
+% $$
+% \beta \circ [\embed_{N_X},\var_{N_X}] \circ \gamma_f
+% =
+% [\embed_C,u] \circ \gamma_f,
+% $$
+% whereas the second map is
+% $$
+% C\brak{f} \circ [\embed_C,u]^n.
+% $$
+% These are equal because $\alpha : E_X^{\mathrm{tot}} \to C_{\mathcal{O}}$ is an $\mathcal{O}$-homomorphism,
+% and $\gamma_f$ was defined by transporting $E_X^{\mathrm{tot}}\brak{f}$ along $\sigma_X$.
+% Therefore
+% $$
+% \beta \circ E_2\brak{f} = C\brak{f} \circ \beta^n,
+% $$
+% and so $\beta$ is an $\mathcal{O}$-homomorphism.
+
+% By the Step~4 reconstruction theorem, the $\mathcal{M}$-structure on $E_X$ and the given
+% $\mathcal{M}$-structure on $C$ are both reconstructed from their underlying $\mathcal{O}$-models.
+% Since $\beta$ is an $\mathcal{O}$-homomorphism, it is therefore also an $\mathcal{M}$-homomorphism.
+% Hence $\beta$ is a homomorphism of models of $\mathfrak T \triangleleft \mathcal{A}$.
+
+% It remains to prove uniqueness.
+% Let
+% $$
+% \beta' : E_X \to C
+% $$
+% be any homomorphism of extensions.
+% Forgetting to the underlying $\mathcal{O}$-models, $\beta'$ induces an $\mathcal{O}$-homomorphism
+% $$
+% E_X^{\mathrm{tot}} \to C_{\mathcal{O}}
+% $$
+% extending the same base map and variable map as $\alpha$.
+% By multiplicative freeness, this map must be $\alpha$.
+% Therefore the restriction of $\beta'$ to the new part is the same map $u : N_X \to \underline{C}$.
+% Since $\beta'$ is also an $\mathcal{A}$-homomorphism out of
+% $\Frex_{B_{\mathcal{A}}}(N_X)$ extending the same base map and the same map $u$,
+% additive freeness implies
+% $$
+% \beta' = \beta.
+% $$
+
+% Thus $\beta$ is the unique homomorphism of extensions
+% $$
+% E_X \to C.
+% $$
+% Therefore $E_X$ is the free extension of $B$ by $X$ in $\mathfrak T \triangleleft \mathcal{A}$.
+% \end{proof}
+
+
+
 \newpage
 
 \nocite{*}
@@ -3181,6 +3986,18 @@ We can the define $E$ as the pullback of $E_\mathcal{M}$ and $E_2$. This should 
   \item 01/06/2026: Started learning some Idris2.
   
   Ohad gave a counter-example to the construction of the free algebra $\to$ I had overlooked something in the proof of Lemma 34 of Ohad's notes. Partially fixed things, but stronger hypothesis now.
+  \item 02/06/2026: read \cite{zwart2018donttryhomenogo} and checked every no-go theorem they provide and proved that our construction doesn't apply in those cases.
+  
+  Worked on the construction of the free extension.
+  \item 03/06/2026: finished learning the basics of Idris2, started looking into the current implementation of frex in Idris2 (\url{https://github.com/frex-project/idris-frex}).
+  \item 04/06/2026: looked at the whole structure of the project and read every file, understanding of where and how things are defined and how they are used and work together.
+  
+  Started working on defining the distributive combination.
+
+  Defined the theory of semigroups and commutative semigroups.
+  \item 05/06/2026: defined some models for the semigroups.
+  
+  Came back to the drawing board of last friday with Ohad, and tried to make sense of things. Applied it to the example of the semigroups, I can't quite picture how to get the definition the the operations once you apply the lifted functor.
 \end{itemize}
 
 
@@ -3195,7 +4012,8 @@ We can the define $E$ as the pullback of $E_\mathcal{M}$ and $E_2$. This should 
 \section{Questions for Ohad}
 
 \begin{itemize}
-  \item what is the reader monad
+  \item
+  % \item what is the reader monad
 \end{itemize} 
 
 \end{document}
