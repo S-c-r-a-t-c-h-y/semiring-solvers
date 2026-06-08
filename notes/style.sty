@@ -11,6 +11,8 @@
 \usepackage{footmisc}
 
 \usepackage{todonotes}
+\usepackage{marginnote}
+
 
 % \usepackage[side]{footmisc}
 
@@ -35,7 +37,7 @@
 
 %%%%%%%%%%% TABLE DES MATIERES %%%%%%%%%%
 
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
  
  %%%%%%%%%%% PAGE STYLING %%%%%%%%%%%%%%
  
@@ -457,3 +459,6 @@
     {\noindent\textbf{\textcolor{blue1}{end of digression}}\par
     \color{blue1}\rule{\linewidth}{1.2pt}}\par
   }
+
+\newcommand{\incomplete}[2][]{\todo[color=red, size=\footnotesize, inline, #1]{\textbf{Incomplete:} #2}}
+% \newcommand{\incomplete}[2][]{\marginnote{\begin{minipage}{2.4cm}\todo[color=red, size=\footnotesize, inline, #1]{#2}\end{minipage}}}

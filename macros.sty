@@ -10,6 +10,10 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{bbm}
+
+\usepackage{stmaryrd}
+% \usepackage{stix}
+
 \usepackage{amssymb}
 \usepackage{nicematrix}
 \usepackage{array}
@@ -17,7 +21,7 @@
 \usepackage{mathtools}
 \usepackage[e]{esvect}
 \usepackage{MnSymbol}
-\usepackage{extpfeil}
+% \usepackage{extpfeil}
 
 \usepackage{url}
 \IfClassLoadedTF{beamer}{
@@ -94,7 +98,6 @@
 \usepackage{float}
 \usepackage{fancyhdr}
 \usepackage{calc}
-\usepackage{marginnote}
 \usepackage{environ}
 \usepackage{varwidth}
 \usepackage{ifthen}
@@ -216,8 +219,8 @@
 %%%%%%%%%%%%% PARENTHESAGE %%%%%%%%%%%%%%%%%
 
 % \newcommand{\brak}[1]{\left\llbracket #1 \right\rrbracket}
-\newcommand{\llbracket}{\left[\!\!\!\:\left[}
-\newcommand{\rrbracket}{\right]\!\!\!\:\right]}
+\renewcommand{\llbracket}{\left[\!\!\!\:\left[}
+\renewcommand{\rrbracket}{\right]\!\!\!\:\right]}
 \newcommand{\brak}[1]{\llbracket #1 \rrbracket}
 \newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
 \newcommand{\la}{\left\langle}
@@ -260,9 +263,9 @@
 \renewcommand\ul\underline
 \newcommand{\ebf}{\mathbf{e}}
 \newcommand{\OO}{\mathcal{O}}
-\newcommand{\Frex}{\mathrm{Frex}}
-\newcommand{\var}{\mathrm{var}}
-\newcommand{\embed}{\mathrm{embed}}
+\DeclareMathOperator{\Frex}{Frex}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\embed}{embed}
 \newcommand{\Bag}{\mathrm{Bag}}
 
 \newcommand{\tocheck}[1]{\textbf{\textcolor{red}{\ifstrempty{#1}{TO CHECK}{#1}}}}
