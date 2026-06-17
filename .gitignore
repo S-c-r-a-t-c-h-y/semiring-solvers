@@ -17,3 +17,5 @@
 *.bcf
 *.bbl*
 *.bcf*
+*.synctex(busy)
+/generated

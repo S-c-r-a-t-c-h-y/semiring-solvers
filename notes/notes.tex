@@ -2,6 +2,7 @@
 
 \usepackage{../macros}
 \usepackage{style}
+\usepackage{../katla-preamble}
 
 \title{Notes on Varieties of Semiring Solvers}
 
@@ -73,7 +74,7 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   A \emph{category} $\mathcal{C}$ consists of:
   \begin{itemize}
     \item A class of objects $\text{Ob}(\mathcal{C})$,
-    \item For each pair of objects $a, b \in \text{Ob}(\mathcal{C})$, a set of morphisms $\text{Hom}_{\mathcal{C}}(a, b)$,
+    \item For each pair of objects $a, b \in \text{Ob}(\mathcal{C})$, a class of morphisms $\text{Hom}_{\mathcal{C}}(a, b)$,
     \item For each object $a \in \text{Ob}(\mathcal{C})$, an identity morphism $\text{id}_a \in \text{Hom}_{\mathcal{C}}(a, a)$,
     \item A composition operation $\circ$ such that for morphisms $f: a \to b$ and $g: b \to c$, there is a morphism $g \circ f: a \to c$,
   \end{itemize}
@@ -92,6 +93,10 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   The \emph{walking morphism} category $\mathbf{2}$ or $I$ has two objects, say $0$ and $1$, and a single non-identity morphism $f: 0 \to 1$. The identity morphisms are $\text{id}_0: 0 \to 0$ and $\text{id}_1: 1 \to 1$. The composition is defined by the identities and the morphism $f$.
 \end{example}
 
+\begin{definition}[Small category]
+  A category $\mathcal{C}$ is called \emph{small} if both its class of objects $\text{Ob}(\mathcal{C})$ and the class of morphisms $\text{Hom}_{\mathcal{C}}(a, b)$ for all $a, b \in \text{Ob}(\mathcal{C})$ are sets (as opposed to proper classes).
+\end{definition}
+
 \begin{definition}[Product]
   Given two objects $a$ and $b$ in a category $\mathcal{C}$, a \emph{product} of $a$ and $b$ is an object $a \times b$ together with two morphisms $\pi_a: a \times b \to a$ and $\pi_b: a \times b \to b$ such that for any object $c$ and morphisms $f: c \to a$ and $g: c \to b$, there exists a unique morphism $\langle f, g \rangle: c \to a \times b$ making the following diagram commute:
   $$
@@ -108,27 +113,6 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   \begin{tikzcd}
     a \arrow[r, "\iota_a"] \arrow[dr, "f"'] & a + b \arrow[dashed, d, "{[f, g]}"] & b \arrow[l, "\iota_b"'] \arrow[dl, "g"] \\
     & c &
-  \end{tikzcd}
-  $$
-\end{definition}
-
-\begin{definition}[Monoidal Category]
-  A \emph{monoidal category} is a category $\mathcal{C}$ equipped with a bifunctor $\otimes: \mathcal{C} \times \mathcal{C} \to \mathcal{C}$, an object $I$ called the unit object, and natural isomorphisms (called associators and unitors) that satisfy certain coherence conditions. Specifically, for all objects $a, b, c$ in $\mathcal{C}$, there are natural isomorphisms:
-  \begin{itemize}
-    \item Associator: $\alpha_{a,b,c}: (a \otimes b) \otimes c \to a \otimes (b \otimes c)$,
-    \item Left unitor: $\lambda_a: I \otimes a \to a$,
-    \item Right unitor: $\rho_a: a \otimes I \to a$,
-  \end{itemize}
-  such that the following diagrams commute:
-  $$
-  \begin{tikzcd}
-    ((a \otimes b) \otimes c) \otimes d \arrow[r, "\alpha_{a,b,c} \otimes 1_d"] & (a \otimes (b \otimes c)) \otimes d \arrow[r, "\alpha_{a,b\otimes c,d}"] & a \otimes ((b \otimes c) \otimes d) \\
-    (a \otimes b) \otimes (c \otimes d) \arrow[u, "\alpha_{a,b,c\otimes d}"] & & a \otimes (b \otimes (c \otimes d)) \arrow[u, "1_a \otimes \alpha_{b,c,d}"]
-  \end{tikzcd}
-  $$
-  $$
-  \begin{tikzcd}
-    (I \otimes a) \otimes b \arrow[r, "\alpha_{I,a,b}"] & I \otimes (a \otimes b) & a = a \otimes I \arrow[l, "\rho_a"'] \arrow[r, "\lambda_a"] & a \otimes I \arrow[r, "\alpha_{a,I,I}"] & (a \otimes I) \otimes I
   \end{tikzcd}
   $$
 \end{definition}
@@ -177,6 +161,51 @@ A group is called \emph{abelian} if its operation is commutative, i.e., for all 
   \]
 \end{definition}
 
+\begin{example}[Monoidal Category]
+  A \emph{monoidal category} is a category $\mathcal{C}$ equipped with a bifunctor $\otimes: \mathcal{C} \times \mathcal{C} \to \mathcal{C}$, an object $I$ called the unit object, and natural isomorphisms (called associators and unitors) that satisfy certain coherence conditions. Specifically, for all objects $a, b, c$ in $\mathcal{C}$, there are natural isomorphisms:
+  \begin{itemize}
+    \item Associator: $\alpha_{a,b,c}: (a \otimes b) \otimes c \to a \otimes (b \otimes c)$,
+    \item Left unitor: $\lambda_a: I \otimes a \to a$,
+    \item Right unitor: $\rho_a: a \otimes I \to a$,
+  \end{itemize}
+  such that the following diagrams commute:
+  $$
+  \begin{tikzcd}
+    ((a \otimes b) \otimes c) \otimes d \arrow[r, "\alpha_{a,b,c} \otimes 1_d"] & (a \otimes (b \otimes c)) \otimes d \arrow[r, "\alpha_{a,b\otimes c,d}"] & a \otimes ((b \otimes c) \otimes d) \\
+    (a \otimes b) \otimes (c \otimes d) \arrow[u, "\alpha_{a,b,c\otimes d}"] & & a \otimes (b \otimes (c \otimes d)) \arrow[u, "1_a \otimes \alpha_{b,c,d}"]
+  \end{tikzcd}
+  $$
+  $$
+  \begin{tikzcd}
+    (I \otimes a) \otimes b \arrow[r, "\alpha_{I,a,b}"] & I \otimes (a \otimes b) & a = a \otimes I \arrow[l, "\rho_a"'] \arrow[r, "\lambda_a"] & a \otimes I \arrow[r, "\alpha_{a,I,I}"] & (a \otimes I) \otimes I
+  \end{tikzcd}
+  $$
+\end{example}
+
+\begin{definition}[Opposite category]
+  Let $\mathcal C$ be a category.
+
+  \medskip
+
+  The \emph{opposite category} $\mathcal C^{\op}$ is defined by:
+  \begin{itemize}
+    \item $\Ob(\mathcal C^{\op}) := \Ob(\mathcal C)$
+    \item $\Hom_{\mathcal C^{\op}}(x, y) := \Hom_{\mathcal C}(y, x)$
+    \item $(g \circ f)^{\op} := f^{\op} \circ g^{\op}$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Presheaf]
+  A \emph{presheaf} on a small category $\mathcal C$ is a functor $$F : \mathcal C^{\op} \to \Set$$ from the opposite category $\mathcal C^{\op}$ of $\mathcal C$ to the category $\Set$ of sets.
+
+  \medskip
+
+  The category of presheaves on $\mathcal C$, usually denoted $\Set^{\mathcal C^{\op}}$ or $[\mathcal C^{\op}, \Set]$, but often abbreviated as $\hat{\mathcal{C}}$, has:
+  \begin{itemize}
+    \item functors $F : \mathcal C^{\op} \to Set$ as objects 
+    \item natural transformations between such functors as morphisms
+  \end{itemize}
+\end{definition}
 
 \begin{definition}[Adjunction]
   Given two categories $\mathcal{C}$ and $\mathcal{D}$, a functor $F: \mathcal{C} \to \mathcal{D}$ is a \emph{left adjoint} to a functor $G: \mathcal{D} \to \mathcal{C}$ (and $G$ is a \emph{right adjoint} to $F$) if there is a natural isomorphism:
@@ -291,6 +320,28 @@ Universal arrows have more uses than just defining adjunctions. Here are other e
 \end{example}
 
 
+\begin{definition}[Equaliser]
+  Let $f, g : X \to Y$ be two morphisms in a category $\mathcal{C}$. 
+  
+  \medskip
+
+  An \emph{equaliser} of $f$ and $g$ is an object $E$ together with a morphism $e : E \to X$ such that the following diagram commutes:
+  \[
+  \begin{tikzcd}
+    E \arrow[r, "e"] & X \arrow[r, shift left, "f"] \arrow[r, shift right, "g"'] & Y
+  \end{tikzcd}
+  \]
+  Moreover, for any object $Z$ and morphism $z : Z \to X$ such that $f \circ z = g \circ z$, there exists a unique morphism $u : Z \to E$ such that $e \circ u = z$: 
+  \[\begin{tikzcd}
+    Z && \\
+    E & X & Y
+    \arrow["u"', dashed, from=1-1, to=2-1]
+    \arrow["z", from=1-1, to=2-2]
+    \arrow["e"', from=2-1, to=2-2]
+    \arrow["f", shift left, from=2-2, to=2-3]
+    \arrow["g"', shift right, from=2-2, to=2-3]
+  \end{tikzcd}\]
+\end{definition}
 
 \begin{definition}[Pullback of two morphisms]
   Let $f : X \to Z$ and $g : Y \to Z$ be two morphisms in a category $\mathcal{C}$. A \emph{pullback} of $f$ and $g$ consists of an object $P$ and two morphisms $p_1 : P \to X$ and $p_2 : P \to Y$ such that the following diagram commutes:
@@ -389,12 +440,12 @@ Q \arrow[rdd, "q_1"', bend right] \arrow[rrd, "q_2", bend left] \arrow[rd, "u", 
   This condition can be reformulated with universal arrows as follows: a pushout of $f$ and $g$ is a universal arrow from the object $(f, g)$ in $\mathcal{C} \times \mathcal{C}$ to the functor $\Delta : \mathcal{C} \to \mathcal{C} \times \mathcal{C}$.
 \end{definition}
 
-\begin{definition}[Coequalizer]
+\begin{definition}[Coequaliser]
   Let $f, g : X \to Y$ be two morphisms in a category $\mathcal{C}$. 
   
   \medskip
   
-  A \emph{coequalizer} of $f$ and $g$ consists of an object $Q$ and a morphism $q : Y \to Q$ such that the following diagram commutes:
+  A \emph{coequaliser} of $f$ and $g$ consists of an object $Q$ and a morphism $q : Y \to Q$ such that the following diagram commutes:
   \[
   \begin{tikzcd}
     X \arrow[r, shift left, "f"] \arrow[r, shift right, "g"'] & Y \arrow[r, "q"] & Q
@@ -411,8 +462,8 @@ Q \arrow[rdd, "q_1"', bend right] \arrow[rrd, "q_2", bend left] \arrow[rd, "u", 
   \]
 \end{definition}
 
-\begin{lemma}[Pushout as coproducts and coequalizers]
-  Let $f : Z \to X$ and $g : Z \to Y$ be two morphisms in a category $\mathcal{C}$. The pushout of $f$ and $g$ can be constructed as the coequalizer of the morphisms $\iota_X f : Z \to X \coprod Y$ and $\iota_Y g : Z \to X \coprod Y$, where $X \coprod Y$ is the coproduct of $X$ and $Y$, and $\iota_X : X \to X + Y$ and $\iota_Y : Y \to X \coprod Y$ are the canonical injections:
+\begin{lemma}[Pushout as coproducts and coequalisers]
+  Let $f : Z \to X$ and $g : Z \to Y$ be two morphisms in a category $\mathcal{C}$. The pushout of $f$ and $g$ can be constructed as the coequaliser of the morphisms $\iota_X f : Z \to X \coprod Y$ and $\iota_Y g : Z \to X \coprod Y$, where $X \coprod Y$ is the coproduct of $X$ and $Y$, and $\iota_X : X \to X + Y$ and $\iota_Y : Y \to X \coprod Y$ are the canonical injections:
   \[\begin{tikzcd}
     Z && Y \\
     & {X\coprod Y} \\
@@ -428,6 +479,136 @@ Q \arrow[rdd, "q_1"', bend right] \arrow[rrd, "q_2", bend left] \arrow[rd, "u", 
     \arrow["{\iota_X \circ q}"', from=3-1, to=3-3]
   \end{tikzcd}\]
 \end{lemma}
+
+\todo{ADD REFERENCES}
+
+\begin{definition}[Diagram]
+  A \emph{diagram} in a category $\mathcal C$ is just a functor $$D : J \to \mathcal C$$ $J$ is called the \emph{index category} or \emph{shape} of the diagram.
+\end{definition}
+
+\begin{definition}[Cone]
+  Given a diagram $F : J \to \mathcal C$, a \emph{cone} to $F$ is:
+  \begin{itemize}
+    \item an object $N$ of $\mathcal C$
+    \item a family $\psi$ of morphisms $\psi_X : N \to FX$ indexed by the objects $X$ of $J$ such that for every morphism $f : X \to Y$ in $J$, $$F f \circ \psi_X = \psi_Y$$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Cocone]
+  Given a diagram $F : J \to \mathcal C$, a \emph{cocone} to $F$ is:
+  \begin{itemize}
+    \item an object $N$ of $\mathcal C$
+    \item a family $\iota$ of morphisms $\iota_X : FX \to N$ indexed by the objects $X$ of $J$ such that for every morphism $f : X \to Y$ in $J$, $$\iota_Y \circ Ff = \iota_X$$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Limit]
+  A \emph{limit} of a diagram $F : J \to \mathcal C$ is a cone $(L, \phi)$ to $F$ such that for every cone $(N, \psi)$ to $F$ there is a unique morphism $u : N \to L$ such that $\phi_X \circ u = \psi_X$ for all $X$ in $J$:
+  % https://q.uiver.app/#q=WzAsNCxbMSwwLCJOIl0sWzEsMSwiTCJdLFswLDIsIkZYIl0sWzIsMiwiRlkiXSxbMCwxLCJ1IiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzIsMywiRmYiLDJdLFsxLDIsIlxccGhpX1giLDJdLFsxLDMsIlxccGhpX1kiXSxbMCwyLCJcXHBzaV9YIiwyLHsiY3VydmUiOjJ9XSxbMCwzLCJcXHBzaV9ZIiwwLHsiY3VydmUiOi0yfV1d
+  \[\begin{tikzcd}
+    & N & \\
+    & L \\
+    FX && FY
+    \arrow["u"{description}, dashed, from=1-2, to=2-2]
+    \arrow["{\psi_X}"', curve={height=12pt}, from=1-2, to=3-1]
+    \arrow["{\psi_Y}", curve={height=-12pt}, from=1-2, to=3-3]
+    \arrow["{\phi_X}"', from=2-2, to=3-1]
+    \arrow["{\phi_Y}", from=2-2, to=3-3]
+    \arrow["Ff"', from=3-1, to=3-3]
+  \end{tikzcd}\]
+  A limit is called \emph{small} if $J$ is small.
+\end{definition}
+
+\begin{definition}[Complete category]
+  A category $\mathcal C$ is said to be \emph{complete} if it has all small limits.
+\end{definition}
+
+\begin{definition}[Continuous functor]
+  A functor $G$ is said to \emph{preserve all limits of shape $J$} if it preserves the limits of all diagrams $F : J \to \mathcal C$.
+
+  \medskip
+
+  A \emph{continuous functor} is a functor that preserves all small limits.
+\end{definition}
+
+\begin{definition}[Colimit]
+  A \emph{colimit} of a diagram $F : J \to \mathcal C$ is a cocone $(L, \phi)$ to $F$ such that for every cocone $(N, \psi)$ to $F$ there is a unique morphism $u : L \to N$ such that $u \circ \phi_X = \psi_X$ for all $X$ in $J$:
+  % https://q.uiver.app/#q=WzAsNCxbMCwwLCJGWCJdLFsyLDAsIkZZIl0sWzEsMSwiTCJdLFsxLDIsIk4iXSxbMCwxLCJGZiJdLFsyLDMsInUiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCwyLCJcXHBoaV9YIiwyXSxbMSwyLCJcXHBoaV9ZIl0sWzAsMywiXFxwc2lfWCIsMix7ImN1cnZlIjoyfV0sWzEsMywiXFxwc2lfWSIsMix7ImN1cnZlIjotMn1dXQ==
+  \[\begin{tikzcd}
+    FX && FY \\
+    & L \\
+    & N
+    \arrow["Ff", from=1-1, to=1-3]
+    \arrow["{\phi_X}"', from=1-1, to=2-2]
+    \arrow["{\psi_X}"', curve={height=12pt}, from=1-1, to=3-2]
+    \arrow["{\phi_Y}", from=1-3, to=2-2]
+    \arrow["{\psi_Y}"', curve={height=-12pt}, from=1-3, to=3-2]
+    \arrow["u"{description}, dashed, from=2-2, to=3-2]
+  \end{tikzcd}\]
+  A colimit is called \emph{small} if $J$ is small.
+\end{definition}
+
+\begin{definition}[Cocomplete category]
+  A category $\mathcal C$ is said to be \emph{cocomplete} if it has all small colimits.
+\end{definition}
+
+\begin{definition}[Cocontinuous functor]
+  A functor $G$ is said to \emph{preserve all colimits of shape $J$} if it preserves the colimits of all diagrams $F : J \to \mathcal C$.
+
+  \medskip
+
+  A \emph{cocontinuous functor} is a functor that preserves all small colimits.
+\end{definition}
+
+\begin{example}[Product as a limit]
+  The product of two objects $A$ and $B$ in a category $\mathcal C$ is the limit of the diagram consisting of the two objects $A$ and $B$ with no arrows between them.
+\end{example}
+
+\begin{example}[Equaliser as a limit]
+  The limit of the diagram $\begin{tikzcd}
+	X & Y
+	\arrow["f", shift left, from=1-1, to=1-2]
+	\arrow["g"', shift right, from=1-1, to=1-2]
+\end{tikzcd}$ is the equaliser of $f$ and $g$.
+\end{example}
+
+\begin{example}[Pullback as a limit]
+    The limit of the span $\begin{tikzcd}
+	X & Z & Y
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["g"', from=1-3, to=1-2]
+\end{tikzcd}$ is the pullback $X \times_Z Y$.
+\end{example}
+
+\begin{example}[Coproduct as a colimit]
+  The coproduct of two objects $A$ and $B$ in a category $\mathcal C$ is the colimit of the diagram consisting of the two objects $A$ and $B$ with no arrows between them.
+\end{example}
+
+\begin{example}[Coequaliser as a colimit]
+  The colimit of the diagram $\begin{tikzcd}
+	X & Y
+	\arrow["f", shift left, from=1-1, to=1-2]
+	\arrow["g"', shift right, from=1-1, to=1-2]
+\end{tikzcd}$ is the coequaliser of $f$ and $g$.
+\end{example}
+
+\begin{example}[Pushout as a colimit]
+    The colimit of the cospan $\begin{tikzcd}
+	X & Z & Y
+	\arrow["f"', from=1-2, to=1-1]
+	\arrow["g", from=1-2, to=1-3]
+\end{tikzcd}$ is the pushout $X \coprod_Z Y$.
+\end{example}
+
+\begin{theorem}[Preservation of limits by adjoints]
+  If $F : \mathcal C \leftrightarrows \mathcal D : G$ with $F \dashv G$, then:
+  \begin{itemize}
+    \item $F$ preserves colimits
+    \item $G$ preserves limits
+  \end{itemize}
+  In other words, every right adjoint is continuous and every left adjoint is cocontinuous.
+\end{theorem}
+
 
 \subsection{Monads}
 
@@ -987,9 +1168,9 @@ Unfolding the conditions for the $\mathbb T$-algebra and for the morphism, the f
   There is a carrier-preserving, fully-faithful functor $\Mod(\mathfrak T, \la \mathcal C, \prod \ra) : \Mod(\pres, \mathcal C) \to \Mod(\mathcal O, \la \mathcal C, \prod \ra)$ given by: $$\lp \Mod(\mathfrak T, \la \mathcal C, \prod \ra) A \rp \brak{f} := A \brak{\mathfrak T f} \qquad \Mod(\mathfrak T, \la \mathcal C, \prod \ra) h := h$$
 \end{proposition}
 
-\begin{proposition}
+\begin{proof}
   The compatibility with composition and identities of the operad follows from their preservation by $\mathfrak T$. Preservation of identities and composition, and fully-faithfulness are evident.
-\end{proposition}
+\end{proof}
 
 \begin{proposition}
   \label{prop:mod_2_functor}
@@ -1259,6 +1440,111 @@ $\triangleright$ Finally, we have a natural 2-transformation \begin{tikzcd}
   \end{itemize}
 
   All of the proofs that the following definitions are indeed of the nature they were described of are in Ohad's notes.
+
+\subsection{Yoneda structure}
+
+The formalisation uses the work of Street and Walters in \cite{STREET1978350}.
+
+\medskip
+
+In this section, we will use the notations of section 5.2 of Ohad's notes.
+
+\begin{definition}[Admissible multi-functor]
+  A multi-functor $F : \mathcal U \to \mathcal V$ is \emph{admissible} when, for all $a_1, \dots, a_n$ in $\mathcal U$ and $b$ in $\mathcal V$, the multi-homset $\mathcal V(F a_1, \dots, F a_n; b) \in \Set$ is small. 
+\end{definition}
+
+\begin{definition}[Admissible multi-category]
+  A multi-category is \emph{admissible} when its identity multi-functor is admissible, i.e when it is locally small.
+\end{definition}
+
+\begin{lemma}
+  The admissible multi-functors are closed under precomposition, i.e, for $\mathcal U \xrightarrow{F} \mathcal V \xrightarrow{G} \mathcal W$, if $G$ is admissible, then $G \circ F$ is also admissible.
+\end{lemma}
+
+\begin{definition}[Opposite multi-category]
+  Let $\mathcal U$ be a multi-category. We define a multi-category $\mathcal U^{\op}$ as follows:
+  \begin{itemize}
+    \item $\Ob (\mathcal U^{\op}) := \List \Ob(\mathcal U)$ are finite sequences $\abf = \la \abf_1 \dots, \abf_n \ra$ of objects of $\mathcal U$.
+    \item Morphisms $f \in \mathcal U^{\op} (\abf, \bbf)$, which we will write as "$f : \abf \leftarrow \bbf$ in $\mathcal U$", consists of:
+    \begin{itemize}
+      \item an ordered partition $\pi_f := \la \pi_1, \dots, \pi_n \ra \in \List^2 \Ob(\mathcal U)$, i.e, $\bbf = \bigconcat_{i=1}^n \pi_i$
+      \item for each $1 \le i \le n$, a multi-morphism $f_i : \abf_i \leftarrow (\bbf_i)$.
+      % https://q.uiver.app/#q=WzAsMTcsWzQsMCwiXFxiYmZfe1xcbGEgMSwgMSBcXHJhfSJdLFs0LDEsIlxcYmJmX3tcXGxhIDEsIHxcXGJiZl8xfCBcXHJhfSJdLFs0LDMsIlxcYmJmX3tcXGxhIG4sIDEgXFxyYX0iXSxbNCw0LCJcXGJiZl97XFxsYSBuLCB8XFxiYmZfbnwgXFxyYX0iXSxbMyw0LCI9Il0sWzMsMywiPSJdLFszLDEsIj0iXSxbMywwLCI9Il0sWzIsMCwiXFxwaV97MTF9Il0sWzIsMSwiXFxwaV97MXxcXGJiZl8xfH0iXSxbMiw0LCJcXHBpX3tufFxcYmJmX258fSJdLFsyLDMsIlxccGlfe24xfSJdLFsxLDEsImZfMSJdLFsxLDMsImZfbiJdLFswLDMsIlxcYWJmX24iXSxbMCwyLCJcXHZkb3RzIl0sWzAsMSwiXFxhYmZfMSJdLFsxMiwxNl0sWzEzLDE0XSxbOCwxMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs5LDEyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzExLDEzLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEwLDEzLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzgsOSwiXFx2ZG90cyIsMSx7InNob3J0ZW4iOnsic291cmNlIjozMCwidGFyZ2V0IjozMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMSwxMCwiXFx2ZG90cyIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxOSwyMCwiIiwyLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFsyMSwyMiwiIiwwLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dXQ==&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+    \[\begin{tikzcd}
+      && {\pi_{11}} & {=} & {\bbf_{\la 1, 1 \ra}} \\
+      {\abf_1} & {f_1} & {\pi_{1|\bbf_1|}} & {=} & {\bbf_{\la 1, |\bbf_1| \ra}} \\
+      \vdots \\
+      {\abf_n} & {f_n} & {\pi_{n1}} & {=} & {\bbf_{\la n, 1 \ra}} \\
+      && {\pi_{n|\bbf_n|}} & {=} & {\bbf_{\la n, |\bbf_n| \ra}}
+      \arrow[""{name=0, anchor=center, inner sep=0}, no head, from=1-3, to=2-2]
+      \arrow["\vdots"{description}, draw=none, from=1-3, to=2-3]
+      \arrow[from=2-2, to=2-1]
+      \arrow[""{name=1, anchor=center, inner sep=0}, no head, from=2-3, to=2-2]
+      \arrow[from=4-2, to=4-1]
+      \arrow[""{name=2, anchor=center, inner sep=0}, no head, from=4-3, to=4-2]
+      \arrow["\vdots"{description}, draw=none, from=4-3, to=5-3]
+      \arrow[""{name=3, anchor=center, inner sep=0}, no head, from=5-3, to=4-2]
+      \arrow[curve={height=-6pt}, between={0.2}{0.8}, from=0, to=1]
+      \arrow[curve={height=-6pt}, between={0.2}{0.8}, from=2, to=3]
+    \end{tikzcd}\]
+
+      \item The identity $\id_\abf^{[\mathcal U^{\op}]}$ consists of:
+      \begin{itemize}
+        \item $\pi_{\id_\abf} := \la \la a_1 \ra, \dots, \la a_n \ra \ra$, the partition into singletons, and
+        \item $(\id_\abf)_i := \id_{\abf_i} : \abf_i \leftarrow (\abf_i)$
+      \end{itemize}
+      \item To compose morphisms $\abf \xleftarrow{f} \bbf \xleftarrow{g} \cbf$, use the multiplication of the $\Tree$ monad to get an iterated partition of depth 3, and then flatten all the depth 1 iterated lists into lists. Then, compose the multi-morphisms to get a morphism $f \circ g : \abf \leftarrow \cbf$ (note the order of arguments in this notation). Letting $|\abf| =: n$ and $|\pi_{f, i}| =: m_i$:
+      \begin{itemize}
+        \item $\pi_{f \circ g} := \la \la \pi_{g_{\la 1, 1 \ra}} \concat \dots \concat \pi_{g_{\la 1, m_1 \ra}}\ra, \dots, \la \pi_{g_{\la n, 1 \ra}} \concat \dots \concat \pi_{g_{\la n, m_n \ra}}\ra \ra$
+        \item $(f \circ g)_i := f_i \circ (g_{\la i, 1 \ra}, \cdots, g_{\la i, m_i \ra})$
+      \end{itemize}
+      % https://q.uiver.app/#q=WzAsMjAsWzYsMCwiXFxjYmZfe1xcbGEgMSwgMSwgMVxccmF9Il0sWzYsMSwiXFxjYmZfe1xcbGEgMSwgMSwga197MTF9XFxyYX0iXSxbNiwyLCJcXGNiZl97XFxsYSAxLCBtXzEsIDFcXHJhfSJdLFs2LDMsIlxcY2JmX3tcXGxhIDEsIG1fMSwga197MW1fMX1cXHJhfSJdLFs2LDQsIlxcY2JmX3tcXGxhIG4sIDEsIDFcXHJhfSJdLFs2LDUsIlxcY2JmX3tcXGxhIG4sIDEsIGtfe24xfVxccmF9Il0sWzYsNiwiXFxjYmZfe1xcbGEgbiwgbV9uLCAxXFxyYX0iXSxbNiw3LCJcXGNiZl97XFxsYSBuLCBtX24sIGtfe25tX259XFxyYX0iXSxbNCw2LCJnX3tcXGxhIG4sIG1fbiBcXHJhfSJdLFs0LDUsImdfe1xcbGEgbiwgMSBcXHJhfSJdLFs0LDIsImdfe1xcbGEgMSwgbV8xIFxccmF9Il0sWzQsMSwiZ197XFxsYSAxLCAxIFxccmF9Il0sWzMsNSwiXFxiYmZfe1xcbGEgbiwgMVxccmF9Il0sWzMsNiwiXFxiYmZfe1xcbGEgbiwgbV9uXFxyYX0iXSxbMywyLCJcXGJiZl97XFxsYSAxLCBtXzFcXHJhfSJdLFszLDEsIlxcYmJmX3tcXGxhIDEsIDFcXHJhfSJdLFsxLDIsImZfMSJdLFsxLDUsImZfbiJdLFswLDUsIlxcYWJmX24iXSxbMCwyLCJcXGFiZl8xIl0sWzE5LDE4LCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzE1LDE0LCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEyLDEzLCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzksOCwiXFx2ZG90cyIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs2LDcsIlxcdmRvdHMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNCw1LCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsMywiXFx2ZG90cyIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDEsIlxcdmRvdHMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwxMSwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDExLCIiLDEseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsMTAsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxMCwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDksIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNCw5LCIiLDEseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzYsOCwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs3LDgsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbOCwxM10sWzksMTJdLFsxMCwxNF0sWzExLDEwLCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzExLDE1XSxbMTUsMTYsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTQsMTYsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTIsMTcsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTMsMTcsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTcsMThdLFsxNiwxOV0sWzI4LDI5LCIiLDEseyJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzMwLDMxLCIiLDEseyJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzMzLDMyLCIiLDEseyJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzM0LDM1LCIiLDEseyJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzQzLDQ0LCIiLDEseyJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzQxLDQyLCIiLDEseyJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV1d&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+      \[\begin{tikzcd}
+        &&&&&& {\cbf_{\la 1, 1, 1\ra}} \\
+        &&& {\bbf_{\la 1, 1\ra}} & {g_{\la 1, 1 \ra}} && {\cbf_{\la 1, 1, k_{11}\ra}} \\
+        {\abf_1} & {f_1} && {\bbf_{\la 1, m_1\ra}} & {g_{\la 1, m_1 \ra}} && {\cbf_{\la 1, m_1, 1\ra}} \\
+        &&&&&& {\cbf_{\la 1, m_1, k_{1m_1}\ra}} \\
+        &&&&&& {\cbf_{\la n, 1, 1\ra}} \\
+        {\abf_n} & {f_n} && {\bbf_{\la n, 1\ra}} & {g_{\la n, 1 \ra}} && {\cbf_{\la n, 1, k_{n1}\ra}} \\
+        &&& {\bbf_{\la n, m_n\ra}} & {g_{\la n, m_n \ra}} && {\cbf_{\la n, m_n, 1\ra}} \\
+        &&&&&& {\cbf_{\la n, m_n, k_{nm_n}\ra}}
+        \arrow[""{name=0, anchor=center, inner sep=0}, no head, from=1-7, to=2-5]
+        \arrow["\vdots"{description}, draw=none, from=1-7, to=2-7]
+        \arrow[""{name=1, anchor=center, inner sep=0}, no head, from=2-4, to=3-2]
+        \arrow["\vdots"{description}, draw=none, from=2-4, to=3-4]
+        \arrow[from=2-5, to=2-4]
+        \arrow["\vdots"{description}, draw=none, from=2-5, to=3-5]
+        \arrow[""{name=2, anchor=center, inner sep=0}, no head, from=2-7, to=2-5]
+        \arrow["\vdots"{description}, draw=none, from=3-1, to=6-1]
+        \arrow[from=3-2, to=3-1]
+        \arrow[""{name=3, anchor=center, inner sep=0}, no head, from=3-4, to=3-2]
+        \arrow[from=3-5, to=3-4]
+        \arrow[""{name=4, anchor=center, inner sep=0}, no head, from=3-7, to=3-5]
+        \arrow["\vdots"{description}, draw=none, from=3-7, to=4-7]
+        \arrow[""{name=5, anchor=center, inner sep=0}, no head, from=4-7, to=3-5]
+        \arrow[""{name=6, anchor=center, inner sep=0}, no head, from=5-7, to=6-5]
+        \arrow["\vdots"{description}, draw=none, from=5-7, to=6-7]
+        \arrow[from=6-2, to=6-1]
+        \arrow[""{name=7, anchor=center, inner sep=0}, no head, from=6-4, to=6-2]
+        \arrow["\vdots"{description}, draw=none, from=6-4, to=7-4]
+        \arrow[from=6-5, to=6-4]
+        \arrow["\vdots"{description}, draw=none, from=6-5, to=7-5]
+        \arrow[""{name=8, anchor=center, inner sep=0}, no head, from=6-7, to=6-5]
+        \arrow[""{name=9, anchor=center, inner sep=0}, no head, from=7-4, to=6-2]
+        \arrow[from=7-5, to=7-4]
+        \arrow[""{name=10, anchor=center, inner sep=0}, no head, from=7-7, to=7-5]
+        \arrow["\vdots"{description}, draw=none, from=7-7, to=8-7]
+        \arrow[""{name=11, anchor=center, inner sep=0}, no head, from=8-7, to=7-5]
+        \arrow[curve={height=-6pt}, between={0.2}{0.8}, from=0, to=2]
+        \arrow[curve={height=-6pt}, between={0.2}{0.8}, from=1, to=3]
+        \arrow[curve={height=-6pt}, between={0.2}{0.8}, from=4, to=5]
+        \arrow[curve={height=-6pt}, between={0.2}{0.8}, from=6, to=8]
+        \arrow[curve={height=-6pt}, between={0.2}{0.8}, from=7, to=9]
+        \arrow[curve={height=-6pt}, between={0.2}{0.8}, from=10, to=11]
+      \end{tikzcd}\]
+    \end{itemize}
+  \end{itemize}
+\end{definition}
 
 \subsection{Free extensions}
 
@@ -2347,7 +2633,32 @@ We continue with the example of the previous section and we now try to construct
 
 \medskip
 
-We'll use the results of Section~\ref{sec:free_semigroups}, and we write\footnote{acutally that's not correct since we need to define functors} $F_\mathcal{M} = F_\SG$ and $F_\mathcal{A} = F_\CSG$.
+We'll use the results of Section~\ref{sec:free_semigroups}, and we write $F_\mathcal{M} = F_\SG$ and $F_\mathcal{A} = F_\CSG$.
+
+\medskip
+
+Suppose that for each $X \in \Set$ we know how to construct the free algebra $F_\mathcal{A} X \in \Mod(\pres, \Set)$. We can extend this to a multi-functor $F_\mathcal{A} : \la \Set, \prod \ra \to \Multi(\mathcal A, \Set)$ the following way\footnote{this is the translation of proof 24/28 of Ohad's notes}:
+\begin{itemize}
+  \item The definition is the same on objects: $F_\mathcal{A} X$
+  \item Let $f : X_1 \times \dots \times X_n \to Y$ be a multi-morphism on $\la \Set, \prod \ra$. 
+  
+  We denote by $\eta$ the unit $\eta_X : X \to \underline{F_\mathcal{A} X}$.
+
+  We recall that the free algebra construction gives us an homomorphism $$\bind g : F_\mathcal{A}X \to A$$ for every function $g : X \to \underline{A}$.
+  
+  We define a bijection $\psi : \la \Set, \prod \ra (\mathbf{X}; \underline{A}) \xrightarrow{\cong} \Multi(\mathcal A, \Set) (F_\mathcal{A} [\mathbf{X}]; A)$ such that $$\underline{\psi (f)} \circ (\eta_{X_1}, \dots, \eta_{X_n}) = f$$ by\footnote{This is the currified version of $\psi$.}: 
+
+  \begin{itemize}
+    \item $\psi_{X_1, \dots, X_n} (f) (a_1,\dots,a_n) :=\ \bind \Bigl( x_1 \mapsto \psi_{X_2, \dots, X_n} \bigl( (x_2, \dots, x_n) \mapsto f(x_1, x_2, \dots, x_n)\bigr) (a_2, \dots, a_n) \Bigr) (a_1)$
+    \item for $x$ a constant, $\psi_\varnothing (x) () := x$
+  \end{itemize}
+  
+  Then, we define $$F_\mathcal{A} f := \psi (\eta_Y \circ (f)) : (F_\mathcal{A}X_1, \dots, F_\mathcal{A}X_n) \to F_\mathcal{A}Y$$
+  Indeed, we have $$(X_1, \dots, X_n) \xrightarrow{f} Y \xrightarrow{\eta_Y} \underline{F_\mathcal{A}Y}$$ so $$\psi(\eta_Y \circ f) (F_\mathcal{A}X_1, \dots, F_\mathcal{A}X_n) \longrightarrow F_\mathcal{A}Y$$
+  Proposition 23 of Ohad's notes show that this is indeed a multi-morphism in $\Multi(\mathcal A, \Set)$.
+\end{itemize}
+
+This multi-functor is the left-adjoint of the forgetful multi-functor $$\underline{-} : \Multi(\mathcal A, \Set) \to \la \Set, \prod \ra$$
 
 \medskip
 
@@ -2363,7 +2674,7 @@ $$\underline{A_1} = \underline{A_0} = TX \qquad A_1 \brak{\mu_n}(x_1, \dots, x_n
 
 \textbcf{Step 3.} 
 
-By Proposition~\ref{prop:forgetful_multi_comm}, we have an adjunction $$F_\mathcal{A} \dashv \underline{-} : \Multi(\mathcal A, \Set) \to \la \Set, \prod \ra$$ in $\Multicat$ since $\mathcal A$ is commutative. Applying the 2-functor $\Mod(\mathcal O, -) : \Multicat \to \Cat$ gives a left adjoint $$F_{\mathcal O \to \mathcal A} : \Mod(\mathcal O, F_\mathcal{A}) : \Mod(\mathcal O, \la \Set, \prod \ra) \to \Mod (\mathcal O, \Multi(\mathcal A, \Set))$$
+By Proposition~\ref{prop:forgetful_multi_comm}, we have an adjunction $$F_\mathcal{A} \dashv \underline{-} : \Multi(\mathcal A, \Set) \to \la \Set, \prod \ra$$ in $\Multicat$ since $\mathcal A$ is commutative. Applying the 2-functor $\Mod(\mathcal O, -) : \Multicat \to \Cat$ gives a left adjoint $$F_{\mathcal O \to \mathcal A} := \Mod(\mathcal O, F_\mathcal{A}) : \Mod(\mathcal O, \la \Set, \prod \ra) \to \Mod (\mathcal O, \Multi(\mathcal A, \Set))$$
 
 We pose $A_2 := F_{\mathcal O \to \mathcal A} A_1 \models \mathcal O \ast \mathcal A$.
 
@@ -3589,6 +3900,130 @@ concrete multiplication on $B_\OO$.
 % lifted interpretation of $\mu_2$ by the formulas above and complete the proof.
 
 
+\section{Idris2 implementation}
+
+\subsection{Recalling some important definitions}
+
+\Katla{./katla/Signature.tex}
+\Katla{./katla/Algebra.tex}
+\Katla{./katla/Presentation.tex}
+\Katla{./katla/Model.tex}
+
+\subsection{Distributive combination for free algebras}
+
+We first start by defining what the coproduct signature and the coproduct presentation are.
+
+\medskip
+
+We use the built-in type \tt{Either} to model the alternative between the two underlying signatures:
+\begin{code}
+coproductSignature : Signature -> Signature -> Signature
+coproductSignature sigA sigM =
+  MkSignature (\n => Either (sigA.OpWithArity n) (sigM.OpWithArity n))
+\end{code}
+
+% We need to define injections from the signatures into the coproduct signature:
+
+% \begin{code}
+% injAddOp :
+%   {sigA, sigM : Signature} ->
+%   sigA.OpWithArity n ->
+%   (coproductSignature sigA sigM).OpWithArity n
+% injAddOp = Left
+
+% injMulOp :
+%   {sigA, sigM : Signature} ->
+%   sigM.OpWithArity n ->
+%   (coproductSignature sigA sigM).OpWithArity n
+% injMulOp = Right
+
+% ||| Signature homomorphism from the additive signature to the coproduct signature
+% castOpAdditive : 
+%      (additive, multiplicative : Signature) 
+%   -> additive ~> (coproductSignature additive multiplicative)
+% castOpAdditive additive multiplicative =
+%   OpTranslation (injAddOp {sigA = additive})
+
+% ||| Signature homomorphism from the multiplicative signature to the coproduct signature
+% castOpMultiplicative :
+%      (additive, multiplicative : Signature) 
+%   -> multiplicative ~> (coproductSignature additive multiplicative)
+% castOpMultiplicative additive multiplicative =
+%   OpTranslation (injMulOp {sigM = multiplicative})
+% \end{code}
+
+% This lets us inject terms and equations from the signatures into the coproduct signature:
+
+% \begin{code}
+% ||| Casts for terms of the additive signature to terms of the coproduct signature
+% injAddEquation : 
+%      {additiveSig, multiplicativeSig : _}
+%   -> Term additiveSig (Fin n)
+%   -> (Term (coproductSignature additiveSig multiplicativeSig) (Fin n))
+% injAddEquation t = Signature.cast {castOp=castOpAdditive additiveSig multiplicativeSig} t
+
+% ||| Casts for terms of the multiplicative signature to terms of the coproduct signature
+% injMulEquation : 
+%      {additiveSig, multiplicativeSig : _}
+%   -> Term multiplicativeSig (Fin n)
+%   -> (Term (coproductSignature additiveSig multiplicativeSig) (Fin n))
+% injMulEquation t = Signature.cast {castOp=castOpMultiplicative additiveSig multiplicativeSig} t
+
+% injectAddEquation :
+%       {additiveSig, multiplicativeSig : _}
+%     -> Equation additiveSig
+%     -> Equation (coproductSignature additiveSig multiplicativeSig)
+% injectAddEquation (MkEq support lhs rhs) =
+%   MkEq support (injAddEquation lhs) (injAddEquation rhs)
+
+% injectMulEquation :
+%       {additiveSig, multiplicativeSig : _}
+%     -> Equation multiplicativeSig
+%     -> Equation (coproductSignature additiveSig multiplicativeSig)
+% injectMulEquation (MkEq support lhs rhs) =
+%   MkEq support (injMulEquation lhs) (injMulEquation rhs)
+% \end{code}
+
+The axioms are composed of both the axioms for the additive and multiplicative part, to which we add the distributivity axioms:
+
+\begin{code}
+data DistributivityAxiom : Signature -> Signature -> Type where
+  DistAxiom :
+       {addSig, mulSig : Signature}
+    -> {m, n : Nat}
+    -> (addOp : addSig.OpWithArity m)
+    -> (mulOp : mulSig.OpWithArity n)
+    -> (i : Fin n)
+    -> DistributivityAxiom addSig mulSig
+
+data CombinationAxiom : (additive, multiplicative : Presentation) -> Type where
+  AddAx : additive.Axiom -> CombinationAxiom additive multiplicative
+  MulAx : multiplicative.Axiom -> CombinationAxiom additive multiplicative
+  DistAx : DistributivityAxiom additive.signature multiplicative.signature
+          -> CombinationAxiom additive multiplicative
+\end{code}
+
+The distributive combination of the two presentations is then defined as:
+
+\begin{code}
+distributiveCombination : Presentation -> Presentation -> Presentation
+distributiveCombination additive multiplicative =
+  MkPresentation
+    (coproductSignature additive.signature multiplicative.signature)
+    (CombinationAxiom additive multiplicative)
+    (\case
+       AddAx ax                         => injectAddEquation (additive.axiom ax)
+       MulAx ax                         => injectMulEquation (multiplicative.axiom ax)
+       DistAx (DistAxiom addOp mulOp i) => distributivityEquation addOp mulOp i
+    )
+\end{code}
+
+If \tt{addOp} is an operator of arity \tt{n} and \tt{mulOp} is an operator of arity \tt{m}, then \tt{distributivityEquation addOp mulOp i} is the equation
+\begin{align*}
+  x_1, \dots, x_m, y_1, \dots, y_n \vdash\ &\tt{mulOp} \bigl(x_1, \dots, x_{i-1}, \tt{addOp}(y_1, \dots, y_n), x_{i+1}, \dots, x_m \bigr)\\
+  =\ &\tt{addOp} \bigl\langle \tt{mulOp} (x_1, \dots, x_{i-1}, y_j, x_{i+1}, \dots, x_m) \bigr\rangle_{j=1}^n
+\end{align*}
+
 \newpage
 
 \nocite{*}
@@ -3649,11 +4084,31 @@ concrete multiplication on $B_\OO$.
   \item 05/06/2026: defined some models for the semigroups.
   
   Came back to the drawing board of last friday with Ohad, and tried to make sense of things. Applied it to the example of the semigroups, I can't quite picture how to get the definition the the operations once you apply the lifted functor.
-  \item 06/06/2026: did some proofreading and corrected some parts of my notes.
+  \item 08/06/2026: did some proofreading and corrected some parts of my notes.
   
   Continued with the attempt at construction the free extension for the combination of the semigroups, but it indeed does not work as the lift does not give enough information to define the operations on concrete/variable and concrete/concrete cases.
 
   Started implemented the frex part of the semigroup frexlet.
+  \item 09/06/2026: finished implementing the structure of the free extension for the semigroups, and proved that is is a valid semigroup model. Started working on the proof of freeness.
+  \item 10/06/2026: properly defined the distributive combination of theories in Idris.
+  
+  SPLS in the afternoon.
+  \item 11/06/2026: started working on the construction of the free extension for the distributive combination of theories. Defined some of the hypotheses needed, such as being a commutative theory or an affine presentation.
+  
+  Read the proof of Theorem 24 of Ohad's notes in more detail to understand how the left adjoint is defined on morphisms, but didn't manage to get a clear picture of it.
+  
+  Lots of battling with Idris. Tried proving that commutative semigroups are indeed a commutative theory.
+  \item 12/06/2026: Managed to prove that the theory of commutative semigroups is indeed a commutative theory, and proved that the theory of semigroups is indeed an affine presentation.
+  
+  Started reading in more detail the proof of Theorem 24 of Ohad's notes to understand how the left adjoint is defined on morphisms. 2h30min long meeting with Ohad where we read the proof together and discussed it $\to$ I have to read his notes on the Yoneda lemma for 2-categories and multi-categories.
+  \item week-end 13-14/06/2026: worked a bit on the proof of freeness for the free extension of semigroups in Idris2, and defined the free algebra based on the free extension. (This was to get some more time off during the week)
+  \item 15/06/2026: reading Ohad's notes and completing some notions of category theory that I was still missing, such as limits, opposite categories and presheaves.
+  \item 16/06/2026: figured out how to use Katla to embed Idris2 code inside of the \LaTeX\ notes. Started copying over the relevant preliminary definitions, and explaining how the construction of the distributive combination works.
+  
+  Started making sense of the definition of the multifunctor $F_\mathcal{A}$.
+
+  LFCS seminar.
+  \item 17/06/2026: I finaly have the full definition of $F_\mathcal{A}$ and can therefore start implementing the distributive combination construction $\to$ started implementation.
 \end{itemize}
 
 

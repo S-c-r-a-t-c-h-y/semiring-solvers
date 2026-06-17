@@ -1,0 +1,9 @@
+\IdrisKeyword{record}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{where}\KatlaNewline{}
+\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{constructor}\KatlaSpace{}\IdrisData{MkSignature}\KatlaNewline{}
+\KatlaSpace{}\KatlaSpace{}\IdrisComment{|||\KatlaSpace{}Type\KatlaSpace{}family\KatlaSpace{}of\KatlaSpace{}operators\KatlaSpace{}indexed\KatlaSpace{}by\KatlaSpace{}their\KatlaSpace{}arity.}\KatlaNewline{}
+\KatlaSpace{}\KatlaSpace{}\IdrisFunction{OpWithArity}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Nat}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Type}\KatlaNewline{}
+\KatlaNewline{}
+\IdrisKeyword{record}\KatlaSpace{}\IdrisType{Op}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{sig}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Signature}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{where}\KatlaNewline{}
+\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{constructor}\KatlaSpace{}\IdrisData{MkOp}\KatlaNewline{}
+\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\{}\IdrisFunction{arity}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Nat}\IdrisKeyword{\}}\KatlaNewline{}
+\KatlaSpace{}\KatlaSpace{}\IdrisFunction{snd}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{sig}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{arity}\KatlaNewline{}

@@ -42,7 +42,7 @@
  %%%%%%%%%%% PAGE STYLING %%%%%%%%%%%%%%
  
  \newdimen\SideSpace
- \SideSpace=20mm
+ \SideSpace=25mm
 
 \geometry{
  	a4paper,
@@ -283,66 +283,66 @@
     {\end{mdframed}}
  
  
- %%%%%%%%%%% SETTINGS CODE %%%%%%%%%%%%%%
+%  %%%%%%%%%%% SETTINGS CODE %%%%%%%%%%%%%%
  
- \usemintedstyle{github-dark}
- \definecolor{bgcode}{RGB}{51, 51, 51}
- \definecolor{linenumbers}{RGB}{140, 151, 164}
+%  \usemintedstyle{github-dark}
+%  \definecolor{bgcode}{RGB}{51, 51, 51}
+%  \definecolor{linenumbers}{RGB}{140, 151, 164}
  
- \renewcommand{\theFancyVerbLine}{\sffamily
- \textcolor{linenumbers}{\scriptsize
- \arabic{FancyVerbLine}}}
+%  \renewcommand{\theFancyVerbLine}{\sffamily
+%  \textcolor{linenumbers}{\scriptsize
+%  \arabic{FancyVerbLine}}}
 
- \definecolor{codered}{RGB}{255, 95, 90}
- \definecolor{codeyellow}{RGB}{255, 190, 46}
- \definecolor{codegreen}{RGB}{42, 202, 68}
+%  \definecolor{codered}{RGB}{255, 95, 90}
+%  \definecolor{codeyellow}{RGB}{255, 190, 46}
+%  \definecolor{codegreen}{RGB}{42, 202, 68}
 	
-% Pour mettre du code inline
-\newcommand{\codeCaml}[1]{\lstinline[language=Caml, mathescape=true]|#1|}
-\newcommand{\codeCc}[1]{\lstinline[language=C, mathescape=true]|#1|}
+% % Pour mettre du code inline
+% \newcommand{\codeCaml}[1]{\lstinline[language=Caml, mathescape=true]|#1|}
+% \newcommand{\codeCc}[1]{\lstinline[language=C, mathescape=true]|#1|}
 	 
-\newtcolorbox[auto counter,number within=section,
-	 list inside=mypyg]{mintedbox}[1]{%
- 	 	title={\ifstrempty{#1}{ }{#1}},
- 	 	list entry={\protect\numberline{\thetcbcounter}#1},
- 	 	enhanced,
- 	 	breakable,
- 	 	colframe=bgcode,
- 	 	colback=bgcode,
- 	 	arc=2pt,
- 	 	left=6mm,
- 	 	lefttitle=15mm,
- 	 	toptitle=1.5mm,
- 	 	fonttitle=\ttfamily\bfseries\normalsize,
- 	 	interior titled code app={%
- 	 	\node[color=codered,xshift=4mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
- 	 	\node[color=codeyellow,xshift=8mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
- 	 	\node[color=codegreen,xshift=12mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
- 	 	},
- 	 	extras first={overlay={
- 	 	\node[color=codered,xshift=4mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
- 	 	\node[color=codeyellow,xshift=8mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
- 	 	\node[color=codegreen,xshift=12mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
- 	 	}}}
+% \newtcolorbox[auto counter,number within=section,
+% 	 list inside=mypyg]{mintedbox}[1]{%
+%  	 	title={\ifstrempty{#1}{ }{#1}},
+%  	 	list entry={\protect\numberline{\thetcbcounter}#1},
+%  	 	enhanced,
+%  	 	breakable,
+%  	 	colframe=bgcode,
+%  	 	colback=bgcode,
+%  	 	arc=2pt,
+%  	 	left=6mm,
+%  	 	lefttitle=15mm,
+%  	 	toptitle=1.5mm,
+%  	 	fonttitle=\ttfamily\bfseries\normalsize,
+%  	 	interior titled code app={%
+%  	 	\node[color=codered,xshift=4mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+%  	 	\node[color=codeyellow,xshift=8mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+%  	 	\node[color=codegreen,xshift=12mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+%  	 	},
+%  	 	extras first={overlay={
+%  	 	\node[color=codered,xshift=4mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+%  	 	\node[color=codeyellow,xshift=8mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+%  	 	\node[color=codegreen,xshift=12mm,yshift=-4mm,circle,draw,fill,scale=0.7] at (frame.north west) {};
+%  	 	}}}
 	 
-\newenvironment{codebox}[3][]
-	 {%
- 	 	\VerbatimEnvironment%
- 	 	\begin{mintedbox}{#3}%
- 	 		\begin{minted}[
-		   %	gobble=1,
- 	 		   		autogobble,
- 	 		    	baselinestretch=1.2,
- 	 		    	fontsize=\footnotesize,
- 	 		    	linenos,
- 	 		    	numbersep=6pt,
- 	 		    	obeytabs,
- 	 		    	tabsize=2,
- 	 		    	#1]{#2}}%
- 	 		{%
- 	 		\end{minted}%
- 	 	\end{mintedbox}%
-	 }
+% \newenvironment{codebox}[3][]
+% 	 {%
+%  	 	\VerbatimEnvironment%
+%  	 	\begin{mintedbox}{#3}%
+%  	 		\begin{minted}[
+% 		   %	gobble=1,
+%  	 		   		autogobble,
+%  	 		    	baselinestretch=1.2,
+%  	 		    	fontsize=\footnotesize,
+%  	 		    	linenos,
+%  	 		    	numbersep=6pt,
+%  	 		    	obeytabs,
+%  	 		    	tabsize=2,
+%  	 		    	#1]{#2}}%
+%  	 		{%
+%  	 		\end{minted}%
+%  	 	\end{mintedbox}%
+% 	 }
 	 
 	 
 	 %%%%%%%% ENVIRONNEMENT PRESENTATION ALGORITHME %%%%%%%%%
