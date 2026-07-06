@@ -1,15 +1,233 @@
 \documentclass[11pt]{article}
 
 \usepackage{../macros}
+\usepackage{style}
 
-\title{Varieties of Semiring Solvers via Multicategorical and Algebraic Constructions}
+\geometry{
+ 	a4paper,
+ 	inner=30mm,
+ 	top=20mm,
+ 	bottom=20mm,
+ 	outer=30mm
+}
 
-\author{Amaury Mazoyer}
+%\setlength{\parindent}{0pt}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\centering % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE University of Edinburgh}\\[1.5cm] 
+\textsc{\Large Internship report}\\[0.5cm]
+\textsc{\large M1 Informatique Concepts et Applications}\\[0.5cm]
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Varieties of Semiring Solvers via Multicategorical and Algebraic Constructions}\\[0.4cm]
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Intern:}\\
+Amaury \textsc{Mazoyer},\\
+ENS de Lyon
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor :} \\
+Ohad \textsc{Kammar},\\
+University of Edinburgh
+\end{flushright}
+\end{minipage}\\[2cm]
+
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large May 4 - July 31 2026}\\[2cm]
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics[scale=0.7]{images/logo_ensl.png}\\[1cm]
+\includegraphics[width=0.8\textwidth]{images/university_edinburgh_logo.png}\\[1cm]
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\newpage
 
 \tableofcontents
+
+\newpage
+
+
+\section*{Introduction}
+\label{sec:intro}
+\addcontentsline{toc}{section}{Introduction}
+
+\begin{itemize}
+  \item motivation $\to$ algebraic simplification is a pain to do manually in dependently typed languages/in proof assistants
+  \item solvers in other languages (Rocq \cite{coq_ring}, Agda \cite{agda_solver} \todo[inline]{read article a little bit})
+  \item state of the art: frex debut \cite{frex_origin}, idris frex \cite{idris_frex} and involution construction \cite{involutive_frex}
+  \item presentation of the contributions: \begin{itemize}
+    \item finishing Ohad's construction proof and correcting the needed hypothesis
+    \item proof of freeness of the construction
+    \item formalising the distributive combination theory in Idris
+    \item implementing the distributive combination semantics
+    \item implementing some free algebras
+    \item testing and comparison
+  \end{itemize}
+\end{itemize}
+
+\section{Preliminaries} % TODO : name
+
+\begin{itemize}
+  \item universal algebra definitions (signatures, models, etc..., free algebras and free extensions) \begin{itemize}
+    \item finitary signature (with operators and arity)
+    \item algebra (with carrier and semantics)
+    \item terms
+    \item environment, interpretation
+    \item equation, valid equation
+    \item presentation (axioms)
+    \item model
+    \item model over a set
+    \item algebra homomorphism, model homomorphism
+    \item morphism of models
+    \item free model
+    \item extension
+    \item morphism of extensions
+    \item free extension
+  \end{itemize}
+  $\to$ cite \cite{universal_algebra}, \cite{idris_frex}
+  \item definition: distributive combination of theories (\textbf{do not} write in terms of operads and translation, give a definition only involving presentations)
+\end{itemize}
+
+Do I put some category theory basics here ?
+
+\section{Categorical approach to the construction of distributive combinations}
+\todo[inline]{find better name for section}
+
+\subsection{Free algebra for the distributive combination}
+
+\begin{itemize}
+  \item Challenge: not only constructing something that works, but something that is usable. Therefore, no use of quotients or pushouts or other hard to compute things. Can also not simply use the construction using coproducts described in \cite{idris_frex}, section 4.4. 
+  \item Definition of a commutative theory and an affine theory.
+  \item recalling of what the free algebra gives us (unit and bind)
+  \item \textbf{Theorem:} 
+
+  Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be an affine theory. 
+
+  Suppose that we have $\lp F_\mathcal{A}, \eta^\mathcal{A}, \bind^\mathcal{A} \rp$ and $\lp F_\mathcal M, \eta^\mathcal{M}, \bind^\mathcal{M} \rp$ the free algebra constructions for $\mathcal A$ and $\mathcal M$.
+
+  We can construct the free algebra construction $\lp F_\mathcal{\mathcal M \triangleright \mathcal A}, \eta^\mathcal{\mathcal M \triangleright \mathcal A}, \bind^\mathcal{\mathcal M \triangleright \mathcal A} \rp$ for the distrbutive combination $\mathcal M \triangleright \mathcal A$ using this data, and the construction is concrete. \todo[inline]{reformulate}
+  \item Put the whole proof in the appendix (probably 50 pages long once all written out), but maybe explain what the key steps of the construction are
+\end{itemize}
+
+\subsection{Relation with distributive laws}
+
+\begin{itemize}
+  \item define monads, algebras and distributive laws \cite{maclane}
+  \item comparison with \cite{nogo_distributive_law}
+\end{itemize}
+
+\subsection{An attempt at constructing the free extension for the distributive combination}
+
+\begin{itemize}
+  \item Proof that constructing the free extension for the combination from the two free extensions is possible. \todo[inline]{finish this proof in my notes}
+  \item But proof not constructive (uses pushouts) $\to$ this is ok, this at least shows that it is theoreticaly possible.
+  \item Failed proof under the same hypothesis as previous section $\to$ shows where the construction stops working: the construction lacks knowledge regarding the interaction of the concrete and abstract part of the free extension.
+\end{itemize}
+
+\section{Implementation}
+
+\subsection{}
+\todo[inline]{name section}
+
+\begin{itemize}
+  \item maybe talk about setoids ? (and cite appropriate references)
+  \item go over some basic definitions used such as \texttt{Signature}, \texttt{Op}, \texttt{Algebra}, \texttt{Term}, \texttt{SetoidAlgebra}, \texttt{Equation}, \texttt{Presentation}, \texttt{Model}
+  \item explain the choice of representation for the theory of the distributive combination
+  \item quickly go over the implementation of the semantics (the only real relevant part is \texttt{psi} but the definition in itself is atrocious, give type declarations only) $\to$ maybe give the definition of \texttt{DistributiveCombinationStructure'}
+  \item don't go over the details of the axiom preservation and the freeness proofs (we don't have them anyway, also should we be straightforward about this ?)
+  \item maybe only give the signature of \texttt{FreeDistributiveCombination}
+\end{itemize}
+
+\subsection{Performance evaluation}
+
+\begin{itemize}
+  \item find interactivity and attention thresholds
+  \item compare with the performances of the base solvers if possible
+\end{itemize}
+
+\section{Comparison with existing solvers}
+\todo[inline]{find better name for section}
+
+only comparison with \cite{coq_ring}
+
+\begin{itemize}
+  \item quick description of how the \texttt{ring} tactic of Rocq is implemented (reflection)
+  \item comparison of the theories supported $\to$ Rocq supports commutative semirings and commutative rings only, we support an umbrella of different combination of theories $\to$ put some sort of table, or the pseudo-matrix diagram of the first meeting
+  
+  $$\underbrace{\begin{pmatrix}
+    \text{commutative semigroup}\\
+    \text{commutative monoid}\\
+    \text{abelian group}\\
+  \end{pmatrix}}_\text{additive theory} \times \underbrace{\begin{pmatrix}
+    \text{semigroup}\\
+    \text{monoid}\\
+    \text{group}\\
+  \end{pmatrix} \times \begin{pmatrix}
+    \text{mere}\\
+    \text{commutative}\\
+  \end{pmatrix} \times \begin{pmatrix}
+    \text{mere}\\
+    \text{involutive}\\
+    \text{non-reversing involutive}\\
+  \end{pmatrix}}_\text{multiplicative theory}$$
+
+  \item pros of the tactic over the fral/frex approach (support for additional equations)
+  \item comparison of capabilities (I believe that the \texttt{ring} tactic is not complete, whereas the frex approach is) $\to$ limitations of adding equations to the tactic, with the example of the involution
+  
+  To check: I think that you can only add equations that use the know operations, i.e \texttt{+}, \texttt{*}, \texttt{0}, \texttt{1}.
+  \item comparison in usability (runtime) $\to$ frex might be slower as typechecking takes a long time. \todo[inline]{TODO: runtime comparison}
+\end{itemize}
+
+\section*{Conclusion}
+\label{sec:conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+
+\nocite{*}
+\printbibliography
+
+\appendix
+
+\section{Internship context}
+
+\section{Source code}
+
+\section*{Acknowledgments}
 
 \end{document}
