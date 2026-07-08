@@ -191,9 +191,9 @@
 \newcommand{\eqlog}{\leftrightarrow}
 
 \newcommand{\appli}[5]{% 
- 	{#1}\ \colon  \left \{ \begin{array}{@{\;}r@{}c@{}l@{}c@{}} 
- 		& #2 & {} \longrightarrow {} & #3 \\ 
- 		& #4 & {} \longmapsto     {} & #5 
+ 	{#1}\ \colon  \left| \begin{array}{@{\;}r@{}c@{}l@{}c@{}} 
+ 		& #2 & {} \rightarrow {} & #3 \\ 
+ 		& #4 & {} \mapsto     {} & #5 
  	\end{array} \right.
 } 
  
@@ -238,11 +238,13 @@
 
 
 \newcommand{\Cat}{\mathbf{Cat}}
+\newcommand{\Alg}{\mathbf{Alg}}
 \newcommand{\Set}{\mathbf{Set}}
 \newcommand{\Multicat}{\mathbf{Multicat}}
 \newcommand{\Mod}{\mathbf{Mod}}
 \newcommand{\Multi}{\mathbf{Multi}}
 \newcommand{\Mon}{\mathbf{Mon}}
+\newcommand{\Monoid}{\mathbf{Monoid}}
 \newcommand{\id}{\text{id}}
 \DeclareMathOperator{\arity}{arity}
 \DeclareMathOperator{\op}{op}
@@ -263,12 +265,15 @@
 \DeclareMathOperator{\Supp}{Supp}
 \newcommand{\Fin}{\mathbf{Fin}}
 \DeclareMathOperator{\Ax}{Ax}
+\DeclareMathOperator{\ax}{ax}
 \DeclareMathOperator{\str}{str}
 \renewcommand\ul\underline
 \newcommand{\ebf}{\mathbf{e}}
 \newcommand{\OO}{\mathcal{O}}
 \DeclareMathOperator{\Frex}{Frex}
 \DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\sta}{sta}
+\DeclareMathOperator{\dyn}{dyn}
 \DeclareMathOperator{\embed}{embed}
 \newcommand{\Bag}{\mathrm{Bag}}
 \newcommand{\abf}{\mathbf{a}}

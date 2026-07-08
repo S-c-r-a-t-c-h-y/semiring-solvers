@@ -1219,7 +1219,7 @@ We'll use the definitions from \cite{Allais2025}.
 \end{definition}
 
 \begin{definition}[Terms]
-  Given a set $X$ of variables and a finitary signature $\Sigma$, the set of \emph{terms} $\Term_\Sigma(X)$ is defined inductively as follows:
+  Given a set $X$ of variables and a finitary signature $\Sigma$, the set of \emph{$\Sigma$-terms over $X$}, denoted $\Term_\Sigma(X)$, is defined inductively as follows:
   \begin{itemize}
     \item Every variable $x \in X$ is a term,
     \item If $f \in \op \Sigma$ is an operator of arity $n$ and $t_1, t_2, ..., t_n$ are terms, then $f(t_1, t_2, ..., t_n)$ is a term.
@@ -1239,7 +1239,7 @@ We'll use the definitions from \cite{Allais2025}.
 \end{definition}
 
 \begin{definition}[Valid equations]
-  An equation $t = t'$ between terms in $\Term_\Sigma(X)$ is \emph{valid} in an algebra $A$ if for every environment $\rho : X \to \underline{A}$, we have $A \brak{t}(\rho) = A \brak{t'}(\rho)$.
+  An equation $X \vdash l = r$ between terms in $\Term_\Sigma(X)$ is \emph{valid} in an algebra $A$ if for every environment $\rho : X \to \underline{A}$, we have $A \brak{l}(\rho) = A \brak{r}(\rho)$.
 \end{definition}
 
 
@@ -4215,6 +4215,9 @@ Abort.
   Defined an abstract semiring/ring in Rocq and check that all axioms could be solved. Tried to add an involution and give the solver the axioms about involutions, but can't solve anything.
 
   Started writing the report.
+  \item 07/07/2026: finished laying down the content of each section, except the introduction and conclusion.
+  
+  Finally read \cite{10.1145/3236795} and re-read some of the source articles.
 \end{itemize}
 
 
