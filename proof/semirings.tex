@@ -1,0 +1,104 @@
+\PassOptionsToPackage{usenames,dvipsnames,svgnames,table}{xcolor}
+%\documentclass[a4paper,usenglish]{lipics}
+\documentclass[a4paper]{lipics}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{tikz,tikz-cd}
+\usepackage{quiver}
+\usepackage[inline]{enumitem}
+\usepackage[round]{natbib}
+\bibliographystyle{plainnat}
+
+\let\shortcite=\cite
+\renewcommand{\slash}{\mathrel/}
+\newcommand{\tri}{\filledmedtriangleright}
+\renewcommand{\paragraph}[1]{\medskip\par\noindent\textbf{#1.} }
+\renewcommand{\slash}{\mathrel/}
+\newcommand{\val}[1]{\llbracket #1\rrbracket}
+
+\usetikzlibrary{cd}
+
+\sloppy
+
+\usepackage{pifont}
+
+\usepackage[dvipsnames]{xcolor}
+
+\title{Modular construction of free algebras for distributive combinations of theories}
+
+% Please add yourself if you make a change
+\author[1]{Ohad Kammar}
+\author[2]{Amaury Mazoyer}
+
+\affil[1]{
+  Laboratory for Foundations of
+  Computer Science                  \\
+  School of Informatics             \\
+  University of Edinburgh           \\
+  Scotland                          \\
+  \url{ohad.kammar@ed.ac.uk}
+}
+
+\affil[2]{
+  Département d'Informatique      \\
+  ENS de Lyon                     \\
+  France                          \\
+  \url{amaury.mazoyer@ens-lyon.fr}
+}
+
+\authorrunning{O.~Kammar}
+\Copyright{O.~Kammar}
+\subjclass{F.3.1 Specifying and Verifying and Reasoning about Programs}
+\keywords{}
+%\serieslogo{lipics-logo-bw}
+\volumeinfo{}{1}{}{1}{1}{1}
+\EventShortName{Proof}
+% \EventShortName{Working note}
+%\DOI{10.4230/LIPIcs.xxx.yyy.p}
+\def\copyrightline{}
+
+\let\nsubset\undefined
+\input{defs}
+
+\begin{document}
+\maketitle
+Started: 28 Nov 2022
+\begin{abstract}
+  A constructive proof of the construction of free algebras in semi-ring varieties.
+\end{abstract}
+
+\begin{itemize}
+  \item \S\ref{sec:2-cat} and \S\ref{sec:multicat} define the 2-categorical and
+  multicategorical notions we need, mostly to fix definitions and notations.
+  \item \S\ref{sec:operads} defines the notion of operad and a 2-functor used in the
+  construction of free algebras (\propositionref{Mod(O,-) is a 2-functor}).
+  \item \S\ref{sec:multihom} defines the notion of multi-homomorphism and a multi-category
+  and multi-functor used in the construction of free algebras
+  (\propositionref{Multi(TT,C) multi-category}).
+  \item \S\ref{sec:yoneda} gives a multi-categorical representability theorem for
+  adjunctions using the Yoneda structure (\propositionref{representability multi-categorical adjunctions}).
+  \item \S\ref{sec:multihom-extension} proves the existence of a left adjoint to a multi-functor under
+  certain conditions (\theoremref{left adjoint iff commutative}).
+  \item \S\ref{sec:distributivity} defines the concept of translation and of distributive
+  combination, and proves that the category of models of a distributive combination is a pullback
+  (\propositionref{Mod(Trans dist A) is a pullback}).
+  \item \S\ref{sec:fral} constructs the free algebra for the distributive combination
+  of two theories and proves that it is indeed free (\lemmaref{A is free}).
+\end{itemize}
+
+\input{2-cat}
+\input{multicat}
+\input{operads}
+\input{multihom}
+\input{yoneda}
+\input{multihom-extension}
+\input{distributivity}
+\input{fral}
+
+\bibliography{ref}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

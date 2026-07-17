@@ -1,0 +1,1475 @@
+\newcommand\newquiver[2]{%
+  \expandafter\newcommand\csname quiver:#1\endcsname{%
+    \protect{#2}
+  }%
+}
+\newcommand\quiver[1]{\expandafter\csname quiver:#1\endcsname}
+\newquiver{alpha f g}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJhIl0sWzIsMCwiYiJdLFswLDEsImYiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJnIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]%
+	a \&\& b
+ 	\arrow[""{name=0, anchor=center, inner sep=0}, "f", curve={height=-12pt}, from=1-1, to=1-3]
+ 	\arrow[""{name=1, anchor=center, inner sep=0}, "g"', curve={height=12pt}, from=1-1, to=1-3]
+ 	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+ \end{tikzcd}
+}
+
+\newquiver{identity 2 cell}{
+  % https://q.uiver.app/?q=WzAsMyxbMCwwLCJhIl0sWzIsMCwiYiJdLFsxLDAsIj0iXSxbMCwxLCJmIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiZiIsMix7ImN1cnZlIjoyfV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	a \& {=} \& b
+	\arrow["f", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow["f"', curve={height=12pt}, from=1-1, to=1-3]
+\end{tikzcd}
+}
+
+\newquiver{vertical composition type}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJhIl0sWzIsMCwiYiJdLFswLDEsImYiLDAseyJjdXJ2ZSI6LTR9XSxbMCwxLCJnIiwyLHsibGFiZWxfcG9zaXRpb24iOjIwfV0sWzAsMSwiaCIsMix7ImN1cnZlIjo0fV0sWzIsMywiXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMyw0LCJcXGJldGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	a \&\& b
+	\arrow[""{name=0, anchor=center, inner sep=0}, "f", curve={height=-24pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "g"'{pos=0.2}, from=1-1, to=1-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "h"', curve={height=24pt}, from=1-1, to=1-3]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+	\arrow["\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=1, to=2]
+\end{tikzcd}
+}
+
+\newquiver{vertical composition}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJhIl0sWzIsMCwiYiJdLFswLDEsImYiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJoIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXGJldGEgXFxjaXJjIFxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	a \&\& b
+	\arrow[""{name=0, anchor=center, inner sep=0}, "f", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "h"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["{\beta \circ \alpha}", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{horizontal composition type}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJhIl0sWzIsMCwiYiJdLFs0LDAsImMiXSxbMCwxLCJmXzEiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJnXzEiLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsImZfMiIsMCx7ImN1cnZlIjotMn1dLFsxLDIsImdfMiIsMix7ImN1cnZlIjoyfV0sWzMsNCwiXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbNSw2LCJcXGJldGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	a \&\& b \&\& c
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{f_1}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{g_1}"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{f_2}", curve={height=-12pt}, from=1-3, to=1-5]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{g_2}"', curve={height=12pt}, from=1-3, to=1-5]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+	\arrow["\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=3]
+\end{tikzcd}
+}
+
+\newquiver{horizontal composition}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJhIl0sWzIsMCwiYyJdLFswLDEsImZfMlxcY2lyYyBmXzEiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJnXzIgXFxjaXJjIGdfMSIsMix7ImN1cnZlIjoyfV0sWzIsMywiXFxiZXRhIFxcaGNvbXBvc2UgXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&,row sep=small]
+	a \&\& c
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{f_2\circ f_1}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{g_2 \circ g_1}"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["{\beta \hcompose \alpha}", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{interchange law vertical}{
+% https://q.uiver.app/?q=WzAsNixbMCwwLCJhIl0sWzEsMCwiYiJdLFswLDEsImEiXSxbMSwxLCJiIl0sWzIsMCwiYyJdLFsyLDEsImMiXSxbMSwzLCJcXGNpcmMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwxXSxbMSw0XSxbMiwzXSxbMyw1XSxbMCwxLCIiLDEseyJjdXJ2ZSI6LTN9XSxbMSw0LCIiLDEseyJjdXJ2ZSI6LTN9XSxbMiwzLCIiLDEseyJjdXJ2ZSI6M31dLFszLDUsIiIsMSx7ImN1cnZlIjozfV0sWzExLDcsIiIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMTIsOCwiIiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFsxMCwxNCwiIiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs5LDEzLCIiLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	a \& b \& c \\
+	a \& b \& c
+	\arrow["\circ"{description}, draw=none, from=1-2, to=2-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, from=1-2, to=1-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, from=2-1, to=2-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, from=2-2, to=2-3]
+	\arrow[""{name=4, anchor=center, inner sep=0}, curve={height=-18pt}, from=1-1, to=1-2]
+	\arrow[""{name=5, anchor=center, inner sep=0}, curve={height=-18pt}, from=1-2, to=1-3]
+	\arrow[""{name=6, anchor=center, inner sep=0}, curve={height=18pt}, from=2-1, to=2-2]
+	\arrow[""{name=7, anchor=center, inner sep=0}, curve={height=18pt}, from=2-2, to=2-3]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=4, to=0]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=5, to=1]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=3, to=7]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=2, to=6]
+\end{tikzcd}}
+
+\newquiver{interchange law horizontal}{
+  % https://q.uiver.app/?q=WzAsNCxbMCwwLCJhIl0sWzEsMCwiYiJdLFszLDAsImMiXSxbMiwwLCJiIl0sWzAsMV0sWzAsMSwiIiwxLHsiY3VydmUiOi0zfV0sWzMsMiwiIiwxLHsiY3VydmUiOi0zfV0sWzMsMl0sWzAsMSwiIiwxLHsiY3VydmUiOjN9XSxbMywyLCIiLDEseyJjdXJ2ZSI6M31dLFsxLDMsIlxcaGNvbXBvc2UiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSw0LCIiLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzYsNywiIiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs0LDgsIiIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbNyw5LCIiLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	a \& b \& b \& c
+	\arrow[""{name=0, anchor=center, inner sep=0}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, curve={height=-18pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, curve={height=-18pt}, from=1-3, to=1-4]
+	\arrow[""{name=3, anchor=center, inner sep=0}, from=1-3, to=1-4]
+	\arrow[""{name=4, anchor=center, inner sep=0}, curve={height=18pt}, from=1-1, to=1-2]
+	\arrow[""{name=5, anchor=center, inner sep=0}, curve={height=18pt}, from=1-3, to=1-4]
+	\arrow["\hcompose"{description}, draw=none, from=1-2, to=1-3]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=1, to=0]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=2, to=3]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=0, to=4]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=3, to=5]
+\end{tikzcd}
+}
+
+\newquiver{interchange law}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJhIl0sWzEsMCwiYiJdLFsyLDAsImMiXSxbMCwxXSxbMCwxLCIiLDEseyJjdXJ2ZSI6LTN9XSxbMCwxLCIiLDEseyJjdXJ2ZSI6M31dLFsxLDIsIiIsMSx7ImN1cnZlIjotM31dLFsxLDIsIiIsMSx7ImN1cnZlIjozfV0sWzEsMl0sWzQsMywiIiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFszLDUsIiIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbNiw4LCIiLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzgsNywiIiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	a \& b \& c
+	\arrow[""{name=0, anchor=center, inner sep=0}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, curve={height=-18pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, curve={height=18pt}, from=1-1, to=1-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, curve={height=-18pt}, from=1-2, to=1-3]
+	\arrow[""{name=4, anchor=center, inner sep=0}, curve={height=18pt}, from=1-2, to=1-3]
+	\arrow[""{name=5, anchor=center, inner sep=0}, from=1-2, to=1-3]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=1, to=0]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=0, to=2]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=3, to=5]
+	\arrow[shorten <=2pt, shorten >=2pt, Rightarrow, from=5, to=4]
+\end{tikzcd}
+}
+
+\newquiver{cat horizontal composition type}{
+  % https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXENbM10iXSxbMSwwLCJcXENbNF0iXSxbMiwwLCJcXENbMV0iXSxbMCwxLCJGXzEiLDEseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJGXzIiLDEseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJHXzEiLDEseyJjdXJ2ZSI6Mn1dLFsxLDIsIkdfMiIsMSx7ImN1cnZlIjoyfV0sWzMsNSwiXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbNCw2LCJcXGJldGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{\C[3]} \& {\C[4]} \& {\C[1]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{F_1}"{description}, curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{F_2}"{description}, curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{G_1}"{description}, curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{G_2}"{description}, curve={height=12pt}, from=1-2, to=1-3]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=2]
+	\arrow["\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=1, to=3]
+\end{tikzcd}
+}
+
+\newquiver{cat horizontal composition commutative}{
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJGXzJGXzFhIl0sWzEsMCwiR18yRl8xYSJdLFswLDEsIkZfMkdfMWEiXSxbMSwxLCJHXzJHXzFhIl0sWzAsMSwiXFxiZXRhX3tGXzFhfSJdLFswLDIsIkZfMlxcYWxwaGFfYSIsMl0sWzEsMywiR18yXFxhbHBoYV9hIl0sWzIsMywiXFxiZXRhX3tHXzFhfSIsMl0sWzAsMywiKFxcYmV0YVxcaGNvbXBvc2VcXGFscGhhKV9hIiwxXV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{F_2F_1a} \& {G_2F_1a} \\
+	{F_2G_1a} \& {G_2G_1a}
+	\arrow["{\beta_{F_1a}}", from=1-1, to=1-2]
+	\arrow["{F_2\alpha_a}"', from=1-1, to=2-1]
+	\arrow["{G_2\alpha_a}", from=1-2, to=2-2]
+	\arrow["{\beta_{G_1a}}"', from=2-1, to=2-2]
+	\arrow["{(\beta\hcompose\alpha)_a}"{description}, from=1-1, to=2-2]
+\end{tikzcd}
+}
+
+\newquiver{adjoint triangle one}{
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJhIl0sWzEsMCwiYiJdLFsyLDAsImEiXSxbMywwLCJiIl0sWzAsMSwiZiIsMl0sWzEsMiwidSIsMl0sWzIsMywiZiIsMl0sWzEsMywiIiwyLHsiY3VydmUiOjQsImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMiwiIiwyLHsiY3VydmUiOi00LCJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyLDcsIlxcY291bml0IiwyLHsic2hvcnRlbiI6eyJ0YXJnZXQiOjIwfX1dLFs4LDEsIlxcdW5pdCIsMix7InNob3J0ZW4iOnsic291cmNlIjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&,row sep=2.25em]
+	a \& b \& a \& b
+	\arrow["f"', from=1-1, to=1-2]
+	\arrow["u"', from=1-2, to=1-3]
+	\arrow["f"', from=1-3, to=1-4]
+	\arrow[""{name=0, anchor=center, inner sep=0}, curve={height=24pt}, Rightarrow, no head, from=1-2, to=1-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, curve={height=-24pt}, Rightarrow, no head, from=1-1, to=1-3]
+	\arrow["\counit"', shorten >=2pt, Rightarrow, from=1-3, to=0]
+	\arrow["\unit"', shorten <=2pt, Rightarrow, from=1, to=1-2]
+\end{tikzcd}
+}
+
+\newquiver{adjoint triangle two}{%
+% https://q.uiver.app/?q=WzAsNCxbMSwwLCJhIl0sWzIsMCwiYiJdLFszLDAsImEiXSxbMCwwLCJiIl0sWzAsMSwiZiIsMl0sWzEsMiwidSIsMl0sWzAsMiwiIiwyLHsiY3VydmUiOi00LCJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDAsInUiLDJdLFsxLDMsIiIsMix7ImN1cnZlIjotNCwibGV2ZWwiOjIsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNiwxLCJcXHVuaXQiLDIseyJzaG9ydGVuIjp7InNvdXJjZSI6MjB9fV0sWzAsOCwiXFxjb3VuaXQiLDIseyJsYWJlbF9wb3NpdGlvbiI6MjAsInNob3J0ZW4iOnsidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&,row sep=2.25em]
+	b \& a \& b \& a
+	\arrow["f"', from=1-2, to=1-3]
+	\arrow["u"', from=1-3, to=1-4]
+	\arrow[""{name=0, anchor=center, inner sep=0}, curve={height=-24pt}, Rightarrow, no head, from=1-2, to=1-4]
+	\arrow["u"', from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, curve={height=-24pt}, Rightarrow, no head, from=1-3, to=1-1]
+	\arrow["\unit"', shorten <=2pt, Rightarrow, from=0, to=1-3]
+	\arrow["\counit"'{pos=0.2}, shorten >=2pt, Rightarrow, from=1-2, to=1]
+\end{tikzcd}}
+
+\newquiver{narrow alpha f g}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJhIl0sWzIsMCwiYiJdLFswLDEsImYiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJnIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&,column sep=tiny]
+	a \&\& b
+	\arrow[""{name=0, anchor=center, inner sep=0}, "f", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "g"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{F(alpha f g)}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXEZGXzBhIl0sWzIsMCwiXFxGRl8wYiJdLFswLDEsIlxcRkZfMWYiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXEZGXzFnIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXEZGXzJcXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&,column sep=small]
+	{\FF_0a} \&\& {\FF_0b}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\FF_1f}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\FF_1g}"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["{\FF_2\alpha}", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}}
+
+\newquiver{F(adjoint triangle one)}{
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXEZGIGEiXSxbMSwwLCJcXEZGIGIiXSxbMiwwLCJcXEZGIGEiXSxbMywwLCJcXEZGIGIiXSxbMCwxLCJcXEZGIGYiLDJdLFsxLDIsIlxcRkYgdSIsMl0sWzIsMywiXFxGRiBmIiwyXSxbMSwzLCIiLDIseyJjdXJ2ZSI6NCwibGV2ZWwiOjIsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwyLCIiLDIseyJjdXJ2ZSI6LTQsImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsNywiXFxGRiBcXGNvdW5pdCIsMix7InNob3J0ZW4iOnsidGFyZ2V0IjoyMH19XSxbOCwxLCJcXEZGXFx1bml0IiwyLHsibGFiZWxfcG9zaXRpb24iOjMwLCJzaG9ydGVuIjp7InNvdXJjZSI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{\FF a} \& {\FF b} \& {\FF a} \& {\FF b}
+	\arrow["{\FF f}"', from=1-1, to=1-2]
+	\arrow["{\FF u}"', from=1-2, to=1-3]
+	\arrow["{\FF f}"', from=1-3, to=1-4]
+	\arrow[""{name=0, anchor=center, inner sep=0}, curve={height=24pt}, Rightarrow, no head, from=1-2, to=1-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, curve={height=-24pt}, Rightarrow, no head, from=1-1, to=1-3]
+	\arrow["{\FF \counit}"', shorten >=2pt, Rightarrow, from=1-3, to=0]
+	\arrow["\FF\unit"'{pos=0.3}, shorten <=2pt, Rightarrow, from=1, to=1-2]
+\end{tikzcd}}
+
+\newquiver{F(adjoint triangle two)}{
+% https://q.uiver.app/?q=WzAsNCxbMSwwLCJcXEZGIGEiXSxbMiwwLCJcXEZGIGIiXSxbMywwLCJcXEZGIGEiXSxbMCwwLCJcXEZGIGIiXSxbMCwxLCJcXEZGIGYiLDJdLFsxLDIsIlxcRkYgdSIsMl0sWzAsMiwiIiwyLHsiY3VydmUiOi00LCJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDAsIlxcRkYgdSIsMl0sWzEsMywiIiwyLHsiY3VydmUiOi00LCJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs2LDEsIlxcRkYgXFx1bml0IiwyLHsibGFiZWxfcG9zaXRpb24iOjMwLCJzaG9ydGVuIjp7InNvdXJjZSI6MjB9fV0sWzAsOCwiXFxGRiBcXGNvdW5pdCIsMix7ImxhYmVsX3Bvc2l0aW9uIjoyMCwic2hvcnRlbiI6eyJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\FF b} \& {\FF a} \& {\FF b} \& {\FF a}
+	\arrow["{\FF f}"', from=1-2, to=1-3]
+	\arrow["{\FF u}"', from=1-3, to=1-4]
+	\arrow[""{name=0, anchor=center, inner sep=0}, curve={height=-24pt}, Rightarrow, no head, from=1-2, to=1-4]
+	\arrow["{\FF u}"', from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, curve={height=-24pt}, Rightarrow, no head, from=1-3, to=1-1]
+	\arrow["{\FF \unit}"'{pos=0.3}, shorten <=2pt, Rightarrow, from=0, to=1-3]
+	\arrow["{\FF \counit}"'{pos=0.2}, shorten >=2pt, Rightarrow, from=1-2, to=1]
+\end{tikzcd}
+}
+
+\newquiver{multi-morphism}{
+  % https://q.uiver.app/?q=WzAsNSxbMCwwLCJhXzEiXSxbMCwxLCJcXHZkb3RzIl0sWzAsMiwiYV9uIl0sWzEsMSwiZiJdLFsyLDEsImIiXSxbMCwzLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDRdLFs1LDYsIiIsMix7ImN1cnZlIjoyLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&,sep=small]
+	{a_1} \\
+	\vdots \& f \& b \\
+	{a_n}
+	\arrow[""{name=0, anchor=center, inner sep=0}, no head, from=1-1, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, no head, from=3-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[curve={height=12pt}, shorten <=5pt, shorten >=5pt, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{multi composition}{
+% https://q.uiver.app/?q=WzAsMTMsWzIsMSwiYl8xIl0sWzIsNSwiYl9uIl0sWzMsMywiZyJdLFs0LDMsImMiXSxbMSwxLCJmXzEiXSxbMSw1LCJmX24iXSxbMCwwLCJhX3sxMX0iXSxbMCwyLCJhX3sxbV8xfSJdLFswLDQsImFfe24xfSJdLFswLDYsImFfe25tX259Il0sWzAsMSwiXFx2ZG90cyJdLFswLDUsIlxcdmRvdHMiXSxbMSwzLCJcXHZkb3RzIl0sWzAsMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMiwzXSxbNCwwXSxbNiw0LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzcsNCwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDFdLFs4LDUsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbOSw1LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEzLDE0LCIiLDIseyJjdXJ2ZSI6Miwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjF9XSxbMTcsMTgsIiIsMix7ImN1cnZlIjoyLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFsyMCwyMSwiIiwwLHsiY3VydmUiOjIsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV1d
+\begin{tikzcd}[ampersand replacement=\&,sep=small]
+	{a_{11}} \\
+	\vdots \& {f_1} \& {b_1} \\
+	{a_{1m_1}} \\
+	\& \vdots \&\& g \& c \\
+	{a_{n1}} \\
+	\vdots \& {f_n} \& {b_n} \\
+	{a_{nm_n}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, no head, from=2-3, to=4-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, no head, from=6-3, to=4-4]
+	\arrow[from=4-4, to=4-5]
+	\arrow[from=2-2, to=2-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, no head, from=1-1, to=2-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, no head, from=3-1, to=2-2]
+	\arrow[from=6-2, to=6-3]
+	\arrow[""{name=4, anchor=center, inner sep=0}, no head, from=5-1, to=6-2]
+	\arrow[""{name=5, anchor=center, inner sep=0}, no head, from=7-1, to=6-2]
+	\arrow[curve={height=12pt}, shorten <=9pt, shorten >=9pt, from=0, to=1]
+	\arrow[curve={height=12pt}, shorten <=6pt, shorten >=6pt, from=2, to=3]
+	\arrow[curve={height=12pt}, shorten <=6pt, shorten >=6pt, from=4, to=5]
+\end{tikzcd}
+}
+
+\newquiver{multi composition associativity}{
+% https://q.uiver.app/?q=WzAsMjYsWzIsMSwiYl97MTF9Il0sWzIsNSwiYl97MW5fMX0iXSxbMywzLCJnXzEiXSxbNCwzLCJjXzEiXSxbMSwxLCJmX3sxMX0iXSxbMSw1LCJmX3sxbl8xfSJdLFswLDAsImFfezExMX0iXSxbMCwyLCJhX3sxMW1fMX0iXSxbMCw0LCJhX3sxbl8xMX0iXSxbMCw2LCJhX3sxbl8xbV97bl8xfX0iXSxbMCwxLCJcXHZkb3RzIl0sWzAsNSwiXFx2ZG90cyJdLFsxLDMsIlxcdmRvdHMiXSxbMyw3LCJcXHZkb3RzIl0sWzAsOCwiYV97azExfSJdLFswLDEwLCJhX3trMW1fMX0iXSxbMSw5LCJmX3trMX0iXSxbMiw5LCJiX3trMX0iXSxbMywxMSwiZ19rIl0sWzAsMTIsImFfe2tuX2sxfSJdLFswLDE0LCJhX3trbl9rbV97bl9rfX0iXSxbMSwxMywiZl97a25fa30iXSxbMiwxMywiYl97a25fa30iXSxbNCwxMSwiY19rIl0sWzUsNywiaCJdLFs2LDcsImQiXSxbMCwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMiwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyLDNdLFs0LDBdLFs2LDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNyw0LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsMV0sWzgsNSwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs5LDUsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTQsMTUsIlxcdmRvdHMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTQsMTYsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTUsMTYsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTYsMTddLFsxNywxOCwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxOSwyMCwiXFx2ZG90cyIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxOSwyMSwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyMCwyMSwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyMSwyMl0sWzE4LDIzXSxbMjIsMTgsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMjQsMjVdLFszLDI0LCIiLDEseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIzLDI0LCIiLDEseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzE2LDIxLCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzI2LDI3LCIiLDIseyJjdXJ2ZSI6Miwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjF9XSxbMzAsMzEsIiIsMix7ImN1cnZlIjoyLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFszMywzNCwiIiwwLHsiY3VydmUiOjIsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzM2LDM3LCIiLDEseyJjdXJ2ZSI6Miwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjF9XSxbNDEsNDIsIiIsMSx7ImN1cnZlIjoyLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFs0Nyw0OCwiIiwxLHsiY3VydmUiOjUsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzM5LDQ1LCIiLDEseyJjdXJ2ZSI6Miwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjF9XV0=
+\begin{tikzcd}[ampersand replacement=\&,sep=small]
+	{a_{111}} \\
+	\vdots \& {f_{11}} \& {b_{11}} \\
+	{a_{11m_1}} \\
+	\& \vdots \&\& {g_1} \& {c_1} \\
+	{a_{1n_11}} \\
+	\vdots \& {f_{1n_1}} \& {b_{1n_1}} \\
+	{a_{1n_1m_{n_1}}} \\
+	\&\&\& \vdots \&\& h \& d \\
+	{a_{k11}} \\
+	\& {f_{k1}} \& {b_{k1}} \\
+	{a_{k1m_1}} \\
+	\&\&\& {g_k} \& {c_k} \\
+	{a_{kn_k1}} \\
+	\& {f_{kn_k}} \& {b_{kn_k}} \\
+	{a_{kn_km_{n_k}}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, no head, from=2-3, to=4-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, no head, from=6-3, to=4-4]
+	\arrow[from=4-4, to=4-5]
+	\arrow[from=2-2, to=2-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, no head, from=1-1, to=2-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, no head, from=3-1, to=2-2]
+	\arrow[from=6-2, to=6-3]
+	\arrow[""{name=4, anchor=center, inner sep=0}, no head, from=5-1, to=6-2]
+	\arrow[""{name=5, anchor=center, inner sep=0}, no head, from=7-1, to=6-2]
+	\arrow["\vdots"{description}, draw=none, from=9-1, to=11-1]
+	\arrow[""{name=6, anchor=center, inner sep=0}, no head, from=9-1, to=10-2]
+	\arrow[""{name=7, anchor=center, inner sep=0}, no head, from=11-1, to=10-2]
+	\arrow[from=10-2, to=10-3]
+	\arrow[""{name=8, anchor=center, inner sep=0}, no head, from=10-3, to=12-4]
+	\arrow["\vdots"{description}, draw=none, from=13-1, to=15-1]
+	\arrow[""{name=9, anchor=center, inner sep=0}, no head, from=13-1, to=14-2]
+	\arrow[""{name=10, anchor=center, inner sep=0}, no head, from=15-1, to=14-2]
+	\arrow[from=14-2, to=14-3]
+	\arrow[from=12-4, to=12-5]
+	\arrow[""{name=11, anchor=center, inner sep=0}, no head, from=14-3, to=12-4]
+	\arrow[from=8-6, to=8-7]
+	\arrow[""{name=12, anchor=center, inner sep=0}, no head, from=4-5, to=8-6]
+	\arrow[""{name=13, anchor=center, inner sep=0}, no head, from=12-5, to=8-6]
+	\arrow["\vdots"{description}, draw=none, from=10-2, to=14-2]
+	\arrow[curve={height=12pt}, shorten <=9pt, shorten >=9pt, from=0, to=1]
+	\arrow[curve={height=12pt}, shorten <=5pt, shorten >=5pt, from=2, to=3]
+	\arrow[curve={height=12pt}, shorten <=5pt, shorten >=5pt, from=4, to=5]
+	\arrow[curve={height=12pt}, shorten <=5pt, shorten >=5pt, from=6, to=7]
+	\arrow[curve={height=12pt}, shorten <=5pt, shorten >=5pt, from=9, to=10]
+	\arrow[curve={height=30pt}, shorten <=19pt, shorten >=19pt, from=12, to=13]
+	\arrow[curve={height=12pt}, shorten <=9pt, shorten >=9pt, from=8, to=11]
+\end{tikzcd}
+}
+
+\newquiver{multi-natural transformation type}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFVVWzFdIl0sWzEsMCwiXFxVVVsyXSJdLFswLDEsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJHIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{multi-naturality}{
+% https://q.uiver.app/?q=WzAsOCxbMSwxLCJGYV8xIl0sWzAsMCwiRmFfbiJdLFsyLDEsIkdhXzEiXSxbMywwLCJHYV9uIl0sWzAsMiwiRmYiXSxbMywyLCJHZiJdLFswLDMsIkZiIl0sWzMsMywiR2IiXSxbMSw0LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsNCwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyLDUsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMyw1LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzYsNywiXFxhbHBoYV9iIiwyXSxbNCw2XSxbNSw3XSxbMCwyLCJcXGFscGhhX3thXzF9IiwyXSxbMSwwLCJcXGRkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMiwiXFxpZGRvdHMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwzLCJcXGFscGhhX3thX259Il0sWzksOCwiIiwyLHsiY3VydmUiOjEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzEwLDExLCIiLDIseyJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoxfV0sWzE1LDEyLCI9IiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{Fa_n} \&\&\& {Ga_n} \\
+	\& {Fa_1} \& {Ga_1} \\
+	Ff \&\&\& Gf \\
+	Fb \&\&\& Gb
+	\arrow[""{name=0, anchor=center, inner sep=0}, no head, from=1-1, to=3-1]
+	\arrow[""{name=1, anchor=center, inner sep=0}, no head, from=2-2, to=3-1]
+	\arrow[""{name=2, anchor=center, inner sep=0}, no head, from=2-3, to=3-4]
+	\arrow[""{name=3, anchor=center, inner sep=0}, no head, from=1-4, to=3-4]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{\alpha_b}"', from=4-1, to=4-4]
+	\arrow[from=3-1, to=4-1]
+	\arrow[from=3-4, to=4-4]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "{\alpha_{a_1}}"', from=2-2, to=2-3]
+	\arrow["\ddots"{description}, draw=none, from=1-1, to=2-2]
+	\arrow["\iddots"{description}, draw=none, from=1-4, to=2-3]
+	\arrow["{\alpha_{a_n}}", from=1-1, to=1-4]
+	\arrow[curve={height=6pt}, shorten <=4pt, shorten >=4pt, from=1, to=0]
+	\arrow[curve={height=-6pt}, shorten <=4pt, shorten >=4pt, from=2, to=3]
+	\arrow["{=}"{description}, draw=none, from=5, to=4]
+\end{tikzcd}
+}
+
+\newquiver{parallel multi-natural}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFVVWzFdIl0sWzEsMCwiXFxVVVsyXSJdLFswLDEsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJHIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXGFscGhhIiwyLHsib2Zmc2V0IjoxLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzIsMywiXFxiZXRhIiwwLHsib2Zmc2V0IjotMSwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["\alpha"', shift right=1, shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+	\arrow["\beta", shift left=1, shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+\newquiver{2-cell action of Mod(O,-)}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXE1vZChcXE9PLFxcVVVbMV0pIl0sWzIsMCwiXFxNb2QoXFxPTyxcXFVVWzJdKSJdLFswLDEsIlxcTW9kKFxcT08sRikiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXE1vZChcXE9PLEcpIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXE1vZChcXE9PLFxcYWxwaGEpIiwwLHsib2Zmc2V0Ijo1LCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{\Mod(\OO,\UU[1])} \&\& {\Mod(\OO,\UU[2])}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Mod(\OO,F)}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Mod(\OO,G)}"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["{\Mod(\OO,\alpha)}", shift right=5, shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}}
+
+
+\newquiver{O-homo as multi-natural}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFswLDEsIlxcQVsxXSIsMCx7ImN1cnZlIjotMn1dLFswLDEsIlxcQVsyXSIsMix7ImN1cnZlIjoyfV0sWzIsMywiaCIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[2]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["h", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}}
+
+\newquiver{O-homo image under 2-functor}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMCwxLCJcXEFbMV0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXEFbMl0iLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJGIiwyLHsiY3VydmUiOjJ9XSxbMyw0LCJoIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs1LDYsIj0iLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[2]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "F"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow["h", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+	\arrow["{=}"{description}, draw=none, from=2, to=3]
+\end{tikzcd}}
+
+\newquiver{O-homo 2-functoriality:composition}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMCwxLCJcXEFbMV0iLDAseyJjdXJ2ZSI6LTV9XSxbMCwxLCJcXEFbMl0iLDAseyJsYWJlbF9wb3NpdGlvbiI6MjB9XSxbMSwyLCJGIiwwLHsiY3VydmUiOi0yfV0sWzEsMiwiRiIsMix7ImN1cnZlIjoyfV0sWzAsMSwiXFxBWzNdIiwyLHsiY3VydmUiOjV9XSxbMSwyXSxbMyw0LCJoXzEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzQsNywiaF8yIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs1LDgsIj0iLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNiw4LCI9IiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-30pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[2]}"{pos=0.2}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "F"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{\A[3]}"', curve={height=30pt}, from=1-1, to=1-2]
+	\arrow[""{name=5, anchor=center, inner sep=0}, from=1-2, to=1-3]
+	\arrow["{h_1}", shorten <=4pt, shorten >=4pt, Rightarrow, from=0, to=1]
+	\arrow["{h_2}", shorten <=4pt, shorten >=4pt, Rightarrow, from=1, to=4]
+	\arrow["{=}"{description}, draw=none, from=2, to=5]
+	\arrow["{=}"{description}, draw=none, from=3, to=5]
+\end{tikzcd}
+}
+
+\newquiver{O-homo 2-functoriality:identity}{
+  % https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMCwxLCJcXEFbMV0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXEFbMV0iLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJGIiwyLHsiY3VydmUiOjJ9XSxbMyw0LCI9IiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiPSIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[1]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "F"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow["{=}"{description}, draw=none, from=0, to=1]
+	\arrow["{=}"{description}, draw=none, from=2, to=3]
+\end{tikzcd}}
+
+\newquiver{Mod(OO,alpha)_A as a whiskering}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMCwxLCJcXEFbMV0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXEFbMV0iLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJHIiwyLHsiY3VydmUiOjJ9XSxbMyw0LCI9IiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[1]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow["{=}"{description}, draw=none, from=0, to=1]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=3]
+\end{tikzcd}}
+
+\newquiver{Mod(OO,alpha) naturality as horizontal composition}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMCwxLCJcXEFbMV0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXEFbMV0iLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJHIiwyLHsiY3VydmUiOjJ9XSxbMyw0LCJoIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs1LDYsIlxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[1]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow["h", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=3]
+\end{tikzcd}}
+
+\newquiver{Mod(OO,-) preservers vertical composition}{% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMCwxLCJcXEFbMV0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXEFbMV0iLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIkYiLDAseyJjdXJ2ZSI6LTN9XSxbMSwyLCJIIiwyLHsiY3VydmUiOjN9XSxbMSwyLCJHIiwwLHsibGFiZWxfcG9zaXRpb24iOjIwfV0sWzMsNCwiPSIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDcsIlxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzcsNiwiXFxiZXRhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[1]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "F", curve={height=-18pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "H"', curve={height=18pt}, from=1-2, to=1-3]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "G"{pos=0.2}, from=1-2, to=1-3]
+	\arrow["{=}"{description}, draw=none, from=0, to=1]
+	\arrow["\alpha", shorten <=2pt, shorten >=2pt, Rightarrow, from=2, to=4]
+	\arrow["\beta", shorten <=2pt, shorten >=2pt, Rightarrow, from=4, to=3]
+\end{tikzcd}}
+
+\newquiver{Mod(OO,-) preservers horizontal composition}{% https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMywwLCJcXFVVWzNdIl0sWzAsMSwiXFxBWzFdIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiXFxBWzFdIiwyLHsiY3VydmUiOjJ9XSxbMSwyLCJGXzEiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJHXzEiLDIseyJjdXJ2ZSI6Mn1dLFsyLDMsIkZfMiIsMCx7ImN1cnZlIjotMn1dLFsyLDMsIkdfMiIsMix7ImN1cnZlIjoyfV0sWzQsNSwiPSIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs2LDcsIlxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzgsOSwiXFxiZXRhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU \& {\UU[2]} \& {\UU[3]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[1]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{F_1}", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{G_1}"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{F_2}", curve={height=-12pt}, from=1-3, to=1-4]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "{G_2}"', curve={height=12pt}, from=1-3, to=1-4]
+	\arrow["{=}"{description}, draw=none, from=0, to=1]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=3]
+	\arrow["\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=4, to=5]
+\end{tikzcd}}
+
+\newquiver{Mod(OO,-) preservers identities}{% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXE9PIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMCwxLCJcXEFbMV0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXEFbMV0iLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJHIiwyLHsiY3VydmUiOjJ9XSxbMyw0LCI9IiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiPSIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\OO \& \UU \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\A[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\A[1]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow["{=}"{description}, draw=none, from=0, to=1]
+	\arrow["{=}"{description}, draw=none, from=2, to=3]
+\end{tikzcd}}
+
+\newquiver{nat trans between pp functors}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXENbMV0iXSxbMSwwLCJcXENbMl0iXSxbMCwxLCJIIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiSyIsMix7ImN1cnZlIjoyfV0sWzIsMywiXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\C[1]} \& {\C[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "H", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "K"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{Mod(TT, alpha) type}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXE11bHRpKFxcVFQsXFxDWzFdKSJdLFszLDAsIlxcTXVsdGkoXFxUVCxcXENbMl0pIl0sWzAsMSwiXFxNdWx0aShcXFRULEgpIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiXFxNdWx0aShcXFRULEspIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXE11bHRpKFxcVFQsXFxhbHBoYSkiLDAseyJvZmZzZXQiOjUsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\Multi(\TT,\C[1])} \&\&\& {\Multi(\TT,\C[2])}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Multi(\TT,H)}", curve={height=-12pt}, from=1-1, to=1-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Multi(\TT,K)}"', curve={height=12pt}, from=1-1, to=1-4]
+	\arrow["{\Multi(\TT,\alpha)}", shift right=5, shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}}
+
+\newquiver{strict natural 2-transformation: 1-cells}{
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXEZGWzFdXzBhIl0sWzEsMCwiXFxGRlsxXV8wYiJdLFswLDEsIlxcRkZbMl1fMGEiXSxbMSwxLCJcXEZGWzJdXzBiIl0sWzAsMSwiXFxGRlsxXV8xZiJdLFsyLDMsIlxcRkZbMl1fMWYiLDJdLFswLDIsIlxcWGlfYSIsMl0sWzEsMywiXFxYaV9iIl0sWzIsMSwiPSIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\FF[1]_0a} \& {\FF[1]_0b} \\
+	{\FF[2]_0a} \& {\FF[2]_0b}
+	\arrow["{\FF[1]_1f}", from=1-1, to=1-2]
+	\arrow["{\FF[2]_1f}"', from=2-1, to=2-2]
+	\arrow["{\Xi_a}"', from=1-1, to=2-1]
+	\arrow["{\Xi_b}", from=1-2, to=2-2]
+	\arrow["{=}"{description}, draw=none, from=2-1, to=1-2]
+\end{tikzcd}
+}
+
+\newquiver{strict natural 2-transformation: 2-cells}{
+% https://q.uiver.app/?q=WzAsOCxbMCwxLCJcXEZGIGEiXSxbMSwyLCJcXEZGIGIiXSxbMiwxLCJcXEZGWzJdIGIiXSxbMSwwLCJcXEZGWzJdYSJdLFszLDEsIlxcRkYgYSJdLFs0LDIsIlxcRkYgYiJdLFs1LDEsIlxcRkZbMl0gYiJdLFs0LDAsIlxcRkZbMl0gYSJdLFswLDEsIlxcRkYgZyIsMl0sWzEsMiwiXFxYaV9iIiwyXSxbMCwzLCJcXFhpX2EiXSxbMywyLCJcXEZGWzJdZiIsMCx7ImN1cnZlIjotMn1dLFszLDIsIlxcRkZbMl1nIiwyLHsiY3VydmUiOjJ9XSxbMSwzLCI9IiwwLHsibGFiZWxfcG9zaXRpb24iOjMwLCJvZmZzZXQiOjMsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDcsIlxcWGlfYSJdLFs0LDUsIlxcRkYgZiIsMCx7ImN1cnZlIjotMn1dLFs1LDYsIlxcWGlfYiIsMl0sWzcsNiwiXFxGRlsyXSBmIl0sWzQsNSwiXFxGRiBnIiwyLHsiY3VydmUiOjJ9XSxbNSw3LCI9IiwwLHsibGFiZWxfcG9zaXRpb24iOjcwLCJvZmZzZXQiOjIsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyLDQsIj0iLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTEsMTIsIlxcRkZbMl1cXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFsxNSwxOCwiXFxGRlxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	\& {\FF[2]a} \&\&\& {\FF[2] a} \\
+	{\FF a} \&\& {\FF[2] b} \& {\FF a} \&\& {\FF[2] b} \\
+	\& {\FF b} \&\&\& {\FF b}
+	\arrow["{\FF g}"', from=2-1, to=3-2]
+	\arrow["{\Xi_b}"', from=3-2, to=2-3]
+	\arrow["{\Xi_a}", from=2-1, to=1-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\FF[2]f}", curve={height=-12pt}, from=1-2, to=2-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\FF[2]g}"', curve={height=12pt}, from=1-2, to=2-3]
+	\arrow["{=}"{pos=0.3}, shift right=3, draw=none, from=3-2, to=1-2]
+	\arrow["{\Xi_a}", from=2-4, to=1-5]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\FF f}", curve={height=-12pt}, from=2-4, to=3-5]
+	\arrow["{\Xi_b}"', from=3-5, to=2-6]
+	\arrow["{\FF[2] f}", from=1-5, to=2-6]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{\FF g}"', curve={height=12pt}, from=2-4, to=3-5]
+	\arrow["{=}"{pos=0.7}, shift right=2, draw=none, from=3-5, to=1-5]
+	\arrow["{=}"{description}, draw=none, from=2-3, to=2-4]
+	\arrow["{\FF[2]\alpha}", shorten <=4pt, shorten >=4pt, Rightarrow, from=0, to=1]
+	\arrow["\FF\alpha", shorten <=4pt, shorten >=4pt, Rightarrow, from=2, to=3]
+\end{tikzcd}}
+
+\newquiver{natural 2-transformation type}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXENDWzFdIl0sWzEsMCwiXFxDQ1syXSJdLFswLDEsIlxcRkZbMV0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXEZGWzJdIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXFhpIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\CC[1]} \& {\CC[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\FF[1]}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\FF[2]}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["\Xi", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}}
+
+\newquiver{forgetful functor 2-transformation: type}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXHBwQ0FUIl0sWzIsMCwiXFxNdWx0aUNBVCJdLFswLDEsIlxcTXVsdGkoXFxUVCwgLSkiLDAseyJjdXJ2ZSI6LTN9XSxbMCwxLCJcXHNlcS0iLDIseyJjdXJ2ZSI6M31dLFsyLDMsIlxcY2Fycmllci0iLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	\ppCAT \&\& \MultiCAT
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Multi(\TT, -)}", curve={height=-18pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\seq-}"', curve={height=18pt}, from=1-1, to=1-3]
+	\arrow["{\carrier-}", shorten <=5pt, shorten >=5pt, Rightarrow, from=0, to=1]
+\end{tikzcd}}
+
+\newquiver{seq alpha type}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXHBhaXJ7XFxDWzFdfVxccHJvZCJdLFsyLDAsIlxccGFpcntcXENbMl19XFxwcm9kIl0sWzAsMSwiXFxzZXEgSCIsMCx7ImN1cnZlIjotMn1dLFswLDEsIlxcc2VxIEsiLDIseyJjdXJ2ZSI6Mn1dLFsyLDMsIlxcc2VxXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\pair{\C[1]}\prod} \&\& {\pair{\C[2]}\prod}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\seq H}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\seq K}"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["\seq\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}}
+
+\newquiver{pp vertical composition}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXEMiXSxbMiwwLCJcXENbMl0iXSxbMCwxLCJIIiwwLHsiY3VydmUiOi0zfV0sWzAsMSwiTCIsMix7ImN1cnZlIjozfV0sWzAsMSwiSyIsMV0sWzIsNCwiXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbNCwzLCJcXGJldGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	\C \&\& {\C[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "H", curve={height=-18pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "L"', curve={height=18pt}, from=1-1, to=1-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "K"{description}, from=1-1, to=1-3]
+	\arrow["\alpha", shorten <=2pt, shorten >=2pt, Rightarrow, from=0, to=2]
+	\arrow["\beta", shorten <=2pt, shorten >=2pt, Rightarrow, from=2, to=1]
+\end{tikzcd}
+}
+
+\newquiver{pp horizontal composition}{
+  % https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXENbM10iXSxbMSwwLCJcXENbNF0iXSxbMiwwLCJcXEMiXSxbMCwxLCJIXzEiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJLXzEiLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIkhfMiIsMCx7ImN1cnZlIjotMn1dLFsxLDIsIktfMiIsMix7ImN1cnZlIjoyfV0sWzUsNiwiXFxiZXRhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFszLDQsIlxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{\C[3]} \& {\C[4]} \& \C
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{H_1}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{K_1}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{H_2}", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{K_2}"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow["\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=3]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{carrier 2-naturality}{
+% https://q.uiver.app/?q=WzAsMjEsWzAsMSwiXFxNdWx0aShcXFRULFxcQykiXSxbMSwyLCJcXE11bHRpKFxcVFQsXFxDWzJdKSJdLFsyLDEsIlxccGFpcntcXENbMl19XFxwcm9kIl0sWzEsMCwiXFxwYWlyXFxDXFxwcm9kIl0sWzEsNSwiXFxNdWx0aShcXFRULFxcQykiXSxbMiw2LCJcXE11bHRpKFxcVFQsXFxDWzJdKSJdLFszLDUsIlxccGFpcntcXENbMl19XFxwcm9kIl0sWzIsNCwiXFxwYWlyXFxDXFxwcm9kIl0sWzAsMF0sWzAsMl0sWzIsMl0sWzIsMF0sWzIsMywiSFxcY2FycmllclxcQSJdLFsxLDMsIlxccHJvZFxcc2V0e0hcXGNhcnJpZXJcXEF9Il0sWzMsMywiS1xcY2FycmllclxcQSJdLFsxLDRdLFsxLDZdLFszLDZdLFszLDRdLFswLDNdLFswLDVdLFswLDEsIlxcTXVsdGkoXFxUVCwgSykiLDJdLFsxLDIsIlxcY2Fycmllci1fe1xcQ1syXX0iLDJdLFswLDMsIlxcWGlfYSJdLFszLDIsIlxcc2Vxe0h9IiwwLHsiY3VydmUiOi0yfV0sWzMsMiwiXFxzZXEgSyIsMix7ImN1cnZlIjoyfV0sWzEsMywiPSIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDcsIlxcY2Fycmllci1fe1xcQ30iXSxbNCw1LCJcXE11bHRpKFxcVFQsSCkiLDAseyJjdXJ2ZSI6LTN9XSxbNSw2LCJcXGNhcnJpZXItX3tcXENbMl19IiwyXSxbNyw2LCJcXHNlcXtIfSJdLFs0LDUsIlxcTXVsdGkoXFxUVCxLKSIsMix7ImN1cnZlIjozfV0sWzUsNywiPSIsMCx7ImxhYmVsX3Bvc2l0aW9uIjo3MCwib2Zmc2V0IjoyLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbOCw5LCIiLDAseyJvZmZzZXQiOjUsImN1cnZlIjozLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzExLDEwLCJcXEEiLDAseyJsYWJlbF9wb3NpdGlvbiI6MTAwLCJjdXJ2ZSI6LTMsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTMsMTIsIlxcaXNvbW9ycGhpYyJdLFsxMiwxNCwiXFxhbHBoYV97XFxjYXJyaWVyIFxcQX0iXSxbMTUsMTYsIiIsMCx7Im9mZnNldCI6NSwiY3VydmUiOjUsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTgsMTcsIlxcQSIsMCx7ImxhYmVsX3Bvc2l0aW9uIjoxMDAsImN1cnZlIjotNSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMywxOSwiIiwwLHsib2Zmc2V0IjotMSwic2hvcnRlbiI6eyJzb3VyY2UiOjMwLCJ0YXJnZXQiOjMwfSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMywxOSwiIiwwLHsib2Zmc2V0IjoxLCJzaG9ydGVuIjp7InNvdXJjZSI6MzAsInRhcmdldCI6MzB9LCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzI4LDMxLCJcXE11bHRpKFxcVFQsXFxhbHBoYSkiLDAseyJvZmZzZXQiOjUsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMjQsMjUsIlxcc2VxXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMjAsMzcsIiIsMCx7Im9mZnNldCI6MSwic2hvcnRlbiI6eyJzb3VyY2UiOjMwLCJ0YXJnZXQiOjMwfSwibGV2ZWwiOjEsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMjAsMzcsIiIsMCx7Im9mZnNldCI6LTEsInNob3J0ZW4iOnsic291cmNlIjozMCwidGFyZ2V0IjozMH0sImxldmVsIjoxLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{} \& \pair\C\prod \& {} \\
+	{\Multi(\TT,\C)} \&\& {\pair{\C[2]}\prod} \\
+	{} \& {\Multi(\TT,\C[2])} \& {} \\
+	{} \& {\prod\set{H\carrier\A}} \& H\carrier\A \& K\carrier\A \\
+	\& {} \& \pair\C\prod \& {} \\
+	{} \& {\Multi(\TT,\C)} \&\& {\pair{\C[2]}\prod} \\
+	\& {} \& {\Multi(\TT,\C[2])} \& {}
+	\arrow["{\Multi(\TT, K)}"', from=2-1, to=3-2]
+	\arrow["{\carrier-_{\C[2]}}"', from=3-2, to=2-3]
+	\arrow["{\Xi_a}", from=2-1, to=1-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\seq{H}}", curve={height=-12pt}, from=1-2, to=2-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\seq K}"', curve={height=12pt}, from=1-2, to=2-3]
+	\arrow["{=}", draw=none, from=3-2, to=1-2]
+	\arrow["{\carrier-_{\C}}", from=6-2, to=5-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\Multi(\TT,H)}", curve={height=-18pt}, from=6-2, to=7-3]
+	\arrow["{\carrier-_{\C[2]}}"', from=7-3, to=6-4]
+	\arrow["{\seq{H}}", from=5-3, to=6-4]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{\Multi(\TT,K)}"', curve={height=18pt}, from=6-2, to=7-3]
+	\arrow["{=}"{pos=0.7}, shift right=2, draw=none, from=7-3, to=5-3]
+	\arrow[shift right=5, curve={height=18pt}, no head, from=1-1, to=3-1]
+	\arrow["\A"{pos=1}, curve={height=-18pt}, no head, from=1-3, to=3-3]
+	\arrow["\isomorphic", from=4-2, to=4-3]
+	\arrow["{\alpha_{\carrier \A}}", from=4-3, to=4-4]
+	\arrow[""{name=4, anchor=center, inner sep=0}, shift right=5, curve={height=30pt}, no head, from=5-2, to=7-2]
+	\arrow["\A"{pos=1}, curve={height=-30pt}, no head, from=5-4, to=7-4]
+	\arrow[shift left=1, shorten <=10pt, shorten >=10pt, no head, from=4-2, to=4-1]
+	\arrow[shift right=1, shorten <=10pt, shorten >=10pt, no head, from=4-2, to=4-1]
+	\arrow["{\Multi(\TT,\alpha)}", shift right=5, shorten <=7pt, shorten >=7pt, Rightarrow, from=2, to=3]
+	\arrow["\seq\alpha", shorten <=4pt, shorten >=4pt, Rightarrow, from=0, to=1]
+	\arrow[shift right=1, shorten <=9pt, shorten >=9pt, no head, from=6-1, to=4]
+	\arrow[shift left=1, shorten <=9pt, shorten >=9pt, no head, from=6-1, to=4]
+\end{tikzcd}}
+
+\newquiver{mult 2-functoriality vertical composition: a}{
+  % https://q.uiver.app/?q=WzAsMyxbMCwwLCJGYSJdLFsyLDAsIkZiIl0sWzMsMCwiR2IiXSxbMCwxLCJGZiIsMCx7ImN1cnZlIjotNH1dLFswLDEsIkZoIiwyLHsiY3VydmUiOjR9XSxbMSwyLCJcXFhpX2IiXSxbMyw0LCJGKFxcYmV0YVxcY2lyY1xcYWxwaGEpIiwwLHsib2Zmc2V0IjozLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	Fa \&\& Fb \& Gb
+	\arrow[""{name=0, anchor=center, inner sep=0}, "Ff", curve={height=-24pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "Fh"', curve={height=24pt}, from=1-1, to=1-3]
+	\arrow["{\Xi_b}", from=1-3, to=1-4]
+	\arrow["{F(\beta\circ\alpha)}", shift right=3, shorten <=6pt, shorten >=6pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{mult 2-functoriality vertical composition: b}{
+% https://q.uiver.app/?q=WzAsNSxbMCwzLCJGYSJdLFsyLDMsIkZiIl0sWzMsMywiR2IiXSxbMiwxLCJHYSJdLFsyLDAsIkZhIl0sWzAsMSwiRmYiLDAseyJjdXJ2ZSI6LTR9XSxbMCwxLCJGaCIsMix7ImN1cnZlIjo0fV0sWzEsMiwiXFxYaV9iIl0sWzAsMywiXFxYaV9hIiwxLHsiY3VydmUiOi0yfV0sWzMsMiwiR2YiLDEseyJjdXJ2ZSI6LTJ9XSxbMCw0LCJGZiIsMSx7ImN1cnZlIjotM31dLFs0LDIsIlxcWGlfYiIsMSx7ImN1cnZlIjotM31dLFs0LDMsIj0iLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCI9IiwxLHsibGV2ZWwiOjIsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDYsIkYoXFxiZXRhXFxjaXJjXFxhbHBoYSkiLDAseyJvZmZzZXQiOjMsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\&\& Fa \\
+	\&\& Ga \\
+	\\
+	Fa \&\& Fb \& Gb
+	\arrow[""{name=0, anchor=center, inner sep=0}, "Ff", curve={height=-24pt}, from=4-1, to=4-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "Fh"', curve={height=24pt}, from=4-1, to=4-3]
+	\arrow["{\Xi_b}", from=4-3, to=4-4]
+	\arrow["{\Xi_a}"{description}, curve={height=-12pt}, from=4-1, to=2-3]
+	\arrow["Gf"{description}, curve={height=-12pt}, from=2-3, to=4-4]
+	\arrow["Ff"{description}, curve={height=-18pt}, from=4-1, to=1-3]
+	\arrow["{\Xi_b}"{description}, curve={height=-18pt}, from=1-3, to=4-4]
+	\arrow["{=}"{description}, draw=none, from=1-3, to=2-3]
+	\arrow["{=}"{description}, draw=none, from=2-3, to=4-3]
+	\arrow["{F(\beta\circ\alpha)}", shift right=3, shorten <=6pt, shorten >=6pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{mult 2-functoriality vertical composition: c}{
+% https://q.uiver.app/?q=WzAsNSxbMCwzLCJGYSJdLFsxLDMsIkZiIl0sWzIsMywiR2IiXSxbMSwxLCJHYSJdLFsxLDAsIkZhIl0sWzAsMSwiRmgiLDJdLFsxLDIsIlxcWGlfYiIsMl0sWzAsMywiXFxYaV9hIiwxLHsiY3VydmUiOi0yfV0sWzMsMiwiR2YiLDEseyJjdXJ2ZSI6LTJ9XSxbMCw0LCJGZiIsMSx7ImN1cnZlIjotM31dLFs0LDIsIlxcWGlfYiIsMSx7ImN1cnZlIjotM31dLFs0LDMsIj0iLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywyLCJHZyIsMix7ImN1cnZlIjozfV0sWzgsMTIsIkcoXFxiZXRhIFxcY2lyYyBcXGFscGhhKSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\& Fa \\
+	\& Ga \\
+	\\
+	Fa \& Fb \& Gb
+	\arrow["Fh"', from=4-1, to=4-2]
+	\arrow["{\Xi_b}"', from=4-2, to=4-3]
+	\arrow["{\Xi_a}"{description}, curve={height=-12pt}, from=4-1, to=2-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "Gf"{description}, curve={height=-12pt}, from=2-2, to=4-3]
+	\arrow["Ff"{description}, curve={height=-18pt}, from=4-1, to=1-2]
+	\arrow["{\Xi_b}"{description}, curve={height=-18pt}, from=1-2, to=4-3]
+	\arrow["{=}"{description}, draw=none, from=1-2, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "Gg"', curve={height=18pt}, from=2-2, to=4-3]
+	\arrow["{G(\beta \circ \alpha)}", shorten <=5pt, shorten >=5pt, Rightarrow, from=0, to=1]
+\end{tikzcd}}
+
+\newquiver{mult 2-functoriality vertical composition: d}{
+% https://q.uiver.app/?q=WzAsNSxbMCwzLCJGYSJdLFsxLDMsIkZiIl0sWzIsMywiR2IiXSxbMSwxLCJHYSJdLFsxLDAsIkZhIl0sWzAsMSwiRmgiLDJdLFsxLDIsIlxcWGlfYiIsMl0sWzAsMywiXFxYaV9hIiwxLHsiY3VydmUiOi0yfV0sWzMsMiwiR2YiLDAseyJsYWJlbF9wb3NpdGlvbiI6MTAsImN1cnZlIjotMn1dLFswLDQsIkZmIiwxLHsiY3VydmUiOi0zfV0sWzQsMiwiXFxYaV9iIiwxLHsiY3VydmUiOi0zfV0sWzQsMywiPSIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDIsIkdnIiwyLHsiY3VydmUiOjN9XSxbMywyXSxbOCwxMywiR1xcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzEzLDEyLCJHXFxiZXRhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\& Fa \\
+	\& Ga \\
+	\\
+	Fa \& Fb \& Gb
+	\arrow["Fh"', from=4-1, to=4-2]
+	\arrow["{\Xi_b}"', from=4-2, to=4-3]
+	\arrow["{\Xi_a}"{description}, curve={height=-12pt}, from=4-1, to=2-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "Gf"{pos=0.1}, curve={height=-12pt}, from=2-2, to=4-3]
+	\arrow["Ff"{description}, curve={height=-18pt}, from=4-1, to=1-2]
+	\arrow["{\Xi_b}"{description}, curve={height=-18pt}, from=1-2, to=4-3]
+	\arrow["{=}"{description}, draw=none, from=1-2, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "Gg"', curve={height=18pt}, from=2-2, to=4-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, from=2-2, to=4-3]
+	\arrow["G\alpha", shorten <=2pt, shorten >=2pt, Rightarrow, from=0, to=2]
+	\arrow["G\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=1]
+\end{tikzcd}
+}
+
+\newquiver{mult 2-functoriality vertical composition: e}{
+  % https://q.uiver.app/?q=WzAsNSxbMCwzLCJGYSJdLFsxLDMsIkZiIl0sWzIsMywiR2IiXSxbMSwxLCJHYSJdLFsxLDAsIkZhIl0sWzAsMSwiRmciLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIlxcWGlfYiIsMl0sWzAsMywiXFxYaV9hIiwxLHsiY3VydmUiOi0yfV0sWzMsMiwiR2YiLDAseyJsYWJlbF9wb3NpdGlvbiI6MTAsImN1cnZlIjotMn1dLFswLDQsIkZmIiwxLHsiY3VydmUiOi0zfV0sWzQsMiwiXFxYaV9iIiwxLHsiY3VydmUiOi0zfV0sWzQsMywiPSIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDJdLFswLDEsIkZoIiwwLHsiY3VydmUiOi0yfV0sWzgsMTIsIkdcXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFsxMyw1LCJGXFxiZXRhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFszLDEzLCI9IiwwLHsic2hvcnRlbiI6eyJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	\& Fa \\
+	\& Ga \\
+	\\
+	Fa \& Fb \& Gb
+	\arrow[""{name=0, anchor=center, inner sep=0}, "Fg"', curve={height=12pt}, from=4-1, to=4-2]
+	\arrow["{\Xi_b}"', from=4-2, to=4-3]
+	\arrow["{\Xi_a}"{description}, curve={height=-12pt}, from=4-1, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "Gf"{pos=0.1}, curve={height=-12pt}, from=2-2, to=4-3]
+	\arrow["Ff"{description}, curve={height=-18pt}, from=4-1, to=1-2]
+	\arrow["{\Xi_b}"{description}, curve={height=-18pt}, from=1-2, to=4-3]
+	\arrow["{=}"{description}, draw=none, from=1-2, to=2-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, from=2-2, to=4-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "Fh", curve={height=-12pt}, from=4-1, to=4-2]
+	\arrow["G\alpha", shorten <=2pt, shorten >=2pt, Rightarrow, from=1, to=2]
+	\arrow["F\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=3, to=0]
+	\arrow["{=}", draw=none, from=2-2, to=3]
+\end{tikzcd}
+}
+
+\newquiver{mult 2-functoriality vertical composition: f}{
+% https://q.uiver.app/?q=WzAsNSxbMCwzLCJGYSJdLFsyLDMsIkZiIl0sWzMsMywiR2IiXSxbMiwxLCJHYSJdLFsyLDAsIkZhIl0sWzAsMSwiRmgiLDIseyJjdXJ2ZSI6Mn1dLFsxLDIsIlxcWGlfYiIsMl0sWzAsMywiXFxYaV9hIiwxLHsiY3VydmUiOi0yfV0sWzMsMiwiR2YiLDAseyJsYWJlbF9wb3NpdGlvbiI6MTAsImN1cnZlIjotMn1dLFswLDQsIkZmIiwxLHsiY3VydmUiOi0zfV0sWzQsMiwiXFxYaV9iIiwxLHsiY3VydmUiOi0zfV0sWzQsMywiPSIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDEsIiIsMCx7ImxhYmVsX3Bvc2l0aW9uIjozMH1dLFswLDEsIkZmIiwwLHsiY3VydmUiOi0yfV0sWzMsMSwiPSIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMiw1LCJGXFxiZXRhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFsxMywxMiwiRlxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	\&\& Fa \\
+	\&\& Ga \\
+	\\
+	Fa \&\& Fb \& Gb
+	\arrow[""{name=0, anchor=center, inner sep=0}, "Fh"', curve={height=12pt}, from=4-1, to=4-3]
+	\arrow["{\Xi_b}"', from=4-3, to=4-4]
+	\arrow["{\Xi_a}"{description}, curve={height=-12pt}, from=4-1, to=2-3]
+	\arrow["Gf"{pos=0.1}, curve={height=-12pt}, from=2-3, to=4-4]
+	\arrow["Ff"{description}, curve={height=-18pt}, from=4-1, to=1-3]
+	\arrow["{\Xi_b}"{description}, curve={height=-18pt}, from=1-3, to=4-4]
+	\arrow["{=}"{description}, draw=none, from=1-3, to=2-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, from=4-1, to=4-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "Ff", curve={height=-12pt}, from=4-1, to=4-3]
+	\arrow["{=}"{description}, draw=none, from=2-3, to=4-3]
+	\arrow["F\beta", shorten <=2pt, shorten >=2pt, Rightarrow, from=1, to=0]
+	\arrow["F\alpha", shorten <=2pt, shorten >=2pt, Rightarrow, from=2, to=1]
+\end{tikzcd}
+}
+
+\newquiver{mult 2-functoriality vertical composition: g}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJGYSJdLFsyLDAsIkZiIl0sWzMsMCwiR2IiXSxbMCwxLCJGaCIsMix7ImN1cnZlIjoyfV0sWzEsMiwiXFxYaV9iIiwyXSxbMCwxLCIiLDAseyJsYWJlbF9wb3NpdGlvbiI6MzB9XSxbMCwxLCJGZiIsMCx7ImN1cnZlIjotMn1dLFs1LDMsIkZcXGJldGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzYsNSwiRlxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	Fa \&\& Fb \& Gb
+	\arrow[""{name=0, anchor=center, inner sep=0}, "Fh"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["{\Xi_b}"', from=1-3, to=1-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, from=1-1, to=1-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "Ff", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow["F\beta", shorten <=2pt, shorten >=2pt, Rightarrow, from=1, to=0]
+	\arrow["F\alpha", shorten <=2pt, shorten >=2pt, Rightarrow, from=2, to=1]
+\end{tikzcd}
+}
+
+\newquiver{mult 2-functoriality horizontal composition: a}{
+  % https://q.uiver.app/?q=WzAsNSxbMCwxLCJGYSJdLFszLDEsIkdjIl0sWzIsMSwiRmMiXSxbMSwwLCJGYiJdLFsxLDEsIkZiIl0sWzIsMSwiXFxYaV9jIl0sWzAsMywiRmZfMSIsMCx7ImN1cnZlIjotMn1dLFszLDIsIkZnXzEiLDAseyJjdXJ2ZSI6LTJ9XSxbMCw0LCJGZ18xIiwyXSxbNCwyLCJGZ18yIiwyXSxbMyw0LCJGKFxcYmV0YVxcYnVsbGV0XFxhbHBoYSkiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6Mn1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\& Fb \\
+	Fa \& Fb \& Fc \& Gc
+	\arrow["{\Xi_c}", from=2-3, to=2-4]
+	\arrow["{Ff_1}", curve={height=-12pt}, from=2-1, to=1-2]
+	\arrow["{Fg_1}", curve={height=-12pt}, from=1-2, to=2-3]
+	\arrow["{Fg_1}"', from=2-1, to=2-2]
+	\arrow["{Fg_2}"', from=2-2, to=2-3]
+	\arrow["{F(\beta\bullet\alpha)}", shorten <=2pt, shorten >=2pt, Rightarrow, from=1-2, to=2-2]
+\end{tikzcd}}
+
+\newquiver{mult 2-functoriality horizontal composition: b}{
+  % https://q.uiver.app/?q=WzAsOSxbMSwzLCJGYSJdLFs0LDMsIkdjIl0sWzMsMywiRmMiXSxbMiwyLCJGYiJdLFsyLDMsIkZiIl0sWzAsMCwiRmIiXSxbMSwxLCJHYSJdLFszLDEsIkdiIl0sWzQsMCwiRmMiXSxbMiwxLCJcXFhpX2MiXSxbMCwzLCJGZl8xIiwxLHsiY3VydmUiOi0yfV0sWzMsMiwiRmdfMSIsMSx7ImN1cnZlIjotMn1dLFswLDQsIkZnXzEiLDJdLFs0LDIsIkZnXzIiLDJdLFszLDQsIkYoXFxiZXRhXFxidWxsZXRcXGFscGhhKSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoyfV0sWzAsNSwiRmZfMSIsMV0sWzUsOCwiRmdfMSIsMV0sWzgsMSwiXFxYaV9jIiwxXSxbMCw2LCJcXFhpX2EiLDFdLFs2LDcsIkdmXzEiLDFdLFs3LDEsIkdmXzIiLDFdLFs3LDExLCI9IiwxLHsic2hvcnRlbiI6eyJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzE2LDE5LCI9IiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	Fb \&\&\&\& Fc \\
+	\& Ga \&\& Gb \\
+	\&\& Fb \\
+	\& Fa \& Fb \& Fc \& Gc
+	\arrow["{\Xi_c}", from=4-4, to=4-5]
+	\arrow["{Ff_1}"{description}, curve={height=-12pt}, from=4-2, to=3-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{Fg_1}"{description}, curve={height=-12pt}, from=3-3, to=4-4]
+	\arrow["{Fg_1}"', from=4-2, to=4-3]
+	\arrow["{Fg_2}"', from=4-3, to=4-4]
+	\arrow["{F(\beta\bullet\alpha)}", shorten <=2pt, shorten >=2pt, Rightarrow, from=3-3, to=4-3]
+	\arrow["{Ff_1}"{description}, from=4-2, to=1-1]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{Fg_1}"{description}, from=1-1, to=1-5]
+	\arrow["{\Xi_c}"{description}, from=1-5, to=4-5]
+	\arrow["{\Xi_a}"{description}, from=4-2, to=2-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{Gf_1}"{description}, from=2-2, to=2-4]
+	\arrow["{Gf_2}"{description}, from=2-4, to=4-5]
+	\arrow["{=}"{description}, draw=none, from=2-4, to=0]
+	\arrow["{=}"{description}, draw=none, from=1, to=2]
+\end{tikzcd}
+}
+\newquiver{mult 2-functoriality horizontal composition: c}{
+% https://q.uiver.app/?q=WzAsOSxbMSwzLCJGYSJdLFs0LDMsIkdjIl0sWzMsMywiRmMiXSxbMiwzLCJGYiJdLFswLDAsIkZiIl0sWzEsMSwiR2EiXSxbMywxLCJHYiJdLFs0LDAsIkZjIl0sWzIsMiwiR2IiXSxbMiwxLCJcXFhpX2MiLDJdLFswLDMsIkZnXzEiLDJdLFszLDIsIkZnXzIiLDJdLFswLDQsIkZmXzEiLDFdLFs0LDcsIkZnXzEiLDFdLFs3LDEsIlxcWGlfYyIsMV0sWzAsNSwiXFxYaV9hIiwxXSxbNSw2LCJHZl8xIiwxXSxbNiwxLCJHZl8yIiwxXSxbNSw4LCJHZ18xIiwxXSxbOCwxLCJHZ18yIiwxLHsiY3VydmUiOjF9XSxbNiw4LCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNiw4LCJHKFxcYmV0YVxcYnVsbGV0XFxhbHBoYSkiLDAseyJsZXZlbCI6Mn1dLFs4LDMsIj0iLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTMsMTYsIj0iLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	Fb \&\&\&\& Fc \\
+	\& Ga \&\& Gb \\
+	\&\& Gb \\
+	\& Fa \& Fb \& Fc \& Gc
+	\arrow["{\Xi_c}"', from=4-4, to=4-5]
+	\arrow["{Fg_1}"', from=4-2, to=4-3]
+	\arrow["{Fg_2}"', from=4-3, to=4-4]
+	\arrow["{Ff_1}"{description}, from=4-2, to=1-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{Fg_1}"{description}, from=1-1, to=1-5]
+	\arrow["{\Xi_c}"{description}, from=1-5, to=4-5]
+	\arrow["{\Xi_a}"{description}, from=4-2, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{Gf_1}"{description}, from=2-2, to=2-4]
+	\arrow["{Gf_2}"{description}, from=2-4, to=4-5]
+	\arrow["{Gg_1}"{description}, from=2-2, to=3-3]
+	\arrow["{Gg_2}"{description}, curve={height=6pt}, from=3-3, to=4-5]
+	\arrow[draw=none, from=2-4, to=3-3]
+	\arrow["{G(\beta\bullet\alpha)}", Rightarrow, from=2-4, to=3-3]
+	\arrow["{=}", draw=none, from=3-3, to=4-3]
+	\arrow["{=}"{description}, draw=none, from=0, to=1]
+\end{tikzcd}
+}
+\newquiver{mult 2-functoriality horizontal composition: d}{
+% https://q.uiver.app/?q=WzAsOCxbMSwzLCJGYSJdLFs0LDMsIkdjIl0sWzMsMywiRmMiXSxbMiwzLCJGYiJdLFswLDAsIkZiIl0sWzEsMSwiR2EiXSxbMywxLCJHYiJdLFs0LDAsIkZjIl0sWzIsMSwiXFxYaV9jIiwyXSxbMCwzLCJGZ18xIiwyXSxbMywyLCJGZ18yIiwyXSxbMCw0LCJGZl8xIiwxXSxbNCw3LCJGZ18xIiwxXSxbNywxLCJcXFhpX2MiLDFdLFswLDUsIlxcWGlfYSIsMV0sWzUsNiwiR2ZfMSIsMSx7ImN1cnZlIjotMX1dLFs2LDEsIkdmXzIiLDEseyJsYWJlbF9wb3NpdGlvbiI6NDAsImN1cnZlIjotMX1dLFs1LDYsIkdnXzEiLDEseyJjdXJ2ZSI6Mn1dLFs2LDEsIkdnXzIiLDEseyJjdXJ2ZSI6Mn1dLFs2LDMsIj0iLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTIsMTUsIj0iLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTUsMTcsIkdcXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFsxNiwxOCwiR1xcYmV0YSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	Fb \&\&\&\& Fc \\
+	\& Ga \&\& Gb \\
+	\\
+	\& Fa \& Fb \& Fc \& Gc
+	\arrow["{\Xi_c}"', from=4-4, to=4-5]
+	\arrow["{Fg_1}"', from=4-2, to=4-3]
+	\arrow["{Fg_2}"', from=4-3, to=4-4]
+	\arrow["{Ff_1}"{description}, from=4-2, to=1-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{Fg_1}"{description}, from=1-1, to=1-5]
+	\arrow["{\Xi_c}"{description}, from=1-5, to=4-5]
+	\arrow["{\Xi_a}"{description}, from=4-2, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{Gf_1}"{description}, curve={height=-6pt}, from=2-2, to=2-4]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{Gf_2}"{description, pos=0.4}, curve={height=-6pt}, from=2-4, to=4-5]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{Gg_1}"{description}, curve={height=12pt}, from=2-2, to=2-4]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{Gg_2}"{description}, curve={height=12pt}, from=2-4, to=4-5]
+	\arrow["{=}", draw=none, from=2-4, to=4-3]
+	\arrow["{=}"{description}, draw=none, from=0, to=1]
+	\arrow["G\alpha", shorten <=2pt, shorten >=2pt, Rightarrow, from=1, to=3]
+	\arrow["G\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=4]
+\end{tikzcd}
+}
+\newquiver{mult 2-functoriality horizontal composition: e}{
+% https://q.uiver.app/?q=WzAsOCxbMSwzLCJGYSJdLFs0LDMsIkdjIl0sWzMsMywiRmMiXSxbMiwzLCJGYiJdLFswLDAsIkZiIl0sWzEsMSwiR2EiXSxbMywxLCJHYiJdLFs0LDAsIkZjIl0sWzIsMSwiXFxYaV9jIiwyXSxbMCwzLCJGZ18xIiwyXSxbMywyLCJGZ18yIiwyXSxbMCw0LCJGZl8xIiwxXSxbNCw3LCJGZ18xIiwxXSxbNywxLCJcXFhpX2MiLDFdLFswLDUsIlxcWGlfYSIsMV0sWzUsNiwiR2ZfMSIsMSx7ImN1cnZlIjotMX1dLFs2LDEsIkdmXzIiLDEseyJsYWJlbF9wb3NpdGlvbiI6NDAsImN1cnZlIjotMX1dLFs2LDEsIkdnXzIiLDEseyJjdXJ2ZSI6Mn1dLFs1LDYsIkdnXzEiLDEseyJjdXJ2ZSI6Mn1dLFszLDYsIlxcWGlfYiJdLFsxNiwxNywiR1xcYmV0YSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMTUsMTgsIkdcXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFsxMiwxNSwiPSIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxNCwxOSwiPSIsMSx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxOSwyLCI9IiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	Fb \&\&\&\& Fc \\
+	\& Ga \&\& Gb \\
+	\\
+	\& Fa \& Fb \& Fc \& Gc
+	\arrow["{\Xi_c}"', from=4-4, to=4-5]
+	\arrow["{Fg_1}"', from=4-2, to=4-3]
+	\arrow["{Fg_2}"', from=4-3, to=4-4]
+	\arrow["{Ff_1}"{description}, from=4-2, to=1-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{Fg_1}"{description}, from=1-1, to=1-5]
+	\arrow["{\Xi_c}"{description}, from=1-5, to=4-5]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Xi_a}"{description}, from=4-2, to=2-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{Gf_1}"{description}, curve={height=-6pt}, from=2-2, to=2-4]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{Gf_2}"{description, pos=0.4}, curve={height=-6pt}, from=2-4, to=4-5]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{Gg_2}"{description}, curve={height=12pt}, from=2-4, to=4-5]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "{Gg_1}"{description}, curve={height=12pt}, from=2-2, to=2-4]
+	\arrow[""{name=6, anchor=center, inner sep=0}, "{\Xi_b}", from=4-3, to=2-4]
+	\arrow["G\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=3, to=4]
+	\arrow["G\alpha", shorten <=2pt, shorten >=2pt, Rightarrow, from=2, to=5]
+	\arrow["{=}"{description}, draw=none, from=0, to=2]
+	\arrow["{=}"{description}, draw=none, from=1, to=6]
+	\arrow["{=}", draw=none, from=6, to=4-4]
+\end{tikzcd}
+}
+\newquiver{mult 2-functoriality horizontal composition: f}{
+% https://q.uiver.app/?q=WzAsOCxbMSwzLCJGYSJdLFs0LDMsIkdjIl0sWzMsMywiRmMiXSxbMiwzLCJGYiJdLFswLDAsIkZiIl0sWzEsMSwiR2EiXSxbMywxLCJHYiJdLFs0LDAsIkZjIl0sWzIsMSwiXFxYaV9jIiwyXSxbMCwzLCJGZ18xIiwyLHsiY3VydmUiOjJ9XSxbMywyLCJGZ18yIiwyXSxbMCw0LCJGZl8xIiwxXSxbNCw3LCJGZ18xIiwxXSxbNywxLCJcXFhpX2MiLDFdLFswLDUsIlxcWGlfYSIsMV0sWzUsNiwiR2ZfMSIsMV0sWzYsMSwiR2ZfMiIsMSx7ImxhYmVsX3Bvc2l0aW9uIjo0MCwiY3VydmUiOi0xfV0sWzYsMSwiR2dfMiIsMSx7ImN1cnZlIjoyfV0sWzMsNiwiXFxYaV9iIl0sWzAsMywiRmZfMSIsMCx7ImN1cnZlIjotMn1dLFsxNiwxNywiR1xcYmV0YSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMTIsMTUsIj0iLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTQsMTgsIj0iLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTgsMiwiPSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxOSw5LCJGXFxhbHBoYSIsMCx7Im9mZnNldCI6Miwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	Fb \&\&\&\& Fc \\
+	\& Ga \&\& Gb \\
+	\\
+	\& Fa \& Fb \& Fc \& Gc
+	\arrow["{\Xi_c}"', from=4-4, to=4-5]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{Fg_1}"', curve={height=12pt}, from=4-2, to=4-3]
+	\arrow["{Fg_2}"', from=4-3, to=4-4]
+	\arrow["{Ff_1}"{description}, from=4-2, to=1-1]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{Fg_1}"{description}, from=1-1, to=1-5]
+	\arrow["{\Xi_c}"{description}, from=1-5, to=4-5]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\Xi_a}"{description}, from=4-2, to=2-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{Gf_1}"{description}, from=2-2, to=2-4]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{Gf_2}"{description, pos=0.4}, curve={height=-6pt}, from=2-4, to=4-5]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "{Gg_2}"{description}, curve={height=12pt}, from=2-4, to=4-5]
+	\arrow[""{name=6, anchor=center, inner sep=0}, "{\Xi_b}", from=4-3, to=2-4]
+	\arrow[""{name=7, anchor=center, inner sep=0}, "{Ff_1}", curve={height=-12pt}, from=4-2, to=4-3]
+	\arrow["G\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=4, to=5]
+	\arrow["{=}"{description}, draw=none, from=1, to=3]
+	\arrow["{=}"{description}, draw=none, from=2, to=6]
+	\arrow["{=}", draw=none, from=6, to=4-4]
+	\arrow["F\alpha", shift right=2, shorten <=3pt, shorten >=3pt, Rightarrow, from=7, to=0]
+\end{tikzcd}
+}
+\newquiver{mult 2-functoriality horizontal composition: g}{
+% https://q.uiver.app/?q=WzAsOCxbMSwzLCJGYSJdLFs0LDMsIkdjIl0sWzMsMywiRmMiXSxbMiwzLCJGYiJdLFswLDAsIkZiIl0sWzEsMSwiR2EiXSxbMywxLCJHYiJdLFs0LDAsIkZjIl0sWzIsMSwiXFxYaV9jIiwyXSxbMCwzLCJGZ18xIiwyLHsiY3VydmUiOjJ9XSxbMywyLCJGZ18yIiwyLHsiY3VydmUiOjJ9XSxbMCw0LCJGZl8xIiwxXSxbNCw3LCJGZ18xIiwxXSxbNywxLCJcXFhpX2MiLDFdLFswLDUsIlxcWGlfYSIsMV0sWzUsNiwiR2ZfMSIsMV0sWzYsMSwiR2ZfMiIsMSx7ImxhYmVsX3Bvc2l0aW9uIjo0MH1dLFszLDYsIlxcWGlfYiJdLFswLDMsIkZmXzEiLDAseyJjdXJ2ZSI6LTJ9XSxbMywyLCJGZl8yIiwwLHsiY3VydmUiOi0yfV0sWzEyLDE1LCI9IiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzE0LDE3LCI9IiwxLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzE3LDIsIj0iLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTgsOSwiRlxcYWxwaGEiLDAseyJvZmZzZXQiOjIsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMTksMTAsIkZcXGJldGEiLDAseyJvZmZzZXQiOjEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	Fb \&\&\&\& Fc \\
+	\& Ga \&\& Gb \\
+	\\
+	\& Fa \& Fb \& Fc \& Gc
+	\arrow["{\Xi_c}"', from=4-4, to=4-5]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{Fg_1}"', curve={height=12pt}, from=4-2, to=4-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{Fg_2}"', curve={height=12pt}, from=4-3, to=4-4]
+	\arrow["{Ff_1}"{description}, from=4-2, to=1-1]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{Fg_1}"{description}, from=1-1, to=1-5]
+	\arrow["{\Xi_c}"{description}, from=1-5, to=4-5]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{\Xi_a}"{description}, from=4-2, to=2-2]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{Gf_1}"{description}, from=2-2, to=2-4]
+	\arrow["{Gf_2}"{description, pos=0.4}, from=2-4, to=4-5]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "{\Xi_b}", from=4-3, to=2-4]
+	\arrow[""{name=6, anchor=center, inner sep=0}, "{Ff_1}", curve={height=-12pt}, from=4-2, to=4-3]
+	\arrow[""{name=7, anchor=center, inner sep=0}, "{Ff_2}", curve={height=-12pt}, from=4-3, to=4-4]
+	\arrow["{=}"{description}, draw=none, from=2, to=4]
+	\arrow["{=}"{description}, draw=none, from=3, to=5]
+	\arrow["{=}", draw=none, from=5, to=4-4]
+	\arrow["F\alpha", shift right=2, shorten <=3pt, shorten >=3pt, Rightarrow, from=6, to=0]
+	\arrow["F\beta", shift right=1, shorten <=3pt, shorten >=3pt, Rightarrow, from=7, to=1]
+\end{tikzcd}
+}
+\newquiver{mult 2-functoriality horizontal composition: h}{
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJGYSJdLFsxLDAsIkZiIl0sWzMsMCwiR2MiXSxbMiwwLCJGYyJdLFswLDEsIkZmXzEiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJGZ18xIiwyLHsiY3VydmUiOjJ9XSxbMywyLCJcXFhpX2MiXSxbMSwzLCJGZ18xIiwwLHsiY3VydmUiOi0yfV0sWzEsMywiRmdfMiIsMix7ImN1cnZlIjoyfV0sWzQsNSwiRlxcYWxwaGEiLDAseyJvZmZzZXQiOjEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbNyw4LCJGXFxiZXRhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	Fa \& Fb \& Fc \& Gc
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{Ff_1}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{Fg_1}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["{\Xi_c}", from=1-3, to=1-4]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{Fg_1}", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{Fg_2}"', curve={height=12pt}, from=1-2, to=1-3]
+	\arrow["F\alpha", shift right=1, shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+	\arrow["F\beta", shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=3]
+\end{tikzcd}
+}
+
+\newquiver{Cop morphism}{
+% https://q.uiver.app/?q=WzAsMTIsWzAsMSwiXFxhdmVjXzEiXSxbMCwzLCJcXGF2ZWNfbiJdLFsxLDEsImZfMSJdLFsyLDEsIlxccGFydGl0X3sxe1xcYWJze1xcYnZlY18xfX19Il0sWzIsMCwiXFxwYXJ0aXRfezExfSJdLFsxLDMsImZfbiJdLFsyLDMsIlxccGFydGl0X3tuMX0iXSxbMiw0LCJcXHBhcnRpdF97bntcXGFic3tcXGJ2ZWNfbn19fSJdLFszLDAsIlxcYnZlY197XFxwYWlyMTF9Il0sWzMsMSwiXFxidmVjX3tcXHBhaXIxe1xcYWJze1xcYnZlY18xfX19Il0sWzMsMywiXFxidmVjX3tcXHBhaXIgbjF9Il0sWzMsNCwiXFxidmVjX3tcXHBhaXIgbntcXGFic3tcXGJ2ZWNfbn19fSJdLFswLDEsIlxcdmRvdHMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMiwwXSxbNCwyLCIiLDEseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMiwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDMsIlxcdmRvdHMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNiw3LCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzYsNSwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs3LDUsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwxXSxbNCw4LCI9IiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsOSwiPSIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMCw2LCI9IiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzExLDcsIj0iLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTQsMTUsIiIsMSx7ImN1cnZlIjotMSwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjF9XSxbMTgsMTksIiIsMSx7ImN1cnZlIjotMSwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjF9XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\&\& {\partit_{11}} \& {\bvec_{\pair11}} \\
+	{\avec_1} \& {f_1} \& {\partit_{1{\abs{\bvec_1}}}} \& {\bvec_{\pair1{\abs{\bvec_1}}}} \\
+	\\
+	{\avec_n} \& {f_n} \& {\partit_{n1}} \& {\bvec_{\pair n1}} \\
+	\&\& {\partit_{n{\abs{\bvec_n}}}} \& {\bvec_{\pair n{\abs{\bvec_n}}}}
+	\arrow["\vdots"{description}, draw=none, from=2-1, to=4-1]
+	\arrow[from=2-2, to=2-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, no head, from=1-3, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, no head, from=2-3, to=2-2]
+	\arrow["\vdots"{description}, draw=none, from=1-3, to=2-3]
+	\arrow["\vdots"{description}, draw=none, from=4-3, to=5-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, no head, from=4-3, to=4-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, no head, from=5-3, to=4-2]
+	\arrow[from=4-2, to=4-1]
+	\arrow["{=}"{description}, draw=none, from=1-3, to=1-4]
+	\arrow["{=}"{description}, draw=none, from=2-3, to=2-4]
+	\arrow["{=}"{description}, draw=none, from=4-4, to=4-3]
+	\arrow["{=}"{description}, draw=none, from=5-4, to=5-3]
+	\arrow[curve={height=-6pt}, shorten <=3pt, shorten >=3pt, from=0, to=1]
+	\arrow[curve={height=-6pt}, shorten <=3pt, shorten >=3pt, from=2, to=3]
+\end{tikzcd}}
+
+\newquiver{Cop composition}{
+% https://q.uiver.app/?q=WzAsMjAsWzAsMiwiXFxhdmVjXzEiXSxbMCw1LCJcXGF2ZWNfbiJdLFsxLDIsImZfMSJdLFsyLDIsIlxcYnZlY197XFxwYWlyMXtuXzF9fSJdLFsyLDEsIlxcYnZlY197XFxwYWlyIDExfSJdLFsxLDUsImZfbiJdLFsyLDUsIlxcYnZlY197XFxwYWlyIG4xfSJdLFsyLDYsIlxcYnZlY197XFxwYWlyIG57bV9ufX0iXSxbMywxLCJnX3tcXHBhaXIxMX0iXSxbMywyLCJnX3tcXHBhaXIxe21fMX19Il0sWzQsMCwiXFxjdmVjX3tcXHRyaXBsZTExMX0iXSxbNCwxLCJcXGN2ZWNfe1xcdHJpcGxlMTF7a197MTF9fX0iXSxbNCwyLCJcXGN2ZWNfe1xcdHJpcGxlMXtuXzF9MX0iXSxbNCwzLCJcXGN2ZWNfe3tcXHRyaXBsZTF7bl8xfXtrX3sxbl8xfX19fSJdLFszLDUsImdfe1xccGFpciBuMX0iXSxbMyw2LCJnX3tcXHBhaXIgbnttX259fSJdLFs0LDQsIlxcY3ZlY197XFx0cmlwbGUgbjExfSJdLFs0LDUsIlxcY3ZlY197XFx0cmlwbGUgbjF7a197bjF9fX0iXSxbNCw2LCJcXGN2ZWNfe1xcdHJpcGxlIG57bV9ufTF9Il0sWzQsNywiXFxjdmVjX3tcXHRyaXBsZSBue21fbn17a197bm1fbn19fSJdLFswLDEsIlxcdmRvdHMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMiwwXSxbNCwyLCIiLDEseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMiwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDMsIlxcdmRvdHMiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNiw3LCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzYsNSwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs3LDUsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwxXSxbOCw5LCJcXHZkb3RzIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzgsNF0sWzksM10sWzExLDgsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTAsOCwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMCwxMSwiXFx2ZG90cyIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMiw5LCIiLDEseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEzLDksIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTQsNl0sWzE1LDddLFsxNiwxNCwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxNywxNCwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxOCwxNSwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxOSwxNSwiIiwxLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMiwxMywiXFx2ZG90cyIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxNiwxNywiXFx2ZG90cyIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxOCwxOSwiXFx2ZG90cyIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyMiwyMywiIiwxLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFsyNiwyNywiIiwxLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFszMywzMiwiIiwxLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFszNSwzNiwiIiwxLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFszOSw0MCwiIiwxLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dLFs0MSw0MiwiIiwxLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJsZXZlbCI6MX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\&\&\&\& {\cvec_{\triple111}} \\
+	\&\& {\bvec_{\pair 11}} \& {g_{\pair11}} \& {\cvec_{\triple11{k_{11}}}} \\
+	{\avec_1} \& {f_1} \& {\bvec_{\pair1{n_1}}} \& {g_{\pair1{m_1}}} \& {\cvec_{\triple1{n_1}1}} \\
+	\&\&\&\& {\cvec_{{\triple1{n_1}{k_{1n_1}}}}} \\
+	\&\&\&\& {\cvec_{\triple n11}} \\
+	{\avec_n} \& {f_n} \& {\bvec_{\pair n1}} \& {g_{\pair n1}} \& {\cvec_{\triple n1{k_{n1}}}} \\
+	\&\& {\bvec_{\pair n{m_n}}} \& {g_{\pair n{m_n}}} \& {\cvec_{\triple n{m_n}1}} \\
+	\&\&\&\& {\cvec_{\triple n{m_n}{k_{nm_n}}}}
+	\arrow["\vdots"{description}, draw=none, from=3-1, to=6-1]
+	\arrow[from=3-2, to=3-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, no head, from=2-3, to=3-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, no head, from=3-3, to=3-2]
+	\arrow["\vdots"{description}, draw=none, from=2-3, to=3-3]
+	\arrow["\vdots"{description}, draw=none, from=6-3, to=7-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, no head, from=6-3, to=6-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, no head, from=7-3, to=6-2]
+	\arrow[from=6-2, to=6-1]
+	\arrow["\vdots"{description}, draw=none, from=2-4, to=3-4]
+	\arrow[from=2-4, to=2-3]
+	\arrow[from=3-4, to=3-3]
+	\arrow[""{name=4, anchor=center, inner sep=0}, no head, from=2-5, to=2-4]
+	\arrow[""{name=5, anchor=center, inner sep=0}, no head, from=1-5, to=2-4]
+	\arrow["\vdots"{description}, draw=none, from=1-5, to=2-5]
+	\arrow[""{name=6, anchor=center, inner sep=0}, no head, from=3-5, to=3-4]
+	\arrow[""{name=7, anchor=center, inner sep=0}, no head, from=4-5, to=3-4]
+	\arrow[from=6-4, to=6-3]
+	\arrow[from=7-4, to=7-3]
+	\arrow[""{name=8, anchor=center, inner sep=0}, no head, from=5-5, to=6-4]
+	\arrow[""{name=9, anchor=center, inner sep=0}, no head, from=6-5, to=6-4]
+	\arrow[""{name=10, anchor=center, inner sep=0}, no head, from=7-5, to=7-4]
+	\arrow[""{name=11, anchor=center, inner sep=0}, no head, from=8-5, to=7-4]
+	\arrow["\vdots"{description}, draw=none, from=3-5, to=4-5]
+	\arrow["\vdots"{description}, draw=none, from=5-5, to=6-5]
+	\arrow["\vdots"{description}, draw=none, from=7-5, to=8-5]
+	\arrow[curve={height=-6pt}, shorten <=3pt, shorten >=3pt, from=0, to=1]
+	\arrow[curve={height=-6pt}, shorten <=3pt, shorten >=3pt, from=2, to=3]
+	\arrow[curve={height=-6pt}, shorten <=3pt, shorten >=3pt, from=5, to=4]
+	\arrow[curve={height=-6pt}, shorten <=3pt, shorten >=3pt, from=6, to=7]
+	\arrow[curve={height=-6pt}, shorten <=3pt, shorten >=3pt, from=8, to=9]
+	\arrow[curve={height=-6pt}, shorten <=3pt, shorten >=3pt, from=10, to=11]
+\end{tikzcd}
+}
+\newquiver{psh adjoint equivalence}{
+% https://q.uiver.app/?q=WzAsNCxbMSwwLCJcXFBzaFxcVVUiXSxbMiwwLCJcXFBzaCdcXFVVIl0sWzMsMCwiXFxQc2hcXFVVIl0sWzAsMCwiXFxQc2gnXFxVVSJdLFswLDEsIkUnIl0sWzMsMCwiRSJdLFsxLDIsIkUiXSxbMywxLCIiLDAseyJjdXJ2ZSI6LTQsImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMiwiIiwwLHsiY3VydmUiOjQsImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzcsMCwiXFx1bml0IiwwLHsibGFiZWxfcG9zaXRpb24iOjYwLCJzaG9ydGVuIjp7InNvdXJjZSI6MjB9fV0sWzEsOCwiXFxjb3VuaXQiLDAseyJsYWJlbF9wb3NpdGlvbiI6MzAsInNob3J0ZW4iOnsidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\Psh'\UU} \& \Psh\UU \& {\Psh'\UU} \& \Psh\UU
+	\arrow["{E'}", from=1-2, to=1-3]
+	\arrow["E", from=1-1, to=1-2]
+	\arrow["E", from=1-3, to=1-4]
+	\arrow[""{name=0, anchor=center, inner sep=0}, curve={height=-24pt}, Rightarrow, no head, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, curve={height=24pt}, Rightarrow, no head, from=1-2, to=1-4]
+	\arrow["\unit"{pos=0.6}, shorten <=2pt, Rightarrow, from=0, to=1-2]
+	\arrow["\counit"{pos=0.3}, shorten >=2pt, Rightarrow, from=1-3, to=1]
+\end{tikzcd}
+}
+
+\newquiver{psh 2-cell transformer}{
+ % https://q.uiver.app/?q=WzAsMyxbMCwxLCJcXFVVIl0sWzEsMCwiXFxQc2gnXFxVVSJdLFsyLDEsIlxcUHNoXFxVVSJdLFswLDEsIlxceW9uZWRhJyJdLFswLDIsIlxceW9uZWRhIiwyXSxbMSwyLCJFIl0sWzEsNCwiXFx0YXUiLDAseyJsYWJlbF9wb3NpdGlvbiI6NDAsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\& {\Psh'\UU} \\
+	\UU \&\& \Psh\UU
+	\arrow["{\yoneda'}", from=2-1, to=1-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "\yoneda"', from=2-1, to=2-3]
+	\arrow["E", from=1-2, to=2-3]
+	\arrow["\tau"{pos=0.4}, shorten <=3pt, shorten >=3pt, Rightarrow, from=1-2, to=0]
+\end{tikzcd}
+}
+
+\newquiver{psh 2-cell transformer'}{
+% https://q.uiver.app/?q=WzAsMyxbMCwxLCJcXFVVIl0sWzEsMCwiXFxQc2hcXFVVIl0sWzIsMSwiXFxQc2gnXFxVVSJdLFswLDEsIlxceW9uZWRhIl0sWzAsMiwiXFx5b25lZGEnIiwyXSxbMSwyLCJFJyJdLFsxLDQsIlxcdGF1JyIsMCx7ImxhYmVsX3Bvc2l0aW9uIjo0MCwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\& \Psh\UU \\
+	\UU \&\& {\Psh'\UU}
+	\arrow["\yoneda", from=2-1, to=1-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\yoneda'}"', from=2-1, to=2-3]
+	\arrow["{E'}", from=1-2, to=2-3]
+	\arrow["{\tau'}"{pos=0.4}, shorten <=3pt, shorten >=3pt, Rightarrow, from=1-2, to=0]
+\end{tikzcd}
+}
+
+\newquiver{psh transformer condition}{
+% https://q.uiver.app/?q=WzAsNyxbMCwyLCJcXFVVIl0sWzEsMCwiXFxQc2gnXFxVVSJdLFsxLDEsIlxcUHNoXFxVVSJdLFsyLDIsIlxcUHNoJ1xcVVUiXSxbMywyLCJcXFVVIl0sWzQsMCwiXFxQc2gnXFxVVSJdLFs1LDIsIlxcUHNoJ1xcVVUiXSxbMCwxLCJcXHlvbmVkYSciLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJFIl0sWzIsMywiRSciLDJdLFswLDMsIlxceW9uZWRhJyIsMix7ImN1cnZlIjozfV0sWzAsMiwiXFx5b25lZGEiLDJdLFs0LDUsIlxceW9uZWRhJyIsMCx7ImN1cnZlIjotM31dLFs0LDYsIlxceW9uZWRhJyIsMix7ImN1cnZlIjozfV0sWzUsNiwiIiwxLHsiY3VydmUiOi0zLCJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDMsIiIsMix7ImN1cnZlIjotMiwibGV2ZWwiOjJ9XSxbMSwxMSwiXFx0YXUiLDIseyJjdXJ2ZSI6MSwic2hvcnRlbiI6eyJzb3VyY2UiOjMwLCJ0YXJnZXQiOjIwfX1dLFsyLDEwLCJcXHRhdSciLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6NDAsInRhcmdldCI6MzB9fV0sWzE1LDIsIlxcdW5pdCIsMCx7ImN1cnZlIjotMSwic2hvcnRlbiI6eyJzb3VyY2UiOjQwfX1dLFs1LDEzLCI9IiwwLHsiY3VydmUiOjEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxMiwxNSwiPSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\& {\Psh'\UU} \&\&\& {\Psh'\UU} \\
+	\& \Psh\UU \\
+	\UU \&\& {\Psh'\UU} \& \UU \&\& {\Psh'\UU}
+	\arrow["{\yoneda'}", curve={height=-12pt}, from=3-1, to=1-2]
+	\arrow["E", from=1-2, to=2-2]
+	\arrow["{E'}"', from=2-2, to=3-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\yoneda'}"', curve={height=18pt}, from=3-1, to=3-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "\yoneda"', from=3-1, to=2-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\yoneda'}", curve={height=-18pt}, from=3-4, to=1-5]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{\yoneda'}"', curve={height=18pt}, from=3-4, to=3-6]
+	\arrow[curve={height=-18pt}, Rightarrow, no head, from=1-5, to=3-6]
+	\arrow[""{name=4, anchor=center, inner sep=0}, curve={height=-12pt}, Rightarrow, from=1-2, to=3-3]
+	\arrow["\tau"', curve={height=6pt}, shorten <=9pt, shorten >=6pt, Rightarrow, from=1-2, to=1]
+	\arrow["{\tau'}", shorten <=11pt, shorten >=8pt, Rightarrow, from=2-2, to=0]
+	\arrow["\unit", curve={height=-6pt}, shorten <=8pt, Rightarrow, from=4, to=2-2]
+	\arrow["{=}", curve={height=6pt}, draw=none, from=1-5, to=3]
+	\arrow["{=}", draw=none, from=2, to=4]
+\end{tikzcd}}
+
+\newquiver{psh transformer condition'}{
+% https://q.uiver.app/?q=WzAsOCxbMCwyLCJcXFVVIl0sWzEsMCwiXFxQc2hcXFVVIl0sWzIsMSwiXFxQc2gnXFxVVSJdLFsyLDIsIlxcUHNoXFxVVSJdLFszLDIsIlxcVVUiXSxbNCwwLCJcXFBzaFxcVVUiXSxbNSwyLCJcXFBzaFxcVVUiXSxbNSwxLCJcXFBzaCdcXFVVIl0sWzAsMSwiXFx5b25lZGEiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJFJyIsMCx7ImN1cnZlIjotMn1dLFsyLDMsIkUiLDAseyJjdXJ2ZSI6LTF9XSxbMCwzLCJcXHlvbmVkYSIsMix7ImN1cnZlIjozfV0sWzAsMiwiXFx5b25lZGEnIiwyXSxbNCw1LCJcXHlvbmVkYSIsMCx7ImN1cnZlIjotM31dLFs1LDcsIkUnIiwwLHsiY3VydmUiOi0xfV0sWzcsNiwiRSIsMCx7ImN1cnZlIjotMX1dLFs1LDYsIiIsMSx7ImN1cnZlIjoyLCJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDYsIlxceW9uZWRhIiwyLHsiY3VydmUiOjN9XSxbMSwxMiwiXFx0YXUnIiwyLHsiY3VydmUiOjEsInNob3J0ZW4iOnsic291cmNlIjozMCwidGFyZ2V0IjoyMH19XSxbMiwxMSwiXFx0YXUiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6NDAsInRhcmdldCI6MzB9fV0sWzcsMTYsIlxcY291bml0IiwyLHsiY3VydmUiOjEsInNob3J0ZW4iOnsidGFyZ2V0IjoyMH19XSxbMTMsMiwiPSIsMCx7ImxhYmVsX3Bvc2l0aW9uIjo4MCwib2Zmc2V0IjotMiwic2hvcnRlbiI6eyJzb3VyY2UiOjIwfSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEzLDE3LCI9IiwwLHsiY3VydmUiOi0xLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\& \Psh\UU \&\&\& \Psh\UU \\
+	\&\& {\Psh'\UU} \&\&\& {\Psh'\UU} \\
+	\UU \&\& \Psh\UU \& \UU \&\& \Psh\UU
+	\arrow["\yoneda", curve={height=-12pt}, from=3-1, to=1-2]
+	\arrow["{E'}", curve={height=-12pt}, from=1-2, to=2-3]
+	\arrow["E", curve={height=-6pt}, from=2-3, to=3-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "\yoneda"', curve={height=18pt}, from=3-1, to=3-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\yoneda'}"', from=3-1, to=2-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "\yoneda", curve={height=-18pt}, from=3-4, to=1-5]
+	\arrow["{E'}", curve={height=-6pt}, from=1-5, to=2-6]
+	\arrow["E", curve={height=-6pt}, from=2-6, to=3-6]
+	\arrow[""{name=3, anchor=center, inner sep=0}, curve={height=12pt}, Rightarrow, no head, from=1-5, to=3-6]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "\yoneda"', curve={height=18pt}, from=3-4, to=3-6]
+	\arrow["{\tau'}"', curve={height=6pt}, shorten <=9pt, shorten >=6pt, Rightarrow, from=1-2, to=1]
+	\arrow["\tau", shorten <=18pt, shorten >=13pt, Rightarrow, from=2-3, to=0]
+	\arrow["\counit"', curve={height=6pt}, shorten >=4pt, Rightarrow, from=2-6, to=3]
+	\arrow["{=}"{pos=0.8}, shift left=2, draw=none, from=2, to=2-3]
+	\arrow["{=}", curve={height=-6pt}, draw=none, from=2, to=4]
+\end{tikzcd}
+}
+
+\newquiver{yoneda structure structure}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXFVVIl0sWzIsMCwiXFxVVVsyXSJdLFsyLDEsIlxcUHNoXFxVVSJdLFswLDEsIkYiXSxbMCwyLCJcXHlvbmVkYSIsMl0sWzEsMiwiXFxVVVsyXShGOy0pIl0sWzQsMSwiXFxtYXAgRiIsMCx7ImxhYmVsX3Bvc2l0aW9uIjo2MCwib2Zmc2V0Ijo1LCJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjo0MCwidGFyZ2V0IjoxMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\UU \&\& {\UU[2]} \\
+	\&\& \Psh\UU
+	\arrow["F", from=1-1, to=1-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "\yoneda"', from=1-1, to=2-3]
+	\arrow["{\UU[2](F;-)}", from=1-3, to=2-3]
+	\arrow["{\map F}"{pos=0.6}, shift right=5, curve={height=-6pt}, shorten <=11pt, shorten >=3pt, Rightarrow, from=0, to=1-3]
+\end{tikzcd}
+}
+
+\newquiver{axiom 1 spelled out}{
+% https://q.uiver.app/?q=WzAsNSxbNSwwLCJcXFVVWzJdIl0sWzUsMSwiXFxQc2hcXFVVIl0sWzAsMCwiXFxVVSJdLFsxLDAsIlxcVVVbMl0iXSxbMSwxLCJcXFBzaFxcVVUiXSxbMCwxLCJcXFVVWzJdKEY7LSkiLDIseyJjdXJ2ZSI6M31dLFswLDEsIkciLDAseyJjdXJ2ZSI6LTN9XSxbMiwzLCJGIl0sWzMsNCwiRyIsMCx7ImN1cnZlIjotMn1dLFsyLDQsIlxceW9uZWRhX3tcXFVVfSIsMl0sWzUsNiwiXFxiZXRhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs5LDMsIlxcYWxwaGEiLDAseyJsYWJlbF9wb3NpdGlvbiI6NDAsIm9mZnNldCI6LTEsImN1cnZlIjoxfV0sWzUsOCwiXFxzdWJzdGFja3tcXHRleHR7cGFzdGluZyB9XFxcXFxcbWFwIEZ9IiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjMwLCJ0YXJnZXQiOjMwfSwibGV2ZWwiOjEsInN0eWxlIjp7InRhaWwiOnsibmFtZSI6ImFycm93aGVhZCJ9fX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	\UU \& {\UU[2]} \&\&\&\& {\UU[2]} \\
+	\& \Psh\UU \&\&\&\& \Psh\UU
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[2](F;-)}"', curve={height=18pt}, from=1-6, to=2-6]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "G", curve={height=-18pt}, from=1-6, to=2-6]
+	\arrow["F", from=1-1, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "G", curve={height=-12pt}, from=1-2, to=2-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{\yoneda_{\UU}}"', from=1-1, to=2-2]
+	\arrow["\beta", shorten <=7pt, shorten >=7pt, Rightarrow, from=0, to=1]
+	\arrow["\alpha"{pos=0.4}, shift left=1, curve={height=6pt}, Rightarrow, from=3, to=1-2]
+	\arrow["{\substack{\text{pasting }\\\map F}}", shorten <=34pt, shorten >=34pt, tail reversed, from=0, to=2]
+\end{tikzcd}}
+
+\newquiver{axiom-2 lifting}{
+% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXFVVWzNdIl0sWzEsMCwiXFxVVSJdLFsyLDAsIlxcVVVbMl0iXSxbMiwyLCJcXFBzaFxcVVUiXSxbMSwxLCJcXFVVIl0sWzQsMywiXFx5b25lZGFfe1xcVVV9IiwyLHsibGFiZWxfcG9zaXRpb24iOjIwfV0sWzAsNCwiRyIsMl0sWzEsMiwiRiJdLFswLDEsIkciXSxbMSw0LCIiLDAseyJsZXZlbCI6Miwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsyLDMsIlxcVVVbMl0oRjstKSJdLFs0LDIsIlxcbWFwIEYiLDAseyJsYWJlbF9wb3NpdGlvbiI6NzAsIm9mZnNldCI6Mywic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjJ9XSxbNiwxLCI9IiwxLHsibGFiZWxfcG9zaXRpb24iOjcwLCJzaG9ydGVuIjp7InNvdXJjZSI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[3]} \& \UU \& {\UU[2]} \\
+	\& \UU \\
+	\&\& \Psh\UU
+	\arrow["{\yoneda_{\UU}}"'{pos=0.2}, from=2-2, to=3-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "G"', from=1-1, to=2-2]
+	\arrow["F", from=1-2, to=1-3]
+	\arrow["G", from=1-1, to=1-2]
+	\arrow[Rightarrow, no head, from=1-2, to=2-2]
+	\arrow["{\UU[2](F;-)}", from=1-3, to=3-3]
+	\arrow["{\map F}"{pos=0.7}, shift right=3, shorten <=5pt, shorten >=5pt, Rightarrow, from=2-2, to=1-3]
+	\arrow["{=}"{description, pos=0.7}, draw=none, from=0, to=1-2]
+\end{tikzcd}
+}
+
+\newquiver{axiom-2 bijection}{
+% https://q.uiver.app/?q=WzAsNyxbMCwwLCJcXFVVWzNdIl0sWzIsMCwiXFxVVVsyXSJdLFsyLDIsIlxcUHNoXFxVVSJdLFsxLDEsIlxcVVUiXSxbNCwwLCJcXFVVWzNdIl0sWzYsMCwiXFxVVVsyXSJdLFs1LDEsIlxcVVUiXSxbMywyLCJcXHlvbmVkYV97XFxVVX0iLDIseyJsYWJlbF9wb3NpdGlvbiI6MjB9XSxbMCwzLCJHIiwyXSxbMSwyLCJcXFVVWzJdKEY7LSkiXSxbMCwxLCJIIl0sWzMsMSwiXFxhbHBoYSIsMCx7ImxldmVsIjoyfV0sWzQsNSwiSCJdLFs0LDYsIkciLDIseyJjdXJ2ZSI6MX1dLFs2LDUsIkYiLDIseyJjdXJ2ZSI6MX1dLFs2LDEyLCJcXFlvbmVkYV97XFxVVSxGLEgsR1xcc2VxLX1cXGFscGhhIiwwLHsibGFiZWxfcG9zaXRpb24iOjcwLCJvZmZzZXQiOjUsImN1cnZlIjoxLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzksMTMsIlxcbG9uZ2xlZnRyaWdodGFycm93IiwwLHsibGFiZWxfcG9zaXRpb24iOjYwLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[3]} \&\& {\UU[2]} \&\& {\UU[3]} \&\& {\UU[2]} \\
+	\& \UU \&\&\&\& \UU \\
+	\&\& \Psh\UU
+	\arrow["{\yoneda_{\UU}}"'{pos=0.2}, from=2-2, to=3-3]
+	\arrow["G"', from=1-1, to=2-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[2](F;-)}", from=1-3, to=3-3]
+	\arrow["H", from=1-1, to=1-3]
+	\arrow["\alpha", Rightarrow, from=2-2, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "H", from=1-5, to=1-7]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "G"', curve={height=6pt}, from=1-5, to=2-6]
+	\arrow["F"', curve={height=6pt}, from=2-6, to=1-7]
+	\arrow["{\Yoneda_{\UU,F,H,G\seq-}\alpha}"{pos=0.7}, shift right=5, curve={height=6pt}, shorten <=3pt, shorten >=3pt, Rightarrow, from=2-6, to=1]
+	\arrow["\longleftrightarrow"{pos=0.6}, draw=none, from=0, to=2]
+\end{tikzcd}
+}
+
+\newquiver{axiom-2 proof: uniqueness data}{
+% https://q.uiver.app/?q=WzAsNyxbMCwwLCJcXFVVWzNdIl0sWzIsMCwiXFxVVVsyXSJdLFsyLDIsIlxcUHNoXFxVVSJdLFsxLDEsIlxcVVUiXSxbNCwwLCJcXFVVWzNdIl0sWzYsMCwiXFxVVVsyXSJdLFs1LDEsIlxcVVUiXSxbMywyLCJcXHlvbmVkYV97XFxVVX0iLDIseyJsYWJlbF9wb3NpdGlvbiI6MjB9XSxbMCwzLCJHIiwyXSxbMSwyLCJcXFVVWzJdKEY7LSkiXSxbMCwxLCJIIl0sWzMsMSwiXFxhbHBoYSIsMCx7ImxldmVsIjoyfV0sWzQsNSwiSCJdLFs0LDYsIkciLDIseyJjdXJ2ZSI6MX1dLFs2LDUsIkYiLDIseyJjdXJ2ZSI6MX1dLFs2LDEyLCJcXGJldGEiLDAseyJsYWJlbF9wb3NpdGlvbiI6NDAsInNob3J0ZW4iOnsic291cmNlIjoxMCwidGFyZ2V0IjozMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[3]} \&\& {\UU[2]} \&\& {\UU[3]} \&\& {\UU[2]} \\
+	\& \UU \&\&\&\& \UU \\
+	\&\& \Psh\UU
+	\arrow["{\yoneda_{\UU}}"'{pos=0.2}, from=2-2, to=3-3]
+	\arrow["G"', from=1-1, to=2-2]
+	\arrow["{\UU[2](F;-)}", from=1-3, to=3-3]
+	\arrow["H", from=1-1, to=1-3]
+	\arrow["\alpha", Rightarrow, from=2-2, to=1-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "H", from=1-5, to=1-7]
+	\arrow["G"', curve={height=6pt}, from=1-5, to=2-6]
+	\arrow["F"', curve={height=6pt}, from=2-6, to=1-7]
+	\arrow["\beta"{pos=0.4}, shorten <=2pt, shorten >=5pt, Rightarrow, from=2-6, to=0]
+\end{tikzcd}
+}
+\newquiver{axiom-2 proof: uniqueness assumption}{
+  % https://q.uiver.app/?q=WzAsOCxbMCwwLCJcXFVVWzNdIl0sWzIsMCwiXFxVVVsyXSJdLFsyLDIsIlxcUHNoXFxVVSJdLFsxLDEsIlxcVVUiXSxbNCwwLCJcXFVVWzNdIl0sWzYsMCwiXFxVVVsyXSJdLFs2LDIsIlxcUHNoXFxVVSJdLFs1LDEsIlxcVVUiXSxbMywyLCJcXHlvbmVkYV97XFxVVX0iLDIseyJsYWJlbF9wb3NpdGlvbiI6MjB9XSxbMCwzLCJHIiwyXSxbMSwyLCJcXFVVWzJdKEY7LSkiXSxbNCw3LCJHIiwyXSxbNyw2LCJcXHlvbmVkYV97XFxVVX0iLDJdLFs0LDUsIkgiLDAseyJjdXJ2ZSI6LTJ9XSxbNSw2LCJcXFVVWzJdKEY7LSkiXSxbNyw1LCJcXGFscGhhIiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwibGV2ZWwiOjJ9XSxbMCwxLCJIIiwwLHsiY3VydmUiOi0zfV0sWzEsNCwiPSIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIkYiLDAseyJjdXJ2ZSI6LTF9XSxbMywxNiwiXFxiZXRhIiwwLHsib2Zmc2V0IjotMywic2hvcnRlbiI6eyJzb3VyY2UiOjMwLCJ0YXJnZXQiOjMwfX1dLFs4LDEsIlxcbWFwIEYiLDAseyJvZmZzZXQiOi0zLCJjdXJ2ZSI6Miwic2hvcnRlbiI6eyJzb3VyY2UiOjQwLCJ0YXJnZXQiOjQwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[3]} \&\& {\UU[2]} \&\& {\UU[3]} \&\& {\UU[2]} \\
+	\& \UU \&\&\&\& \UU \\
+	\&\& \Psh\UU \&\&\&\& \Psh\UU
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\yoneda_{\UU}}"'{pos=0.2}, from=2-2, to=3-3]
+	\arrow["G"', from=1-1, to=2-2]
+	\arrow["{\UU[2](F;-)}", from=1-3, to=3-3]
+	\arrow["G"', from=1-5, to=2-6]
+	\arrow["{\yoneda_{\UU}}"', from=2-6, to=3-7]
+	\arrow["H", curve={height=-12pt}, from=1-5, to=1-7]
+	\arrow["{\UU[2](F;-)}", from=1-7, to=3-7]
+	\arrow["\alpha", shorten <=5pt, shorten >=5pt, Rightarrow, from=2-6, to=1-7]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "H", curve={height=-18pt}, from=1-1, to=1-3]
+	\arrow["{=}"', draw=none, from=1-3, to=1-5]
+	\arrow["F", curve={height=-6pt}, from=2-2, to=1-3]
+	\arrow["\beta", shift left=3, shorten <=8pt, shorten >=8pt, Rightarrow, from=2-2, to=1]
+	\arrow["{\map F}", shift left=3, curve={height=12pt}, shorten <=14pt, shorten >=14pt, Rightarrow, from=0, to=1-3]
+\end{tikzcd}
+}
+
+\newquiver{internal yoneda lemma}{
+% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXFVVIl0sWzEsMSwiXFxQc2hcXFVVIl0sWzEsMCwiXFxQc2hcXFVVIl0sWzMsMCwiXFxQc2hcXFVVIl0sWzMsMSwiXFxQc2hcXFVVIl0sWzAsMiwiXFx5b25lZGEiXSxbMiwxLCJcXElkIl0sWzAsMSwiXFx5b25lZGEiLDJdLFszLDQsIlxcUHNoXFxVVShcXHlvbmVkYTstKSIsMix7ImN1cnZlIjoyfV0sWzMsNCwiXFxJZCIsMCx7ImN1cnZlIjotMn1dLFs3LDIsIj0iLDEseyJzaG9ydGVuIjp7InNvdXJjZSI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbOCw5LCJcXFlvbmVkYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\UU \& \Psh\UU \&\& \Psh\UU \\
+	\& \Psh\UU \&\& \Psh\UU
+	\arrow["\yoneda", from=1-1, to=1-2]
+	\arrow["\Id", from=1-2, to=2-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "\yoneda"', from=1-1, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Psh\UU(\yoneda;-)}"', curve={height=12pt}, from=1-4, to=2-4]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "\Id", curve={height=-12pt}, from=1-4, to=2-4]
+	\arrow["{=}"{description}, draw=none, from=0, to=1-2]
+	\arrow["\Yoneda", shorten <=5pt, shorten >=5pt, Rightarrow, from=1, to=2]
+\end{tikzcd}}
+
+\newquiver{hom-profunctor morphism input type}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFVVWzFdIl0sWzEsMCwiXFxVVVsyXSJdLFswLDEsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJHIiwyLHsiY3VydmUiOjJ9XSxbMywyLCJcXGFscGhhIiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["\alpha"', shorten <=3pt, shorten >=3pt, Rightarrow, from=1, to=0]
+\end{tikzcd}
+}
+
+\newquiver{hom-profunctor morphism output type}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFVVWzJdIl0sWzIsMCwiXFxQc2h7XFxVVVsxXX0iXSxbMCwxLCJcXFVVWzJdKEY7XFxJZC0pIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiXFxVVVsyXShHO1xcSWQtKSIsMix7ImN1cnZlIjoyfV0sWzIsMywiXFxVVVsyXShcXGFscGhhOyBcXElkLSkiLDAseyJvZmZzZXQiOjUsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[2]} \&\& {\Psh{\UU[1]}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[2](F;\Id-)}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\UU[2](G;\Id-)}"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["{\UU[2](\alpha; \Id-)}", shift right=5, shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{hom-profunctor special case up}{
+% https://q.uiver.app/?q=WzAsNixbMywwLCJcXFVVWzJdIl0sWzMsMiwiXFxQc2h7XFxVVVsxXX0iXSxbMCwwLCJcXFVVWzFdIl0sWzUsMCwiXFxVVVsxXSJdLFs3LDAsIlxcVVVbMl0iXSxbNywyLCJcXFBzaHtcXFVVWzFdfSJdLFswLDEsIlxcVVVbMl0oRjtcXElkLSkiLDIseyJsYWJlbF9wb3NpdGlvbiI6MzAsImN1cnZlIjo0fV0sWzAsMSwiXFxVVVsyXShHO1xcSWQtKSIsMCx7ImN1cnZlIjotNX1dLFsyLDEsIlxceW9uZWRhIiwyLHsiY3VydmUiOjN9XSxbMiwwLCJGIiwwLHsiY3VydmUiOi0yfV0sWzMsNCwiRiIsMCx7ImN1cnZlIjotMn1dLFszLDUsIlxceW9uZWRhIiwyXSxbNCw1LCJcXFVVWzJdKEc7XFxJZC0pIiwwLHsiY3VydmUiOi01fV0sWzMsNCwiRyIsMix7ImN1cnZlIjoyfV0sWzYsNywiXFxVVVsyXShcXGFscGhhOyBcXElkLSkiLDAseyJvZmZzZXQiOjEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbMTMsMTAsIlxcYWxwaGEiLDIseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzExLDQsIlxcbWFwIEciLDIseyJjdXJ2ZSI6Miwic2hvcnRlbiI6eyJzb3VyY2UiOjMwLCJ0YXJnZXQiOjEwfX1dLFs3LDExLCI9IiwxLHsibGFiZWxfcG9zaXRpb24iOjcwLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbOCw5LCJcXG1hcCBGIiwwLHsiY3VydmUiOi0yLCJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \&\&\& {\UU[2]} \&\& {\UU[1]} \&\& {\UU[2]} \\
+	\\
+	\&\&\& {\Psh{\UU[1]}} \&\&\&\& {\Psh{\UU[1]}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[2](F;\Id-)}"'{pos=0.3}, curve={height=24pt}, from=1-4, to=3-4]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\UU[2](G;\Id-)}", curve={height=-30pt}, from=1-4, to=3-4]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "\yoneda"', curve={height=18pt}, from=1-1, to=3-4]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-4]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-6, to=1-8]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "\yoneda"', from=1-6, to=3-8]
+	\arrow["{\UU[2](G;\Id-)}", curve={height=-30pt}, from=1-8, to=3-8]
+	\arrow[""{name=6, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-6, to=1-8]
+	\arrow["{\UU[2](\alpha; \Id-)}", shift right=1, shorten <=11pt, shorten >=11pt, Rightarrow, from=0, to=1]
+	\arrow["\alpha"', shorten <=3pt, shorten >=3pt, Rightarrow, from=6, to=4]
+	\arrow["{\map G}"', curve={height=12pt}, shorten <=12pt, shorten >=4pt, Rightarrow, from=5, to=1-8]
+	\arrow["{=}"{description, pos=0.7}, draw=none, from=1, to=5]
+	\arrow["{\map F}", curve={height=-12pt}, shorten <=9pt, shorten >=9pt, Rightarrow, from=2, to=3]
+\end{tikzcd}
+}
+
+\newquiver{hom profunctor general input}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXFVVWzFdIl0sWzEsMCwiXFxVVVsyXSJdLFsyLDAsIlxcVVVbM10iXSxbMCwxLCJGIiwwLHsiY3VydmUiOi0yfV0sWzIsMSwiSCIsMix7ImN1cnZlIjoyfV0sWzAsMSwiRyIsMix7ImN1cnZlIjoyfV0sWzIsMSwiSyIsMCx7ImN1cnZlIjotMn1dLFs0LDYsIlxcZ2FtbWEiLDIseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzUsMywiXFxhbHBoYSIsMix7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \& {\UU[2]} \& {\UU[3]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "H"', curve={height=12pt}, from=1-3, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "K", curve={height=-12pt}, from=1-3, to=1-2]
+	\arrow["\gamma"', shorten <=3pt, shorten >=3pt, Rightarrow, from=1, to=3]
+	\arrow["\alpha"', shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=0]
+\end{tikzcd}
+}
+
+\newquiver{hom profunctor general def via hcompose}{
+% https://q.uiver.app/?q=WzAsNSxbOCwwLCJcXFBzaHtcXFVVWzFdfSJdLFs2LDAsIlxcVVVbMl0iXSxbNCwwLCJcXFVVWzNdIl0sWzAsMCwiXFxVVVszXSJdLFsyLDAsIlxcUHNoe1xcVVVbMV19Il0sWzEsMCwiXFxVVVsyXShGO1xcSWQtKSIsMCx7ImN1cnZlIjotMn1dLFsyLDEsIkgiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwwLCJcXFVVWzJdKEc7XFxJZC0pIiwyLHsiY3VydmUiOjJ9XSxbMiwxLCJLIiwyLHsiY3VydmUiOjJ9XSxbMyw0LCJcXFVVWzJdKEY7SC0pIiwwLHsiY3VydmUiOi0zfV0sWzMsNCwiXFxVVVsyXShHO0stKSIsMix7ImN1cnZlIjozfV0sWzQsMiwiXFxkZWZpbmVkYnkiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNiw4LCJcXGdhbW1hIiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs1LDcsIlxcYWxwaGEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzksMTAsIlxcVVVbMl0oXFxhbHBoYTtcXGdhbW1hKSIsMCx7Im9mZnNldCI6NSwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[3]} \&\& {\Psh{\UU[1]}} \&\& {\UU[3]} \&\& {\UU[2]} \&\& {\Psh{\UU[1]}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[2](F;\Id-)}", curve={height=-12pt}, from=1-7, to=1-9]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "H", curve={height=-12pt}, from=1-5, to=1-7]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\UU[2](G;\Id-)}"', curve={height=12pt}, from=1-7, to=1-9]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "K"', curve={height=12pt}, from=1-5, to=1-7]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{\UU[2](F;H-)}", curve={height=-18pt}, from=1-1, to=1-3]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "{\UU[2](G;K-)}"', curve={height=18pt}, from=1-1, to=1-3]
+	\arrow["\definedby"{description}, draw=none, from=1-3, to=1-5]
+	\arrow["\gamma"', shorten <=3pt, shorten >=3pt, Rightarrow, from=1, to=3]
+	\arrow["\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=2]
+	\arrow["{\UU[2](\alpha;\gamma)}", shift right=5, shorten <=5pt, shorten >=5pt, Rightarrow, from=4, to=5]
+\end{tikzcd}
+}
+\newquiver{hom profunctor general input-output}{
+% https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXFVVWzFdIl0sWzEsMCwiXFxVVVsyXSJdLFsyLDAsIlxcVVVbM10iXSxbNCwwLCJcXFVVWzNdIl0sWzYsMCwiXFxQc2h7XFxVVVsxXX0iXSxbMCwxLCJGIiwwLHsiY3VydmUiOi0yfV0sWzIsMSwiSCIsMix7ImN1cnZlIjoyfV0sWzAsMSwiRyIsMix7ImN1cnZlIjoyfV0sWzIsMSwiSyIsMCx7ImN1cnZlIjotMn1dLFszLDQsIlxcVVVbMl0oRjtILSkiLDAseyJjdXJ2ZSI6LTN9XSxbMyw0LCJcXFVVWzJdKEc7Sy0pIiwyLHsiY3VydmUiOjN9XSxbMiwzLCJcXFVVWzJdKC07LSAtKSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoxMCwidGFyZ2V0IjoxMH0sInN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifX19XSxbNiw4LCJcXGdhbW1hIiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dLFs3LDUsIlxcYWxwaGEiLDIseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzksMTAsIlxcVVVbMl0oXFxhbHBoYTtcXGdhbW1hKSIsMCx7Im9mZnNldCI6NSwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \& {\UU[2]} \& {\UU[3]} \&\& {\UU[3]} \&\& {\Psh{\UU[1]}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "H"', curve={height=12pt}, from=1-3, to=1-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "G"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "K", curve={height=-12pt}, from=1-3, to=1-2]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{\UU[2](F;H-)}", curve={height=-18pt}, from=1-5, to=1-7]
+	\arrow[""{name=5, anchor=center, inner sep=0}, "{\UU[2](G;K-)}"', curve={height=18pt}, from=1-5, to=1-7]
+	\arrow["{\UU[2](-;- -)}", shorten <=4pt, shorten >=4pt, maps to, from=1-3, to=1-5]
+	\arrow["\gamma"', shorten <=3pt, shorten >=3pt, Rightarrow, from=1, to=3]
+	\arrow["\alpha"', shorten <=3pt, shorten >=3pt, Rightarrow, from=2, to=0]
+	\arrow["{\UU[2](\alpha;\gamma)}", shift right=5, shorten <=5pt, shorten >=5pt, Rightarrow, from=4, to=5]
+\end{tikzcd}
+}
+
+\newquiver{multi-natural transformation coop}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFVVWzFdIl0sWzEsMCwiXFxVVVsyXSJdLFsxLDAsIkYiLDIseyJjdXJ2ZSI6Mn1dLFsxLDAsIkciLDAseyJjdXJ2ZSI6LTJ9XSxbMywyLCJcXGFscGhhIiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F"', curve={height=12pt}, from=1-2, to=1-1]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "G", curve={height=-12pt}, from=1-2, to=1-1]
+	\arrow["\alpha"', shorten <=3pt, shorten >=3pt, Rightarrow, from=1, to=0]
+\end{tikzcd}
+}
+
+\newquiver{psh 2-cell action type}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFBzaHtcXFVVWzFdfSJdLFsxLDAsIlxcUHNoe1xcVVVbMl19Il0sWzAsMSwiXFxQc2ggRiIsMCx7ImN1cnZlIjotMn1dLFswLDEsIlxcUHNoIEciLDIseyJjdXJ2ZSI6Mn1dLFsyLDMsIlxcUHNoXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\Psh{\UU[1]}} \& {\Psh{\UU[2]}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Psh F}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Psh G}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow["\Psh\alpha", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{iota type}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFBzaHtcXFVVWzFdfSJdLFsyLDAsIlxcUHNoe1xcVVVbMV19Il0sWzAsMSwiXFxQc2h7XFxJZFt7XFxVVVsxXX1dfSIsMCx7ImN1cnZlIjotMn1dLFswLDEsIlxcSWRbXFxQc2h7XFxVVVsxXX1dIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXFlvbmVkYV97XFxVVVsxXX0iLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{\Psh{\UU[1]}} \&\& {\Psh{\UU[1]}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Psh{\Id[{\UU[1]}]}}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Id[\Psh{\UU[1]}]}"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["{\Yoneda_{\UU[1]}}", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{gamma type}{
+% https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFBzaHtcXFVVWzFdfSJdLFsyLDAsIlxcUHNoe1xcVVVbM119Il0sWzAsMSwiXFxQc2h7RiBcXGNvbXBvc2UgR30iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJcXFBzaCBHIFxcY29tcG9zZSBcXFBzaCBGIiwyLHsiY3VydmUiOjJ9XSxbMiwzLCJcXGdhbW1hX3tGLEd9IiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\Psh{\UU[1]}} \&\& {\Psh{\UU[3]}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Psh{F \compose G}}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Psh G \compose \Psh F}"', curve={height=12pt}, from=1-1, to=1-3]
+	\arrow["{\gamma_{F,G}}", shorten <=3pt, shorten >=3pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{theta type}{
+% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXFVVWzFdIl0sWzEsMCwiXFxQc2h7XFxVVVsyXX0iXSxbMSwxLCJcXFBzaHtcXFVVWzNdfSJdLFswLDEsIlxcVVUoSCwtKSIsMCx7ImN1cnZlIjotMn1dLFsxLDIsIlxcUHNoIEciXSxbMCwyLCJcXFVVWzFdKEhcXGNvbXBvc2UgRywgLSkiLDIseyJjdXJ2ZSI6Mn1dLFs1LDEsIlxcdGhldGFfe0csSH0iLDAseyJsYWJlbF9wb3NpdGlvbiI6NzAsInNob3J0ZW4iOnsic291cmNlIjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \& {\Psh{\UU[2]}} \\
+	\& {\Psh{\UU[3]}}
+	\arrow["{\UU(H,-)}", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow["{\Psh G}", from=1-2, to=2-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[1](H\compose G, -)}"', curve={height=12pt}, from=1-1, to=2-2]
+	\arrow["{\theta_{G,H}}"{pos=0.7}, shorten <=5pt, Rightarrow, from=0, to=1-2]
+\end{tikzcd}
+}
+
+\newquiver{theta UP}{
+% https://q.uiver.app/?q=WzAsOCxbNSwwLCJcXFVVWzFdIl0sWzYsMCwiXFxQc2h7XFxVVVsyXX0iXSxbNiwxLCJcXFBzaHtcXFVVWzNdfSJdLFswLDAsIlxcVVVbM10iXSxbMSwwLCJcXFVVWzJdIl0sWzIsMCwiXFxVVVsxXSJdLFsyLDEsIlxcUHNoe1xcVVVbMl19Il0sWzIsMiwiXFxQc2h7XFxVVVszXX0iXSxbMSwyLCJcXFBzaCBHIl0sWzAsMiwiXFxVVVsxXShIXFxjb21wb3NlIEcsIC0pIiwyLHsiY3VydmUiOjJ9XSxbMCwxLCJcXFVVKEgsLSkiLDAseyJjdXJ2ZSI6LTJ9XSxbMyw0LCJHIl0sWzQsNSwiSCJdLFs0LDYsIlxceW9uZWRhIiwyLHsibGFiZWxfcG9zaXRpb24iOjQwLCJjdXJ2ZSI6Mn1dLFs1LDYsIlxcVVVbMV0oSCwtKSJdLFs2LDcsIlxcUHNoIEciXSxbMyw3LCJcXHlvbmVkYSIsMix7ImN1cnZlIjozfV0sWzksMSwiXFx0aGV0YV97RyxIfSIsMCx7ImxhYmVsX3Bvc2l0aW9uIjo3MCwic2hvcnRlbiI6eyJzb3VyY2UiOjIwfX1dLFsxMyw1LCJcXG1hcCBIIiwyLHsib2Zmc2V0IjotNCwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjMwfX1dLFs2LDksIlxcbGVmdHJpZ2h0YXJyb3ciLDEseyJsYWJlbF9wb3NpdGlvbiI6MzAsImxldmVsIjoxLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMTYsMTMsIlxcbWFwIChcXFBzaHtcXFVVWzJdfSgtLEctKSkiLDIseyJsYWJlbF9wb3NpdGlvbiI6MTAsIm9mZnNldCI6LTUsImN1cnZlIjotMSwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjMwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[3]} \& {\UU[2]} \& {\UU[1]} \&\&\& {\UU[1]} \& {\Psh{\UU[2]}} \\
+	\&\& {\Psh{\UU[2]}} \&\&\&\& {\Psh{\UU[3]}} \\
+	\&\& {\Psh{\UU[3]}}
+	\arrow["{\Psh G}", from=1-7, to=2-7]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[1](H\compose G, -)}"', curve={height=12pt}, from=1-6, to=2-7]
+	\arrow["{\UU(H,-)}", curve={height=-12pt}, from=1-6, to=1-7]
+	\arrow["G", from=1-1, to=1-2]
+	\arrow["H", from=1-2, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "\yoneda"'{pos=0.4}, curve={height=12pt}, from=1-2, to=2-3]
+	\arrow["{\UU[1](H,-)}", from=1-3, to=2-3]
+	\arrow["{\Psh G}", from=2-3, to=3-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "\yoneda"', curve={height=18pt}, from=1-1, to=3-3]
+	\arrow["{\theta_{G,H}}"{pos=0.7}, shorten <=5pt, Rightarrow, from=0, to=1-7]
+	\arrow["{\map H}"', shift left=4, shorten <=5pt, shorten >=7pt, Rightarrow, from=1, to=1-3]
+	\arrow["\leftrightarrow"{description, pos=0.3}, draw=none, from=2-3, to=0]
+	\arrow["{\map (\Psh{\UU[2]}(-,G-))}"'{pos=0.1}, shift left=5, curve={height=-6pt}, shorten <=6pt, shorten >=8pt, Rightarrow, from=2, to=1]
+\end{tikzcd}
+}
+
+\newquiver{axiom 3b proof goal}{
+% https://q.uiver.app/?q=WzAsMTAsWzgsMCwiXFxVVVsxXSJdLFs5LDAsIlxcUHNoe1xcVVVbMl19Il0sWzksMSwiXFxQc2h7XFxVVVszXX0iXSxbMCwwLCJcXFVVWzNdIl0sWzEsMCwiXFxVVVsyXSJdLFsyLDAsIlxcVVVbMV0iXSxbMiwxLCJcXFBzaHtcXFVVWzJdfSJdLFsyLDIsIlxcUHNoe1xcVVVbM119Il0sWzUsMiwiXFxVVVszXSJdLFs1LDAsIlxcVVVbMl0iXSxbMSwyLCJcXFBzaCBHIl0sWzAsMiwiXFxVVVsxXShIXFxjb21wb3NlIEcsIC0pIiwyLHsibGFiZWxfcG9zaXRpb24iOjAsImN1cnZlIjoyfV0sWzAsMSwiXFxVVShILC0pIiwwLHsiY3VydmUiOi0yfV0sWzMsNCwiRyJdLFs0LDUsIkgiXSxbNCw2LCJcXHlvbmVkYSIsMix7ImxhYmVsX3Bvc2l0aW9uIjo0MCwiY3VydmUiOjJ9XSxbNSw2LCJcXFVVWzFdKEgsLSkiXSxbNiw3LCJcXFBzaCBHIl0sWzMsNywiXFx5b25lZGEiLDIseyJjdXJ2ZSI6M31dLFs4LDIsIiIsMix7ImN1cnZlIjoxfV0sWzgsOSwiRyIsMCx7ImN1cnZlIjotMX1dLFs5LDAsIkgiXSxbMTEsMSwiXFxpbnZcXFlvbmVkYSIsMCx7ImxhYmVsX3Bvc2l0aW9uIjo3MCwic2hvcnRlbiI6eyJzb3VyY2UiOjIwfX1dLFsxNSw1LCJcXG1hcCBIIiwyLHsib2Zmc2V0IjotNCwic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjMwfX1dLFs2LDExLCI9IiwxLHsibGFiZWxfcG9zaXRpb24iOjIwLCJsZXZlbCI6MSwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoibm9uZSJ9LCJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzE4LDE1LCJcXG1hcCAoXFxQc2h7XFxVVVsyXX0oLSxHLSkpIiwyLHsibGFiZWxfcG9zaXRpb24iOjEwLCJvZmZzZXQiOi01LCJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjozMH19XSxbOCwxMSwiXFxtYXAgKEggXFxjb21wb3NlIEcpIiwwLHsiY3VydmUiOi00LCJzaG9ydGVuIjp7InRhcmdldCI6MjB9fV1d
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[3]} \& {\UU[2]} \& {\UU[1]} \&\&\& {\UU[2]} \&\&\& {\UU[1]} \& {\Psh{\UU[2]}} \\
+	\&\& {\Psh{\UU[2]}} \&\&\&\&\&\&\& {\Psh{\UU[3]}} \\
+	\&\& {\Psh{\UU[3]}} \&\&\& {\UU[3]}
+	\arrow["{\Psh G}", from=1-10, to=2-10]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[1](H\compose G, -)}"'{pos=0}, curve={height=12pt}, from=1-9, to=2-10]
+	\arrow["{\UU(H,-)}", curve={height=-12pt}, from=1-9, to=1-10]
+	\arrow["G", from=1-1, to=1-2]
+	\arrow["H", from=1-2, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "\yoneda"'{pos=0.4}, curve={height=12pt}, from=1-2, to=2-3]
+	\arrow["{\UU[1](H,-)}", from=1-3, to=2-3]
+	\arrow["{\Psh G}", from=2-3, to=3-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "\yoneda"', curve={height=18pt}, from=1-1, to=3-3]
+	\arrow[curve={height=6pt}, from=3-6, to=2-10]
+	\arrow["G", curve={height=-6pt}, from=3-6, to=1-6]
+	\arrow["H", from=1-6, to=1-9]
+	\arrow["\inv\Yoneda"{pos=0.7}, shorten <=5pt, Rightarrow, from=0, to=1-10]
+	\arrow["{\map H}"', shift left=4, shorten <=5pt, shorten >=7pt, Rightarrow, from=1, to=1-3]
+	\arrow["{=}"{description, pos=0.2}, draw=none, from=2-3, to=0]
+	\arrow["{\map (\Psh{\UU[2]}(-,G-))}"'{pos=0.1}, shift left=5, curve={height=-6pt}, shorten <=6pt, shorten >=8pt, Rightarrow, from=2, to=1]
+	\arrow["{\map (H \compose G)}", curve={height=-24pt}, shorten >=24pt, Rightarrow, from=3-6, to=0]
+\end{tikzcd}
+}
+
+\newquiver{axiom 3* assumption}{
+  % https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXFVVWzJdIl0sWzAsMSwiXFxQc2hcXFVVIl0sWzIsMCwiXFxVVSJdLFs0LDAsIlxcVVVbMl0iXSxbNCwxLCJcXFBzaFxcVVUiXSxbMCwxLCJcXFVVWzJdKEYsLSkiLDIseyJjdXJ2ZSI6Mn1dLFswLDEsIkgiLDAseyJjdXJ2ZSI6LTJ9XSxbMiwzLCJGIl0sWzIsNCwiXFx5b25lZGEiLDIseyJjdXJ2ZSI6M31dLFszLDQsIkgiLDAseyJjdXJ2ZSI6LTN9XSxbMyw0LCJcXFVVWzJdKEYsLSkiLDIseyJsYWJlbF9wb3NpdGlvbiI6NzAsImN1cnZlIjoyfV0sWzUsNiwiXFxzaWdtYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XSxbOCwzLCJcXG1hcCBGIiwwLHsibGFiZWxfcG9zaXRpb24iOjQwLCJvZmZzZXQiOjUsImN1cnZlIjotMywic2hvcnRlbiI6eyJzb3VyY2UiOjQwLCJ0YXJnZXQiOjMwfX1dLFsxMCw5LCJcXHNpZ21hIiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[2]} \&\& \UU \&\& {\UU[2]} \\
+	\Psh\UU \&\&\&\& \Psh\UU
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[2](F,-)}"', curve={height=12pt}, from=1-1, to=2-1]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "H", curve={height=-12pt}, from=1-1, to=2-1]
+	\arrow["F", from=1-3, to=1-5]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "\yoneda"', curve={height=18pt}, from=1-3, to=2-5]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "H", curve={height=-18pt}, from=1-5, to=2-5]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "{\UU[2](F,-)}"'{pos=0.7}, curve={height=12pt}, from=1-5, to=2-5]
+	\arrow["\sigma", shorten <=5pt, shorten >=5pt, Rightarrow, from=0, to=1]
+	\arrow["{\map F}"{pos=0.4}, shift right=5, curve={height=-18pt}, shorten <=19pt, shorten >=14pt, Rightarrow, from=2, to=1-5]
+	\arrow["\sigma"', shorten <=6pt, shorten >=6pt, Rightarrow, from=4, to=3]
+\end{tikzcd}
+}
+
+\newquiver{Axiom 3* counterexample goal}{
+% https://q.uiver.app/?q=WzAsOCxbMCwwLCJcXFVVWzNdIl0sWzIsMCwiXFxVVVsyXSJdLFswLDIsIlxcVVVbMV0iXSxbMiwyLCJcXFBzaFxcVVUiXSxbNCwwLCJcXFVVWzNdIl0sWzYsMCwiXFxVVVsyXSJdLFs0LDIsIlxcVVVbMV0iXSxbNiwyLCJcXFBzaFxcVVUiXSxbMSwzLCJIIiwwLHsiY3VydmUiOi0yfV0sWzAsMiwiVyIsMix7ImN1cnZlIjoyfV0sWzIsMywiXFx5b25lZGEiLDIseyJjdXJ2ZSI6Mn1dLFswLDEsIkciXSxbMiwxLCJcXGFscGhhIiwwLHsiY3VydmUiOjIsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH0sImxldmVsIjoyfV0sWzQsNiwiVyIsMl0sWzYsNSwiRiIsMCx7ImN1cnZlIjotMn1dLFs2LDcsIlxceW9uZWRhIiwyLHsiY3VydmUiOjJ9XSxbNSw3LCJIIiwwLHsiY3VydmUiOi0yfV0sWzUsNywiXFxVVVsyXShGLC0pIiwyLHsib2Zmc2V0IjotMiwiY3VydmUiOjN9XSxbNCw1LCJHIl0sWzE1LDE3LCJcXG1hcCBGIiwwLHsib2Zmc2V0IjotNSwiY3VydmUiOjIsInNob3J0ZW4iOnsic291cmNlIjozMCwidGFyZ2V0IjozMH19XSxbMTcsMTYsIlxcc2lnbWEiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzEzLDE4LCJcXGJldGEiLDAseyJjdXJ2ZSI6LTEsInNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[3]} \&\& {\UU[2]} \&\& {\UU[3]} \&\& {\UU[2]} \\
+	\\
+	{\UU[1]} \&\& \Psh\UU \&\& {\UU[1]} \&\& \Psh\UU
+	\arrow["H", curve={height=-12pt}, from=1-3, to=3-3]
+	\arrow["W"', curve={height=12pt}, from=1-1, to=3-1]
+	\arrow["\yoneda"', curve={height=12pt}, from=3-1, to=3-3]
+	\arrow["G", from=1-1, to=1-3]
+	\arrow["\alpha", curve={height=12pt}, shorten <=13pt, shorten >=13pt, Rightarrow, from=3-1, to=1-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "W"', from=1-5, to=3-5]
+	\arrow["F", curve={height=-12pt}, from=3-5, to=1-7]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "\yoneda"', curve={height=12pt}, from=3-5, to=3-7]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "H", curve={height=-12pt}, from=1-7, to=3-7]
+	\arrow[""{name=3, anchor=center, inner sep=0}, "{\UU[2](F,-)}"', shift left=2, curve={height=18pt}, from=1-7, to=3-7]
+	\arrow[""{name=4, anchor=center, inner sep=0}, "G", from=1-5, to=1-7]
+	\arrow["{\map F}", shift left=5, curve={height=12pt}, shorten <=12pt, shorten >=12pt, Rightarrow, from=1, to=3]
+	\arrow["\sigma", shorten <=5pt, shorten >=5pt, Rightarrow, from=3, to=2]
+	\arrow["\beta", curve={height=-6pt}, shorten <=9pt, shorten >=9pt, Rightarrow, from=0, to=4]
+\end{tikzcd}
+}
+
+\newquiver{adjunction type}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFVVWzFdIl0sWzEsMCwiXFxVVVsyXSJdLFswLDEsIkYiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwwLCJVIiwwLHsiY3VydmUiOi0yfV0sWzIsMywiIiwwLHsibGV2ZWwiOjEsInN0eWxlIjp7Im5hbWUiOiJhZGp1bmN0aW9uIn19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\UU[1]} \& {\UU[2]}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "U", curve={height=-12pt}, from=1-2, to=1-1]
+	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=0, to=1]
+\end{tikzcd}
+}
+
+\newquiver{adjunction hom-set bijection}{
+% https://q.uiver.app/?q=WzAsMyxbMCwxLCJcXFVVWzJdIl0sWzEsMCwiXFxVVVsxXSJdLFsyLDEsIlxcUHNoe1xcVVVbMV19Il0sWzEsMiwiXFxVVVsxXSgtLC0tKSIsMCx7ImN1cnZlIjotMX1dLFswLDEsIlUiLDAseyJjdXJ2ZSI6LTF9XSxbMCwyLCJcXFVVWzJdKEYsLSkiLDIseyJjdXJ2ZSI6MX1dLFs1LDEsIlxccGhpIiwwLHsibGFiZWxfcG9zaXRpb24iOjMwLCJjdXJ2ZSI6MSwic2hvcnRlbiI6eyJzb3VyY2UiOjIwfX1dLFs1LDEsIlxcaXNvbW9ycGhpYyIsMix7ImN1cnZlIjoxLCJzaG9ydGVuIjp7InNvdXJjZSI6MjB9LCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	\& {\UU[1]} \\
+	{\UU[2]} \&\& {\Psh{\UU[1]}}
+	\arrow["{\UU[1](-,--)}", curve={height=-6pt}, from=1-2, to=2-3]
+	\arrow["U", curve={height=-6pt}, from=2-1, to=1-2]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\UU[2](F,-)}"', curve={height=6pt}, from=2-1, to=2-3]
+	\arrow["\phi"{pos=0.3}, curve={height=6pt}, shorten <=4pt, Rightarrow, from=0, to=1-2]
+	\arrow["\isomorphic"', curve={height=6pt}, draw=none, from=0, to=1-2]
+\end{tikzcd}}
+
+\newquiver{hom-algebra carrier}{
+  % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXGNhcnJpZXJ7QVxcbXVsdGltYXAgQn0iXSxbMSwwLCJcXGNhcnJpZXIgQl57XFxjYXJyaWVyIEF9Il0sWzIsMSwiKFRcXGNhcnJpZXIgQilee1RcXGNhcnJpZXIgQX0iXSxbMywwLCJcXGNhcnJpZXIgQl57VFxcY2FycmllciBBfSJdLFsxLDIsIlxcdW5kZXJsaW5lIFQiLDIseyJjdXJ2ZSI6Mn1dLFsyLDMsIkJcXHNlbS1ee1RcXGNhcnJpZXIgQX0iLDIseyJjdXJ2ZSI6Mn1dLFsxLDMsIlxcY2FycmllciBCXntBXFxzZW0tfSIsMCx7ImN1cnZlIjotNH1dLFswLDEsImUiXV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\carrier{A\multimap B}} \& {\carrier B^{\carrier A}} \&\& {\carrier B^{T\carrier A}} \\
+	\&\& {(T\carrier B)^{T\carrier A}}
+	\arrow["{\underline T}"', curve={height=12pt}, from=1-2, to=2-3]
+	\arrow["{B\sem-^{T\carrier A}}"', curve={height=12pt}, from=2-3, to=1-4]
+	\arrow["{\carrier B^{A\sem-}}", curve={height=-24pt}, from=1-2, to=1-4]
+	\arrow["e", from=1-1, to=1-2]
+\end{tikzcd}
+}
+
+\newquiver{A multimap limit preservation diagram}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXGNhcnJpZXIge0RpfV57XFxjYXJyaWVyIEF9Il0sWzIsMCwiXFxjYXJyaWVyIHtEaX1ee1RcXGNhcnJpZXIgQX0iXSxbMCwxLCJcXGNhcnJpZXIge0RpfV57QVxcc2VtLX0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJEaVxcc2VtLV57VFxcY2FycmllciBBfVxcY29tcG9zZSBcXHVuZGVybGluZSBUIiwyLHsiY3VydmUiOjJ9XV0=
+\begin{tikzcd}[ampersand replacement=\&]
+	{\carrier {Di}^{\carrier A}} \&\& {\carrier {Di}^{T\carrier A}}
+	\arrow["{\carrier {Di}^{A\sem-}}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow["{Di\sem-^{T\carrier A}\compose \underline T}"', curve={height=12pt}, from=1-1, to=1-3]
+\end{tikzcd}
+}
+
+\newquiver{limit Di first}{
+  % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXGNhcnJpZXIge0x9XntcXGNhcnJpZXIgQX0iXSxbMiwwLCJcXGNhcnJpZXIge0x9XntUXFxjYXJyaWVyIEF9Il0sWzAsMSwiXFxjYXJyaWVyIHtMfV57QVxcc2VtLX0iLDAseyJjdXJ2ZSI6LTJ9XSxbMCwxLCJMXFxzZW0tXntUXFxjYXJyaWVyIEF9XFxjb21wb3NlIFxcdW5kZXJsaW5lIFQiLDIseyJjdXJ2ZSI6Mn1dXQ==
+\begin{tikzcd}[ampersand replacement=\&]
+	{\carrier {L}^{\carrier A}} \&\& {\carrier {L}^{T\carrier A}}
+	\arrow["{\carrier {L}^{A\sem-}}", curve={height=-12pt}, from=1-1, to=1-3]
+	\arrow["{L\sem-^{T\carrier A}\compose \underline T}"', curve={height=12pt}, from=1-1, to=1-3]
+\end{tikzcd}
+}

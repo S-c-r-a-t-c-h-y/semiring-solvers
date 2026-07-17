@@ -1,0 +1,1893 @@
+\section{Yoneda structure}
+\label{sec:yoneda}
+
+We'll need universal properties in the $2$-category of
+multi-categories. It might be useful to develop a rich theory of
+representability inside $\MultiCAT$. We'll try to do it using the
+\emph{Yoneda structure} of \cite{street-walters-yoneda-structures}.
+
+\subsection{Admissible multi-functors}
+A multi-functor $F : \UU \to \UU[2]$ is \emph{admissible} when, for
+all $a_1, \ldots, a_n$ in $\UU$ and $b$ in $\UU[2]$, the multi-homset
+$\UU[2](Fa_1, \ldots, Fa_n; b) \in \Set$ is small. A multi-category is
+\emph{admissible} when its identity multi-functor is admissible, i.e.,
+when it is locally small. The admissible multi-functors are closed
+under-precomposition, i.e., for $\UU[1] \xto F \UU[2] \xto G \UU[3]$,
+if $G$ is admissible, then $G \compose F$ is also admissible. Indeed,
+given $a_i$ in $\UU[1]$ and $c$ in $\UU[3]$, we have:
+\[
+\UU[3](G\compose F a_1, \ldots, G\compose F a_n; C)
+=
+\UU[3](G(F a_1), \ldots, G(F a_n); C)
+\explain \in {$G$ admissibility\\for $Fa_1, \ldots, Fa_n$}
+\Set
+\]
+
+\subsection{Iterated lists}
+As you can see in from previous sections, manipulating
+multi-categories in the abstract makes the indexing heavy. Here we
+develop some notation to manipulate sequences of multi-morphisms
+ensemble, which is probably related to a construction of a free
+monoidal category out of a multi-category.
+
+Recall the structure of the list/free monoid monad, given by:
+\begin{itemize}
+  \item For each set $X$, the set $\List X$ of $X$-sequences $\xvec :=
+    \seq{\xvec_1, \ldots, \xvec_{\abs\xvec}}$, i.e., $\abs\xvec$ is
+    the length of the sequence, and its components in order are
+    $\xvec_i$ for $1 \leq i \leq n$.
+
+    We will also grade the monad, i.e., $\List_n X \subset \List X$
+    are the length $n$ sequences.
+
+  \item For each $x \in X$, the singleton $\seq{x} \in \List_1 X$.
+  \item Given a sequence $\xvec \in \List_n X$ and, for each $1 \leq i
+    \leq \abs\xvec$, another sequence $\yvec_i \in \List_{m_i}Y$, we
+    have the concatenated sequence:
+    \[
+    \concat_{i=1}^{n}\yvec^i := \seq{\yvec_{11}, \ldots,
+      \yvec_{1m_1}, \ldots, \yvec_{n1}, \ldots,
+      \yvec_{nm_n}}
+    \]
+    We will also need iterated lists. These too form a monad-like
+    structure, that of \emph{unlabelled, rooted, finitely branching
+      trees of uniform depth}:
+    \begin{itemize}
+    \item For each set $X$, the set $\Tree X \definedby \Union_{k \in
+      \naturals} \List^kX$ represents finitely-branching rooted trees
+      whose nodes are unlabelled, and whose leaves, all of which have
+      the same depth, are taken from $X$.
+    \item For each $x \in X$, we identify the unique rooted tree with
+      $1$ leaf at depth $1$ labelled by $x$ with the singleton list
+      $\seq x \in \List^1X$.
+
+      The empty tree, that only has the root node and no leaves, is
+      represented by the empty list.
+
+      Note that trees are allowed to have childless \emph{nodes} at
+      non-uniform depths, e.g.: $\seq{\seq{},\seq{\seq{}},
+        \seq{\seq{\seq{1}}}}$ has two nodes at depths $1$ and $2$ and
+      a leaf at depth $3$.
+    \item Given a tree whose leaves are trees, we can substitute the
+      inner trees into the outer tree.
+    \end{itemize}
+
+    Let $[n] := \set{1, \ldots, n}$ be the canonical set of $n$-many
+    indices.  For each depth-$k$ iterated list $\xivec \in \List^k X$,
+    let $\floor\xivec \in \List X$ be its fully flattened sequence.
+
+    We denote the set of \emph{branches} of a rooted tree $\xivec$ by
+    $\Branch \xivec$, i.e., sequences of indices in the tree that mark
+    a path from the root to a leaf. The leaf-depths are uniform, we
+    have, for each $\xivec \in \List^kX$:
+    \[
+    \Branch \xivec = \coprod_{i_1 \in
+      [\abs\xivec]}\coprod_{i_2 \in [\abs{\xivec_{i_1}}]}\cdots
+    \coprod_{i_{k-1}\in[\abs{\xivec_{i_1,i_2\ldots,i_{k-2}}}]}[\abs{\xivec{i_1,
+          \ldots, i_{k-1}}}]
+    \]
+
+    Let the \emph{fringe size} of a tree be its number of leaves,
+    i.e., the cardinality of its set of branches:
+    \begin{align*}
+    \norm \xivec \definedby \abs{\floor\xivec}
+    &{}\definedby \sum_{i_1 \in [\abs\xivec]} \sum_{i_2 \in [\abs{\xivec_{i_1}}]}\cdots
+    \sum_{i_{k-1} \in [\abs{\xivec_{i_1,i_2,\ldots,i_{k-2}}}]}\abs{\xivec_{i_1,i_2,\ldots,i_{k-2},i_{k-1}}}
+    \\&{}=\cardinality{\Branch \xivec}
+    \end{align*}
+    For example, for $\xivec \definedby
+    \seq{\seq{\seq{1,2},\seq{3,4}},\seq{\seq{5},\seq{6,7},\seq{8}}}$
+    we have $\floor\xivec = \seq{1,2,\ldots,8}$ and:
+    \[
+    \abs{\xivec} = 2\qquad
+    \abs{\xivec_1} = 2 \qquad
+    \abs{\xivec_2} = 3 \qquad
+    \norm{\xivec} :=
+    \sum_{i_1 \in [\abs\xivec]}\sum_{i_2 \in [\abs{\xivec_{i_1}}]}\abs{\xivec_{i_1,i_2}}
+    = \parent{2 + 2} + \parent{1 + 2 + 1} = 8
+    \]
+    We then define the bijection:
+    \begin{align*}
+    \seq[{\xivec}]{-,-,\ldots,-} &{}: \Branch\xivec
+    \xto{\isomorphic}
+        [\norm\xivec]
+    \\\seq[\xivec]{i_1, \ldots, i_k} &{}\definedby
+    \sum_{j_1 < i_1}\norm{\xivec_{j_1}}
+    +
+    \sum_{j_2 < i_2}\norm{\xivec_{i_1,j_2}}
+    +
+    \ldots
+    +
+    \sum_{j_{k-1} < i_{k-1}}\norm{\xivec_{i_1,i_1, \ldots, i_{k-2},j_{k-1}}}
+    + i_k
+    \end{align*}
+    so that $\floor\xivec_{\seq{i_1, \ldots, i_k}} = \xivec_{i_1,
+      \ldots, i_k}$ and $\seq{\xivec_{\seq[\xivec][-1]{1}}, \ldots,
+      \xivec_{\seq[\xivec][-1]{\norm\xivec}}}$. For example,
+    continuing with the previous $\xivec$, we have:
+    \begin{align*}
+      \seq{1,2,1} &= 0 + 2 + 1 = 3 & \floor\xivec_3 &= 3 = \xivec_{1,2,1}
+      \\
+      \seq{2,2,1} &= 4 + (1 + 2) + 1 = 8 & \floor\xivec_8 &= 8 = \xivec_{2,2,1}
+    \end{align*}
+\end{itemize}
+Given a list $\avec \in \List A$ over some set $A$, an \emph{ordered
+  partition of $\avec$} is a list-of-lists $\pi \in \List^2 A$ such
+that $\concat_{i = 1}^{\abs \pi} \pi_i = \avec$. Similarly, an
+\emph{iterated ordered partition of $\avec$} is a tree $\pi \in \Tree
+A$ such that $\floor \pi = \avec$.
+
+
+\subsection{The multi-category of presheaves}
+Let $\UU$ be a multi-category. We will define a \emph{category}
+$\opposite\UU$ so that our presheaves will be functors $F :
+\opposite\UU \to \Set$:
+\begin{itemize}
+\item $\Obj{\opposite\UU} := \List \Obj\UU$ are finite-sequences
+  $\avec = \seq{\avec_1, \ldots, \avec_n}$ of $\UU$-objects.
+\item Morphisms $f \in \opposite\UU(\avec , \bvec)$, which we will
+  write as ``$f : \avec \from \bvec$ in $\UU$'', consist of:
+  \begin{itemize}
+  \item an ordered partition $\partit_f\definedby \seq{\partit_1,
+    \ldots, \partit_n} \in \List^2 \Obj\UU$, $\vec b$, i.e.:
+    \(
+    \bvec = \concat_{i=1}^n \partit_i
+    \).
+  \item for each $1 \leq i \leq n$, a multi-morphism $f_i : \avec_i \from
+    (\bvec_i)$.  We can depict a morphism like so:
+    \[
+    \quiver{Cop morphism}
+    \]
+  \item The identity $\id[\vec a]^{[\opposite\UU]}$ consists of:
+    \begin{itemize}
+    \item $\partit_{\id[\vec a]} := \seq{\seq{a_1}, \ldots,
+      \seq{a_n}}$, the partition into singletons; and
+    \item $(\id[\vec a])_i := \id[a_i] : a_i \from (a_i)$.
+    \end{itemize}
+  \item To compose morphisms $\avec \xfrom f \bvec \xfrom g \cvec$,
+    use the multiplication of the $\Tree$ monad to get an iterated
+    partition of depth $3$, and then flatten all the depth $1$
+    iterated lists into lists.  Then, compose the multi-morphisms to
+    get a morphism $f \compose g : \avec \from \cvec$ (note the order
+    of arguments in this notation). Letting $\abs\avec \defines n$ and
+    $\abs{\partit_{f,i}} \defines m_i$:
+    \begin{itemize}
+    \item $\partit_{f \compose g} \definedby
+      \seq{\seq{\partit_{g_{\pair11}}
+                \++ \ldots \++
+                \partit_{g_{\pair1{m_1}}}}
+          , \ldots
+          ,\seq{\partit_{g_{\pair n1}}
+                \++ \ldots \++
+                \partit_{g_{\pair n{m_n}}}}
+          }$
+    \item $(f \compose g)_{i} := f_i\compose (g_{\pair i1}, \ldots, g_{\pair i{m_i}})$.
+    \end{itemize}
+      We can visualise this operation so, letting $k_{i,j} \defines
+      \abs{\partit_{g_i},j}$:
+      \[
+      \quiver{Cop composition}
+      \]
+  \end{itemize}
+\end{itemize}
+\begin{lemma}
+  This data defines a category $\opposite\UU$.
+\end{lemma}
+\begin{proof}
+  We inherit the properties from the monad laws and the multi-category
+  axioms.
+\end{proof}
+
+A \emph{presheaf over $\UU$} is a functor $F : \opposite\UU \to \Set$.
+
+\begin{example}\examplelabel{Yoneda mapping}
+  Let $\UU$ be a locally small multi-category. For each $a \in
+  \Obj\UU$, we have a presheaf $\yoneda[\UU]a : \opposite\UU \to \Set$
+  called the presheaf \emph{represented by $a$}:
+  \[
+  \yoneda_{\UU}\,a\,\bvec \definedby \UU(\bvec; a) \in \Set
+  \qquad
+  \yoneda_{\UU}\,a\,(\bvec \xfrom{f} \cvec) : g \in \UU(\bvec; a)
+  \mapsto g \compose (f_1, \ldots, f_{\abs\bvec}) \in \UU(\cvec; a)
+  \]
+  The functoriality:
+  \[
+  \yoneda_{\UU}\,a\,(\bvec \xfrom{f} \cvec \xfrom{g} \dvec)
+  =
+  \yoneda_{\UU}\,a\,(g)
+  \compose
+  \yoneda_{\UU}\,a\,(f)
+  \qquad
+  \yoneda_{\UU}\,a\,(\id[\bvec])
+  =
+  \id[\yoneda_{\UU}\,a\,\bvec]
+  \]
+  follows from the multi-category axioms and the definition of $\opposite\UU$.
+\end{example}
+
+Let $F_1, \ldots, F_n, G : \opposite\UU \to \Set$ be presheaves.  A
+\emph{natural multi-transformation $\alpha : (F_1, \ldots, F_n) \to
+  G$} consists of:
+\begin{itemize}
+\item For every sequence $\avec\in \Obj{\opposite\UU}$ and length-$n$
+  ordered partition $\partit$ of $\avec$, a function:
+  \[
+  \alpha_{\partit} : \prod_{i=1}^nF_i\partit_i \to G\avec
+  \]
+\end{itemize}
+such that:
+\begin{itemize}
+\item For every $f : \avec \from \bvec$ in $\UU$ and for every
+  length-$n$ ordered partition $\phi = \seq[i=1][n]{\phi_i : \partit_i
+    \from \partit'_i}$ of the sequence $f$: \diagram{19}
+\end{itemize}
+
+\begin{example}\examplelabel{Yoneda functoriality}
+  Let $g : (\avec) \to b$ be a multi-morphism in $\UU$. We define a
+  natural multi-transformation, where $n \definedby \abs\avec$:
+  \begin{align*}
+  \yoneda_{\UU}\,g :{}& (\yoneda_{\UU}\, \avec_1, \ldots, \yoneda_{\UU}\,\avec_n) \to
+  \yoneda_{\UU}\,b\\
+  (\yoneda_{\UU}\,g)_{\partit} :{}&
+  \seq{ \partit_1 \xto{u_1} \avec_1
+      , \ldots
+      , \partit_n \xto{u_n} \avec_n
+      } \mapsto
+  g\compose (u_1, \ldots, u_n)
+  \end{align*}
+  To see that it is natural, take any $f : \cvec \from \dvec$ in
+  $\UU$, and an $n$-ary ordered partition of it $\phi$, and chase
+  elements around the naturality diagram:
+  \diagram{20}
+  and so $\yoneda g$ is a natural multi-transformation.
+\end{example}
+The multi-category $\Psh\UU$ of \emph{presheaves over $\UU$} consists
+of this data:
+\begin{itemize}
+\item Objects are presheaves $F : \opposite\UU \to \Set$.
+\item Multi-morphisms $\alpha : (F_1, \ldots, F_n) \to G$ are the
+  natural multi-transformations.
+\item The identity multi-transformation $\id[F] : (F) \to F$ has as
+  component at each unary partition $\partit = \seq{\avec}$ of $\avec$
+  the canonical isomorphism:
+  \[
+  (\id[F])_{\seq{\avec}} : \prod\set{F\avec} \xto{\isomorphic} F\avec
+  \]
+\item To define composition, take composable natural
+  multi-transformations
+  \[
+  \alpha = \seq[i=1][n]{(\Fvec_i) \to \Gvec_i}
+  \quad\text{and}\quad
+  \beta : (\Gvec) \to \Hvec
+  \quad\text{where:}\quad
+  \Fvec \in \List^2(\opposite\UU \to \Set),
+  \Gvec \in \List^1(\opposite\UU \to \Set)
+  \] letting as usual $p := \norm
+  \Fvec$, $n \definedby \abs \Gvec$, and $m_i \definedby
+  \abs{\Fvec_i}$. Given a $p$-ary ordered partition $\partit$ of some
+  $\avec$, define these two auxiliary partitions:
+  \begin{itemize}
+  \item $\partit_{\pair i*} \definedby \seq[j=1][m_i]{\partit_{\pair ij}}$
+  \item $\partit_{\pair i{\++}} \definedby
+    \concat_{j=1}^{m_i}\partit_{\pair ij} = \floor{\partit'_i}$
+  \item So $\alpha_{i, \partit_{\pair i*}}
+    :\prod_{j=1}^{m_i}\Fvec_{\pair ij} \to \Gvec_i\partit_{\pair
+    i{\++}}$.
+  \end{itemize}
+  It might easier to visualise how they relate to each other by
+  aligning their fringes:
+  \[
+  \begin{array}{@{}*{4}{l@{}}c@{}l@{}c@{}l@{}@{}l@{}c@{}l@{}*{2}{l@{}}}
+    \partit {}&= \tabmark
+                  \iseq{\tabmark         \partit_{\pair 11}\
+                       \tabmark,\ldots, \tabmark\partit_{\pair 1{m_1}}
+                       \tabmark,\ldots,\tabmark\tabmark\partit_{\pair n1}
+                       \tabmark,\ldots, \tabmark\partit_{\pair n{m_n}}\tabmark}
+    \\
+    \partit_{\pair{*}*} &{}:=\tabmark
+                  \iseq{\iseq{\tabmark  \partit_{\pair 11}
+                             \tabmark,\ldots, \tabmark\partit_{\pair 1{m_1}}}
+                             \tabmark,\ldots,\tabmark
+                        \iseq{\tabmark\partit_{\pair n1}
+                             \tabmark,\ldots,\tabmark\partit_{\pair n{m_n}}}\tabmark}
+    \\
+    \partit_{\pair{*}{\++}} &{}:=\tabmark
+                  \iseq{\tabmark               \partit_{\pair 11}
+                        \tabmark\++ \ldots\++\tabmark\partit_{\pair 1{m_1}}
+                        \tabmark,\ldots,\tabmark\tabmark\partit_{\pair n1}
+                        \tabmark\++ \ldots\++\tabmark\partit_{\pair n{m_n}}
+                  \tabmark}
+  \end{array}
+  \]
+  We define the $\partit$-th component of the composition:
+  \[
+  (\beta \compose (\alpha_1, \ldots, \alpha_n))_{\partit} :
+  \prod_{\ell =1}^p\Fvec_{\ell}\partit_{\ell} \xto{\isomorphic}
+  \prod_{i = 1}^n\prod_{j=1}^{m_i} \Fvec_{\pair ij}\partit_{\pair ij}
+  \xto{\prod_{i=1}^n\alpha_{i,\partit_{\pair i*}}}
+  \prod_{i=1}^n\Gvec_i\partit_{\pair i{\++}}
+  \xto{\beta_{\partit_{\pair *{\++}}}}
+  H\avec
+  \]
+\end{itemize}
+\begin{proposition}
+  These data define a multi-category $\Psh\UU$.
+\end{proposition}
+\begin{proof}
+  First, we need to show the identities and composition are
+  well-defined, i.e., natural. For the identity, take any unary
+  partition $\phi = \seq{f}$ of a morphism $f : \avec \from \bvec$ in
+  $\UU$, and calculate:
+  \diagram{21}
+  Turning to the well-definedness of composition, continue with the
+  same notation and take a $p$-ary partition $\phi = \seq{\phi_{\ell} :
+    \partit[1]_{\ell} \from \partit[2]_{\ell}}$ of some morphism $f : \avec \from
+  \bvec$ in $\UU$. The crucial step is to repeat the same partitioning
+  scheme for $\phi$ as well:
+  \begin{itemize}
+  \item $\phi_{\pair i*} \definedby \seq[j=1][m_i]{\phi_{\pair ij} : \partit_{\pair ij} \from \partit[2]_{\pair ij}}$;
+  \item $\phi_{\pair i{\++}} \definedby \concat_{j=1}^{m_i}\phi_{\pair ij} :
+    \partit_{\pair i{\++}} \from \partit[2]_{\pair i{\++}}$ so that $\phi_{\pair i*}$ is a partition of $\phi_{\pair i{\++}}$;
+  \end{itemize}
+  and we can now calculate the naturality condition of the composition:
+  \diagram{22}
+
+  The neutrality of the identities w.r.t.~composition follow
+  immediately:
+  \begin{center}
+  \diagram*{23}
+  \diagram*{24}
+  \end{center}
+
+  To prove that composition is associative, we'll first dwell on the
+  partitioning scheme we used to define composition.
+
+  We can organise the data in a sequence of $d$-many composable
+  multi-transformations:
+  \[
+  \Fvec^{d+1} \xto{\alpha^{d}} \cdots \xto{\alpha^1} \Fvec^1 \xto{\alpha^0} F^0
+  \tag{($*$)}
+  \]
+  as follows. We consider a rooted tree $t$ of uniform leaf-depth $d+1$. We label
+  each leaf, say in branch $\seq{i_1, \ldots, i_{d+1}}$ in the tree,
+  with a single presheaf $\Fvec^{d+1}_{\seq{i1, \ldots,
+      i_{d+1}}}$. Each node of depth $1 \leq s \leq d$ in the tree,
+  say on the path $\seq{i_1, \ldots, i_s}$ is also labelled with a
+  presheaf $\Fvec^s_{i_1, \ldots, i_s}$. Given these labels, we also
+  annotate each node, that has, say, $k_{\seq{i_1, \ldots, i_s}}$
+  children, with a natural multi-transformation $\alpha^s_{\seq{i_1,
+      \ldots, i_s}} : \parent{\seq[i=1][k_{\seq{i_1, \ldots,
+          i_s}}]{\Fvec^{s+1}_{i_1, \ldots, i_{s + 1}}}} \to
+  \Fvec^s_{\seq{i_1, \ldots, i_s}}$.
+
+  The bijection between the set of length-$s$ branches and the set of
+  nodes and leafs at level $s$ allows us to define the lists
+  $\Fvec^s$ and $\alpha^s$ to make the notation in ($*$) precise.
+  After composing these multi-transformations in some order, we get a
+  multi-transformation:
+  \[
+  \bigcirc \alpha: \parent{\Fvec^{s+1}} \to \Fvec^0
+  \]
+  Letting $p \definedby \abs{\Fvec^{s+1}}$, when we take any $\avec$
+  and a $p$-ary partition of $\avec$, we can extend the tree $t$ by
+  another level (turning all the previous leaves into nodes but
+  without the multi-transformation label), and the leaves in the newly
+  added level are labelled by the objects in $\avec$. It is this tree,
+  its labels, and its branches and paths that we are manipulating with
+  our notation.
+
+  Given a tree (with any sort of labelling) of uniform leaf depth $d$,
+  we denote by $t_{\seq{i_1, \ldots, i_s, *, \ldots, *}}$ the sub-tree
+  rooted at node $\seq{i_1, \ldots, i_s}$. It's perhaps convenient to
+  pad the remaining components up to a length-$d$ sequence to spot
+  typos. We denote by:
+  \[
+  t_{\seq*{i_1, \ldots, i_{s},
+      *, \ldots, *, \explain*{\++}{pos.~$j_1$},
+      *, \ldots, *, \explain*{\++}{pos.~$j_2$},
+     *,
+     \underset{\substack{~\\[8pt]\ldots}}\ldots, *, \explain*{\++}{pos.~$j_r$},
+     *, \ldots, *
+  }}
+  \]
+  the sub-tree rooted at $\seq{i_1, \ldots, i_s}$, whose levels $j_1,
+  \ldots, j_r$ were flattened. This notation is consistent with the
+  notation we used for composition and in the previous parts of the
+  proof, apart from identifying the partition $\pi$ with its depth-$3$
+  iterated list. The crux of our proof is a kind of substitution
+  lemma/monad-like associativity law that means the various iterations
+  on this notation are consistent with each other, for example:
+  \[
+  (t_{i_1, i_2, *, \++, *, \++, *})_{j_1, \pair{j_2}{j_3}, \++}
+  =
+  t_{i_1, i_2, j_1, j_2, j_3, \++, \++}
+  \]
+
+  Back to proving associativity. Consider $3$ levels of composable
+  multi-transformations:
+  \[
+  \Fvec \xto{\alpha} \Gvec \xto{\beta} \Hvec \xto{\gamma} \Kvec
+  \]
+  i.e.:
+  \begin{itemize}
+  \item $\gamma : \parent{\seq[i=1][k_{\seq{}}]{\Hvec_{\seq i}}} \to \Kvec$
+  \item $\beta_{\seq i} :
+    \parent{\seq[j=1][k_{\seq{i}}]{\Gvec_{\seq{i,j}}}} \to \Hvec_{\seq
+      i}$, for all $1 \leq i \leq k_{\seq{}}$.
+  \item $\alpha_{\seq{i,j}} :
+    \parent{\seq[r=1][k_{\seq{i,j}}]{\Fvec_{\seq{i,j,r}}}} \to
+    \Gvec_{\seq{i,j}}$, for all $1 \leq i \leq k_{\seq{}}$ and $1 \leq
+    j \leq k_{\seq{i}}$.
+  \end{itemize}
+  Let:
+  \begin{itemize}
+  \item $f := \abs\Fvec$
+  \item $f_{\seq{i,j}} := \abs{\Fvec_{\triple ij*}}$
+  \item $g := \abs\Gvec$
+  \item $g_i := \norm{\Gvec_{\seq{i, *}}} = k_{\seq i}$
+  \item $h := \abs\Hvec = k_{\seq{}}$
+  \end{itemize}
+  Consider any $f$-ary partition $\partit$ of some $\avec$, and
+  calculate:
+  \diagram{25}
+  Therefore, composition is associative.
+\end{proof}
+
+\begin{lemma}
+  When $\UU$ is small, $\Psh\UU$ is locally small.
+\end{lemma}
+\begin{proof}
+  When $\Obj\UU$ is small, so is $\List\Obj\UU$, and so is the set
+  $\coprod_{\avec \in \List\Obj\UU}\Partit_n\avec$ of $n$-ary ordered
+  partitions over some list of objects. Given a presheaf sequences and
+  a presheaf $\Fvec,G : \UU \to \Set$, the collection of natural
+  multi-transformation is a subset of the set $\prod_{\avec \in
+    \Obj{\opposite\UU}, \partit\in\Partit\avec}
+  \Set(\prod_i\Fvec_i\partit_i, G\avec)$.
+\end{proof}
+
+\subsection{The Yoneda lemma}
+Even if it's not immediately clear from the axiomatisation, there's a
+Yoneda lemma sitting at the heart of the Yoneda structure axioms.
+Recall from examples \exampleref{Yoneda mapping} and
+\exampleref{Yoneda functoriality} that, for every locally small
+multi-category $\UU$, we have a multi-functor structure:
+\[
+\begin{array}{@{}l@{}l@{}}
+  \yoneda_{\UU} &{}: \UU \to \Psh\UU \\
+  \yoneda_{\UU}\,a &{}\definedby \UU(-,a) \\
+  (\yoneda_{\UU}\,\parent{\vto \avec f{a'}})_{\partit} &{}\definedby
+    \seq[i=1][\abs\avec]{(\partit_i)
+    \xto{u_i} \avec_i} \mapsto f \compose \seq[i=1][\abs\avec]{u_i}
+\end{array}
+\]
+
+\begin{lemma}
+  This data defines a multi-functor $\yoneda_{\UU} : \UU \to \Psh\UU$.
+\end{lemma}
+\begin{proof}
+  For identity multimorphisms $\id[a] : (a) \to a$, there is only one
+  $1$-partition of any sequence $\bvec$, and we have:
+  \[
+  (\yoneda\id)_{\seq[i=1][1]{\bvec}} \seq[i=1][1]{u : (\bvec) \to a}
+  \mapsto \id \compose (u) = u = (\id[\yoneda_a])_{\seq\bvec}\seq u
+  \]
+  and so $\yoneda\id = \id[\yoneda_a]$. Taking composable
+  multi-morphisms $g : (\cvec) \to d$ and $f_i : (\bvec_i) \to
+  \cvec_i$, $i = 1, \ldots, n := \abs\cvec$, take any $p$-ary
+  partition $\partit$ of some $\avec$, where $p := \norm\bvec$, and
+  chase an arbitrary element of $\prod_{\ell=1}^p\yoneda
+  \bvec_\ell\partit_{\ell}$, where $m_i := \abs{\bvec_i}$:
+  \diagram{26} and so $\yoneda(g \compose \seq[i]{f_i}) = \yoneda g
+  \compose \seq[i]{\yoneda f_i}$.
+\end{proof}
+
+\begin{lemma}\emph{Yoneda for multi-categories.}
+  Let $\UU$ be a locally-small multi-category, $\avec$ an $n$-ary
+  sequence of objects in $\UU$, and $F \in \Psh\UU$ a presheaf. We
+  have a bijection:
+  \[
+  \Yoneda_{\UU, F, \avec} : \Psh\UU(\yoneda \avec_1, \ldots, \yoneda\avec_n; F)
+  \xto\isomorphic F\avec
+  \]
+  given by:
+  \begin{gather*}
+  \Yoneda_{\UU, F, \avec}(\seq[i=1][n]{\yoneda \avec_i} \xto\alpha F)
+  \definedby
+  \alpha_{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}\seq[i=1][n]{\id[a_i]}
+  \in F\avec
+  \\
+  (\inv\Yoneda_{\UU, F, \avec}x)_{\partit} : \seq[i=1][n]{\partit_i
+    \xto{u_i} \avec_i} \mapsto F(u_1, \ldots, u_n)x
+  \end{gather*}
+\end{lemma}
+\goodbreak
+\begin{proof}
+  As usual, the proof is to just do it.
+
+  To show well-definedness, i.e., that $\inv\Yoneda x : (\yoneda
+  \avec_1, \ldots, \yoneda\avec_n) \to F$ is natural, take any
+  morphism $\bvec \xfrom f\cvec$ in $\UU$, an $n$-ary partition
+  $\seq[i=1][n]{\partit_i \xfrom{\phi_i} \partit'_i}$ of it, let
+  $m_i:= \abs{\partit_i}$, and chase an arbitrary element of
+  $\prod_{i=1}^n\yoneda \avec_i \partit_i$:
+  \diagram{27}
+  To show $\Yoneda \compose \inv\Yoneda = \id$, take any $x \in
+  F\avec$:
+  \[
+  \Yoneda(\inv\Yoneda x) = F(\id, \ldots, \id)(x) \explain={functoriality} x
+  \]
+  For the converse, take any natural multi-transformation $\alpha :
+  (\yoneda\avec_1, \ldots, \avec_n) \to F$. We need to show that, for
+  every $n$-ary partition $\partit$ of some $\bvec$ and $\partit_i
+  \xto{u_i} \avec_i$:
+  \[
+  \alpha_{\partit}(u_1, \ldots, u_n)
+  =
+  (\inv\Yoneda (\Yoneda \alpha))_{\partit}(u_1, \ldots, u_n) =
+  F(u_1, \ldots, u_n)
+  \parent{\alpha_{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}
+    (\id[\avec_1], \ldots, \id[\avec_n])}
+  \]
+  We do so by chasing the element $\seq[i=1][n]{\id[\avec_i]} \in
+  \prod_{i=1}^n\yoneda {\avec_i}{\seq[j=1][1]{\avec_i}}$ around
+  $\alpha$'s naturality diagram for the partition
+  $\seq[i=1][n]{\seq[j=1][1]{\avec_i} \xfrom{u_i} \partit_i}$ of the
+  morphism $u : \avec \xfrom{(u_1, \ldots, u_n)} \bvec$ in $\UU$:
+  \diagram{28}
+  and so $\inv\Yoneda\compose \Yoneda = \id$.
+\end{proof}
+We call both this result and the bijection $\Yoneda$ the Yoneda lemma.
+
+\begin{lemma}\emph{Yoneda embedding.}
+  The Yoneda multi-functor $\yoneda_{\UU} : \UU \to \Psh\UU$ is
+  fully-faithful.
+\end{lemma}
+\begin{proof}
+  Take any $\avec$ and $b$, and consider the Yoneda lemma for the
+  representable presheaf $F := \yoneda b$. Take any $f \in \UU(\avec;
+  b) = \yoneda b\avec$.  For every partition $\partit$ of every
+  $n$-tuple $\cvec$ and $\seq[i=1][n]{u_i : \partit_i \to \avec_i}$,
+  we have:
+  \[
+  (\inv\Yoneda_{\UU, \yoneda b, \avec} f)_{\partit}\seq[i=1][n]{u_i}
+  =
+  \yoneda b(u_1, \ldots, u_n) f
+  =
+  f \compose (u_1, \ldots, u_n
+  =
+  (\yoneda f)_{\partit}\seq[i=1][n]{u_i}
+  \]
+  and so $\inv\Yoneda_{\UU, \yoneda b, \avec}f = \yoneda_{\UU}f$,
+  i.e., $\inv\Yoneda_{\UU, \yoneda b, \avec}$ is the multi-functorial
+  action of $\yoneda$ on the multi-homset $\UU(\avec; b)$. Since the
+  Yoneda lemma is bijective, this functorial action is bijective,
+  i.e., $\yoneda_{\UU}$ is fully-faithful.
+\end{proof}
+\begin{lemma}\emph{Naturality of the Yoneda Lemma.}
+  The Yoneda lemma $\Yoneda : \Psh\UU(\yoneda[\avec], F)
+  \xto\isomorphic F\avec$ is natural in the following senses:
+  \begin{itemize}
+  \item Naturally in $\avec \in \opposite\UU$, i.e.~for all $f : \avec \from \bvec$:
+    \[
+    Ff (\Yoneda(\yoneda[\avec] \xto\alpha F)) =
+    \Yoneda(\yoneda[\bvec] \xto{\yoneda[f]} \yoneda[\avec] \xto\alpha F)
+    \]
+  \item Multi-naturally in $F \in \Psh\UU$, i.e.~for all $(F_1,
+    \ldots, F_n) \xto{\beta} G$ and partition $\partit$ of $\avec$:
+    \[
+    \beta_{\partit}\seq[i=1][n]{\Yoneda(\yoneda[\partit_i] \xto{\alpha_i} F_i)}
+    =
+    \Yoneda\parent{\yoneda[\avec] \xto{\beta\compose\seq[i=1][n]{\alpha_i}} G}
+    \]
+  \end{itemize}
+\end{lemma}
+We can recover these from the general theory of Yoneda structures, but
+we use them to establish the Yoneda structure axioms.
+\begin{proof}
+  In both cases, employ mindless calculation. For naturality:
+  \begin{align*}
+    Ff (\Yoneda(\yoneda[\avec] \xto\alpha F))
+    &{}=
+    Ff \parent{\alpha_{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}
+      \seq[i=1][n]{\id[\avec_i]}}
+    \explain={$\alpha$-naturality}
+    \alpha_{\seq[i=1][n]{\bvec_{\pair i*}}}
+    \seq[i=1][n]{(\yoneda \avec_if_i)\seq[j=1][1]{\id[\avec_i]}}
+    \\&{}\explain={identities}
+    \alpha_{\seq[i=1][n]{\bvec_{\pair i*}}}
+    \seq[i=1][n]{(\yoneda f_i)_{
+        \seq[j=1][\abs{\bvec_{\pair i*}}]{\seq[k=1][1]{\bvec_{\pair ij}}}}
+      \seq[j=1][\abs{\bvec_{\pair i*}}]{\id[\bvec_{\pair ij}]}}
+    \\&{}\explain={$\compose$-def}
+    (\alpha\compose\seq[i=1][n]{\yoneda f_i})_{
+      \seq[\ell=1][\norm\bvec]{\seq[j=1][1]{\bvec_{\ell}}}}
+    \seq[\ell=1][\norm\bvec]{\id[\bvec_\ell]}
+    =
+    \Yoneda(\alpha \compose\seq[i=1][n]{\yoneda f_i})
+  \end{align*}
+  as we wanted.
+
+  For multi-naturality:
+  \begin{align*}
+    \beta_{\partit}\seq[i=1][n]{\Yoneda(\yoneda[\partit_i] \xto{\alpha_i} F_i)}
+    &{}=
+    \beta_{\partit}\seq[i=1][n]{
+      \alpha_{i, \seq[j=1][\abs{\partit_i}]{\seq[k=1][1]{\partit_{\pair ij}}}}
+      \seq[j=1][\abs{\partit_{i}}]{\id[\partit_{\pair ij}]}}
+    \\&{}\explain={$\compose$-def}
+    (\beta\compose\seq[i=1][n]{\alpha_i})_{\partit}
+    \seq[\ell=1][\norm \partit]{\id[\partit_{\seq[][-1]{\ell}}]}
+    =
+    \Yoneda(\beta\compose\seq[i=1][n]{\alpha_i})
+  \end{align*}
+  as we wanted.
+\end{proof}
+
+\begin{lemma}\emph{Special Yoneda reduction.}
+  \lemmalabel{special Yoneda reduction}
+  For every $\avec \xto{u} b$, we have:
+  \(
+  \Yoneda_{\UU, \yoneda b, \avec}(\yoneda[\avec] \xto{\yoneda u} \yoneda b)
+  = u
+  \).
+\end{lemma}
+\begin{proof}
+  Calculate:
+  $\Yoneda(\yoneda u) = \yoneda u_{\avec} (\id[\avec_1], \ldots, \id[\avec_n])
+  = u \compose (\id, \ldots, \id) = u$.
+\end{proof}
+
+\begin{lemma}\lemmalabel{admissible yoneda embedding}
+  The Yoneda embedding is, up to equivalence, admissible: for every multi-category $\UU$ there are:
+  \begin{itemize}
+  \item a multi-category $\Psh'\UU$;
+  \item an admissible functor $\yoneda_{\UU}' : \UU \to \Psh'\UU$; and
+  \item an adjoint equivalence in $\MultiCAT$, i.e.~an adjunction
+    with invertible unit and counit:
+    \[
+    \quiver{psh adjoint equivalence}
+    \]
+  \item $2$-cells:
+    \begin{center}
+      \quiver{psh 2-cell transformer}
+      \quiver{psh 2-cell transformer'}
+    \end{center}
+  \end{itemize}
+  such that:
+  \begin{center}
+    \quiver{psh transformer condition}
+    \quiver{psh transformer condition'}
+  \end{center}
+\end{lemma}
+\begin{proof}
+  Take any $\avec$ and presheaf $F$. By the Yoneda lemma:
+  \[
+  \Psh\UU(\yoneda\avec_1, \ldots, \yoneda\avec_n; F) \isomorphic
+  F\avec \in \Set
+  \]
+  is a small set. So now we need to tediously construct a different
+  presheaf multi-category $\Psh' \UU$ which is admissible:
+  \begin{itemize}
+  \item $\Obj{\Psh'\UU} := \Obj{\Psh\UU} + \Obj{\UU}$, i.e., either a
+    presheaf or an object, together with a tag telling us which is
+    which. We call the left-tagged elements `actual presheaves' and
+    the right-tagged elements `formal representables'.  For each $x
+    \in \Obj{\Psh'\UU}$, we can associate a presheaf $\sem x$:
+    \[
+    \sem{\injection_1 F} := F \qquad \sem{\injection_2 a} := \yoneda a
+    \]
+  \item We define the homs as follows:
+    \[
+    \Psh'\UU(x_1, \ldots, x_n; y) \definedby \begin{cases}
+      \forall i. x_i = \injection_2 a_i: & \sem y(a_1, \ldots, a_n) \\
+      \text{otherwise}: & \Psh\UU(\sem{x_1}, \ldots, \sem{x_n}; \sem y)
+    \end{cases}
+    \]
+    We can extend the semantics function into a multi-functor structure
+    $\sem- : \Psh'\UU \to \Psh\UU$ using the Yoneda lemma:
+    \[
+    \sem{f}_{x_1, \ldots, x_n; y} \definedby
+    \begin{cases}
+      \forall i. x_i = \injection_2 a_i: &
+        \inv\Yoneda_{\UU, \sem y, (a_1, \ldots, a_n)}f \\
+      \text{otherwise:} & f
+    \end{cases}
+    \]
+  \item The identities are the identity natural multi-transformations
+    over actual presheaves, and the identity multi-morphism at $a$
+    over the formal representable by $a$. By fiat, the semantics
+    functor-structure preserves identities.
+  \item To compose multi-morphisms, apply the semantics
+    functor-structure to turn them into composable multi-natural
+    transformations, compose them in $\Psh\UU$, and then, if needed,
+    apply the Yoneda lemma to get the corresponding element of the
+    codomain presheaf. By fiat, the semantics functor-structure
+    preserves composition.
+  \item We therefore also have a functor from the multi-category
+    structure $\Psh'\UU$ to $\Psh\UU$.
+  \end{itemize}
+  The functor $\sem- : \Psh'\UU \to \Psh\UU$ is fully-faithful, and in
+  particular faithful, and therefore $\Psh'\UU$ is a multi-category.
+  We will take $E := \sem-$, and $E' \definedby \injection_1 : \Psh\UU
+  \to \Psh'\UU$.
+
+  We can define the unit and counit, since the component tells us
+  whether we need a multi-transformation or merely its
+  representation. For the unit we need to split into cases:
+  \[
+  \unit_{\injection_1F} \definedby \id[F]
+  \qquad
+  \unit_{\injection_2a} \definedby \id[a] \in \yoneda aa = \sem{\injection_1\sem{\injection_2a}}a
+  \]
+  For the counit, we know the domain is an actual presheaf, and so use
+  the identity natural multi-transformation.
+
+  I expect these are all natural and satisfy the triangle laws.
+
+  The formal Yoneda functor $\yoneda' : \UU \to \Psh'\UU$ sends each
+  $a \in \Obj\UU$ to its formal representable and each multi-morphism
+  to itself. Since we started with a locally-small category, we have
+  by fiat that $\yoneda'$ is admissble:
+  \[
+  \Psh'\UU(\yoneda'a_1, \ldots, \yoneda'a_n; x) = \sem x(a_1, \ldots,
+  a_n) \in \Set
+  \]
+  The two transformations $\tau : \sem{\yoneda'-} \to \yoneda$ and
+  $\tau' : \injection_1\yoneda- \to \injection_1-$ are then
+  identities, since the hom definitions at each object take care of
+  everything else.
+
+  What makes the two additional laws hold, in the case that we don't
+  have an identity, is that the both the unit for the adjunction and
+  our case-splitting composition will choose the correct representative.
+\end{proof}
+
+\subsection{The Restricted Yoneda multi-functor}
+The structure underlying a Yoneda structure is a choice of 4 components:
+\begin{itemize}
+\item The admissible Yoneda $1$-cells $\yoneda_{\UU} : \UU \to \Psh\UU$,
+  together with their presheaf construction. We covered both in the
+  previous section, up to equivalence (\lemmaref{admissible
+    yoneda embedding}).
+\item For every admissible functor $F : \UU \to \UU[2]$, a $1$-cell
+  (non-admissible perhaps) $\UU[2](F;-) : \UU[2] \to \Psh\UU$;
+\item and a $2$-cell $\map F : \yoneda_{\UU} \to \UU[2](F;F-)$.
+\end{itemize}
+\begin{center}
+$\quiver{yoneda structure structure}$
+\end{center}
+This section concerns constructing the remainder of this data, and
+proving the first axiom of the Yoneda structure.
+
+Let $F : \UU[1] \to \UU[2]$ be an admissible multi-functor. To keep
+the notation less ellipsis-cluttered, given a sequence of
+objects/multi-morphisms $\xivec$ in $\UU[1]$, we write $F[\xivec]
+\definedby \seq[i=1][\abs\xivec]{F\xivec_i}$ for the componentwise
+application of $F$.
+
+We define
+the structure of the \emph{$F$-restricted Yoneda multi-functor}
+$\UU[2](F;-) : \UU[2] \to \Psh\UU$:
+\begin{itemize}
+  \item It sends each object $x \in \Obj{\UU[2]}$ to the homset functor
+    $\UU[2](F[-]; x) : \opposite\UU \to \Set$ sending:
+    \begin{itemize}
+    \item each sequence $\avec \in \Obj{\opposite\UU}$ to the
+      multi-homset $\UU[2](F[\avec]; x)$; and
+    \item each morphism $f : \avec \from \bvec$ to the function:
+      \[
+      \UU[2](F[f]; x) : \parent{(F[\avec]) \xto u x}
+      \mapsto (F[\bvec]) \xto{u \compose (F[f])} x
+      \]
+    \end{itemize}
+  \item It sends each morphism $(\xvec) \xto{v} y$, $n \definedby
+    \abs\xvec$ to the following natural multi-transformation
+    $\UU[2](F; v): \parent{\UU[2](F; \xvec_1), \ldots,
+      \UU[2](F;\xvec_n)} \to \UU[2](F;y)$ given, for every $n$-ary
+    partition $\partit$ of $\avec$, by:
+    \[
+    \UU[2](F; v)_{\partit} : \seq[i=1][n]{F[\partit_i]\xto{v_i} \xvec_i}
+    \mapsto (F[\avec])\xto{v\compose(v_1, \ldots, v_n)} y
+    \]
+\end{itemize}
+
+\begin{lemma}
+  These data define a multi-functor $\UU[2](F;-) : \UU[2] \to
+  \Psh\UU$.
+\end{lemma}
+\begin{proof}
+  The restricted Yoneda functor is well-defined:
+  \begin{itemize}
+  \item Each hom $\UU[2](F[\avec]; x)$ is a set since $F$ is admissible.
+  \item Given a morphism $\avec \xfrom f \bvec$ in $\UU$, $F[\avec]
+    \xfrom{F[f]} F[\bvec]$ in $\UU[2]$, and so given $F[\avec] \xto{u}
+    x$ the composition $u \compose (F[f]) : F[\bvec] \to x$
+    type-checks as a well-defined multi-morphism.
+  \item For identity preservation, calculate:
+    \[
+    \UU[2](F[{\id[\avec]}]; x)(u) \definedby
+      u \compose\seq[i=1][\abs\avec]{F \id[ \avec_i]}
+    \explain={$F$ multi-functor}
+      u \compose\seq[i=1][\abs\avec]{  \id[F\avec_i]}
+    \explain={multi-category}
+      u
+    \]
+    and so $\UU[2](F[{\id[\avec]}]; x)  = \id[{\UU[2](F[\avec]; x)}]$.
+  \item Take two composable morphisms in $\opposite\UU$, i.e.: $\avec
+    \xfrom f \bvec \xfrom g \cvec$ in $\UU$ and calculate for a
+    generic $u : (F[\avec]) \to x$:
+    \begin{align*}
+      \UU[2](F[f \compose g]; x)u
+      &{}= u \compose (F[f \compose g])
+      \explain={$\compose$-def in $\opposite\UU$}
+      u \compose \seq[i=1][\abs f]{F\parent{f_i \compose
+        \seq[j=1][\abs {g_{\pair i*}}]{g_{\pair ij}}}}
+      \\&{}\explain={$F$ multi-functor}
+      u \compose \seq[i=1][\abs f]{Ff_i\compose
+        \seq[j=1][\abs {g_{\pair i*}}]{Fg_{\pair ij}}}
+        \explain={associativity of composition\\in a multi-category}
+      (u \compose \seq[i=1][\abs f]{Ff_i})\compose
+        \seq[\ell=1][\abs g]{Fg_\ell}
+      \\{}&=
+      \UU[2](F[g]; x) \compose \UU[2](F[f]; x) u
+    \end{align*}
+    and so $\UU[2](F[f \compose g]; x) = \UU[2](F[g]; x) \compose \UU[2](F[f]; x)$.
+    Thus, $\UU[2](F;x) : \opposite\UU \to \Set$ is a presheaf.
+  \end{itemize}
+
+  To show that the multi-functorial action is well-defined, take
+  $(\xvec) \xto v y$ in $\UU[2]$ with $n \definedby \abs\xvec$, and
+  show the naturality condition by taking an $n$-ary partition
+  $\seq[i=1][n]{\partit_i \xfrom{\phi_i} \partit'_i}$ of some $\avec
+  \xfrom f \bvec$ in $\UU$, chasing an element of
+  $\prod_{i=1}^n\UU[2](F[\avec];\xvec _i)$:
+  \diagram{29}
+
+  To show this action is multi-functorial, take an identity $\id[x]$
+  in $\UU[2]$ and the unique unary partition $\seq{\avec}$ of some
+  $\avec$:
+  \diagram{30}
+%
+  Next, given composable multi-morphisms $(\yvec) \xto v z$, $n
+  \definedby \abs\yvec$ and $\seq[i=1][n]{(\xvec_i) \xto v_i \yvec_i}$
+  in $\UU[2]$, letting $m \definedby \norm\xvec$ and $m_i \definedby
+  \abs{\xvec_i}$ and taking any $m$-ary partition of some $\avec$,
+  calculate: \diagram{31}
+  So $\UU[2](F;v\compose\seq[i=1][n]{v_i})=
+  \UU[2](F;v)\compose\seq[i=1][n]{\UU[2](F;v_i)}$ and we have a
+  functor.
+\end{proof}
+
+The multi-natural transformation $\map F : \yoneda_{\UU} \To
+\UU[2](F;F-)$ we now define internalises the multi-functorial action of
+$F$. Explicitly, the component at $b \in \Obj\UU$ is given by the
+natural multi-transformation $(\map F)_{b} : (\yoneda_{\UU}b) \to
+\UU[2](F;Fb)$ whose component at any unary partition
+$\seq[i=1][1]\avec$ of some sequence $\avec$ is given by:
+\[
+(\map F)_{b, \seq[i=1][1]\avec} :
+  \prod\set{\yoneda b\avec} \ni
+  \seq[i=1][1]{(\avec) \xto{u} b} \mapsto
+  (F[\avec] \xto{Fu} Fb) \in \UU[2](F[\avec]; Fb)
+\]
+or, equivalently, using the Yoneda lemma:
+\[
+(\map F)_{b, \seq[i=1][1]\avec} \seq{u} \definedby \Yoneda_{F;\avec}(\yoneda(F[\avec])\xto{\yoneda (Fu)}\yoneda (Fb)) \in \yoneda (Fb)(F[\avec]) = \UU[2](F[\avec];Fb)
+\]
+
+\begin{lemma}
+  This data defines a multi-natural transformation:
+  $\map F : \yoneda_{\UU} \To \UU[2](F;F-)$.
+\end{lemma}
+\begin{proof}
+  By Yoneda reduction, the two definitions are
+  equivalent. We need to show:
+  \begin{itemize}
+  \item Well-definedness: each component is multi-natural.
+  \item Naturality of the components over-all.
+  \end{itemize}
+  Unfortunately, these don't just follow automatically from our
+  formulation using the Yoneda lemma together with its naturality and
+  multi-naturality, since we're applying $F$ to $u$. However, the
+  formulation using Yoneda might give some intuition why this
+  operation is multi-natural, and our later results will allow us to
+  recover it internally.
+
+  To show well-definedness, we need to show that each component $(\map
+  F)_{b}$ is a natural multi-transformation. Take the unique unary
+  partition $\seq[i=1][1] f$ of some morphism $f : \avec \from \avec'$
+  in $\UU$, and chase an element of $\prod\set{\yoneda b\avec}$ around the
+  naturality square:
+  \diagram{32}
+
+  To show multi-naturality, take any $f : \bvec \to b$ in $\UU$, let
+  $n \definedby \abs\bvec$ and consider one component of the two sides
+  of the multi-naturality diagram in $\Psh\UU$:
+  \[
+  (\map F)_{b}\compose(\yoneda f)
+  =
+  \UU[2](F;Ff)\compose\seq[i=1][n]{(\map F)_{\bvec_i}}
+  \]
+  by taking an $n$-ary partition $\partit$ of some $\avec$ and
+  calculating:
+  \diagram{33}
+  and so $\map F$ is multi-natural.
+\end{proof}
+
+\begin{proposition}\emph{Axiom 1.}
+  The multi-functor $\UU[2](F;-)$ together with the multi-natural
+  transformation $\map F$ form the left Kan extension of
+  $\yoneda_{\UU}$ along $F$:
+  \begin{center}
+    $\quiver{yoneda structure structure}$
+  \end{center}
+\end{proposition}
+\begin{proof}
+  Like the Yoneda lemma, we roll up our sleeves and just do
+  it. We need to show a bijective correspondence:
+  \begin{center}
+    $\quiver{axiom 1 spelled out}$
+  \end{center}
+
+  Starting with uniqueness, let $\alpha := (\beta \hcompose F)
+  \vcompose (\map F)$ be the pasted multi-natural transformation.
+
+
+  First, unpack the determining structure of $\beta$.  Take any
+  component $x \in \Obj\UU[2]$ of the multi-natural transformation
+  $\beta : \UU[2](F;-) \To G$, giving a natural multi-transformation
+  $\beta_{x} : (\UU[2](F;x)) \to Gx$. Take any component of
+  $\beta_{x}$, i.e.~a uniary partition of some $\avec \in
+  \Obj{\opposite\UU}$ and we now have:
+  \[
+  \beta_{x, \seq[k=1][1]{\avec}} :
+  \UU[2](F[\avec]; x) \to Gx(\avec)
+  \]
+  and we need to determine the image of $\beta_{x, \seq[k=1][1]\avec}$
+  on some $F[\avec]\xto v x$, and show that it only depends on $\alpha$.
+
+  Note that we have a natural multi-transformation $Gv : (GF[\avec])
+  \to Gx$ in $\Psh\UU$ and so we may use the naturality of each
+  component of $\alpha$, form the composite and apply the Yoneda
+  lemma to it:
+  \[
+  Gv \compose \seq[i=1][n]{\yoneda \avec_i \xto{\alpha_{\avec_i}} GF\avec_i}
+  : (\yoneda[\avec]) \to Gx
+  \implies
+  \Yoneda_{Gx, \avec}(Gv\compose \seq[i=1][n]{\alpha_{\avec_i}}) \in Gx(\avec)
+  \]
+  We will show that:
+  \[
+  \beta_{x, \seq[k=1][1]{\avec}}\seq[k=1][1]v =
+    \Yoneda_{Gx, \avec}(Gv\compose \seq[i=1][n]{\alpha_{\avec_i}})
+  \]
+  and since the latter only involves $\alpha$, and not $\beta$, then
+  pasting with $\map F$ is injective. Indeed:
+  \begin{align*}
+    \Yoneda_{Gx, \avec}(Gv\compose \seq[i=1][n]{\alpha_{\avec_i}})
+    &{}=
+    (Gv\compose \seq[i=1][n]{\alpha_{\avec_i}})
+      _{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}\seq[i=1][n]{\id[\avec_i]}
+    \\&{}=
+    (Gv)_{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}\seq[i=1][n]{\alpha_{\avec_i}(\id[\avec_i])}
+    \\&{}\explain={$\alpha = (\beta \hcompose F)\vcompose (\map F)$}
+    (Gv)_{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}\seq[i=1][n]{\beta_{F\avec_i}(F\id[\avec_i])}
+    \\&{}\explain={multi-functoriality}
+    (Gv)_{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}\seq[i=1][n]{\beta_{F\avec_i}(\id[F\avec_i])}
+    \\&{}\explain={$\compose$-def in $\Psh\UU$}
+    (Gv\compose \seq[i=1][n]{\beta_{F\avec_i}})
+       _{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}\seq[i=1][n]{\id[F\avec_i]}
+    \\&{}\explain={multi-naturality}
+    (\beta_x \compose (\UU[2](F;v)))
+      _{\seq[i=1][n]{\seq[j=1][1]{\avec_i}}}\seq[i=1][n]{\id[F\avec_i]}
+    \\&{}\explain={$\compose$-def}
+    \beta_{x, \seq[k=1][1]{\avec}} \seq[k=1][1]{
+      \UU[2](F;v)_{\seq[i=1][n]{\avec_i}}
+      \seq[i=1][n]{\id[F\avec_i]}}
+    \\&{}\explain={$\UU[2](F;v)$-def}
+    \beta_{x, \seq[k=1][1]{\avec}} \seq[k=1][1]{
+      v\compose\seq[i=1][n]{\id[F\avec_i]}}
+    \explain={multi-category}
+    \beta_{x, \seq[k=1][1]{\avec}} \seq[k=1][1]{v}
+  \end{align*}
+  and so the correspondence is injective.
+
+  To show surjectivity, consider any multi-natural $\alpha$, and set:
+  \[
+  \beta_{x, \seq[k=1][1]{\avec}}\seq[k=1][1]v \definedby
+    \Yoneda_{Gx, \avec}(Gv\compose \seq[i=1][n]{\alpha_{\avec_i}})
+  \]
+  We need to show:
+  \begin{itemize}
+  \item $\beta_{x}$ is a natural multi-transformation;
+  \item $\beta$ is a multi-natural transformation;
+  \item pasting with $\map F$ recovers $\alpha$, i.e.: $\alpha = (\beta
+    \hcompose F)\vcompose (\map F)$.
+  \end{itemize}
+
+  To show that $\beta_{x} : \UU[2](F;x) \to Gx$ is natural, take any
+  $f : \avec \from \bvec$ in $\UU$ and calculate:
+  \begin{align*}
+  Gx f(\beta_{x, \seq[k=1][1]{\avec}}\seq[k=1][1]v)
+  &{}=
+  Gx f\parent{\Yoneda(Gv \compose \seq[i=1][\abs\avec]{\alpha_{\avec_i}})}
+  \explain={$\Yoneda$-naturality}
+  \Yoneda\parent{Gv \compose
+    \seq[i=1][\abs\avec]{\alpha_{\avec_i}\compose \yoneda f_i}}
+  \\&{}\explain={$\alpha$-multi-naturality}
+  \Yoneda\parent{Gv \compose
+    \seq[i=1][\abs\avec]{GF f_i\compose
+      \seq[j=1][\abs{\bvec_{\pair i*}}]{
+        \alpha_{\bvec_{\pair ij}}}}}
+  \\&{}\explain={$G$-multi-functor}
+    \Yoneda\parent{G(v \compose Ff_i)\compose
+      \seq[\ell=1][\abs{\bvec}]{
+        \alpha_{\bvec_{\ell}}}}
+  =\beta_{x, \seq[k=1][1]{\bvec}}\seq[k=1][1]{\UU[2](F[f];x)v}
+  \end{align*}
+
+  To show that $\beta$ is multi-natural, take any $v : (\xvec) \to y$
+  in $\UU[2]$ and $v_i : F[\avec_i] \to \xvec_i$ for $1 \leq i \leq n
+  \definedby \abs\avec$:
+  \begin{align*}
+    (Gv \compose \seq[i=1][n]{\beta_{\xvec_i}})
+      _{\seq[i=1][n]{\avec_i}}(v_1, \ldots, v_n)
+    &{}=
+    Gv\seq[i=1][n]{\Yoneda(Gv_i \compose
+      \seq[j=1][\abs{\avec_i}]{\alpha_{\avec_{\pair ij}}})}
+    \\&\explain={$\Yoneda$-multi-naturality, associativity}
+    \Yoneda((Gv\compose\seq[i=1][n]{Gv_i}) \compose
+    \seq[\ell=1][\norm{\avec}]{\alpha_{\avec_{\ell}}})
+    \\&{}\explain={$G$-multi-functoriality}
+    \Yoneda(G(v\compose\seq[i=1][n]{v_i}) \compose
+    \seq[\ell=1][\norm{\avec}]{\alpha_{\avec_{\ell}}})
+    \\&{}=
+    (\beta_{y}\compose \UU[2](F;v))\seq[\ell=1][n]{v_1, \ldots, v_n}
+  \end{align*}
+
+  To show that we recover $\alpha$, take any $u : (\avec) \to b$ and
+  calculate:
+  \begin{align*}
+    ((\beta \hcompose F) \vcompose (\map F))_{b, \seq[k=1][1]\avec}(u)
+    =
+    \beta(Fu)
+    =
+    \Yoneda(GFu \compose \seq[i=1][\abs\avec]{\alpha_{\avec_i}})
+    \explain={$\alpha$-multi-naturality}
+    \Yoneda(\alpha_{b}\compose\yoneda u)
+    =\alpha_{b, \seq[k=1][1]\avec}u
+  \end{align*}
+  concluding the proof.
+\end{proof}
+
+\subsection{The Relative Yoneda lemma}
+\begin{proposition}\emph{Axiom 2.}
+  For every multi-functor (admissible or not) $G : \UU[3] \to \UU$,
+  the following triangle is a left Kan lifting of $\yoneda_{\UU}$
+  through $\UU[2](F;-)$:
+  \begin{center}
+    $\quiver{axiom-2 lifting}$
+  \end{center}
+  I.e., for every $H : \UU[3] \to \UU[2]$, pasting
+  $(\map F)\hcompose G$ along $\UU[3] \xto G \UU \xto F \UU[2]$ gives a bijection:
+  \begin{center}
+    $\quiver{axiom-2 bijection}$
+  \end{center}
+  We call the bijection $\alpha \mapsto \Yoneda_{\UU,
+    F,H,G\seq-}\alpha$ the \emph{Yoneda lemma relative to $G$ along
+    $F$}.
+\end{proposition}
+\begin{proof}
+  Starting with uniqueness, given the data:
+  \begin{center}
+    $\quiver{axiom-2 proof: uniqueness data}$
+  \end{center}
+  such that
+  \begin{center}
+    $\quiver{axiom-2 proof: uniqueness assumption}$
+  \end{center}
+  we will show that $\beta$ is uniquely determined by $\alpha$,
+  i.e., the relative Yoneda lemma is injective.
+
+  Take any $e \in \Obj{\UU[3]}$, and then: $\beta_e : (FGe) \to He$ is
+  a multi-morphism in $\UU[2]$, i.e.~an element $\beta_e \in
+  \UU[2](F[(Ge)]; He)$, and so by the Yoneda lemma we have a
+  multi-natural transformation:
+  \[
+  \alpha'_e \definedby
+  \inv\Yoneda_{\UU,\UU[2](F;He),\seq{Ge}}\beta_e : \yoneda (Ge) \to
+  \UU[2](F[-];He)
+  \]
+  which is the same type as the component $\alpha_e$. We will show
+  that $\alpha'_e = \alpha_e$, and so $\beta_e$ is uniquely determined
+  by $\alpha$:
+  \[
+  \beta_e = \Yoneda_{\UU,\UU[2](F;He),\seq{Ge}}\alpha_e
+  \]
+  Take any $\avec \in \Obj{\opposite\UU}$ and $u : (\avec) \to Ge$ in
+  $\UU$. On the one hand:
+  \begin{align*}
+    \alpha'_{e, \avec}(u)
+    &{}\explain={$\Yoneda$-def}
+    \UU[2](F[u];He)(\beta_e)
+    =
+    \beta_e\compose(Fu)
+  \end{align*}
+  On the other hand:
+  \begin{align*}
+    \alpha_{e, \avec}(u)
+    &{}\explain={assumption}
+    \parent{(\UU[2](F;-)\hcompose\beta)\vcompose
+      (\map F \hcompose G)}_{e,\avec}(u)
+    \explain={$(\hcompose$-def$)\vcompose(\map F$-def$)$}
+    \UU[2](F;\beta_e)(Fu)
+    =
+    \beta_e \compose (Fu)
+  \end{align*}
+  and therefore $\beta$ is uniquely determined by $\alpha$.
+
+  For the existence, set $\beta_e \definedby
+  \Yoneda_{\UU,\UU[2](F;He),\seq{Ge}}\alpha_e$ --- this choice
+  motivates our notation --- and we'll show:
+  \begin{itemize}
+  \item $\beta : FG \to H$ is multi-natural; and
+  \item $\alpha = (\UU[2](F;-)\hcompose\beta)\vcompose (\map F
+    \hcompose G)$
+  \end{itemize}
+  For multi-naturality, take any $(e_1, \ldots, e_n) \xto{w} e$ in
+  $\UU[3]$. We want to prove:
+  \[
+  Hw \compose (\beta_{e_1}, \ldots, \beta_{e_n}) = \beta_e \compose (FGw)
+  \]
+  Calculate:
+  \begin{align*}
+    Hw \compose (\beta_{e_1}, \ldots, \beta_{e_n})
+    &{}=
+    \UU[2](F;Hw)\seq[i=1][n]{\Yoneda(\alpha_{e_i})}
+    \explain={$\Yoneda$-multi-naturality}
+    \Yoneda\parent{\UU[2](F;Hw)\compose\seq[i=1][n]{\alpha_{e_i}}}
+    \\&{}\explain*={$\alpha : \yoneda(G-) \to \UU[2](F;H-)$\\multi-naturality}
+    \Yoneda\parent{\alpha_{e}\compose(\yoneda (Gw))}
+    \explain*={$\Yoneda$-naturality}
+    \UU[2](F[Gw]; He)(\Yoneda(\alpha_e))
+    =
+    \beta_e \compose (FGw)
+  \end{align*}
+  as we wanted.
+
+  To show that we recover $\alpha$ by pasting, take any $e \in
+  \UU[3]$, $\avec \in \Obj{\opposite\UU}$, $u : (\avec) \to Ge$. We
+  need to show:
+  \[
+  \alpha_{e, \avec}(u) = \UU[2](F;\beta_e)(\map F u) = \beta_e \compose (F u)
+  \]
+  Calculate:
+  \begin{align*}
+    \beta_e \compose (F u)
+    &{}=
+    \UU[2](F[u]; He)(\Yoneda(\alpha_e))
+    \explain={$\Yoneda$-naturality}
+    \Yoneda\parent{
+      \alpha_e \compose (\yoneda u)
+    }
+    \explain={$\Yoneda$-multi-naturality}
+    \alpha_{e,\avec}(\Yoneda(\yoneda u))
+    \explain={Yoneda reduction%
+      % vertical alignment hack --- this looks nicer
+      \vphantom{y}}
+    \alpha_{e,\avec}u
+  \end{align*}
+  as we wanted.
+\end{proof}
+
+\subsection{The presheaf-construction pseudo-functor}
+The third axioms concerns internalising the presheaf construction into
+a pseudo-functor from the locally-small multi-categories to
+multi-categories. Doing so uses an internalisation of the hom
+profunctor that extends the postulate structure $\UU[2](F;-)$, first
+to an action on $F$, and then to a similar action in the covariant
+position.
+
+\paragraph{Internalising the hom profunctor}
+The following structure and properties follow from Axiom~1, letting
+$\AdMultiCAT$ denote that full sub-$2$-category of $\AdMultiCAT$
+consisting of the admissible multi-functors, we have, for every triple
+of multi-categories $\UU[1], \UU[2], \UU[3]$, with $\UU[1]$
+locally-small, a functor:
+\[
+\UU[2](-,- -) :
+\opposite{\AdMultiCAT(\UU[1], \UU[2])}\times \MultiCAT(\UU[3], \UU[2]) \to
+\MultiCAT(\UU[3], \Psh{\UU[1]})
+\]
+To define it, we first define its partial application with $\UU[3] :=
+\UU[2]$, $\Id : \UU[3] \to \UU[2]$, namely:
+\[
+\UU[2](-,\Id-) :
+\opposite{\AdMultiCAT(\UU[1], \UU[2])}\to
+\MultiCAT(\UU[2], \Psh{\UU[1]})
+\]
+given by:
+\begin{itemize}
+\item sending `objects', i.e., admissible multi-functors $F : \UU[1] \to
+  \UU[2]$, to the postulated multi-functor:
+  \[
+  \UU[2](F,\Id-) \definedby \UU[2](F;-) : \UU[2] \to \Psh{\UU[1]}
+  \]
+\item sending `morphisms', i.e., multi-natural transformations
+  $\quiver{hom-profunctor morphism input type}$, to the unique
+  multi-natural transformation:
+  \begin{center}
+  $\quiver{hom-profunctor morphism output type}$
+  \end{center}
+  satisfying:
+  \begin{center}
+    $\quiver{hom-profunctor special case up}$
+  \end{center}
+  Working this action out explicitly, it's given by the multi-natural
+  transformation consisting of natural multi-transformations acting by
+  pre-composition with the appropriate component of $\alpha$:
+  \[
+  \UU[2](\alpha;\Id-)_{x,\avec} :
+    \parent{F[\avec] \xto u x} \mapsto
+    \parent{G[\avec] \xto{\seq[i]{\alpha_{\avec}}} F[\avec] \xto u}
+  \]
+\end{itemize}
+We then define the more general functor using horizontal composition
+as follows. Given:
+\begin{center}
+  \quiver{hom profunctor general input}
+\end{center}
+we define:
+\begin{center}
+  $\quiver{hom profunctor general def via hcompose}$
+\end{center}
+
+Explicitly, the functor $\UU[2](-;- -)$ is given by:
+\begin{itemize}
+\item sending `objects', i.e., admissible multi-functors $F : \UU[1]
+  \to \UU[2]$ and arbitrary multifunctor $H : \UU[3] \to \UU[2]$, to
+  the composed multi-functor:
+  \[
+  \UU[2](F,H-) \definedby \UU[2](F;-)\compose H : \UU[3] \to \UU[2]
+  \to \Psh{\UU[1]}
+  \]
+  Its object function is given by:
+  \begin{itemize}
+  \item for all $x \in \Obj{\UU[2]}$ and $\avec\in \Obj{\opposite\UU}$:
+    \[
+     \UU[2](F;H-)x\,\avec \definedby \UU[2](F[\avec];Hx)
+    \]
+  \item for all $x \in \Obj{\UU[2]}$ and $\avec \xfrom{f} \bvec$ in $\UU$:
+    \[
+    \UU[2](F;H-)x\,f \definedby \UU[2](F[f];Hx) : ((F[\avec]) \xto u Hx) \mapsto
+      \parent{(F[\bvec]) \xto{F[f]} (F[\avec]) \xto u Hx}
+    \]
+  \end{itemize}
+  Its hom action is given by:
+  \begin{itemize}
+\item for all $g : \xvec \to y$ in $\UU[2]$ and $\avec \in \Obj{\opposite\UU}$:
+  \[
+  \UU[2](F;Hg)_{\avec} \definedby
+  \UU[2](F[\avec];Hg) : \seq[i=1][\abs\xvec]{(F[\avec]) \xto{u_i} Hx} \mapsto
+  \parent{F[\avec]\xto{Hg\compose \seq[i]{u_i}} Hy}
+  \]
+  \end{itemize}
+\item and its operation on `morphisms':
+  \begin{center}
+  \quiver{hom profunctor general input-output}
+  \end{center}
+  is given by the multi-natural transformation whose component at $x$ is the
+  natural multi-transformation whose component at $\avec$ is:
+  \[
+  \UU[2](\alpha;\gamma)_{x, \avec} : \parent{(F[\avec]) \xto{u} Hx} \mapsto
+  \parent{(G[\avec]) \xto{\seq[i=1][\abs\avec]{\alpha_{\avec_i}}}
+      (F[\avec]) \xto{u} Hx \xto{\gamma_x} Kx}
+  \]
+\end{itemize}
+
+Street and Walters then use this functor, still only with Axiom~1, to
+extend the presheaf construction to a co-lax (2-)functor from the
+$2$-category of locally-small multi-categories to multi-categories
+$\Psh- : \coop{\LocallySmall\MultiCAT} \to \MultiCAT$, sending:
+\begin{itemize}
+\item each multi-category $\UU$ to its presheaf construction $\Psh\UU$;
+\item each (necessarily admissible) multi-functor $F : \UU \from \UU[2]$
+  between locally-small categories to the multi-functor:
+  \(
+  \Psh F \definedby \Psh{\UU[1]}(\UU[1](\Id;F-), -): \Psh \UU \to \Psh{\UU[2]}
+  \) given explicitly by:
+  \begin{itemize}
+  \item sending each presheaf $P \in \Psh\UU$ to the presheaf $\Psh F
+    P := \Psh{\UU[1]}(\UU[1](\Id;F-), P) \in \Psh{\UU[2]}$:
+    \begin{itemize}
+    \item sending each $\xvec \in \opposite{\UU[2]}$ to the set of
+      $\abs\xvec$-ary natural multi-transformations of type $\beta :
+      (\UU[1](\Id;F[\xvec])) \to P$, i.e. $\beta : \yoneda_{\UU[1]}(F[\xvec]) \to P$;
+    \item sending each $\xvec \xfrom{g} \yvec$ in $\UU[2]$ to the
+      natural multi-transformation that acts by pre-composing with the
+      multi-transformation that acts by post-composing $Fg$:
+      \begin{align*}
+      \Psh F g : \parent{\yoneda_{\UU[1]}(F[\xvec]) \xto\beta P}
+      &{}\mapsto
+      \parent{\yoneda_{\UU[1]}(F[\yvec]) \xto{\yoneda_{\UU[1]}(F[g])}
+        \yoneda_{\UU[1]}(F[\xvec])
+        \xto\beta P}
+      \\&{}=
+      \seq[\partit]{
+        \seq[\ell=1][\abs\yvec]{(\partit_\ell)\xto{u_\ell} F\yvec_i}
+        \mapsto
+        \beta_{\partit_{\pair *{\++}}}\compose(Fg_i\compose\seq[j=1][\abs{\yvec_{\pair i*}}]{u_{\pair ij}})
+      }
+      \end{align*}
+    \end{itemize}
+  \item sending each natural multi-transformation $\alpha : (\Pvec)
+    \to Q$ in $\Psh\UU$ to the natural multi-transformation $\Psh
+    F\alpha : (\Psh F [\Pvec]) \to \Psh F Q$ in $\Psh{\UU[2]}$ given
+    at partition $\partit$ of $\xvec \in \Obj{\UU[2]}$ by:
+    \[
+    \seq[i=1][\abs\Pvec]{\yoneda(F[\partit_i]) \xto{\beta_i} P_i}
+    \mapsto
+    \parent{
+      \seq[\ell=1][\abs\xvec]{\yoneda (F\xvec_\ell)}
+      \xto{
+        \alpha_{F[[\partit]]}\compose\seq[i=1][\abs\Pvec]{\beta_{i, \seq[j=1][1]{\partit_i}}}
+      }
+      Q\xvec
+    }
+    \]
+  \end{itemize}
+\item each multi-natural transformation $\quiver{multi-natural
+  transformation coop}$ to the multi-natural transformation whose
+  $\quiver{psh 2-cell action type}$ component at $P \in \Psh\UU$ is
+  the unary natural multi-transformation whose component at a
+  partition $\seq[j=1][1]{\xvec}$ of some $\xvec \in
+  \opposite{\UU[2]}$ is:
+  \[
+  \Psh\alpha_{P,\partit} :
+    \seq[j=1][1]{\parent{\yoneda(F[\xvec])} \xto{\beta} P}
+    \mapsto
+    \parent{\parent{\yoneda(F[\xvec])}
+      \xto{\beta \compose \seq[i = 1][\abs\xvec]{\yoneda\alpha_{\xvec_i}}} P}
+    \]
+\end{itemize}
+To exhibit $\Psh- : \coop{\LocallySmall\MultiCAT} \to \MultiCAT$ as a
+co-lax $2$-functor, we need two families $2$-cells:
+\begin{itemize}
+\item For every locally-small multi-category $\UU[1]$, a multi-natural
+  transformation:
+  \begin{center}
+  $\quiver{iota type}$
+  \end{center}
+  It is given by factorising the identity multi-natural transformation
+  between the Yoneda embedding and itself:
+  \begin{center}
+    $\quiver{internal yoneda lemma}$
+  \end{center}
+  We denote it by $\Yoneda$ because it is given by the Yoneda
+  lemma. We can see that directly by calculation (the factorisation
+  maps $\id$ to $(\yoneda \xto u F) \mapsto \Yoneda (\Id u \compose
+  \id) = \Yoneda u$), but also by noting:
+\begin{itemize}
+\item The components $\Yoneda_{F,\avec}$ are natural in $\avec$ and so
+  we have a natural multi-transformation $\Yoneda_{F}:
+  \Psh\UU(\yoneda; F) \to F$, and these are further multi-natural in
+  $F$ and so we have a multi-natural transformation $\Yoneda :
+  \Psh\UU(\yoneda;-) \to \Id$.
+\item By Yoneda reduction:
+  \[
+  ((\Yoneda \hcompose \yoneda) \vcompose (\map \yoneda)) (u)
+  = \Yoneda(\yoneda u) = u
+  \]
+  and so $\Yoneda$ is the left extension.
+\end{itemize}
+\item We will also need, for every triple of locally-small
+  multi-catgeories and composable multi-functors $\UU[1] \xfrom F
+  \UU[2] \xfrom G \UU[3]$ a $2$-cell:
+  \begin{center}
+    $\quiver{gamma type}$
+  \end{center}
+
+  Street and Walters axiomatise a more general structure with a
+  stronger axiom. For a composable pair of multi-functors $\UU[1]
+  \xfrom H \UU[2] \xfrom G \UU[3]$ consisting of a (necessarily
+  admissible) multi-functor $G$ between locally-small multi-categories
+  and admissible functor $K$, a $2$-cell:
+  \begin{center}
+    $\quiver{theta type}$
+  \end{center}
+  This $2$-cell specialises to $\gamma_{F,G}$ taking $\UU[1]
+  \definedby \Psh\UU$ and
+  \[
+  H \definedby \Psh\UU(-,(\yoneda \compose F)-) :
+  \Psh{\UU[1]} \xfrom{\yoneda} \UU[1] \xfrom F \UU[2]
+  \]
+  The defining universal property for $\theta_{G, H}$ is that it's
+  the unique factorisation:
+  \begin{center}
+    \quiver{theta UP}
+  \end{center}
+  It consists, for each $\UU[1]$ object $a$, and
+  $\opposite{\UU[3]}$ object $\zvec$, of the functions:
+  \[
+  \theta_{G, H, a, \seq[j=1][1]{\zvec}} : \seq[j=1][1]{HG[\zvec] \xto{u} a}
+    \mapsto
+    \seq[\yvec \in \opposite{\UU[2]}]
+        { \seq[i=1][\abs\zvec]{\yvec_i \xto{v_i} G[\zvec_i]}
+          \mapsto
+          \parent{H[\yvec]\xto{u\compose\seq[i=1][\abs\zvec]{Hv_i}} a}
+    }
+  \]
+\end{itemize}
+
+Axiom~3 states that the $2$-cells $\Yoneda$ and $\theta$ are
+$2$-isomorphisms, and in particular making $\Psh- :
+\coop{\LocallySmall\MultiCAT} \to \MultiCAT$ a pseudo-functor.  Before
+we prove it, we'll first characterise the multi-natural isomorphisms,
+and in presheaf multi-categories that will require us to characterise
+the natural multi-isomorphisms.
+
+\begin{lemma}\emph{Isomorphism lemma.}
+  \begin{itemize}
+  \item
+    Let $\UU$ be a multi-category, $P, Q \in \Psh\UU$ presheaves over
+    $\UU$, and $\alpha : (P) \to Q$ a \emph{unary} natural
+    multi-transformation. Then $\alpha$ is an isomorphism iff all of
+    its components are bijective.
+  \item
+    A multi-natural transformation $\quiver{multi-natural
+      transformation type}$ is an isomorphism (w.r.t. $2$-cell
+    vertical composition) iff its components $\alpha_{a} : (Fa) \to
+    Ga$ are isomorphisms in $\UU[2]$.
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  The `only if' directions follow since the identities are
+  component-wise identity functions/morphisms and the appropriate
+  composition is given component-wise (up-to rearrangement of tuples
+  via a canonical isomorphism). So the remainder of proof amounts to
+  showing that appropriate multi-naturality and naturality conditions
+  for the assembled component-wise inverse.
+
+  Starting with a component-wise bijective natural
+  multi-transformation $\alpha : (P) \to Q$, define its inverse
+  componentwise, at each unary partition $\seq[j=1][1]{\avec}$:
+  \[
+  (\inv\alpha)_{\seq[j=1][1]{\avec}} : \prod\set{Q\avec} \xto\isomorphic Q\avec
+  \xto{\inv{\parent{\alpha_{\seq[j=1][1]{\avec}}}}}
+  \prod\set{P\avec}
+  \xto\isomorphic
+  P\avec
+  \]
+  A straightforward calculation shows that this multi-transformation
+  would be the inverse multi-morphism, provided it is indeed
+  natural. Take any $f : \avec \from \bvec$ in $\UU$, and calculate:
+  \diagram{34}
+
+  Next, consider a multi-natural transformation $\quiver{multi-natural
+    transformation type}$ whose components are
+  multi-isomorphisms. Define $(\inv\alpha)_{a} : (Ga) \to Fa$ by:
+  \[
+  (\inv\alpha)_{a} \definedby \inv{\parent{\alpha_{a}}}
+  \]
+  and we now need to show $\inv\alpha : G \to F$ is
+  multi-natural. Take any $f : (\avec) \to b$ in $\UU[1]$, let $n
+  \definedby \abs\avec$, and calculate: \begin{align*}
+    Gf \compose
+    \seq{(\inv\alpha)_{\avec_i}}
+    &{}\explain={identity + $\inv\alpha$-def}
+    \id[b]\compose (Gf \compose
+    \seq[i=1][n]{\inv{\parent{\alpha_{\avec_i}}}})
+    \explain={inverses}
+    \parent{\inv{\parent{\alpha_{b}}}
+      \compose (\alpha_{b})}
+    \compose (Gf \compose
+    \seq[i=1][n]{\inv{\parent{\alpha_{\avec_i}}}})
+    \\&{}\explain={$\compose$-assoc.}
+    \inv{\parent{\alpha_{b}}}
+      \compose \parent{\alpha_{b}
+    \compose (Gf \compose
+    \seq[i=1][n]{\inv{\parent{\alpha_{\avec_i}}}})}
+    \explain={multi-naturality}
+    \inv{\parent{\alpha_{b}}}
+      \compose \parent{Ff \compose
+        \seq[i=1][n]{\alpha_{\avec_i}\compose (\inv{\parent{\alpha_{\avec_i}}})}}
+    \\&{}\explain={inverses}
+    \inv{\parent{\alpha_{b}}}
+      \compose \parent{Ff \compose
+        (\seq[i=1][n]{\id[\avec_i]})}
+    \\&{}\explain={identities}
+    \inv{\parent{\alpha_{b}}}
+      \compose (Ff)
+  \end{align*}
+  as we want.  This proof is the usual one presented algebraically
+  since we don't have a convenient diagrammatic formalism in the
+  multi-categorical setting.
+\end{proof}
+
+\begin{proposition}\emph{Axiom 3.}
+  \begin{itemize}
+  \item
+    The multi-natural transformation $\Yoneda : \Psh{\Id[\UU]} \to
+      \Id[\Psh\UU]$ is a multi-natural isomorphism.
+  \item
+    The multi-natural transformations $\theta_{G, H} : \UU[3](H
+    \compose G, -) \to \Psh G \compose \UU(H, -)$ are multi-natural
+    isomorphisms.
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  By the Yoneda lemma, each component of $\Yoneda$ is a bijection, and
+  by the Isomorphism Lemma (1) each component $\Yoneda_P$ is a natural
+  multi-isomorphism, and therefore (2) $\Yoneda$ is a multi-natural
+  isomorphism.
+
+  Turning to $\theta_{G, H}$ for $\UU[1] \xfrom H \UU[2] \xfrom G
+  \UU[3]$, we will use its UP to show that each component:
+  \[
+  \theta_{G, H, a,
+    \seq[k=1][1]\zvec} : \UU[1](HG[\zvec], a) \to
+  \Psh{\UU[2]}(\yoneda[G[\zvec]], \UU[1](H, a))
+  \]
+  is in fact the inverse Yoneda Lemma:
+  \[
+  \inv\Yoneda_{\UU[1]; \UU(H[-],a), G[\zvec]} : \UU[1](HG[\zvec], a) \to
+  \Psh{\UU[2]}(\yoneda[G[\zvec]], \UU[1](H, a))
+  \]
+  and therefore bijective. Showing the universal property means
+  showing that $\inv\Yoneda$ is multi-natural and that:
+  \begin{center}
+    $\quiver{axiom 3b proof goal}$
+  \end{center}
+  Multi-naturality follows from the Isomorphism Lemma, and we'll
+  establish the equation by direct calculation, taking any $z \in
+  \Obj{\UU[3]}, \zvec \in \opposite{\UU[3]}$ and $w : (\zvec) \to z$
+  in $\UU[3]$ and showing that:
+  \begin{multline}\label{axiom3b RTP}
+  \parent{(\Psh G \hcompose (\map H) \hcompose G)\vcompose (\map (\yoneda \compose G))}_{z, \seq[k=1][1]\zvec} w
+  \\=
+  \parent{
+    (\inv\Yoneda \hcompose (G \compose H)) \vcompose
+    (\map(H\compose G))}_{z, \seq[k=1][1]\zvec} w
+  \mspace{100mu}
+  \end{multline}
+  Type-checking, this equation is between natural multi-transformations within the multi-hom-set:
+  \[
+  \Psh{\UU[2]}(\yoneda (G[\zvec]), \UU(H, HGz))
+  \]
+  and so let $n \definedby \abs\zvec$, and take an $n$-ary partition
+  $\partit$ of some $\yvec \in \opposite{\UU[2]}$, and any $n$-tuple
+  of multi-morphisms:
+  \[
+  \seq[i=1][n]{(\partit_i) \xto{v_i} G\zvec_i)} \in \prod_{i=1}^n\yoneda(G\zvec_i)(\partit_i)
+  \]
+  and apply both sides of \eqref{axiom3b RTP} at the $\partit$-component to this tuple.
+
+  On the LHS:
+  \begin{multline*}
+    \parent{\parent{(\Psh G \hcompose (\map H) \hcompose G)\vcompose (\map (\yoneda \compose G))}_{z, \seq[k=1][1]\zvec} w}_{\partit}\seq[i=1][n]{v_i}
+    \\
+    \begin{aligned}
+      &{}=
+      \parent{(\Psh G (\map H)_{Gz})_{\seq[k=1][1]\zvec} (\yoneda (Gw))}_{\partit}\seq[i=1][n]{v_i}
+      \explain={$\Psh G$ action on natural \\multi-transformations}
+      (\map H \compose (\yoneda (Gw)))_{\partit}\seq[i=1][n]{v_i}
+      \\&{}=
+      \map H(Gw \compose \seq[i=1][n]{v_i})
+      \explain={$\map H$-def, \\multi-functoriality}
+      HGw \compose \seq[i=1][n]{Hv_i}
+    \end{aligned}
+  \end{multline*}
+  On the RHS:
+  \begin{multline*}
+    \parent{\parent{
+    (\inv\Yoneda \hcompose (G \compose H)) \vcompose
+        (\map(H\compose G))}_{z, \seq[k=1][1]\zvec} w}_{\partit}\seq[i=1][n]{v_i}
+    \\
+    \begin{aligned}
+      &{}=
+      \inv\Yoneda_{;\UU(H;a);\yvec}\parent{\map (H \compose G)w}\seq[i=1][n]{v_i}
+      \explain={$\inv\Yoneda$-def,$\map$-def}
+      \UU(H[\seq[i=1][n]{v_i}];a)(HGw)
+      =
+      HGw \compose \seq[i=1][n]{Hv_i}
+    \end{aligned}
+  \end{multline*}
+  and so \eqref{axiom3b RTP} holds, and $\theta_{G,H}$ is a
+  multi-natural isomorphism.
+\end{proof}
+
+% \subsection{Failure of Axiom $3^*$}
+% Street and Walters also suggest a stronger axiom:
+% \paragraph{Axiom $3^*$}
+% Every multi-natural transformation $\sigma$ as on the left such that
+% the diagram on the right is an absolute lifting of $\yoneda$ through
+% $H$, must be a multi-natural isomorphism:
+% \begin{center}
+%   $\quiver{axiom 3* assumption}$
+% \end{center}
+% \begin{counterexample}\emph{Failure of Axiom $3^*$.}
+%   Take:
+%   \begin{itemize}
+%   \item
+%     $\UU$ to be the multi-category with no objects and no
+%     multi-morphisms whatsoever;
+%   \item $\UU[2]$ to be the multi-category with a single object $x$ and
+%     only the identity on $x$;
+%   \item $F : \UU \to \UU[2]$ to be the (unique) multi-functor of this type.
+%   \end{itemize}
+%   The relative Yoneda functor $\UU[2](F,-)$ then sends $x$ to the
+%   presheaf constantly taking the empty set.
+%   \begin{itemize}
+%   \item Take $H : \UU[2] \to \Psh\UU$ to be the presheaf constantly
+%     taking the singleton $\terminal \definedby \set{\star}$.
+%   \item Take $\sigma : \UU[2](F, -) \to H$ to be the only possible
+%     multi-transformation.
+%   \end{itemize}
+%   Since the sink in $\sigma$'s naturality diagrams is the singleton,
+%   it is a natural multi-transformation $\sigma : \UU[2](F, -) \to
+%   H$. By the Isomorphism Lemma, since the source and target sets of
+%   $\sigma_{x, \seq{}} : \emptyset \to \terminal$ have different
+%   cardinalities, $\sigma$ is not a natural multi-isomorphism.
+
+%   However, the appropriate triangle is an absolute lifting. Indeed,
+%   take any multifunctors: $W : \UU[3] \to \UU$ and $G : \UU[3] \to
+%   \UU[2]$. We will show that there are unique multi-natural
+%   transformations $\alpha$ (left) and $\beta$ (right):
+%   \begin{center}
+%     $\quiver{Axiom 3* counterexample goal}$
+%   \end{center}
+%   The pasting (on the right) then forms the bijection we want.
+
+%   Since $\UU$ has no objects or morphisms, we must have that $\UU[3]$
+%   doesn't have any objects or morphisms either, and so it is identical
+%   $\UU$. Since $F$ is the unique multi-functor out of $\UU$, we have
+%   that $G$ is the unique multi-functor out of $\UU[3]$, and $\beta$
+%   must be the identification of the two. Since $H \compose G$ is
+%   componentwise a singleton, each component of $\alpha$ must be the
+%   unique map into the singleton, and so $\alpha$ is unique.
+% \end{counterexample}
+
+\subsection{Representability}
+We can now reap the fruit of our labour:
+
+\begin{proposition}\emph{Characterisation: multi-categorical adjunctions.}
+\propositionlabel{representability multi-categorical adjunctions}
+Let $\UU[1]$ be a locally-small multi-category. TFAE:
+\begin{itemize}
+\item An adjunction $\triple{\quiver{adjunction type}}{\Id \xto{\unit}
+  UF}{FU \xto\counit \Id}$ in $\MultiCAT$ with $F$ admissible.
+\item A multi-natural isomorphism $\quiver{adjunction hom-set bijection}$ with $F$ admissible.
+\item A multi-functor $U : \UU[2] \to \UU[1]$, a choice of objects $Fa
+  \in \UU[2]$ for all $a \in \UU[1]$ together with a (multi-)morphism
+  $\unit_a : (a) \to UFa$ such that:
+  \begin{itemize}
+  \item All homs $\UU[2](Fa_1, \ldots, Fa_n; x)$ are small; and
+  \item The components of the transformation $\unit$ are
+    multi-universal: for all $(a_1, \ldots, a_n) \xto f U x$ in
+    $\UU[1]$, there exist a unique $(Fa_1, \ldots, Fa_n) \xto{\psi(f)}
+    x$ in $\UU[2]$ such that:
+    \[
+    U (\psi(f))\compose (\unit_{a_1}, \ldots, \unit_{a_n}) = f
+    \]
+  \end{itemize}
+\item
+  An admissible multi-functor $F : \UU[1] \to \UU[2]$, a choice of
+  objects $Ux \in \UU[1]$ for all $x \in \UU[2]$ together with a
+  (multi-)morphism $\counit_x : (FUx) \to x$ that is universal: for
+  all $(Fa_1, \ldots, Fa_n) \xto g x$ in $\UU[2]$, there exist a
+  unique $(a_1, \ldots, a_n) \xto{\phi g} U x$ in $\UU[1]$ such that:
+  \[
+  \counit_x\compose (F (\phi g)) = g
+  \]
+\end{itemize}
+\end{proposition}
+\begin{proof}
+  The first two items are Prop.~8 of \cite{street-walters-yoneda-structures}.
+  Given a multi-natural isomorphism $\phi$ with inverse $\psi$, take:
+  \[
+  \unit_a \definedby \phi\id
+  \qquad
+  \counit_x \definedby \psi\id
+  \]
+  Take any $f : (\avec) \to U x$, $n \definedby \abs\avec$, and chase
+  $\seq[i=1][n]{\id[a_n]} \in \prod_{i=1}^n\UU[2](Fa_i; Fa_i)$ around
+  the multi-naturality condition for $\phi$ when instantiated for
+  $\psi f$ in $\UU[2]$.  OTOH:
+  \[
+  \phi\parent{\UU[2](F;\psi f)\seq[i=1][n]{\id[a_i]}}
+  =
+  \phi\parent{\psi f \compose \seq[i=1][n]{\id[a_i]}}
+  =
+  \phi\parent{\psi f}
+  =
+  f
+  \]
+  and OTOH:
+  \[
+  \UU[1](\Id; U(\psi f))\seq[i=1][n]{\phi(\id[a_i])}
+  =
+  U(\psi f)\compose\seq[i=1][n]{\unit_{a_i}}
+  \]
+  and we proved the third item.
+
+  Take any $g : (F[\avec]) \to x$ in $\UU[2]$, and chase $\id[x]$
+  around the naturality condition for $\psi_x$ when applied to $\phi g
+  : \seq[k=1][1]{U x} \from \avec$. OTOH:
+  \[
+  \psi\parent{\UU(\phi g; Ux)\id}
+  =
+  \psi\parent{\id \compose (\phi g)}
+  = \psi (\phi g) = g
+  \]
+  and OTOH:
+  \[
+  \UU[2](F(\phi g); U x)(\psi\id[x])
+  =
+  \counit_x\compose (F\phi g)
+  \]
+  as we wanted.
+
+  Therefore, the first two conditions imply the last two conditions.
+  We'll now show that the third and fourth conditions imply the third.
+  The exists-unique conditions construct the required bijections, and
+  we need to equip $F$ or $U$ with a multi-functorial action and show
+  that the given bijection is multi-natural in $x$ and natural in
+  $\avec$, in each case.
+
+  First, assume we have a choice of multi-universal units. Extend $F$
+  to a functor, by sending each $f : (\avec) \to b$ in $\UU[1]$ to:
+  \[
+  \psi(\unit_b\compose (f))
+  \qquad
+  \text{i.e., the unique $g : (F[\avec]) \to Fb$ satisfying: }
+  \qquad
+  Ug \compose \seq[i=1][\abs\avec]{\unit_{\avec_i}} = \unit_b \compose (f)
+  \]
+  This assignment is functorial:
+  \[
+  U\id[Fa] \compose (\unit_{a})
+  \explain={$U$ multi-functor}
+  \unit_{a}
+  =
+  \unit_{a}\compose(\id[a])
+  \qquad\implies\qquad
+  F\id[a] = \id[Fa]
+  \]
+  and for all composable $f : (\bvec) \to c$, $n \definedby \abs\bvec$
+  and $\fvec \definedby \seq[i=1][n]{f_i : (\avec_{\pair i*}) \to
+    \bvec_i}$, $p \definedby \abs\avec$,$m_i \definedby
+  \abs{\avec_{\pair i *}}$, we have:
+  \begin{align*}
+    U(Ff\compose \seq[i=1][n]{F\fvec_i}) \compose \seq[\ell = 1][p]{\unit_{a_\ell}}
+    &{}\explain={$U$ multi-functor}
+    (UFf \compose UF\fvec_i)\compose \seq[\ell = 1][p]{\unit_{a_\ell}}
+    \explain={$\compose$-assoc.}
+    UFf \compose (UF\fvec_i\compose \seq[j = 1][m_i]{\unit_{a_{\pair ij}}})
+    \\&{}= UFf \compose (\unit_{\bvec_i}\compose (\fvec_i))
+    = (UFf \compose \unit_{\bvec_i})\compose (\fvec)
+    = (\unit_c \compose UFf) \compose (\fvec)
+    \\&{}= \unit_c \compose (UFf \compose (\fvec))
+  \end{align*}
+  and so $F(f \compose (\fvec)) = F f \compose (F[\fvec])$.
+
+  Fix $x$. To show that $\psi_x$ is natural, take any $\avec \xfrom \uvec
+  \bvec$ in $\UU[1]$, and chasing any $f : (\avec) \to U x$ around the
+  naturality condition for $\psi$ gives us the proof obligation:
+  \[
+  \psi(f \compose (\uvec))
+  =
+  \psi f \compose (F[\uvec])
+  \]
+  Calculate:
+  \begin{align*}
+    U\parent{\psi f \compose (F[\uvec])} \compose
+    \seq[\ell = 1][\abs\bvec]{\unit_{\avec_\ell}}
+    &{}\explain={$F$-multi-functor\\$\compose$-assoc.}
+    U(\psi f) \compose \seq[i=1][\abs\avec]{UF\uvec_i \compose
+      \seq[j = 1][\abs{\bvec_{\pair i*}}]{\unit_{\avec_{\pair ij}}}}
+    \explain={$F$-def}
+    U(\psi f) \compose \seq[i=1][\abs\avec]{\unit_{\bvec}\compose (\uvec_i)}
+    \\&\explain={$\compose$-assoc\\$\psi$-def}
+    f \compose (\uvec)
+  \end{align*}
+  and so $\psi_x$ is natural.
+
+  To show $\phi$ is multi-natural, take any $(\xvec)\xto v y$ in
+  $\UU[2]$, and chase an arbitrary tuple
+  $\seq[i=1][\abs\xvec]{\avec_{\pair i*}\xto{\fvec_i} U\xvec_i}$ in
+  the multi-naturality condition to get the proof obligation:
+  \[
+  \psi(Uv \compose (\fvec)) = v \compose (\psi[\fvec])
+  \qquad
+  \impliedby
+  \qquad
+      U\parent{v \compose (\psi[\fvec])} \compose
+    \seq[\ell=1][\abs\avec]{\unit_{\avec_\ell}}
+    \explain={$U$ multi functor\\$\compose$-assoc.\\$\psi$-def}
+    Uv \compose (\seq[i=1][\abs\xvec]{\fvec_i}
+  \]
+  and so $\psi$ is multi-natural. By the Isomorphism Lemma, it is a
+  multi-natural isomorphism, and we proved that the third condition
+  implies the second.
+
+  The proof that the final condition implies the second is similar.
+  To extend $U$ to a functor, send $g : (\xvec)\to y$ in $\UU[2]$ to:
+  \[
+  \phi(g\compose\seq[i=1][\abs\xvec]{\counit_{\xvec_i}})
+  \qquad
+  \text{i.e., the unique $f : (U[\xvec]) \to Uy$ satisfying: }
+  \qquad
+  \counit_y\compose (Ff) = f\compose\seq[i=1][\abs\xvec]{\counit_{\xvec_i}}
+  \]
+  This assignment is functorial:
+  \[
+  \counit \compose (F\id) \explain={$F$ multi-functor}
+  \counit \compose (\id) = \id\compose (\counit)
+  \qquad\implies\qquad
+  U\id = \id
+  \]
+  and for all composable $(\xvec) \xto{\gvec} (\yvec) \xto g z$:
+  \[
+  \counit_z \compose(F(Ug \compose (U[\gvec])))
+  \explain={$F$ multi-functor\\$\compose$ assoc.}
+  (\counit_z\compose FUg)\compose (FU[\gvec])
+  =
+  g \compose \seq[i]{\counit_{\yvec_i}\compose (FU[\gvec_i])}
+  =
+  (g \compose (\gvec))\compose \seq[\ell]{\counit_{\xvec_\ell}}
+  \]
+  and so $U(g \compose (\gvec)) = Ug \compose (U[\gvec])$.
+
+  Fix $x$. To show that $\phi_x$ is natural, take any $\avec
+  \xfrom\uvec \bvec$ in $\UU[1]$ and chase any $v : (F[\avec]) \to x$
+  through the multi-naturality condition to get the proof obligation:
+  \[
+  \phi\parent{v \compose F[\uvec]} =
+  (\phi v) \compose (\uvec)
+  \impliedby
+  \counit_x\compose F((\phi v)\compose (\uvec))
+  \explain={$F$ multi-functor\\$\compose$ assoc.}
+  (\counit_x\compose F\phi v))\compose (F[\uvec])
+  \explain={$\phi$-def}
+  v \compose (F[\uvec])
+  \]
+
+  Finally, to show that $\phi$ is natural, take any $v : (\xvec) \to
+  y$ and chase $\fvec : \avec \to U[\xvec]$ in the multi-naturality
+  condition to get the proof obligation:
+  \[
+  \phi\parent{v \compose (\fvec)} = Uv \compose \phi[\fvec]
+  \impliedby
+  \begin{aligned}[t]
+  \counit_y\compose (F\parent{Uv \compose \phi[\fvec]})
+  &{}\explain={$F$ multi functor\\$\compose$ assoc.}
+  (\counit_y \compose FUv)\compose (F\phi[\fvec])
+  \explain={$U$-def}
+  v \compose \seq[i]{\counit_{\xvec_i}\compose F\phi[\fvec]}
+  \\&{}\explain={$\phi$-def}
+  v \compose (\fvec)
+  \end{aligned}
+  \]
+  as we wanted.
+\end{proof}

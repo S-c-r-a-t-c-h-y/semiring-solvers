@@ -1,0 +1,23 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{oktodo}[2009/07/21 Ohad Kammar package: supplies the
+todo macro]
+
+\RequirePackage{ifthen}
+\newboolean{oktodo@enable}
+\setboolean{oktodo@enable}{false}
+
+\DeclareOption{todo}{\setboolean{oktodo@enable}{true}}
+
+\ProcessOptions
+
+\ifthenelse{\boolean{oktodo@enable}}{%
+% Enabled
+  \newcommand\todo[1]{%
+    [{\bf TODO:} {#1}]%
+  }
+}{
+  % Disabled
+  \newcommand\todo[1]{%
+    \typeout{* * * TODO: #1}%
+  }
+}

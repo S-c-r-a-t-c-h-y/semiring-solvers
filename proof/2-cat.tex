@@ -1,0 +1,186 @@
+\section{2-categories}
+\label{sec:2-cat}
+
+We'll need basic concepts in higher-dimensional category theory.
+
+A \emph{(strict) 2-category} $\CC$ consists of the following data and
+structure:
+\begin{itemize}
+\item Cellular structure:
+\begin{itemize}
+  \item A collection (set, class, etc.) $\CC_0$ of $0$-cells $a, b, c,
+    \ldots$;
+  \item A collection (set, class, etc.) $\CC_1(a,b)$ of $1$-cells
+    $f,g,h,\ldots : a \to b$ for every pair of 0-cells $a,b \in \CC_0$;
+  \item A collection (set, class, etc.) $\CC_2(f,g)$ of $2$-cells
+    $\alpha, \beta, \gamma, \ldots : f \Rightarrow g$ for every pair
+    parallel of 1-cells $f,g : a \rightrightarrows b$.
+    We'll depict $2$-cells with oriented faces:
+    $\quiver{alpha f g}$.
+
+\end{itemize}
+\item Identities:
+  \begin{itemize}
+  \item A $1$-cell $\id[a] : a \to a$, the \emph{identity} $1$-cell,
+    for every $0$-cell $a \in \CC_0$.
+  \item A $2$-cell $\id[f] : f \To f$, the \emph{identity} $2$-cell,
+    for every $1$-cell $f : a \to b$. We depict identities by marking
+    the face with an equality symbol: \quiver{identity 2 cell}
+  \end{itemize}
+\item Composition:
+  \begin{itemize}
+  \item A \emph{composition} operation on $1$-cells, assigning a
+    $1$-cell $g \compose f$ for every pair of composeable $1$-cells $a
+    \xto{f} b \xto{g} c$.
+  \item A \emph{vertical composition} operation on $2$-cells,
+    assigning a $2$-cell $\beta \vcompose \alpha : f \To h$ for every
+    pair of composeable $2$-cells $f \xto{\alpha} g \xto{\beta} h : a
+    \to b$, which we depict it by pasting the faces along their shared
+    $1$-cell:
+    \[
+    \quiver{vertical composition type} = \quiver{vertical composition}
+    \]
+  \item A \emph{horizontal composition} operation on $2$-cells,
+    assigning a $2$-cell $\beta \hcompose \alpha : g_1\compose f_1 \To
+    g_2 \compose f_2$ for every pair of parallel $2$-cells $a \xto{f_1
+      \xto{\alpha} g_1} b \xto{f_2 \xto{\beta} g_2} c$. We depict it
+    by pasting the faces along the shared vertex:
+    \[
+      \quiver{horizontal composition type} = \quiver{horizontal composition}
+    \]
+  \end{itemize}
+\end{itemize}
+such that:
+\begin{itemize}
+\item $1$-cell composition is associative and identities are neutral:
+  \[
+  h \compose (g \compose f) = (h \compose g) \compose f
+  \qquad
+  \id[b] \compose f = f = f \compose \id[a]
+  \]
+\item $2$-cell vertical composition is associative and identities are neutral:
+  \[
+  \gamma \vcompose (\beta \vcompose \alpha) = (\gamma \vcompose \beta) \compose \alpha
+  \qquad
+  \id[g] \compose \alpha = \alpha = \alpha \compose \id[f]
+  \]
+\item $2$-cell horizontal composition is associative and identities
+  between identities are neutral, and composition of $2$-cell
+  identities preserves $1$-cell composition:
+  \[
+  \gamma \hcompose (\beta \hcompose \alpha) = (\gamma \hcompose \beta) \hcompose \alpha
+  \qquad
+  \id[{\id[b]}] \hcompose \alpha = \alpha = \alpha \hcompose \id[{\id[a]}]
+  \qquad
+  \id[g] \hcompose \id[f] = \id[g \compose f]
+  \]
+\item The interchange law holds:
+  \begin{gather*}
+  (\beta_2 \vcompose \alpha_2) \hcompose (\beta_1 \vcompose \alpha_1)
+  =
+  (\beta_2 \hcompose \beta_1) \vcompose (\alpha_2 \vcompose \alpha_1)
+  \\
+  \quiver{interchange law vertical}
+  =
+  \quiver{interchange law horizontal}
+  \end{gather*}
+  This law means we can depict compositions of $2$-cells using
+  commutative diagrams, since all decompositions of the diagram into
+  pasting expressions are equal $2$-cells. For example, we will depict
+  both expressions in the interchange law by this pasting diagram:
+  \quiver{interchange law}
+\end{itemize}
+\begin{example}
+  The paradigmatic example is the $2$-category $\CAT$ that has:
+  \begin{itemize}
+  \item potentially large categories as $0$-cells;
+  \item functors between them as $1$-cells;
+  \item natural transormations between them as $2$-cells;
+  \item pointwise composition of functors as $1$-cell composition;
+  \item pointwise composition of natural transformations as horizontal
+    composition;
+  \item horizontal composition of natural transformations given, for
+    $\quiver{cat horizontal composition type}$ by:
+    $\begin{aligned}
+      (\beta \hcompose \alpha)_a
+          &{}= \beta_{G_1a} \compose F_2\alpha_{a}
+        \\&{}= G_2\alpha_a \compose \beta_{F_1}a
+    \end{aligned}$
+    i.e., by the naturality square:
+    $\quiver{cat horizontal composition commutative}$.
+  \end{itemize}
+  The required properties are well-known~\citep{mac-lane:cwm}.
+\end{example}
+
+An \emph{adjunction} in a $2$-category $\CC$ consists of:
+\begin{itemize}
+\item two $1$-cells $a \xto{f} b \xto{u} a$ called the left ($f$) and
+  right ($u$) adjoints;
+\item two $2$-cells $u \compose f \xto{\unit} \id[a]$ and $\id[b]
+  \xto{\counit} u \compose f$ called the unit ($\unit$) and counit
+  ($\counit$).
+\end{itemize}
+such that:
+\begin{itemize}
+\item $\quiver{adjoint triangle one} = \id[f]$ and $\quiver{adjoint triangle two} = \id[u]$
+\end{itemize}
+
+\begin{example}
+  An adjunction in $\CAT$ is the ordinary notion of an adjunction.
+\end{example}
+
+
+A \emph{$2$-functor} $\FF : \CC[1] \to \CC[2]$ consists of three mappings:
+\begin{itemize}
+  \item $\FF_0 : \CC[1]_0 \to \CC[2]_0$ sending
+    $0$-cells $a$ in $\CC[1]$ to $0$-cells $\FF_0a$ in $\CC[2]$.
+  \item $\FF_1 : \CC[1]_1(a,b) \to \CC[2]_1(\FF_0a,
+    \FF_0b)$ sending $1$-cells $f : a \to b$ in $\CC[1]$ to $1$-cells
+    $\FF_1f : \FF_0a \to \FF_0b$ in $\CC[2]$.
+  \item $\FF_2 : \CC[1]_2(f,g) \to \CC[2]_2(\FF_1f, \FF_1g)$ sending
+    $2$-cells $\!\!\quiver{narrow alpha f g}\!\!$ in $\CC[1]$ to $2$-cells
+    $\quiver{F(alpha f g)}$ in~$\CC[2]$.
+\end{itemize}
+such that $\FF$ preserves all identities and compositions.
+
+The point of $2$-functors is that they transport pasting diagrams to
+pasting diagrams, while preserving the identities.
+Our main usage of $2$-functors is the following lemma that lets us
+transport adjunctions:
+\begin{lemma}
+  Let $\FF : \CC[1] \to \CC[2]$ be a $2$-functor. If $\seq{f : a \to
+    b,u,\unit,\counit}$ is an adjunction in $\CC[1]$ then $\seq{\FF f
+    : \FF a \to \FF b, \FF u, \FF\unit, \FF\counit}$ is an adjunction
+  in $\CC[2]$.
+\end{lemma}
+\begin{proof}
+  Type-checking, the candidate adjunction has the right type. Since
+  $2$-functors preserve pasting diagrams and identities:
+  \[
+  \quiver{F(adjoint triangle one)}
+  = \FF\id[f] = \id[\FF f]
+  \
+  \quiver{F(adjoint triangle two)}
+  = \FF\id[u] = \id[\FF u]
+  \]
+  and so this candidate is in fact an adjunction.
+\end{proof}
+
+We will also observe several (strict) natural $2$-transformations.
+Let $\FF[1],\FF[2] : \CC[1] \to \CC[2]$ be two $2$-functors between
+$2$-categories. A \emph{(strict) natural $2$-transformation}
+$\quiver{natural 2-transformation type}$ consists of:
+\begin{itemize}
+\item A $1$-cell $\Xi_a : \FF[1]_0 a \to \FF[2]_0 a$, for each $0$-cell $a$;
+\end{itemize}
+such that:
+\begin{itemize}
+\item For every $1$-cell $f : a \to b$ in $\CC[1]$:
+  \[
+  \quiver{strict natural 2-transformation: 1-cells}
+  \]
+\item For every $2$-cell $\quiver{alpha f g}$:
+  \[
+  \quiver{strict natural 2-transformation: 2-cells}
+  \]
+\end{itemize}

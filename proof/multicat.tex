@@ -1,0 +1,267 @@
+\section{Multicategories}
+\label{sec:multicat}
+
+A \emph{multicategory} $\UU$ consists of:
+\begin{itemize}
+\item A collection (set, class, etc.) $\Obj \UU$ of \emph{objects}
+  $a,b,c,\ldots$.
+\item A collection (set, class, etc.) $\UU(a_1, \ldots, a_n; b)$ of
+  \emph{multi-morphisms}, for every (possibly empty) list of
+  \emph{source} objects $a_1, \ldots, a_n$ and \emph{target} object
+  $b$, in which case we write $f : (a_1, \ldots, a_n) \to b$ and
+  depict this multi-morphisms like so:
+  \[
+  \quiver{multi-morphism}
+  \] The
+  \emph{morphisms} are those multi-morphisms whose source is of length
+  $1$.
+\item An \emph{identity} morphism $\id[a] : (a) \to a$ for each object $a$.
+
+  We'll depict morphisms by single-source arrows and identity
+  morphisms by elongated equality symbols, as in ordinary commutative
+  diagrams.
+
+\item The \emph{composition} operation, defined for every
+  multi-morphism $g : (b_1, \ldots, b_n) \to c$ and compatible list of
+  multi-morphisms $f_i : (a_{i1},\ldots, a_{im_i}) \to b_i$, for each
+  $1 \leq i \leq n$, yielding a multi-morphism $g \compose (f_1,
+  \ldots, f_n) : (a_{11}, \ldots, a_{1m_1}, \ldots, a_{n1}, \ldots,
+  a_{nm_n}) \to c$. We depict the composed morphism by pasting the
+  shared objects:
+  \[
+  \quiver{multi composition}
+  \]
+\end{itemize}
+such that:
+\begin{itemize}
+\item identities are neutral, i.e., for all $f : (a_1, \ldots, a_n) \to b$:
+  \[
+  f \compose (\id[a_1], \ldots, \id[a_n]) = f = \id[b] \compose f
+  \]
+\item composition is associative:
+  \begin{multline*}
+  h \compose (g_1 \compose (f_{11}, \ldots, f_{1m_1}), \ldots, g_n\compose (f_{n1}, \ldots, f_{nm_n})) \\=
+  (h \compose (g_1, \ldots, g_n)) \compose (f_{11}, \ldots, f_{nm_1}, \ldots, f_{n1}, \ldots, f_{nm_n})
+  \end{multline*}
+  Associativity means that, like for ordinary commutative diagrams, we
+  may decompose a multi-morphism diagram in any several equivalent
+  ways. For example, we depict the multi morphism of the associativity
+  equation like so:
+  \[
+  \quiver{multi composition associativity}
+  \]
+\end{itemize}
+The paradigmatic example is multi-linear maps:
+% \begin{example}
+%   Given a field $\Field$, we define the following multicategory
+%   $\Multi\Vect_{\Field}$:
+%   \begin{itemize}
+%   \item Objects are vector spaces $U, V, W, \ldots$ over $\Field$.
+%   \item Multi-morphisms $T : (U_1, \ldots, U_n) \to V$ are the
+%     \emph{multi-linear} forms/transformations, i.e., the functions $T
+%     : U_1 \times \cdots \times U_n \to V$ that are linear in each
+%     component:
+%     \begin{multline*}
+%     T(u_1, \ldots, u_{i-1}, \lambda u_i + \lambda' u'_i, u_{i+1}, \ldots, u_n)
+%     \\=
+%     \lambda T(u_1, \ldots, u_{i-1}, u_i, u_{i+1}, \ldots, u_n)
+%     +
+%     \lambda'T(u_1, \ldots, u_{i-1}, u'_i, u_{i+1}, \ldots, u_n)
+%     \end{multline*}
+%   \end{itemize}
+%   For example, the inner product over the field of reals is a
+%   bi-linear transformation.
+
+%   We compose multi-linear functions in the evident way:
+%   \begin{multline*}
+%     g \compose (f_1, \ldots, f_n) (u_{11}, \ldots, u_{1m_1}, \ldots, u_{n1}, \ldots, u_{nm_n})
+%     \\:=
+%   g(f_1(u_{11}, \ldots, u_{1m_1}), \ldots, f_n(u_{n1}, \ldots, u_{nm_n}))
+%   \end{multline*}
+%   and the morphisms in $\Multi\Vect_{\Field}$ are the linear
+%   transformations, including the identity functions as identities.
+% \end{example}
+
+\begin{example}\examplelabel{multi-cat from chosen products}
+  Let $\pair{\C}{\prod}$ be a category with specified finite
+  products. We equip it with a multicategory structure as follows:
+  \begin{itemize}
+  \item The objects are the same, $\Obj{\pair\C\prod} := \Obj\C$.
+  \item A multi-morphism $f : (a_1, \ldots, a_n) \to b$ is any
+    morphism $f : \prod_{i = 1}^n a_i \to b$.
+  \item The identities rely on the canonical isomorphism:
+    \[
+    \id[a] := \prod_{i=1}^1 a \isomorphic a
+    \]
+  \item Similarly, composition relies on a canonical
+    isomorphism. Letting:
+    \begin{itemize}
+    \item $[n] \definedby \set{1, \ldots, n}$ be the
+    enumeration of the index set;
+  \item $p := \sum_{i = 1}^n m_i$ the total number of objects in the source of the comosition morphism; and
+  \item $\phi : [p] \xto{\isomorphic} \coprod_{i=1}^n[m_i]$ be an
+    enumeration of the nested set of indices that's compatible with
+    the source list of the composition;
+    \end{itemize}
+    define:
+    \[
+    g \compose (f_1, \ldots, f_n) : \prod_{\ell = 1}^{p}a_{\phi \ell}
+    \xto{\isomorphic} \prod_{i = 1}^n\prod_{j = 1}^{m_i} a_{i,j}
+    \xto{\prod_{i}f_i} \prod_{i=1}^n b_i \xto{g} c
+    \]
+  \item Tedious verification of the axioms.
+  \end{itemize}
+\end{example}
+Here is a slightly different way to construct a similar multicategory,
+but this time without postulating a choice of finite products. Not
+sure it's a good way to do it.
+\begin{example}\examplelabel{fin prod multi cat}
+Let $\C$ be a category that merely has finite products.
+\begin{itemize}
+\item Objects are the same.
+\item A multi-morphism $f : (a_1, \ldots, a_n) \to b$ consists of a
+  chosen product $\Dom f$ for $\pi_{i = 1}^na_i$ together with a
+  morphism $f : \Dom f \to b$. For identities $\id[a]$ we can then
+  take the chosen product $\prod_{i=1}^1$ to be $a$ itself together
+  with the identity, and for composition we can take
+  $\prod_{i=1}^n\prod_{j=1}^{m_i} a_i$, although here we need to
+  employ some choice for the outer product.
+\end{itemize}
+\end{example}
+Generalising the example $\pair\C\prod$:
+% \begin{example}
+%   Let $\C = \seq{\carrier\C,(\otimes),I,a,l,r}$ be a monoidal
+%   category. We equip it with a multi-category structure:
+%   \begin{itemize}
+%   \item The objects are the same $\Obj\C := \Obj{\carrier\C}$.
+%   \item A multi-morphism $f : (a_1, \ldots, a_n) \to b$ is a morphism
+%     $f : a_1 \otimes \cdots \otimes a_n \to b$ (say right-nesting the
+%     monoidal product).
+%   \end{itemize}
+%   with the remainder following the same principles as the finite
+%   product example.
+% \end{example}
+
+A \emph{multi-functor} $F : \UU[1] \to \UU[2]$ consists of two mappings:
+\begin{itemize}
+\item $F : \Obj{\UU[1]} \to \Obj{\UU[2]}$ sending $\UU[1]$ objects to $\UU[2]$ objects; and
+\item $F : \UU[1](a_1, \ldots, a_n; b) \to \UU[2](Fa_1, \ldots, Fa_n;
+  Fb)$ sending a multi-morphism $f : (a_1, \ldots, a_n) \to b$ to a
+  multi-morphism $Ff : (Fa_1, \ldots, Fa_n) \to Fb$.
+\end{itemize}
+such that $F$ preserves:
+\begin{itemize}
+\item identities: $F\id[a] = \id[Fa] : (Fa) \to a$; and
+\item composition: $F(g \compose (f_1, \ldots, f_n)) = F g \compose
+  (Ff_1, \ldots Ff_n)$.
+\end{itemize}
+As usual, multi-functors are defined to preserve the structure of
+diagrams with multi-morphisms.
+\begin{example}
+  The identity multi-functor $\Id : \UU \to \UU$ sends every object
+  and multi-morphism to themselves. The composition of multi-functors
+  is a multi-functor.
+\end{example}
+
+A \emph{multi-natural transformation} $\quiver{multi-natural
+  transformation type}$ between multi-functors consists of:
+\begin{itemize}
+\item a morphism $\alpha_a : Fa \to Ga$ for every object $a \in \Obj\UU$
+\end{itemize}
+such that:
+\begin{itemize}
+\item
+  \[
+  \quiver{multi-naturality}
+  \]
+\end{itemize}
+
+We can define horizontal and vertical composition of multi-natural
+transformations analogously to their category theoretic way:
+\[
+(\beta\vcompose\alpha)_a := \beta_a \compose (\alpha_a) \qquad
+(\beta\hcompose\alpha)_a := \beta_{G_1a}\compose (F_2\alpha_a)
+                          =G_2\alpha_a\compose (\beta_{F_1a})
+\]
+and they are multi-natural for analogous reasons. As a consequence we
+have a $2$-category $\MultiCAT$ where:
+\begin{itemize}
+\item $0$-cells are multi-categories;
+\item $1$-cells are multi-functors; and
+\item $2$-cells are multi-natural transformations
+\item with multi-functor composition and identities:
+  \[
+  \Id[{\CC}] a := a \qquad \Id[{\CC}]f := f
+  \]
+  vertical, horizontal composition of multi-natural transformations,
+  with identities:
+  \[
+  (\id[{F}])_a := \id[{Fa}] : (a) \to a
+  \]
+
+\end{itemize}
+
+For example, we have a $2$-functor structure $\ordinary- : \MultiCAT \to
+\CAT$:
+\begin{itemize}
+\item sending each multicategory $\UU$ to its (\textbf{o}rdinary)
+  \emph{category of morphisms}:
+  \begin{itemize}
+  \item $\Obj {\ordinary\UU} := \Obj \UU$;
+  \item $\ordinary\UU(a,b) := \UU(a;b)$, i.e., the morphisms in
+    $\ordinary\UU$ are the multi-morphisms with a length-$1$ source.
+  \item identities and composition are given by identity morphisms and
+    composition in the multi-category.
+  \end{itemize}
+\item sending each multi-functor $F : \UU[1] \to \UU[2]$ to the
+  functor:
+  \begin{itemize}
+  \item sending $a \in \Obj{\UU[1]}$ to $Fa \in \Obj{\UU[2]}$;
+  \item sending $f : (a) \to b$ to $\ordinary Ff := Ff : (Fa) \to Fb$.
+  \end{itemize}
+\item sending each multi-natural transformation $\quiver{multi-natural
+  transformation type}$ to $(\ordinary\alpha)_a := \alpha_a$.
+\end{itemize}
+\begin{proposition}
+  The above assignment is a $2$-functor $\ordinary- : \MultiCAT \to
+  \CAT$.
+
+  It is $2$-faithful in the following sense: given two parallel
+  multi-natural transformations $\quiver{parallel multi-natural}$, we have
+  \(
+  \ordinary \alpha = \ordinary \beta \implies \alpha = \beta
+  \) and so $\ordinary-$ reflects adjunctions.
+\end{proposition}
+\begin{proof}
+  To show that the $0$-cell mapping is well-defined, we need to show
+  we have a category. Composition of morphisms $a \xto f b \xto g c$
+  in $\ordinary\UU$ is their composition in the multi-category, i.e.,
+  given by \( g \compose f := g \compose (f) \). The multi-category
+  axioms then specialise to:
+  \[
+  \id \compose (f) = f = f \compose (\id)
+  \qquad
+  h \compose (g \compose (f)) = (h \compose (g)) \compose (f)
+  \]
+  and so we have a category.
+
+  To show that the $1$-cell mapping is functorial, note that the
+  construction type-checks, hence we have a functor structure, and
+  then immediately validate functoriality:
+  \[
+  \ordinary F (\id) = \id
+  \qquad
+  \ordinary F(g \compose (f)) = F g \compose (F f)
+  \]
+
+  For $2$-cells, the resulting transformation $\ordinary\alpha :
+  \ordinary F \to \ordinary G$ is natural since the multi-naturality
+  condition, when applied to a morphism, recovers the naturality
+  condition for the ordinary transformation.
+
+  The $2$-faithfulness follows by observing that the data for the
+  multi-natural transformation is preserved by
+  $\ordinary-$. Explicitly, if $\ordinary\alpha = \ordinary\beta$,
+  then for each $a \in \Obj\UU$, we have $\alpha_a = \beta_a$, and
+  that means that $\alpha = \beta$.
+\end{proof}

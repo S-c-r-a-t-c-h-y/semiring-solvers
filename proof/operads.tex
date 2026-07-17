@@ -1,0 +1,301 @@
+\section{Operads}
+\label{sec:operads}
+
+An \emph{operad} $\OO$ consists of:
+\begin{itemize}
+\item a set $\OO_n$, whose elements we call \emph{$n$-ary operations},
+  for each natural $n \in \naturals$;
+\item an identity operation $\id \in \OO_1$; and
+\item a \emph{composed} operation $g \compose (f_1, \ldots, f_n) \in
+  \OO_{\sum_i n_i}$, for every operation composable pair of operation
+  $g \in \OO_n$ and sequence of operations $f_i \in \OO_{n_i}$
+\end{itemize}
+such that composition is associative and the identity is neutral:
+\begin{multline*}
+h \compose (g_1(f_{11}, \ldots, f_{1m_1}), \ldots, g_n(f_{n1}, \ldots, f_{nm_n}))
+\\\qquad=
+(h \compose (g_1, \ldots, g_n))\compose(f_{11}, \ldots, f_{1m_1},
+\ldots, f_{n1}, \ldots, f_{nm_n})
+\qquad
+f \compose (\id, \ldots, \id) = f = \id \compose (f)
+\end{multline*}
+An operad is then just a $1$-object multi-category $\OO$, by
+identifying the $n$-ary operations $\OO_n$ with the $n$-ary
+multi-morphisms $\OO(\underbrace{\star, \ldots, \star}_{\text{$n$
+    times}}; \star)$.
+
+% \begin{example}\examplelabel{monoid operad}
+%   Let $\Monoid$ be the following operad:
+%   \begin{itemize}
+%   \item Every set of operations $\Monoid_n$ has a unique element
+%     $(\bigodot_{i = 1}^n)$.
+%   \end{itemize}
+%   Since there is only one operation possible at each arity, there is
+%   only one choice for identities and compositions, and the operad
+%   axioms hold.
+% \end{example}
+The notion of a model may give more intuition about the definition of
+operads.  Let $\OO$ be an operad and $\UU$ a multi-category. A
+\emph{model} $\A$ for $\OO$ in $\UU$ consists of:
+\begin{itemize}
+\item an object $\carrier\A \in \Obj\UU$
+\item for each operation $f \in \OO_n$, a multi-morphism
+  $\A\sem f : (\overbrace{\carrier\A, \ldots, \carrier \A}^{\text{$n$ times}}) \to \carrier\A$
+\end{itemize}
+such that composition and identities are preserved:
+\[
+\A\sem{\id} = \id[\carrier\A] \qquad \A\sem{g \compose (f_1, \ldots,
+  f_n)} = \A\sem g \compose (\A\sem{f_1}, \ldots, \A\sem{f_n})
+\]
+Thus a model of an operad $\OO$ in $\UU$ is just a multi-functor $\A :
+\OO \to \UU$.
+
+% \begin{example}\examplelabel{monoid operad models}
+%   Recall the multicategory $\pair\Set\bigtimes$ from \exampleref{fin
+%     prod multi cat}, i.e., the multicategory induced by choosing the
+%   finite cartesian product of sets.  A model for the operad $\Monoid$
+%   in $\pair\Set\bigtimes$ is then just a monoid. First, given a monoid
+%   $\A = \seq{\carrier \A, (*), e}$, define a model structure over
+%   $\carrier\A$ by:
+%   \begin{itemize}
+%   \item $\A\sem{\bigodot_{i=1}^n}(x_1, \ldots, x_n) := x_1 * \cdots * x_n$
+%   \end{itemize}
+%   with the usual convention about edge cases, i.e.:
+%   \begin{itemize}
+%   \item $\A\sem{\bigodot_{i=1}^0}() := e$
+%   \item $\A\sem{\bigodot_{i=1}^1}(x) := \A\sem{\id}(x) := x$
+%   \item $\A\sem{\bigodot_{i=1}^n}(x_1, \ldots, x_n) := x_1 * \cdots
+%     * x_n$ when $n > 1$.
+%   \end{itemize}
+%   Since $\A$ is associative, we have:
+%   \begin{align*}
+%   \A&\sem{\bigodot_{i=1}^n\compose(\bigodot_{j=1}^{m_1}, \ldots, \bigodot_{j=1}^{m_n})}(x_{11}, \ldots, x_{1m_1}, \ldots, x_{n1}, \ldots, x_{nm_n})
+%   \\&{}=
+%   \A\sem{\bigodot_{\ell=1}^{\sum_{i=1}^nm_i}}(x_{11}, \ldots, x_{1m_1}, \ldots, x_{n1}, \ldots, x_{nm_n})
+%   \\&{}=
+%   x_{11} * \cdots * x_{1m_1}*\cdots * x_{n1} *\cdots* x_{nm_n}
+%   \\&{}=
+%   (x_{11} * \cdots * x_{1m_1})* \cdots * (x_{n1} *\cdots* x_{nm_n})
+%   \\&{}=
+%   \A\sem{\bigodot_{i=1}^n}
+%   (\A\sem{\bigodot_{j=1}^{m_1}}(x_{11}, \ldots, x_{1m_1})
+%   ,\ldots,
+%   \A\sem{\bigodot_{j=1}^{m_n}}(x_{n1}, \ldots, x_{nm_n})
+%   )
+%   \\&{}=
+%   \A\sem{\bigodot_{i=1}^n} \compose
+%   (\A\sem{\bigodot_{j=1}^{m_1}}
+%   ,\ldots,
+%   \A\sem{\bigodot_{j=1}^{m_n}}
+%   )(x_{11}, \ldots, x_{1m_1}, \ldots, x_{n1}, \ldots, x_{nm_n})
+%   \end{align*}
+%   Similarly, we have:
+%   \[
+%   \A\sem{\id \compose \bigodot_{i=1}^n}(x_1, \ldots, x_n) =
+%   \A\sem{\bigodot_{i=1}^n}(x_1, \ldots, x_n) =
+%   \A\sem{\id} \compose \A\sem{\bigodot_{i=1}^n}(x_1, \ldots, x_n)
+%   \]
+%   and
+%   \begin{align*}
+%     \A&\sem{\bigodot_{i=1}^n\compose (\id, \ldots, \id)}(x_1, \ldots, x_n)
+%     \\&{}=
+%     \A\sem{\bigodot_{i=1}^n}(x_1, \ldots, x_n)
+%     \\&{}=
+%     x_1 *\cdots *x_n = \id (x_1) *\cdots *(x_n)
+%     \\&{}=
+%   \A\sem{\bigodot_{i=1}^n}\compose (\A\sem\id, \ldots, \A\sem\id)(x_1, \ldots, x_n)
+%   \end{align*}
+%   and so $\A$ is a model for $\Monoid$.
+
+%   Conversely, given a model $\A$, define:
+%   \begin{itemize}
+%   \item $e := \A\sem{\bigodot_{i=1}^0}()$
+%   \item $x*y := \A\sem{\bigodot_{i=1}^2}(x,y)$
+%   \end{itemize}
+%   and observe:
+%   \begin{itemize}
+%   \item Since $\A\sem{\bigodot_{i=1}^1} = \A\sem{\id} = \id$, we
+%     have $\A\sem\id x = x$.
+%   \item $e*x = \A\sem{\bigodot_{i=1}^2\compose (\bigodot_{i=1}^0,
+%     \id)}(x) = \A\sem{\bigodot_{i=1}^1}(x) = x$
+%     and similarly $x*e = x$.
+%   \item $(x * y) * z = \A\sem{\bigodot_{i=1}^2(\bigodot_{i=1}^2, \id)}(x, y, z) =
+%     \A\sem{\bigodot_{i=1}^2(\id, \bigodot_{i=1}^2)}(x, y, z) = x * (y*z)$.
+%   \end{itemize}
+%   and so $\A$ is a monoid.
+
+%   Both roundtrips are the identity. When $\A$ is a monoid, then the
+%   round-trip monoid is given by:
+%   \begin{itemize}
+%   \item $e' := \A\sem{\bigodot_{i=1}^0}() = e$;
+%   \item $x*'y := \A\sem{\bigodot{i=1}^2}(x,y) = x * y$
+%   \end{itemize}
+%   Conversely, when $\A$ is a model, then the round-trip model gives:
+%   \begin{align*}
+%     \A'\sem{\bigodot_{i=1}^n}(x_1, \ldots, x_n)
+%     &{}= x_1 * \cdots * x_n
+%     \\&{}=
+%     \A\sem{\bigodot_{i=1}^2\compose
+%       (\id, \bigodot_{i=1}^2\compose
+%       (\id, \ldots, \bigodot_{i=1}^2\compose(\id, \id)))}(x_1, \ldots, x_n)
+%   \\&{}=
+%   \A\sem{\bigodot_{i=1}^n}(x_1, \ldots, x_n)
+%   \end{align*}
+%   And so the two notions coincide.
+% \end{example}
+% \begin{example}
+%   Given an algebraic theory $\TT$, we define an operad $\OO^{\TT}$:
+%   \begin{itemize}
+%   \item The $n$-ary operations are the $n$-ary terms $\OO^\TT_n := \TT_n$.
+%   \item The identity is given by the projection/variable $\id := x$.
+%   \item Composition is given by substitution, taking care of the
+%     appropriate weakening:
+%     \[
+%     x_{11}, \ldots, x_{nm_n} \vdash
+%     t\compose (s_1, \ldots, s_n)
+%     \definedby
+%     t\compose \seq{s_1\compose \seq{x_{11}, \ldots, x_{1m_1}},
+%         \ldots, s_n\compose \seq{x_{n1}, \ldots, x_{nm_n}}}
+%     \]
+%   \end{itemize}
+%   The $\Monoid$ operad is quite different from the operad for the
+%   algebraic theory $\Monoid$ of monoids. The former has only one
+%   operation for each arity, whereas the latter has all possible words
+%   over $n$-variables:
+%   \[
+%   \OO^{\Monoid}_n := \set{x_1, \ldots, x_n \vdash x_{i_1} * \cdots * x_{i_k}
+%       \suchthat k \in \naturals, 1 \leq i_1, \ldots, i_k \leq n}
+%   \]
+%   For example, $\Monoid_1$ only has the identity unary operation, but
+%   $\OO^{\Monoid}_1$ also has $e, x^2, \ldots, x^n, \ldots$ as unary
+%   operations.
+% \end{example}
+A \emph{homomorphism} $h : \A[1] \to \A[2]$ between $\OO$-models in
+$\UU$ consists of:
+\begin{itemize}
+\item a morphism $\carrier h : (\carrier{\A[1]}) \to \carrier{\A[2]}$
+\end{itemize}
+such that:
+\begin{itemize}
+\item for all $f \in \OO_n$, we have:
+  \[
+  \carrier h\compose(\A[1]\sem f) = \A[2]\sem f(\carrier h, \ldots, \carrier h)
+  \]
+\end{itemize}
+Identities and composition of homomorphisms are homomorphisms, and so
+we have a category $\Mod(\OO, \UU)$ of $\OO$-models in $\UU$.
+We also have that a homomorphism of algebras is just a multi-natural
+transformation between them as multi-fucntors $\quiver{O-homo as multi-natural}$.
+
+% \begin{example}
+%   For every algebraic theory $\TT$ and category $\C$ with chosen
+%   products $\prod$, $\Mod(\TT, \C) \isomorphic \Mod(\OO^{\TT},
+%   \pair\C\prod)$. Indeed, given a $\TT$-algebra $\A$, define an
+%   $\OO^{\TT}$-model on the same carrier by sending each term $t$ to
+%   its interpretation $\A\sem{t}$. Conversely, given an
+%   $\OO^{\TT}$-model $\A$, we already have interpretations for all the
+%   $\TT$-terms, and this interpretation validates the equations. A
+%   homomorphism of between $\TT$-algebra is then the same thing as a
+%   homomorphism between their corresponding $\OO^{\TT}$-models.
+%   In particular the models of $\OO^{\Monoid}$ are the monoids in $\C$:
+%   \[
+%   \Mod(\OO^{\Monoid}, \pair\C\prod)
+%   \isomorphic \Mod(\Monoid, C)
+%   \isomorphic \Mon(\C)
+%   \]
+%   We'll show that we also have an isomorphism $\Mod(\Monoid,
+%   \pair\C\prod) \isomorphic \Mon(\C)$. Categorifying the arguments in
+%   \exampleref{monoid operad models} shows gives a bijection between
+%   the objects of the two categories. The notion of a homomorphisms is
+%   maintained across this bijection without changing the underlying
+%   morphism, and so we have an isomorphism. Therefore, like with
+%   algebraic theories, morita equivalence for operads is a coarser
+%   notion than adjoint equivalence (in the $2$-category $\MultiCAT$).
+% \end{example}
+
+We'll conclude with a $2$-functor $\Mod(\OO, -) : \MultiCAT \to \CAT$.
+\begin{itemize}
+\item For every multicategory $\UU$, let $\Mod(\OO, \UU)$ be the
+  category of $\OO$-models in $\UU$.
+\item For every multi-functor $F : \UU[1] \to \UU[2]$, the
+  functor $\Mod(\OO, F) : \Mod(\OO, \UU[1]) \to \Mod(\OO, \UU[2])$
+  sends:
+  \begin{itemize}
+  \item each $\OO$-model $\A$ in $\UU[1]$ to the $\OO$-model:
+    \begin{itemize}
+    \item $\carrier{F\A} \definedby F\carrier\A$
+    \item $(F\A)\sem f : (F\carrier\A, \ldots, F\carrier\A)
+      \xto{F(\A\sem f)} F\carrier\A$
+    \end{itemize}
+  \item each $\OO$-homomorphism $h : \A[1] \to \A[2]$ to the
+    $\OO$-homomorphism over $F\carrier h : F\A[1] \to F\A[2]$.
+  \end{itemize}
+\item For every multi-natural transformation $\quiver{multi-natural
+  transformation type}$ we have a natural transformation
+  $\quiver{2-cell action of Mod(O,-)}$ given, for every model $\A$, by:
+  \[
+  \Mod(\OO, \alpha)_{\A} : (F\carrier\A) \xto{\alpha_{\carrier\A}} G\carrier\A
+  \]
+\end{itemize}
+\begin{proposition}
+\propositionlabel{Mod(O,-) is a 2-functor}
+  This data defines a $2$-functor $\Mod(\OO, -) : \MultiCAT \to \CAT$.
+\end{proposition}
+\begin{proof}
+  To see why the action on $1$-cells is well-defined and functorial:
+  \begin{itemize}
+    \item For any $\OO$-model $\A$ in $\UU$, view the model as a
+      multi-functor $\A : \OO \to \UU$, and note that the model $F\A$
+      is given by $F\A : \OO \xto{\A} \UU \xto{F} \UU[2]$. Therefore
+      it is a model.
+    \item For any $\OO$-model homomorphism $h : \A[1] \to \A[2]$ in
+      $\UU$, view it as a multi-natural transformation $\quiver{O-homo
+      as multi-natural}$ and note that $\Mod(\OO, F)$ sends it to the
+      horizontal compositition $\quiver{O-homo image under 2-functor}$.
+      Therefore:
+      \begin{itemize}
+      \item It is a homomorphism (by type-checking); and
+      \item $\Mod(\OO, F)$ is functorial, by the interchange law and
+        by preservation of composition:
+        \[
+        \quiver{O-homo 2-functoriality:composition}\qquad
+        \quiver{O-homo 2-functoriality:identity}
+        \]
+      \end{itemize}
+  \end{itemize}
+
+  To see why the action on $2$-cells is well-defined and functorial:
+  \begin{itemize}
+  \item Consider any multi-natural transormation
+    $\quiver{multi-natural transformation type}$. Since the
+    multicategory $\OO$ has only one object, $\Mod(\OO,\alpha)_{\A} :
+    F \compose \A \star \to G\compose\A \star$ would completely
+    determine a multi-natural transformation, and it is the
+    multi-natural transformation given by whiskering by $\A$:
+    \[
+    \quiver{Mod(OO,alpha)_A as a whiskering}
+    \]
+    It is therefore natural, i.e., each component is an $\OO$-homomorphism
+    \[
+    \Mod(\OO,\alpha)_{\A} : \Mod(\OO, F)\A = F\A \to G\A = \Mod(\OO, G)\A
+    \]
+  \item To see that $\Mod(\OO,\alpha)$ is natural, take any
+    homomorphism $\quiver{O-homo as multi-natural}$. The naturality
+    condition then manifests as the two ways to express the horizontal
+    composition at its unique component:
+    \[
+    \quiver{Mod(OO,alpha) naturality as horizontal composition}
+    \]
+  \item The preservation of vertical and horizontal composition and
+    identities of $2$-cells then follows by taking an $\OO$-model,
+    then partitioning these pasting diagrams accordingly:
+    \[
+    \quiver{Mod(OO,-) preservers vertical composition}
+    \qquad
+    \quiver{Mod(OO,-) preservers horizontal composition}
+    \qquad
+    \quiver{Mod(OO,-) preservers identities}
+    \]
+  \end{itemize}
+  We therefore have a $2$-functor.
+\end{proof}

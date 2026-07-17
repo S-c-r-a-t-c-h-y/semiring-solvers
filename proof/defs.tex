@@ -1,0 +1,406 @@
+\usepackage{amsthm,proof,MnSymbol}
+\usepackage{oktheorem,okgeneralmath,okcategory}
+\usepackage{bbold}
+\usepackage{epiolmec}
+\usepackage{oksemantics}
+\usepackage{mathpartir}
+\usepackage{todonotes}
+\usepackage{natbib}
+\usepackage{fp}
+\usepackage{mathdots}
+%next two for no-depth underlining
+\usepackage{contour}
+\usepackage[normalem]{ulem}
+\newcommand{\OK}[1]{\todo[inline,author=OK]{#1}}
+\newcommand{\ok}[1]{\todo[size=\tiny]{OK: #1}{}}
+
+
+%%%%%%%%%%% Cross references %%%%%%%%%%
+\newcommand\seclabel[1]{\label{sec:#1}}
+\newcommand\secref[1]{Sec.~\ref{sec:#1}}
+\newcommand\applabel[1]{\label{app:#1}}
+\newcommand\appref[1]{Sec.~\ref{app:#1}}
+\newcommand\subseclabel[1]{\label{subsec:#1}}
+\newcommand\subsecref[1]{\S~\ref{subsec:#1}}
+\newcommand\subsubseclabel[1]{\label{subsubsec:#1}}
+\newcommand\subsubsecref[1]{\S~\ref{subsubsec:#1}}
+\newcommand\figlabel[1]{\label{fig:#1}}
+\newcommand\figref[1]{Fig.~\ref{fig:#1}}
+
+\newcommand\figfile[2]{%
+    \begin{figure}%
+      \begin{center}%
+        \input{#1}%
+        \caption{#2}%
+        \figlabel{#1}%
+      \end{center}%
+    \end{figure}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%% Add possessive citations, e.g. "Leroy's (1992)", taken
+\newcommand{\citepos}[1]{\citeauthor{#1}'s~\citeyearpar{#1}}
+\WithSuffix\newcommand\citepos*[2]{\citeauthor{#1}'s #2~\citeyearpar{#1}}
+\WithSuffix\newcommand\citepos-[2]{\citeauthor{#1}#2~\citeyearpar{#1}}
+%%%%%%%%%%%%%%%% End of possessive citation %%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\newcommand\ibidt[2][]{%
+  \citeauthor{#2}~\ibid[#1]{#2}
+}
+\newcommand\ibid[2][]{%
+  \citetext{%
+    \hyper@natlinkstart{#2}%
+    \textit{ibid.}%
+    \hyper@natlinkend%
+    \ifx\ibid@empty#1\ibid@empty%
+    \else%
+    , #1%
+    \fi%
+  }%
+}
+
+\newcommand\citloct[1]{%
+  \citeauthor{#1}~\citloc{#1}%
+}
+\newcommand\citloc[1]{%
+  \citetext{%
+    \hyper@natlinkstart{#1}%
+    \textit{cit.~loc.}%
+    \hyper@natlinkend%
+  }%
+}
+\newcommand\citlocpos[1]{%
+  \citeauthor{#1}'s~\citloc{#1}%
+}
+\WithSuffix\newcommand\citlocpos*[2]{%
+  \citeauthor{#1}'s #2~\citloc{#1}%
+}
+\makeatother
+
+
+\newcommand\diagram[1]{\begin{center}
+    \diagram*{#1}
+\end{center}}
+\WithSuffix\newcommand\diagram*[1]{\begin{tabular}[c]{@{}c@{}}\includegraphics{diagram-#1.mps}\end{tabular}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tcolorbox}
+\newtcbox{\myfigbox}{%
+  on line, arc=1pt, outer arc=1pt,colframe=black,
+  colback=white,
+  boxsep=0pt,
+  left=1pt,right=1pt,top=1pt,bottom=1pt,%
+  boxrule=.5pt,bottomrule=.5pt,toprule=.5pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\newcommand\newmvar[3][]{%
+  \newcommand#2[1][1]{#1{\ifcase ##1\or #3\or\else@ctrerr\fi}}%
+}
+
+%% introduce a variation of a defined meta-variable
+\newcommand\mvarvar[3]{%
+  \WithSuffix\newcommand#1#2[1][0]{%
+    \FPeval{\tempindex}{clip(#3+##1)}%
+    #1[\tempindex]%
+  }
+}
+
+\makeatother
+
+\let\C\undefined
+\let\a\undefined
+\newmvar{\M}{M\or N}
+\newmvar{\V}{V\or W \or U}
+\newmvar{\a}{a\or b\or c}
+\newmvar{\x}{x\or y\or z}
+\newmvar{\X}{X\or Y\or Z}
+\newmvar{\Aname}{A\or B\or C}
+\newmvar{\Cname}{C\or D\or A\or B\or C}
+\newmvar{\Fname}{F\or G\or H\or K\or L}
+\newmvar{\Uname}{U\or V\or W\or X\or Y}
+\let\v\undefined
+\newmvar{\v}{\hat{v}\or \hat{w}}
+\let\l\undefined
+\newmvar{\l}{\hat{\ell}\or \hat{k}}
+
+\newcommand\C[1][1]{\mathcal{\Cname[#1]}}
+\newcommand\A[1][1]{\mathcal{\Aname[#1]}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% monads %%%%%%%%%%%%%
+\newcommand\newop[2]{\newcommand{#1}{\mathop{\mathrm{#2}}\nolimits}}
+\newcommand{\bindsymbol}{\mathrel{\small\rrangle}\joinrel\mathrel{\small=}}
+\newcommand{\klseq}{\ggg}
+\newcommand{\bind}{\mathrel{\bindsymbol}}
+\newop{\return}{return}
+\newop{\strength}{strength}
+\newop{\shadow}{shadow}
+
+\newcommand\spair[2]{\langle #1, #2\rangle}
+\newcommand\sunit{\langle\rangle}
+\makeatletter
+\let\llangle\@undefined
+\let\rrangle\@undefined
+\DeclareMathDelimiter{\llangle}{\mathopen}%
+                     {okMnSymbolLargeSymbols}{'164}{okMnSymbolLargeSymbols}{'164}
+\DeclareMathDelimiter{\rrangle}{\mathclose}%
+                     {okMnSymbolLargeSymbols}{'171}{okMnSymbolLargeSymbols}{'171}
+\makeatother
+\newcommand\ppair[2]{\left\llangle#1,#2\right\rrangle}
+\newcommand\ptimes{\otimes}
+\def\pexplen{0mu}
+\def\pexpmidlen{12mu}
+\newcommand\pexp{
+  \mathrel{%
+    \overrightharpoon{%
+      {\mspace{-\pexplen}\smash{\mathord{\relbar\mspace{-\pexpmidlen}\relbar}}\vphantom{.}}\mspace{-\pexplen}}%
+  }%
+}
+\usepackage{mathtools}
+\usepackage{tikz-cd}
+\usetikzlibrary{decorations.pathmorphing}
+
+% code from Gonzalo
+\newcommand\xrsquigarrow[1]{%
+    \mathrel{%
+        \begin{tikzpicture}[%
+            baseline={(current bounding box.south)}
+            ]
+        \node[%
+            ,inner sep=.44ex
+            ,align=center
+            ] (tmp) {$\scriptstyle #1$};
+        \path[%
+            ,draw,<-
+            ,decorate,decoration={%
+            ,snake,aspect=0
+            ,amplitude=1pt
+            ,segment length=1.5mm,pre length=3.5pt
+                }
+            ]
+        (tmp.south east) -- (tmp.south west);
+        \end{tikzpicture}
+        }
+    }
+\newcommand\xlsquigarrow[1]{%
+    \mathrel{%
+        \begin{tikzpicture}[%
+            ,baseline={(current bounding box.south)}
+            ]
+        \node[%
+            ,inner sep=.44ex
+            ,align=center
+            ] (tmp) {$\scriptstyle #1$};
+        \path[%
+            ,draw,<-
+            ,decorate,decoration={%
+                ,zigzag
+                ,amplitude=0.7pt
+                ,segment length=1.2mm,pre length=3.5pt
+                }
+            ]
+        (tmp.south west) -- (tmp.south east);
+        \end{tikzpicture}
+        }
+    }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+\usepackage{listings}
+\colorlet{code}{DarkBlue}
+\colorlet{types}{Magenta}
+%%%%%%%%%%%%%%%%% Syntax %%%%%%%%%%%%%%%%%
+\newcommand\gdefinedby{\mathrel{::=}}
+\newcommand\gor{\lvert}
+
+\newcommand\opname[1][op]{\mathrm{#1}}
+\newcommand\op[1][op]{\mathrm{#1}\,}
+\newcommand\typeof[1][\,]{\mathrm{typeof}#1}
+\newcommand\arity[1][\,]{\mathrm{arity}#1}
+\newcommand\OpType[2]{#2\seq{#1}}
+
+\newcommand\Times{\mathbin{\boldsymbol{*}}}
+\newcommand\CTimes{\mathbin{\boldsymbol{\times}}}
+
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\reallywidehat[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}%
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+
+\newcommand\sem[1]{\scottbrackets{#1}}
+
+\newenvironment{catdef}{%
+\begingroup%
+\newcommand\objects[1]{\item[Objects $##1$:]}%
+\newcommand\morphisms[1]{\item[{Morphisms $##1$:}]}%
+\begin{description}}{\end{description}\endgroup}
+
+\newcommand\eval{\mathop{\mathrm{eval}}\nolimits}
+\newcommand\curry{\mathop{\mathrm{curry}}\nolimits}
+
+\newcommand\cotuple\coseq
+\newcommand\deneq{\mathrel{%
+  \raisebox{.5ex}{%
+  \scalebox{0.4}{\EOx}%
+  }
+  }}
+\newcommand\vto[3]{%
+  \begin{smallmatrix}%
+        \hphantom{#2}#1     \\%
+        #2\mathord\downarrow\\%
+        \hphantom{#2}#3       %
+  \end{smallmatrix}%
+}
+\newcommand\vfrom[3]{%
+  \begin{smallmatrix}%
+        \hphantom{#2}#1     \\%
+        #2\mathord\uparrow\\%
+        \hphantom{#2}#3       %
+  \end{smallmatrix}%
+}
+
+\makeatletter
+\newcommand\NewFontImport[6]{
+\newcommand#1{\begingroup\mathchoice%
+  {\hbox{\fontsize{\tf@size}{\tf@size}\usefont{#2}{#3}{#4}{#5}\char#6}}%
+  {\hbox{\fontsize{\tf@size}{\tf@size}\usefont{#2}{#3}{#4}{#5}\char#6}}%
+  {\hbox{\fontsize{\sf@size}{\sf@size}\usefont{#2}{#3}{#4}{#5}\char#6}}%
+  {\hbox{\fontsize{\ssf@size}{\ssf@size}\usefont{#2}{#3}{#4}{#5}\char#6}}%
+  \endgroup%
+}}
+\makeatother
+
+\DeclareFontFamily{U}{bbold}{}
+\DeclareFontShape{U}{bbold}{m}{n}{<->bbold10}{}
+\DeclareFontSubstitution{U}{bbold}{m}{n}
+\NewFontImport\SinSym{U}{bbold}{m}{n}{'017}
+\newcommand\cat[1]{#1_{\text{cat}}}
+\newcommand\involve[2][]{\overline{#2}_{#1}}
+\WithSuffix\newcommand\involve*[1]{\overline{#1}}
+\newcommand\iinvolve[1]{\involve*{\involve{#1}}}
+\newcommand\iiinvolve[1]{\involve*{\iinvolve{#1}}}
+\newcommand\invlaw[1][]{\iota^{#1}}
+\newcommand\Monoid{\Category{Monoid}}
+\newcommand\Model[2]{\Category{Model}(#1,#2)}
+\newcommand\Rig{\Category{Rig}}
+\newcommand\fun{\mathop{\uplambda}}
+\newcommand\carrier[1]{\underline{#1}}
+\newcommand\pres{\mathbb P}
+\newcommand\unit{\eta}
+\newcommand\counit{\epsilon}
+\newcommand\SC{\mathop{\mathrm{SC}}}
+\newcommand\aconj[1][]{j_{#1}}
+\newcommand\obj[1]{#1_{\text{obj}}}
+\newcommand\ICAT{\Category{ICAT}}
+\newcommand\Frexlib{\textsc{Frex}}
+\newcommand\icoseq[1]{\overline[#1\overline]}
+
+\newcommand\To\Rightarrow
+\newcommand\vcompose\circ
+\newcommand\hcompose{\mathbin\bullet}
+\input{quiverdiagrams}
+\newcommand\CAT{\Category{CAT}}
+\newcommand\ppCAT{\Category{CAT}_{\times}}
+\newcommand\LocallySmall[1]{{#1}_{\mathcal L}}
+\newcommand\MultiCAT{\Category{MultiCAT}}
+\newcommand\AdMultiCAT{\Category{MultiCAT}_{\mathrm{admissible}}}
+\newcommand\LargeCatName[1]{\mathsf{#1}}
+\newcommand\CC[1][1]{\LargeCatName{\Cname[#1]}}
+\newcommand\FF[1][1]{\LargeCatName{\Fname[#1]}}
+\newcommand\UU[1][1]{\mathcal{\Uname[#1]}}
+\newcommand\Field{\mathbb{F}}
+\newcommand\Multi{\mathbf{Multi}}
+\newcommand\ordinary[1]{#1_{\mathbf{o}}}
+\newcommand\OO{\mathcal O}
+\newcommand\TT{\mathcal T}
+\newcommand\MM{\mathcal M}
+\newcommand\DD{\mathcal A}
+\newcommand\Mod{\mathbf{Mod}}
+\newcommand\Mon{\mathbf{Mon}}
+\newcommand\str{\mathrm{str}}
+\newcommand\List{\mathop{\mathsf{List}}\nolimits}
+\newcommand\Tree{\mathop{\mathsf{Tree}}\nolimits}
+\newcommand\Branch{\mathop{\mathsf{Branch}}\nolimits}
+\newcommand\Partit{\mathop{\mathsf{Partition}}\nolimits}
+\newcommand\abs[1]{\left\lvert#1\right\rvert}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\floor[1]{\left\lfloor#1\right\rfloor}
+\newmvar{\partit}{\pi\or\sigma\or\tau}
+\WithSuffix\newcommand\++{\mathbin{\mathord +\!\!\!\mathord +}}
+\newcommand\mvec\mathbf
+\newmvar{\xvec}{\mathbf{x}}
+\newmvar{\Xvec}{\mathbf{X}}
+\newmvar{\yvec}{\mathbf{y}}
+\newmvar{\zvec}{\mathbf{z}}
+\newmvar{\avec}{\mathbf{a}}
+\newmvar{\bvec}{\mathbf{b}}
+\newmvar{\cvec}{\mathbf{c}}
+\newmvar{\dvec}{\mathbf{d}}
+\newmvar{\evec}{\mathbf{e}}
+\newmvar{\fvec}{\mathbf{f}}
+\newmvar{\gvec}{\mathbf{g}}
+\newmvar{\Fvec}{\mathbf{F}}
+\newmvar{\Gvec}{\mathbf{G}}
+\newmvar{\Hvec}{\mathbf{H}}
+\newmvar{\Kvec}{\mathbf{K}}
+\newmvar{\Pvec}{\mathbf{P}}
+\newmvar{\uvec}{\mathbf{u}}
+\newmvar{\vvec}{\mathbf{v}}
+\newmvar{\svec}{\mathbf{s}}
+\newmvar{\xivec}{\boldsymbol{\chi}}
+\newcommand\concat{\mathop{\mathchoice%
+  {\bigplus\mspace{-17mu}\bigplus}%
+  {\bigplus\mspace{-15mu}\bigplus}%
+  {\bigplus\mspace{-13mu}\bigplus}%
+  {\bigplus\mspace{-11mu}\bigplus}%
+  }%
+}
+\newcommand\Psh\widehat
+\WithSuffix\newcommand\Psh'[1]{\Psh{#1}'}
+% an interruptible version of seq (supports &)
+\newcommand\tabmark{&}
+\newcommand\iseq[1]{
+  \left\langle\vphantom{\renewcommand\tabmark{}#1}\right.\!\!%
+  #1%
+  \!\!\left.\vphantom{\renewcommand\tabmark{}#1}\right\rangle%
+  }
+
+\WithSuffix\newcommand\seq*[1]{
+  \langle#1\rangle}
+\renewcommand\yoneda{\boldsymbol{\mathsf{y}}}
+\newcommand\Yoneda{\boldsymbol\Upsilon}
+\newcommand\map{\mathop{\mathsf{map}}}
+\newcommand\coop[1]{#1^{\mathrm{coop}}}
+\newcommand\Trans{\mathfrak T}
+\newcommand\surtrans{\mathrel{\raisebox{.5ex}{\begin{tikzpicture}
+% arrows.meta
+    \draw [-{stealth}{stealth}{stealth}] (0,0)--(.5,0);
+\end{tikzpicture}}}
+}
+\newcommand\opsurtrans{\mathrel{\raisebox{.5ex}{\begin{tikzpicture}
+% arrows.meta
+    \draw [{stealth}{stealth}{stealth}-] (0,0)--(.5,0);
+\end{tikzpicture}}}
+}
+
+
+\newcommand\ren\rho
+\newcommand\Sig[1][]{\Sigma_{#1}}
+\newcommand\types\vdash
+\newcommand\dist{\mathbin\triangleright}
+\newcommand\Ax[1][]{\mathrm{Ax}_{#1}}
+\newcommand\Theory{\Category}
+\newcommand\rev{\mathrm{rev}}
+\newcommand\perm\pi
+\newcommand\Sym[1]{\mathbf S_{#1}}
+\newcommand\lp{\left(}
+\newcommand\rp{\right)}

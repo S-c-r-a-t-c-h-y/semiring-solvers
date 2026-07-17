@@ -1,0 +1,396 @@
+\section{Multi-homomorphisms}
+\label{sec:multihom}
+
+Let $\TT$ be an algebraic theory, and $\pair\CC\prod$ a category with
+chosen finite products. For all objects $X,Y$ in $\CC$, and
+natural number $k$, define the strength (for the reader
+monad $X^k$):
+\[
+\str : X^k \times Y \xto{\seq[i=1][k]{\projection_i\times \id}}
+  \parent{X\times Y}^k
+\]
+Let $\A_1, \ldots,
+\A_n,\A[2] \in \Mod(\TT, \CC)$ be algebras. A function $f :
+\prod_{i=1}^n\carrier{\A_i} \to \carrier{\A[2]}$ is a
+\emph{multi-$\TT$-homomorphism}~\citep{hyland-power-discrete-lawvere-theories-journal}
+when, for every term $t \in \TT_k$ and $1 \leq i_0 \leq n$, the
+following diagram commutes: \diagram{01}
+%
+When $n = 1$, this condition degenerates to the following diagram,
+which states that $f : \carrier\A \to \carrier{\A[2]}$ is a
+$\TT$-homomorphism: \diagram{02}
+%
+Therefore, multi-$\TT$-homomorphisms generalise $\TT$-homomorphisms:
+\begin{proposition}\propositionlabel{unary multi-TT-homomorphisms}
+  Consider the bijection between $1$-ary multi-morphisms $h :
+  (\carrier\A) \to \carrier\A$ and $\C$-morphisms $h' : \carrier\A
+  \isomorphic \prod\set{\carrier\A} \xto{h} \carrier\A$.  A
+  multi-morphism $h$ is a multi-$\TT$-homomorphism iff the
+  corresponding $h'$ is a $\TT$-homomorphism.
+\end{proposition}
+
+
+% FIXME: maybe replace with the proof that multi-A-homomorphisms are multi-linear
+% \begin{example}
+%   Let $\Field$ be a field and $\Vect_{\Field}$ be the algebraic theory
+%   of vector spaces over $\Field$. Consider the term $x_1, x_2 \vdash t
+%   \definedby \lambda_1x_1 + \lambda_2x_2$ for some scalars $\lambda_1,
+%   \lambda_2 \in \Field$. Then the multi-homomorphism condition, when
+%   applied to vector spaces $\V[3], \V[1], \V[2]$, function $f :
+%   \carrier{\V[3]} \times \carrier{\V[1]} \to \carrier{\V[2]}$ becomes
+%   the usual bilinearity condition, i.e., for $i=1$ (and similarly for $i=2$):
+%   \[
+%   f(\lambda_1u_1 + \lambda_2u_2, v) = \lambda_1f(u_1, v) +
+%   \lambda_2f(u_2,v)
+%   \]
+%   Since: \diagram{03} Therefore, the multi-linear maps, such as the
+%   inner product $\pair-- : \Field^n\times\Field^n \to \Field$, are
+%   multi-$\Vect_{\Field}$-homomorphisms.
+% \end{example}
+We will define a multi-category structure $\carrier- : \Multi(\TT,\C) \to
+\pair\C\prod$ over the finite-product multi-category:
+\begin{itemize}
+\item The objects are $\TT$-algebras.
+\item The multi-morphisms are the multi-$\TT$-homomorphisms.
+\item The multi-functor $\carrier-$ sends an algebra to its carrier
+  and a multi-$\TT$-homomorphism to its underlying morphism.
+\item The identities are the identity morphisms.
+\item Composition is inherited from $\pair\C\prod$.
+\end{itemize}
+The next few propositions show that this data defines a
+multi-category.
+
+\begin{proposition}\propositionlabel{multi-TT-homomorphism composition}
+  Let $g : (\A[2]_1, \ldots, \A[2]_n) \to \A[3]$ and $f_i :
+  (\A[1]_{i1}, \ldots, \A[1]_{im_i}) \to \A[2]_i$ be
+  multi-$\TT$-homomorphisms. Then $g \compose (f_1, \ldots, f_n) :
+  (\A[1]_{11}, \ldots, \A[1]_{nm_n}) \to \A[3]$ is a
+  multi-$\TT$-homomorphism.
+\end{proposition}
+\begin{proof}
+  Let $p := \sum_{i=1}^nm_i$ and $\phi : [p] \xto{\isomorphic}
+  \coprod_{i=1}^n[m_i]$ be the enumeration from the definition of
+  composition in $\pair\C\prod$ for this case. Take any $1 \leq \ell_0
+  \leq p$, and let $\pair{i_0}{j_0} := \phi\ell_0$ be its
+  corresponding pair of indices. Take any $k$-ary term $t \in \TT_k$,
+  and calculate as in \figref{multi-hom composition}.
+  \begin{figure}
+    \diagram{04}
+    \caption{Multi-$\TT$-homomorphism property of the composition}\figlabel{multi-hom composition}
+  \end{figure}
+\end{proof}
+
+\begin{proposition}\propositionlabel{Multi(TT,C) multi-category}
+  The data above defines a multi-category $\Multi(\TT, \C)$ together
+  with a faithful multi-functor $\carrier- : \Multi(\TT,\C) \to
+  \pair\C\prod$: $\carrier{f_1} = \carrier{f_2} \implies f_1 = f_2$
+  for every parallel pair of multi-$\TT$-homomorphisms $f_1,f_2 :
+  (\A_1, \ldots, \A_n) \to \A[2]$.
+\end{proposition}
+\begin{proof}
+  Identities are multi-$\TT$-homomorphisms by \propositionref{unary
+    multi-TT-homomorphisms}, and composition of
+  multi-$\TT$-homomorphisms is a multi-$\TT$-homomorphism by
+  \propositionref{multi-TT-homomorphism composition}, and so we have a
+  multi-category structure.
+
+  Since composition and identities are inherited from $\pair\C\prod$,
+  we have the structure of multi-functor. This multi-functor structure
+  is faithful since the multi-morphisms in $\Multi(\TT, \C)$ are those
+  of $\pair\C\prod$ with additional structure. Since faithful
+  multi-functors reflect multi-categories, we conclude.
+\end{proof}
+% Let $\ppCAT$ be the $2$-category consisting of:
+% \begin{itemize}
+% \item $0$-cells are $\pair\C\prod$, categories with chosen finite products;
+% \item $1$-cells are finite product preserving functors, not
+%   necessarily preserving the chosen products;
+% \item $2$-cells are the natural transformations between these functors.
+% \end{itemize}
+% This $2$-category is a sub-category of $\CAT$ that is full on
+% $2$-cells but not on $1$-cells. This seems a bit weird, but that's the
+% structure we seem to need. Given such a product preserving functor $H
+% : \pair \C\prod \to \pair{\C[2]}\prod$, by fiat we have canonical
+% isomorphisms $H\prod_{i=1}^nA \isomorphic \prod_{i=1}^nHA$ that
+% preserve the product structure.
+
+% We define the data of a $2$-functor $\Multi(\TT, -) : \ppCAT \to
+% \MultiCAT$ sending:
+% \begin{itemize}
+% \item Each category with chosen products ($0$-cell) $\C$ to the
+%   multi-category ($0$-cell) $\Multi(\TT, \C)$.
+% \item Each finite-product preserving functor ($1$-cell) $H : \C[1] \to
+%   \C[2]$ to the following multi-functor $\Multi(\TT, H) : \Multi(\TT,
+%   \C[1]) \to \Multi(\TT, \C[2])$, sending:
+%   \begin{itemize}
+%   \item each $\TT$-algebra $\A$ to the $\TT$-algebra $\Multi(\TT,
+%     H):=H\A$, given by:
+%     \begin{itemize}
+%     \item its carrier $\carrier{H\A}$ is $H\carrier{\A}$; and
+%     \item the interpretation of each $t \in \TT_n$ is $H\A\sem t :
+%       (H\carrier\A)^n \xto\isomorphic H(\carrier\A^n) \xto{\A\sem t}
+%       H\carrier\A$.
+%     \end{itemize}
+%     More abstractly, an algebra is a product-preserving functor $\A :
+%     \TT \to \C$, and $H\A$ is the product preserving functor $H\A :
+%     \TT\xto\A \C \xto H \C[2]$.
+%   \item each multi-$\TT$-homomorphism $h : (\A_1, \ldots, \A_n) \to
+%     \A[2]$ to the multi-$\TT$-homomorphism $\Multi(\TT,H)h : (H\A_1,
+%     \ldots, H\A_n) \to H\A_n$, given by:
+%     \[
+%     \Multi(\TT,H)h : \prod_{i=1}^nH\A_i \xto{\isomorphic}
+%     H(\prod_{i=1}^n\A_i) \xto{Hh} H\A[2]
+%     \]
+%   \end{itemize}
+% \item Each natural transformation $\quiver{nat trans between pp
+%   functors}$ ($2$-cell) to the multi-natural transformation
+%   $\quiver{Mod(TT, alpha) type}$, given, at an algebra $\A\in
+%   \Mod(\TT,\C[1])$, by the unary multi-homomorphism corresponding to
+%   the following $\TT$-homomorphism (cf.~\propositionref{unary
+%     multi-TT-homomorphisms}):
+%   \[
+%   \Multi(\TT,\alpha)_{\A}' : H\carrier{\A} \xto{\alpha_{\carrier \A}} K\carrier{\A}
+%   \]
+% \end{itemize}
+% It may be worthwhile to spell-out some additional related
+% structure. The following forms the data of a $2$-functor $\seq- :
+% \ppCAT \to \MultiCAT$, sending:
+% \begin{itemize}
+% \item $0$-cells: categories with specified products $\pair\C\prod$ to
+%   their associated multi-category $\pair\C\prod$
+%   (cf.~\exampleref{multi-cat from chosen products}).
+% \item $1$-cells: finite-product preserving functors $H : \C \to
+%   \C[2]$ to the multi-functor sending:
+%   \begin{itemize}
+%   \item objects $a \in \Obj{\pair\C\prod} = \Obj\C$ to $\seq Ha \in \Obj{\C[2]}$;
+%   \item multi-morphisms $f:(a_1, \ldots, a_n) \to b$ to the multimorphism:
+%     \[
+%     \seq Hf : \prod_{i=1}^n Ha_i \xto{\isomorphic} H(\prod_{i=1}^na_i) \xto{Hf} Hb
+%     \]
+%   \end{itemize}
+% \item $2$-cells: natural transformations $\quiver{nat trans between pp
+%   functors}$ to the multi-natural transformation given, for each $a
+%   \in \Obj\C$, by:
+%   \[
+%   \seq[a]{\alpha}{} : \prod_{i=1}^1Ha \isomorphic Ha \xto{\alpha_a} Ka
+%   \]
+% \end{itemize}
+% This data allows us to talk about the following data for a natural
+% $2$-transformaion $\quiver{forgetful functor 2-transformation: type}$
+% whose components, for each category $\pair\C\prod$ with chosen
+% finite-products, consists of the forgetful multi-functors:
+% \begin{itemize}
+% \item sending each $\TT$-algebra $\A$ to its carrier $\carrier\A$;
+% \item sending each multi-$\TT$-homomorphism $h : (\A_1, \ldots, \A_n)
+%   \to \A[2]$ to its underlying morphism $\carrier h : \prod_{i=1}^n
+%   \carrier\A_i \to \carrier{\A[2]}$.
+% \end{itemize}
+% \begin{proposition}
+%   This data defines:
+%   \begin{itemize}
+%   \item Two $2$-functors $\seq-, \Multi(\TT,-) : \ppCAT \to
+%     \MultiCAT$, the former, $\seq-$, is $1$-faithful and
+%     $2$-fully-faithful.
+%   \item A natural $2$-transformation $\quiver{forgetful functor
+%     2-transformation: type}$ whose components are faithful
+%     multi-functors.
+%   \end{itemize}
+% \end{proposition}
+% \begin{proof}
+%   We have much to do. Starting with the well-formedness of the data
+%   for $\seq-$, we have shown $\pair\C\prod$ is a multi-category. To
+%   see that $\seq H$ is a functor, calculate as in \figref{seq h functoriality}.
+%   \begin{figure}
+%   \diagram{05}
+%   \diagram{06}
+%   \caption{Functoriality of $\seq H$}\figlabel{seq h functoriality}
+%   \end{figure}
+
+%   Next, we'll use the following observation. Given a natural
+%   transformation $\quiver{nat trans between pp functors}$ between
+%   finite-product preserving functors:
+%   \[
+%     \diagram*{07}\tag*{($*$)}
+%   \]
+%   proved by inverting the canonical isomorphisms and using the
+%   universal property of products:
+%   \diagram{08}
+%   Using this property, we show that $\quiver{seq alpha type}$ is a
+%   multi-natural transformation. Take any multi-morphism $f : (a_1,
+%   \ldots, a_n) \to b$, and calculate:
+%   \diagram{09}
+%   Therefore the data for the $2$-functor $\seq-$ is well-defined.
+
+%   Next, consider the data for the $2$-functor $\Mod(\TT,-)$.
+%   \propositionref{Multi(TT,C) multi-category} shows it is a
+%   multi-category, and so we need to check the well-formedness of the
+%   higher dimensional data. For $1$-cells, as we explained more
+%   abstractly, the data $\Multi(\TT, H)\A$ forms an algebra.  Given a
+%   multi-$\TT$-homomorphism $h : (\A_1, \ldots, \A_n) \to \A[2]$, we
+%   need to show that the morphism:
+%   \[
+%   \Multi(\TT, H)h : (H\A_1, \ldots, H\A_n) \to H\A[2]
+%   \]
+%   is indeed a multi-$\TT$-homomorphism. Take any $t \in
+%   \TT_k$, $i_0 < n$, and calculate as in \figref{multi-TT-homomorphism
+%     of Multi(TT, H)h}.
+
+%   \begin{figure}
+%     \diagram{10}
+%     \caption{Multi-homomorphism proof for $\Multi(\TT,H)h$
+%     }\figlabel{multi-TT-homomorphism of Multi(TT, H)h}
+%   \end{figure}
+
+%   To show that the structure on $2$-cells is well-defined, we need to
+%   show that $\Mod(\TT,\alpha)_{\A}' : H\A \to K\A$ is a
+%   $\TT$-homomorphism. Take any $t \in \TT_k$, and calculate:
+%   \diagram{11}
+
+%   Checking that $\seq-$ is a $2$-functor is straightforward:
+%   \begin{itemize}
+%   \item For $1$-cells, take two finite-product preserving functors
+%     $\C[3] \xto{H} \C[4] \xto{K} \C[1]$.
+%     \begin{itemize}
+%     \item For objects, we have $\seq{K \compose H}a := KH a := \seq K
+%       \compose \seq H a$.
+%     \item For multi-morphisms $f : (a_1, \ldots, a_n) \to b$,
+%       calculate:
+%       \diagram{12}
+%     \end{itemize}
+%     It's also straightforward to check that $\seq\Id$ is the identity
+%     multi-functor:
+%     \diagram{15}
+%   \item For $2$-cells:
+%     \begin{itemize}
+%     \item For the identity natural transformation we have:
+%     \[
+%     \seq[a]{\id[H]} : \prod\set{Ha} \xto\isomorphic Fa = Fa
+%     \]
+%     \item For vertical composition, calculate for vertically
+%       composable $2$-cells $\quiver{pp vertical composition}$:
+%       \diagram{13}
+%     \item For horizontal composition, calculate for $\quiver{pp
+%       horizontal composition}$:
+%     \diagram{14}
+%     \end{itemize}
+%   \end{itemize}
+%   And thus we have a $2$-functor $\seq- : \ppCAT \to \MultiCAT$.
+
+%   Finally, we turn to the natural $2$-transformation $\carrier - :
+%   \Multi(\TT,-) \to \seq{-}$.
+%   \begin{itemize}
+%   \item For the $1$-naturality condition, take a product preserving
+%     functor $H : \C[1] \to \C[2]$ in $\ppCAT$ and show the
+%     following equality of multi-functors:
+%     \diagram{16}
+%     by chasing an algebra $\A \in \Multi(\TT, \C[1])$ (top) and a
+%     multi-$\TT$-homomorphism $h : (\A_1, \ldots, \A_n)\to \A[2]$
+%     (bottom):
+%     \begin{center}
+%       \diagram*{17}
+%       \hfill
+%       \diagram*{18}
+%     \end{center}
+%   \item For the $2$-naturality condition, take a natural
+%     transformation $\quiver{nat trans between pp functors}$ and
+%     algebra $\A$, and consider the component at $\A$ of the
+%     appropriate pastings (drawn badly :D):
+%     \[
+%     \quiver{carrier 2-naturality}
+%     \]
+%   \end{itemize}
+%   And so we have a natural $2$-transformation $\carrier- :
+%   \Multi(\TT,-) \to \seq-$ \emph{provided} we show that $\Multi(\TT,-)
+%   : \ppCAT \to \MultiCAT$ is indeed a $2$-functor. We can deduce that
+%   from the fact that $\carrier-$ is component-wise injective:
+%   \begin{itemize}
+%   \item For identity $1$-cells:
+%     \begin{itemize}
+%     \item On objects, we indeed check that the carrier and algebra
+%       structure of $\Multi(\TT, \Id)\A$ are the same as of $\A$.
+%     \item On multi-homormophisms, we use the faithfulness of
+%       $\carrier-_{\C}$:
+%       \[
+%       \carrier-_{\C}\compose \Multi(\TT, \Id) h
+%       \explain={$1$-cell $2$-naturality}
+%       \seq\Id \compose \carrier-_{\C}h
+%       \explain*={$\seq-$ is a $2$-functor}
+%       \carrier-_{\C}h
+%       =
+%       \carrier-_{\C}\compose \Id h
+%       \]
+%       and so by faithfulness, $\Multi(\TT, \Id)h = \Id h$.
+%     \end{itemize}
+%   \item Similarly, for composable $1$-cells $\C[3] \xto H \C[4] \xto K \C$:
+%     \begin{itemize}
+%     \item On objects, we indeed check that the algebras are the same.
+%     \item On multi-homomorphisms, we use faithfulness:
+%       \[
+%       \carrier{\Multi(\TT, K \compose H)h}_{\C}
+%       \explain={$1$-cell $2$-naturality}
+%       \seq{K \compose H} (\carrier{h}_{\C[3]})
+%       \explain*={$\seq-$ is a $2$-functor}
+%       \seq{K} \compose \seq{H} (\carrier{h}_{\C[3]})
+%       =
+%       \carrier{\Multi(\TT, K)\compose \Multi(\TT, H)h}_{\C}
+%       \]
+%     \end{itemize}
+%     and so $\Mod(\TT,-)$ is functorial on $1$-cells.
+%   \item For $2$-cell identities, the same technique applies:
+%     \[
+%     \carrier{\Multi(\TT, \id[H])_{\A}}_{\C[2]}
+%     \explain={$2$-cell $2$-naturality}
+%     \seq[{\carrier\A}]{\id[H]}
+%     \explain*={$\seq-$ is a $2$-functor}
+%     (\id[\seq{H}])_{\carrier\A}
+%     =
+%     (\id[\seq{H}{\carrier\A}])
+%     \explain={$1$-cell $2$-naturality}
+%     \id[\carrier{\Multi(\TT, H)\A}]
+%     \explain*={$\carrier-_{\C[2]}$ multi-functoriality}
+%     \carrier{\id[\Multi(\TT, H)_{\A}]}
+%     \]
+%   \item For vertical composition, take a composable pair of $2$-cells,
+%     and calulate as follows (reverting to the more succinct notation
+%     in the definition of natural $2$-transformations):
+%     \begin{gather*}
+%       \quiver{mult 2-functoriality vertical composition: a}\\
+%     \begin{aligned}
+%       &\explain={identities}
+%       \quiver{mult 2-functoriality vertical composition: b}
+%       \explain={$2$-cell\\$2$-naturality}
+%       \quiver{mult 2-functoriality vertical composition: c}
+%       \explain={$G := \seq-$ is a\\$2$-functor}
+%       \quiver{mult 2-functoriality vertical composition: d}\\
+%       &\explain={$2$-cell\\$2$-naturality}
+%       \quiver{mult 2-functoriality vertical composition: e}
+%       \explain={$2$-cell\\$2$-naturality}
+%       \quiver{mult 2-functoriality vertical composition: f}
+%       \explain={identities}
+%       \quiver{mult 2-functoriality vertical composition: g}
+%     \end{aligned}
+%     \end{gather*}
+%   \item For horizontal composition, we use the same technique:
+%     \begin{gather*}
+%       \quiver{mult 2-functoriality horizontal composition: a}\\
+%       \begin{aligned}
+%         &\explain={identities}
+%         \quiver{mult 2-functoriality horizontal composition: b}
+%         \explain={$2$-cell\\$2$-naturality}
+%         \quiver{mult 2-functoriality horizontal composition: c}\\
+%         &\explain={$G$ is a\\$2$-functor}
+%         \quiver{mult 2-functoriality horizontal composition: d}
+%         \explain={identities}
+%         \quiver{mult 2-functoriality horizontal composition: e}\\
+%         &
+%         \explain={$2$-naturality}
+%         \quiver{mult 2-functoriality horizontal composition: f}
+%         \explain={$2$-naturality}
+%         \quiver{mult 2-functoriality horizontal composition: g}\\
+%         &\explain={identities}
+%         \quiver{mult 2-functoriality horizontal composition: h}
+%       \end{aligned}
+%     \end{gather*}
+%   \end{itemize}
+%   Therefore, $\Mod(\TT,-)$ is also a $2$-functor.
+% \end{proof}

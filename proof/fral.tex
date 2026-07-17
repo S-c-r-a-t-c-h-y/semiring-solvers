@@ -1,0 +1,311 @@
+\section{Free algebras}
+\label{sec:fral}
+Consider a surjective translation $\Trans : \OO \surtrans \MM$ from an
+operad to a $\Trans$-affine theory, and let $\DD$ be a commutative theory. Let $\TT
+\definedby \Trans \dist \DD$ be the distributive combination of
+$\Trans$ over $\DD$. Let $X$ be a set, and we'll now
+construct $F_{\TT}X$, the free $\TT$-algebra over $X$.
+
+\paragraph{Step 1}%
+Let $A_0 \definedby F_{\MM}X \models \MM$ be the free $\MM$-algebra over $X$.
+
+\paragraph{Step 2}%
+Applying the functor:
+\[
+\carrier-_{\Trans} \definedby \Mod(\Trans, \Set) : \Mod(\MM, \Set) \to
+\Mod(\OO, \pair\Set\prod)
+\]
+gives an operadic
+algebra $A_1 \definedby \carrier{A_0}_{\Trans} \models \OO$.
+
+\paragraph{Step 3}%
+Since $\DD$ is commutative, by \theoremref{left adjoint iff commutative}, 
+we have an adjunction 
+$F_{\DD} \leftadjointto \carrier- : \Multi(\DD, \Set) \to \pair\Set\prod$ in
+$\MultiCAT$. Applying the $2$-functor $\Mod(\OO, -) : \MultiCAT \to
+\CAT$ to it, we now have a left adjoint $F_{\OO\to \DD} \definedby
+\Mod(\OO, F_{\DD}) : \Mod(\OO, \pair\Set\prod) \to \Mod(\OO,
+\Multi(\DD, \Set))$.
+Take $A_{\OO\dist\DD} \definedby F_{\OO\to\DD}A_1 \models \OO * \DD$.
+
+% \begin{lemma}\lemmalabel{A_{OO dist DD} normal form}
+%   For every $e \in \carrier{A_{\OO \dist \DD}}$ there is some $s \in
+%   \DD_k$ and $\evec \in \carrier A_1^k$ such that:
+%   \[
+%   e = A_{\OO\dist\DD}\sem{s}\seq[i=1][k]{\carrier{\unit^{\OO \to \DD}_{A_1}}\evec_i}
+%   \]
+% \end{lemma}
+
+% \begin{proof}
+%   Let $\carrier B \subset \carrier A_{\OO\dist\DD}$ be the following subset:
+%   \[
+%   \carrier B \definedby \set{e \suchthat
+%     \exists s \in
+%   \DD_k, \evec \in \carrier A_1^k:
+%   e = A_{\OO\dist\DD}\sem{s}\seq[i=1][k]{\carrier{\unit^{\OO \to \DD}_{A_1}}\evec_i}
+%   }
+%   \]
+%   This subset is closed under both the operations in $\OO$ and $\DD$.
+
+%   \paragraph{Closure under $\DD$}
+%   Take any $s \in \DD_n$ and $e_1, \ldots, e_n \in \carrier B$. By
+%   assumption, there are $s_i \in \DD_{k_i}$ and $\evec_{\pair i*}$ such that
+%   \[
+%   e_i = A_{\OO\dist\DD}\sem{s_i}\seq[j=1][k_i]{\carrier{\unit^{\OO \to \DD}_{A_1}}\evec_{\pair ij}}
+%   \]
+%   and, taking $p \definedby \sum_{i}k_i$ and $s' \definedby
+%   s\coseq[i=1][n]{i \mapsto s_i} \in \DD_{p}$, we have:
+%   \begin{align*}
+%   A_{\OO\dist\DD}\sem{s}\seq[i=1][n]{e_i}
+%   &{}=
+%   A_{\OO\dist\DD}\sem{s}\seq[i=1][n]{
+%     A_{\OO\dist\DD}\sem{s_i}\seq[j=1][k_i]{\carrier{\unit^{\OO \to \DD}_{A_1}}\evec_{\pair ij}}
+%   }
+%   \\&{}=
+%   A_{\OO\dist\DD}\sem{s(s_1, \ldots, s_n)}\seq[\ell=1][p]{
+%     \carrier{\unit^{\OO \to \DD}_{A_1}}\evec_{\ell}}
+%   \end{align*}
+%   and so $A_{\OO\dist\DD}\sem{s}\seq[i=1][n]{e_i} \in \carrier B$.
+
+%   \paragraph{Closure under $\DD$}
+%   Take any $f \in \O_n$ and $e_1, \ldots, e_n \in \carrier B$. By
+%   assumption, there are $s_i \in \DD_{k_i}$ and $\evec_{\pair i*}$ such that
+%   \[
+%   e_i = A_{\OO\dist\DD}\sem{s_i}\seq[j=1][k_i]{\carrier{\unit^{\OO \to \DD}_{A_1}}\evec_{\pair ij}}
+%   \]
+%   Since $A_{\OO\dist\DD}\sem{f}$ is a multi-$\DD$-homomorphism, we have:
+%   \begin{align*}
+%     A_{\OO\dist\DD}\sem{f}\seq[i=1][n]{e_i}
+%     &{}=
+%     A_{\OO\dist\DD}\sem{f}\seq[i=1][n]{
+%       A_{\OO\dist\DD}\sem{s_i}\seq[j=1][k_i]{
+%         \carrier{\unit^{\OO \to \DD}_{A_1}}\evec_{\pair ij}
+%       }
+%     }
+%     \\&{}=
+%     A_{\OO\dist\DD}\sem{s_1}\seq[j_1=1][k_1]{\cdots
+%       A_{\OO\dist\DD}\sem{s_n}\seq[j_n=1][k_n]{
+%           A_{\OO\dist\DD}\sem{f}\seq[i=1][n]{
+%             \carrier{\unit^{\OO \to \DD}_{A_1}}\evec_{\pair i{j_i}}
+%     }}}
+%     \\&{}=
+%     A_{\OO\dist\DD}\sem{s_1\seq[j_1=1][k_1]{\cdots s_n\seq[j_n=1][k_n]{x_{j_1, \ldots, j_n}}}}
+%     \seq[\ell=1][\prod_{i=1}^nk_i]{
+%       A_{\OO\dist\DD}\sem{f}\seq[i=1][n]{
+%             \carrier{\unit^{\OO \to \DD}_{A_1}}\evec_{\pair i{\seq[i][-1]\ell}}}
+%     }
+%   \end{align*}
+%   and so $A_{\OO\dist\DD}\sem{f}\seq[i=1][n]{e_i} \in \carrier B$.
+
+%   Therefore, we have a subalgebra $i : B \embed A_{\OO\dist \DD}$, and
+%   so $B \models \OO*\DD$.
+
+%   Define an $\OO$-homomorphism $f : A_1 \to \carrier{A_{\OO\dist
+%       \DD}}_{\OO\to\DD}$ by noting that the image of the
+%   $\OO$-homomorphism $\unit^{\OO\to\DD}_{A_1} : A_1 \to
+%   \carrier{A_{\OO\dist\DD}}_{\OO\to\DD}$ lifts along the inclusion
+%   homomorphism $i : B \embed A_{\OO\dist \DD}$. We therefore have a
+%   unique $\OO*\DD$-homomorphism $g : A_{\OO\dist \DD} \to B$ extending
+%   $f$ along the unit $\unit^{\OO\to\DD}$.
+
+%   This homomorphism is given by $\carrier g(e) = e$. Indeed,
+%   post-composing with $i : B \embed A_{\OO\dist A}$ we get a
+%   homomorphism, and pre-composing it with $\unit^{\OO\dist\DD}$:
+%   \[
+%   i \compose g \compose \unit^{\OO\dist\DD}
+%   \explain={$g$ extends $f$ along $\unit$}
+%   i \compose f
+%   \explain*={$f$ lifts $\unit$ along $i$}
+%   \unit^{\OO\dist\DD}
+%   $
+%   and therefore $i \compose g = \id$, and so:
+%   $
+%   g(e) = i(g(e)) = e
+%   \]
+%   Therefore $\carrier B = \carrier A_{\OO\dist\DD}$.
+% \end{proof}
+
+\paragraph{Step 4}%
+Let $A_{\OO\dist} \definedby \Mod(\OO, \carrier-)A_{\OO\dist\DD} \models
+\OO$ be the underlying operadic algebra. For each operation symbol $g : n$ of $\MM$,
+define $A_{\MM} \sem g \definedby A_{\OO\dist} \sem{\tilde g}$.
+
+\begin{lemma}\label{lem:A_M model}
+  With the preceding notation:
+  \begin{itemize}
+    \item For every $f \in \OO_n$, the interpretation $A_\MM \sem{\Trans f}$ is equal
+    to $A_{\OO\dist} \sem f$.
+    \item The resulting algebra validates $\MM$, i.e.: $A_{\MM} \models \MM$.
+  \end{itemize}
+\end{lemma}
+
+\begin{proof}
+  Let $X \definedby \carrier A_1$ and let $\unit_X : X \to \carrier{F_\DD X}$ be the
+  unit of the adjunction $F_\DD \leftadjointto U_\DD$. By construction of 
+  $A_{\OO\dist\DD} = F_{\OO\to\DD} A_1$, for every $f \in \OO_n$, the operation 
+  $A_{\OO\to\DD} \sem f$ is the unique multi-$\DD$-homomorphism extending
+  \[
+  X^n \xto{A_1\sem f} X \xto{\unit_X} \carrier{F_\DD x}
+  \]
+  We first prove that, for every $f \in \OO_n$, the interpretation in $A_\MM$ of the
+  term $\Trans f$ is equal to $A_{\OO\dist} \sem f$. Since the chosen operations
+  $\tilde g$ generate $\OO$, we may prove this by induction on the operadic expression
+  of $f$.
+  \begin{itemize}
+    \item If $f = \id$, the claim is immediate.
+    \item If $f = \tilde g$ is one of the chosen generators, the claim is exactly
+    the definition of $A_\MM \sem g$.
+    \item If $f = h \compose (f_1, \ldots, f_k)$ then, using the preservation of
+    operadic composition by $\Trans$, the induction hypothesis, and the fact that
+    $A_{\OO\dist}$ is an $\OO$-model, we get
+    \[
+    A_\MM \sem{\Trans f} = A_\MM \sem{\Trans h[\Trans f_1, \ldots, \Trans f_k]} =
+    A_{\OO\dist} \sem h \compose (A_{\OO\dist} \sem{f_1}, \ldots, A_{\OO\dist} \sem{f_k})
+    = A_{\OO\dist} \sem f
+    \]
+  \end{itemize}
+  Now let $x_1, \ldots, x_m \vdash_\MM \Trans f_1 [\ren_1] = \Trans f_2 [\ren_2]$ be an
+  axiom of $\MM$. For each $i = 1,2$, define $\Phi_i : X^m \to \carrier{F_\DD X}$ by
+  \[
+  \Phi_i(e) \definedby \unit_X(A_1 \sem{f_i} (e \compose \ren_i))
+  \]
+  Since $A_0 \models \MM$, these two maps are equal: $\Phi_1 = \Phi_2$. For each
+  $i = 1, 2$, define $\bar \Phi_i : \carrier{F_\DD X}^m \to \carrier{F_\DD X}$ by
+  \[
+  \bar\Phi_i(e) \definedby A_{\OO\dist\DD} \sem{f_i} (e \compose \ren)
+  \]
+  Because $\ren_i$ is injective, each coordinate of $e$ is used in at most one argument
+  of $A_{\OO\dist\DD}$, and therefore $\bar\Phi_i$ is a multi-$\DD$-homomorphism in each
+  variable. By construction, it extends $\Phi_i$. By uniqueness of multi-$\DD$-homomorphic
+  extension from generators, we conclude that $\bar\Phi_1 = \bar\Phi_2$. Hence, for
+  every environment $e : [m] \to \carrier{A_{\OO\dist\DD}}$,
+  \[
+  A_{\OO\dist\DD} \sem{f_1} (e \compose \ren_1) = 
+  A_{\OO\dist\DD} \sem{f_2} (e \compose \ren_2)
+  \]
+  Forgetting from $A_{\OO\dist\DD}$ to $A_{\OO\dist}$ preserves this equality, so the two
+  sides of the axiom have the same interpretation in $A_\MM$. Hence, all axioms of $\MM$
+  hold in $A_\MM$, and therefore $A_\MM \models \MM$.
+\end{proof}
+
+\paragraph{Step 5}%
+Let $A \models \Trans\dist\DD$ be the pullback of $A_{\OO\dist\DD}$ and $A_\MM$.
+
+\begin{lemma}
+\lemmalabel{A is free}
+  $A$ is a free $\Trans\dist\DD$-algebra.
+\end{lemma}
+
+\begin{proof}
+  We already know that $A$ models $\Trans\dist\DD$. Let's prove that it is free. 
+  
+  Let $B$ by any $\Trans\dist\DD$-model and $f : X \to \carrier B$ be a function.
+  Let $B_\OO \definedby \Mod(\OO, \carrier-) \carrier{B}_{\OO\dist\DD}$ and
+  $B_\MM \definedby \carrier{B}_{\MM\dist}$.
+
+\begin{itemize}
+\item $A_0$ is a free $\MM$-algebra over $X$, therefore we have a unique morphism 
+$h_0 : A_0 \to B_\MM$ of $\MM$-algebras such that $h_0 \compose \unit^{A_0} = f$.
+\item There is also an homomorphism $h_1 : A_1 \to B_\OO$ of $\OO$-algebras such that 
+$h_1 \compose \unit_{A_0}^{A_1} = h_0$, and $h_1 = h_0$ since $\unit_{A_0}^{A_1} = \id$.
+\item $B$ has an $\DD$-structure that distributes over $\OO$, therefore thanks to the
+adjunction $\Mod(\OO, F_\DD) \leftadjointto \Mod(\OO, \carrier{-})$, we have 
+a unique morphism $h_2 : A_{\OO\dist\DD} \to B$ of $\OO \ast \DD$-algebras such that 
+$h_2 \compose \unit_{A_1}^{A_{\OO\dist\DD}} = h_1$.
+\item Apply the 2-functor $\Mod(\OO, \carrier{-})$ to the morphism 
+$h_2 : A_{\OO\dist\DD} \to B$ gives a morphism $h_3 : A_{\OO\dist} \to B_\OO$ of 
+$\OO$-algebras such that $h_3 \compose \unit_{A_{\OO\dist\DD}}^{A_{\OO\dist}} = h_2$ and 
+$h_3 = h_2$ since $\unit_{A_{\OO\dist\DD}}^{A_{\OO\dist}} = \id$.
+\item By the surjectivity of $\Trans$ and
+Lemma~\ref{lem:A_M model}, we now have a $\MM$-morphism 
+$h_4 = h_3 : A_\MM \to B_\MM$ such that
+$h_4 \compose \unit_{A_{\OO\dist}}^{A_\MM} = h_3$.
+
+Let $t \in \mathcal M_n$ and $e : [n] \to \carrier{A_\MM}$. By surjectivity, there 
+is some $f \in \mathcal O_m$ and $\theta : m \to n$ such that $t = \Trans f [\theta]$. 
+We define $h_4$ as 
+$$h_4 \lp A_\MM \sem{t} e \rp = h_3 \lp A_{\OO\dist} \sem{f} e \compose \theta \rp$$ 
+This is well-defined by Lemma~\ref{lem:A_M model}. We then check that $h_4$ is a
+morphism of $\MM$-algebras. Since $h_3$ is a morphism of $\OO$-algebras, 
+\begin{align*}
+  h_3 \lp A_{\OO\dist} \sem{f} e \compose \theta \rp &= 
+    B_\OO \sem{f} (h_3 \compose e \compose \theta, \dots, h_3 \compose e \compose \theta)\\
+  &= B_\MM \sem{f} (h_4 \compose e, \dots, h_4 \compose e)\\
+\end{align*}
+This proves that $h_4 \lp A_\MM \sem{t} e \rp = B_\MM \sem{t} (h_4 \compose e)$, so $h_4$
+is a morphism of $\MM$-algebras.
+\end{itemize}
+% \[
+% \begin{tikzcd}
+%   X \arrow[r, "\unit^{A_0}"] \arrow[dr, "f"'] & A_0 \arrow[d, "h_0"]\\
+%   & B_\MM
+% \end{tikzcd}
+% \]
+
+% \[
+% \begin{tikzcd}
+%   X \arrow[r, "\id \compose \unit^{A_0}"] \arrow[dr, "f"'] & A_1 \arrow[d, "h_1 = h_0"]\\
+%   & B_\OO
+% \end{tikzcd}
+% \]
+
+% \[
+% \begin{tikzcd}
+%   A_1 \arrow[r, "\unit_{A_1}^{A_{\OO\dist\DD}}"] \arrow[dr, "h_1"'] & A_{\OO\dist\DD} \arrow[d, "h_2"]\\
+%   & B_{\OO \ast \DD}
+% \end{tikzcd}
+% \]
+
+\noindent In the end we have the following diagram:
+% https://q.uiver.app/#q=WzAsNyxbMCwwLCJYIl0sWzEsMCwiXFx1bHtBXzB9Il0sWzIsMCwiXFx1bHtBXzF9Il0sWzEsMSwiXFx1bHtCfSJdLFsyLDEsIlxcdWx7QV8yfSJdLFsyLDIsIlxcdWx7QV8zfSJdLFsxLDIsIlxcdWx7QV80fSJdLFswLDMsImYiLDJdLFswLDEsIlxcZXRhXntBXzB9Il0sWzEsMiwiXFxpZCJdLFsxLDMsImhfMCIsMV0sWzIsMywiaF8xIiwxXSxbNCwzLCJoXzIiLDFdLFs1LDMsImhfMyIsMV0sWzIsNCwiXFxldGFfe0FfMX1ee0FfMn0iXSxbNCw1LCJcXGlkIl0sWzYsMywiaF80IiwxXSxbNSw2LCJcXGlkIl1d&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+\[\begin{tikzcd}
+	X & {\carrier{A_0}} & {\carrier{A_1}} \\
+	& {\carrier{B}} & {\carrier{A_{\OO\dist\DD}}} \\
+	& {\carrier{A_\MM}} & {\carrier{A_{\OO\dist}}}
+	\arrow["{\unit^{A_0}}", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-2]
+	\arrow["\id", from=1-2, to=1-3]
+	\arrow["{h_0}"{description}, from=1-2, to=2-2]
+	\arrow["{h_1}"{description}, from=1-3, to=2-2]
+	\arrow["{\unit_{A_1}^{A_{\OO\dist\DD}}}", from=1-3, to=2-3]
+	\arrow["{h_2}"{description}, from=2-3, to=2-2]
+	\arrow["\id", from=2-3, to=3-3]
+	\arrow["{h_4}"{description}, from=3-2, to=2-2]
+	\arrow["{h_3}"{description}, from=3-3, to=2-2]
+	\arrow["\id", from=3-3, to=3-2]
+\end{tikzcd}\]
+We then consider the walking morphism $I : \{0 \xto{u} 1\}$ and the two functors
+$\FF_1 : I \to \Mod(\OO, \Multi(\DD, \Set))$ and $\FF_2 : I \to \Mod(\MM, \Set)$ defined by
+$\FF_1\, 0 = A_{\OO\dist\DD},\ \FF_1\, 1 = B_{\OO \ast \DD},\ \FF_1\, u = h_2$ and 
+$\FF_2\, 0 = A_\MM,\ \FF_2\, 1 = B_\MM,\ \FF_2\, u = h_4$. By the construction, we can then 
+use the pullback square to get a unique $\FF[3] : I \to \Mod(\Trans \dist \DD)$
+such that the following diagram commutes:
+% https://q.uiver.app/#q=WzAsNSxbMSwxLCJcXE1vZChcXG1hdGhmcmFrIFQgXFx0cmlhbmdsZWxlZnRcXG1hdGhjYWwgQSwgXFxTZXQpIl0sWzEsMiwiXFxNb2QoXFxtYXRoY2FsIE0sIFxcU2V0KSJdLFsyLDIsIlxcTW9kKFxcbWF0aGNhbCBPLCBcXGxhIFxcU2V0LCBcXHByb2QgXFxyYSkiXSxbMiwxLCJcXE1vZChcXG1hdGhjYWwgTywgXFxNdWx0aShcXG1hdGhjYWwgQSwgXFxTZXQpKSJdLFswLDAsIkkiXSxbMywyLCJcXE1vZChcXG1hdGhjYWwgTywgXFx1bmRlcmxpbmV7LX0pIl0sWzAsMywiXFx1bmRlcmxpbmV7LX1fe1xcbWF0aGNhbCBPIFxcdHJpYW5nbGVsZWZ0IFxcbWF0aGNhbCBBfSJdLFsxLDIsIlxcTW9kKFxcbWF0aGZyYWsgVCwgXFxTZXQpIiwyXSxbMCwxLCJcXHVuZGVybGluZXstfV97XFxtYXRoY2FsIE19IiwyXSxbNCwzLCJGXzEiLDAseyJjdXJ2ZSI6LTN9XSxbNCwxLCJGXzIiLDIseyJjdXJ2ZSI6M31dLFs0LDAsIkgiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCw3LCIiLDEseyJsZXZlbCI6MSwic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV1d&macro_url=https%3A%2F%2Fraw.githubusercontent.com%2FS-c-r-a-t-c-h-y%2Fsemiring-solvers%2Frefs%2Fheads%2Fmain%2Fmacros.sty
+\[\begin{tikzcd}
+	I && \\
+	& {\Mod(\Trans \dist\DD, \Set)} & {\Mod(\OO, \Multi(\DD, \Set))} \\
+	& {\Mod(\MM, \Set)} & {\Mod(\OO, \pair\Set\prod)}
+	\arrow["{\FF[3]}"{description}, dashed, from=1-1, to=2-2]
+	\arrow["{\FF_1}", curve={height=-18pt}, from=1-1, to=2-3]
+	\arrow["{\FF_2}"', curve={height=18pt}, from=1-1, to=3-2]
+	\arrow["{\carrier{-}_{\OO \dist \DD}}", from=2-2, to=2-3]
+	\arrow["{\carrier{-}_{\MM}}"', from=2-2, to=3-2]
+	\arrow["{\Mod(\OO, \carrier{-})}", from=2-3, to=3-3]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Mod(\Trans, \Set)}"', from=3-2, to=3-3]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-2, to=0]
+\end{tikzcd}\]
+This gives us a unique morphism $h = \FF[3]\, u : A \to B$ of 
+$\Trans \dist \DD$-algebras.
+
+We need to show that $h$ extends $f$ along $\unit$. $h_2 \compose \unit = h_4 \compose \unit = f$,
+therefore $h \compose \unit = f$ since $\unit$ comes from the pullback square. 
+This morphism is unique for a given $h_2$ and $h_4$, but these are also uniquely
+determined by $h_0$ and $h_1$, which are themselves uniquely determined by $f$.
+Therefore $h$ is the unique morphism of $\Trans \dist \DD$-algebras such that
+the following diagram commutes:
+\[\begin{tikzcd}
+  X \arrow[r, "\unit"] \arrow[dr, "f"'] & A \arrow[d, "h"]\\
+  & B
+\end{tikzcd}\]
+This proves that $A$ is the free $\Trans \dist \DD$-algebra over $X$.
+\end{proof}

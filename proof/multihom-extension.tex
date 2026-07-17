@@ -1,0 +1,247 @@
+\section{Multi-homomorphic extension}
+\label{sec:multihom-extension}
+
+By generalities, the forgetful functor $\carrier - : \Mod(\TT, \Set)
+\to \Set$ always has a left adjoint assigning to each set the free
+$\TT$-algebra over it. This situation does not extend to
+multi-categories: we may not have a left adjoint (in $\MultiCAT$) to
+the forgetful multi-functor $\carrier- : \Multi(\TT, \Set) \to
+\pair\Set\prod$. However, we will have such an adjoint in many cases
+of interest, and our goal is to prove the following characterisation:
+\begin{theorem}\theoremlabel{left adjoint iff commutative}
+  Let $\TT$ be a theory. The forgetful multi-functor $\carrier- :
+  \Multi(\TT, \Set) \to \pair\Set\prod$ has a left adjoint iff $\TT$
+  is commutative.
+\end{theorem}
+The two directions employ quite different techniques, and so we'll
+split them into two parts: \propositionref{multi-hom adjunction
+  existence} and \propositionref{multi-adjoint forces commutativity}.
+
+In the commutative case, the result follows from, or is already
+present in, the work of
+\cite{kock:closed-categories-generated-by-commutative-monads} on
+commutative monads. Let $T$ be a commutative monad on a finitely
+complete cartesian-closed category $\C$. We can internalise the
+$T$-homomorphisms, i.e., the hom-set $\C^T(A,B)$, as the equaliser:
+\[
+\quiver{hom-algebra carrier}
+\]
+and equip with a $T$-algebra structure defined by this property:
+\diagram{35} where the morphism $\lambda : T(Y^X) \to (TY)^X$ is given
+by currying the strength and evaluating $T(Y^X)\times X \xto\str
+T(Y^X\times X)\xto\eval TY$. This construction extends to a functor
+$(\multimap) : \opposite(\C^T) \times \C^T \to \C^T$, as the unique
+action that makes $e_{A,B} : \carrier{A \multimap B} \to \carrier
+B^{\carrier A}$ a natural transformation. This functor equips the
+Eilenberg-Moore category with the structure of a \emph{closed
+  category}~\cite{eilenberg-kelly:closed-categories}, which we will
+not recount here.
+
+\begin{proposition}
+  Assume $\C$ is complete. For every $T$-algebra $A$, the functor $A
+  \multimap - : \C^T \to \C^T$ preserves small limits.
+\end{proposition}
+
+I didn't find this proposition anywhere so we'll prove it here, but
+I'm sure it's well-known.
+\begin{proof}
+  Consider a small diagram $D : I \to \C^T$ and a limiting cone $\pair
+  L\ell$ for it. We need to show that $\pair{A\multimap L}{A\multimap
+    \ell}$ is limiting for $A\multimap D-$. We'll do it in 2 stages:
+  \begin{itemize}
+  \item We'll show that post-composing with the carrier preserves the
+    limit: $\pair{\carrier{A\multimap L}}{\carrier{A\multimap \ell}}$
+    is limiting for $\carrier{A\multimap D-}$.
+  \item We'll use the fact that $\carrier- : \C^T \to \C$ creates
+    limits to deduce the result.
+  \end{itemize}
+
+  The first step follows because we can partially-evaluate limits in
+  any order. Let $D' : I' \to \C$ be the diagram consisting of
+  equaliser diagrams:
+  \begin{center}
+    $\quiver{A multimap limit preservation diagram}$
+  \end{center}
+  We can calculate this limit in two ways:
+  \begin{itemize}
+  \item First take the limit w.r.t.~$i$ and, since the exponentials
+    $-^{\carrier A}$ and $-^{T\carrier A}$ are right adjoints and so
+    preserve limits, get the diagram:
+    \begin{center}
+      $\quiver{limit Di first}$
+    \end{center}
+    and then take its limit, which is $\carrier{A \multimap L}$.
+  \item First take the limit w.r.t.~the equaliser diagrams to get the
+    diagram $\carrier{A\multimap Di}$.
+  \end{itemize}
+  Therefore $\Lim_{i \in I}\carrier{A\multimap Di} =
+  \pair{\carrier{A\multimap L}}{\carrier{A\multimap \ell}}$.
+
+  Since $\carrier- : \C^T \to \C$ creates limits, it in particularly
+  reflects limits, and so $\pair{A\multimap L}{A\multimap \ell}$ is
+  limiting.
+\end{proof}
+
+\begin{proposition}
+  The functors $A\multimap- : \Mod(\TT, \Set) \to \Mod(\TT, \Set)$
+  have a left adjoint $-\tensor A : \Mod(\TT, \Set) \to \Mod(\TT,
+  \Set)$.
+\end{proposition}
+\begin{proof}
+  This proposition follows by generalities.  The category $\Mod(\TT,
+  \Set)$ is complete and cocomplete, and the functor $A\multimap-$ is
+  continuous and satisfies Freyd's solution-set condition. Therefore,
+  by the adjoint functor theorem, the left adjoint exists.
+\end{proof}
+
+This tensor product generalises the linear-hom tensor from linear
+algebra and its construction in general is non-effective. It equips
+$\C^T$ with the structure of a symmetric monoidal closed category.
+
+As any Eilenberg-Moore category for a strong monad over a
+cartesian-closed category, $\C^T$ has powers, i.e., for every set $X$
+and $T$-algebras $\Gamma$, $A$, we have a representation:
+\[
+\begin{adjunctions}
+  X & \C^T(\Gamma,B) & \text{in $\Set$}
+  \\
+  \Gamma & B^X & \text{in $\C^T$}
+\end{adjunctions}
+\]
+For $\C = \Set$, $B^X$ is given by the componentwise structure on
+$\carrier B^X$.
+\begin{proposition}\propositionlabel{powers vs free internal homs}
+  Let $T$ be a commutative monad over $\Set$. Then \( B^X \isomorphic
+  (FX \multimap B) \) in $\Set^T$.
+\end{proposition}
+\begin{proof}
+  We construct the bijection using naturality:
+  \[
+  \begin{adjunctions}
+    \terminal & \carrier{FX \multimap A} & \text{in $\Set$} \\
+    FX & A & \text{in $\Set^T$, by definition} \\
+    X & \carrier A & \text{in $\Set$, by definition} \\
+    \terminal & \carrier A^X = \carrier{A ^X} & \text{in $\Set$}
+  \end{adjunctions}
+  \]
+  and so we have a bijection of sets $\carrier{FX \multimap A}
+  \isomorphic \carrier{A^X}$. Chasing elements, this bijection sends
+  $h : FX \to A$ to $h\compose \eta : F \to \carrier A$ one way, and
+  $f : X \to \carrier A$ to $\bind f : FX \to A$ the other way.
+
+  We need to show it is a $T$-isomorphism, and it suffices to show one
+  of these functions to be a $T$-homomorphism. We'll show that
+  \[
+  \phi :
+  \carrier{FX \multimap A} \xto{e} \carrier A^{TX} \xto{\carrier
+    A^{\unit_X}} \carrier A^X
+  \] is a $T$-homomorphism:
+  \diagram{36}
+  as we wanted.
+\end{proof}
+
+We can now prove the existence of the adjoint in the commutative case:
+\begin{proposition}\propositionlabel{multi-hom adjunction existence}
+  Let $\TT$ be a commutative theory. Then there is a left adjoint to
+  the multi-functor $\carrier- : \Multi(\TT, \pair\Set\prod) \to
+  \pair\Set\prod$.
+\end{proposition}
+\begin{proof}
+  By \propositionref{representability multi-categorical adjunctions}, it
+  suffices to show that $FX$, the free $\TT$-algebra on $X$, together with
+  the unit $\unit : X \to \carrier {FX}$ for the left adjoint to the
+  functor $\carrier- : \Mod(\TT, \Set) \to \Set$, is multi-universal.
+
+  To construct the bijection $\psi : \pair\Set\prod(\Xvec;\carrier A)
+  \xto\isomorphic \Multi(\TT,\Set)(F[\Xvec];A)$, we'll note that:
+  \begin{itemize}
+  \item The homomorphisms $\bigotimes_{i=1}^{\abs\Xvec} F\Xvec_i \to A$
+    are precisely the multi-homomorphisms
+    $(\seq[i=1][\abs\Xvec]{F\Xvec_i}) \to A$
+    (taking $\bigotimes \emptyset := F\terminal$, the unit for $\tensor$).
+  \item We have a natural bijection:
+    \[
+    \begin{adjunctions}
+      \bigotimes_{i=1}^{\abs\Xvec} F\Xvec_i & A & \text{in $\Mod(\TT, \Set)$}\\
+      \prod_{i=1}^{\abs\Xvec} \Xvec_i & \carrier A & \text{in $\Set$}
+    \end{adjunctions}
+    \]
+    and moreover the bijection, moving from top to bottom, is given by
+    $f \mapsto \carrier f \compose (\unit, \ldots, \unit)$.
+  \end{itemize}
+  We prove the second point by induction on $\abs\Xvec$. For
+  $\abs\Xvec = 0$, we have already proved this fact in
+  \propositionref{powers vs free internal homs}. Assume precomposition
+  by the units provides a bijection for $\Xvec$ and consider $\Xvec'
+  := X :: \Xvec$. We then have:
+  \[
+  \begin{adjunctions}
+    FX\tensor \bigotimes_{i=1}^{\abs\Xvec} F\Xvec_i & A & \text{in $\Mod(\TT,\Set)$} \\
+    \bigotimes_{i=1}^{\abs\Xvec} F\Xvec_i & FX\multimap A & \text{in $\Mod(\TT,\Set)$} \\
+    \bigotimes_{i=1}^{\abs\Xvec} F\Xvec_i & A^X & \text{in
+      $\Mod(\TT,\Set)$, by \propositionref{powers vs free internal
+        homs}} \\
+    \prod_{i=1}^{\abs\Xvec} \Xvec_i & \carrier{A^X} = \carrier A^X & \text{in
+      $\Set$, by induction hypothesis}\\
+    X \times \prod_{i=1}^{\abs\Xvec} \Xvec_i & \carrier A^X & \text{in $\Set$}
+  \end{adjunctions}
+  \]
+  chasing a generic element $f$ down the chain gives:
+  \[
+  f \mapsto \fun \xvec\fun x.f(x,\xvec)
+    \mapsto \fun \xvec\fun x.f(\unit x,\xvec)
+    \mapsto \fun \xvec\fun x.f(\unit x,\prod\unit (\xvec))
+    \mapsto f \compose (\unit, \seq[i]{\unit})
+  \]
+  as we wanted.
+\end{proof}
+
+We now turn to showing that if there is a left adjoint, then the
+theory must be commutative. First, we show there is at most one
+candidate for the left adjoint: the same left adjoint as for
+homomorphisms:
+\begin{proposition}
+  If $\carrier- : \Multi(\TT, \pair\Set\prod) \to \pair\Set\prod$ has
+  a left adjoint, then it has a left adjoint given by the free
+  $\TT$-algebra and its unit.
+\end{proposition}
+\begin{proof}
+  We use the $2$-functor $\seq- : \MultiCAT \to \CAT$ to transport the
+  adjunction, and note that the right adjoint $\carrier- : \Multi(\TT,
+  \pair\Set\prod) \to \pair\Set\prod$ maps to the usual $\carrier :
+  \Mod(\TT, \Set) \to \Set$. Therefore, the object map of the left
+  adjoint is given by the free $\TT$-algebra construction, and the
+  unit is the usual unit.
+\end{proof}
+
+\begin{proposition}\propositionlabel{multi-adjoint forces commutativity}
+  If $\carrier- : \Multi(\TT, \pair\Set\prod) \to
+  \pair\Set\prod$ has a left adjoint, $\TT$ is commutative.
+\end{proposition}
+\begin{proof}
+  Take any $t : n$ and $s : m$ in $\TT$. We need to show that:
+  \[
+  t\seq[i=1][n]{s\seq[i=1][m]{x_{i,j}}} = s\seq[i=1][m]{t\seq[i=1][n]{x_{i,j}}}
+  \]
+  Consider the multi-function $\eta : [n]\times[m] \to
+  T([n]\times[m])$ and extend it to a multi-homomorphism $f : (F[n],
+  F[m]) \to F([n]\times[m])$ using the adjunction. Consider the
+  (interpretation of the) terms $t\seq[i]{\unit i}$ and
+  $s\seq[j]{\unit j}$ in $F[n]$ and $F[m]$, resp., and calculate:
+  \[
+  f(t\seq[i]{\unit i}, s\seq[j]{\unit j})
+  =
+  t\seq[i]{f(\unit i, s\seq[j]{\unit j})}
+  =
+  t\seq[i]{s\seq[j]{f(\unit i, \unit j)}}
+  =
+  t\seq[i]{s\seq[j]{\eta(i, j)}}
+  \]
+  and similarly:
+  \[
+  f(t\seq[i]{\unit i}, s\seq[j]{\unit j})
+  =
+  s\seq[j]{t\seq[i]{\eta(i, j)}}
+  \]
+  and so $\TT$ is commutative.
+\end{proof}
