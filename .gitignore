@@ -18,4 +18,18 @@
 *.bbl*
 *.bcf*
 *.synctex(busy)
-/generated
+*.vtc
+*.xdv
+
+# Rocq build files
+*.aux
+*.glob
+*.vo
+*.vok
+*.vos
+
+# Other
+generated/
+build/
+__pycache__/
+csv/
