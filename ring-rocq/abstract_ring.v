@@ -1,5 +1,4 @@
 Require Import Ring.
-Require Import Setoid.
 
 Parameter R : Type.
 Parameter Radd : R -> R -> R.
@@ -11,12 +10,12 @@ Parameter Ropp : R -> R.
 Definition Req := @eq R.
 
 Notation "x + y" := (Radd x y) (at level 50, left associativity).
-Notation "x - y" := (Rsub x y) (at level 50, left associativity).
 Notation "x * y" := (Rmul x y) (at level 40, left associativity).
-Notation "- x" := (Ropp x) (at level 35, right associativity).
 Notation "0" := Rzero.
 Notation "1" := Rone.
 Notation "x == y" := (Req x y) (at level 70, no associativity).
+Notation "- x" := (Ropp x) (at level 35, right associativity).
+Notation "x - y" := (Rsub x y) (at level 50, left associativity).
 
 Axiom Radd_0_l    : forall x : R, 0 + x == x.
 Axiom Radd_sym    : forall x y : R, x + y == y + x.
@@ -46,7 +45,7 @@ Add Ring Abstract : Abstract_ring_theory.
 
 (* -------------------- TESTING ------------------- *)
 
-Lemma addAssoc : forall x y z : R, x + (y + z) == (x + y) + z.
+Lemma addAssoc : forall x y z, x + (y + z) == (x + y) + z.
 Proof.
   intros; ring.
 Qed.

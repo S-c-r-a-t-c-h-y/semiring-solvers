@@ -79,5 +79,5 @@ Qed.
 
 Lemma invProductRight : forall x y : Z, x * (-y) = - (x * y).
 Proof.
-  intros; ring.
+  intros. ring.
 Qed.

@@ -12,9 +12,15 @@
 \usepackage{fontawesome5}
 \usepackage{footmisc}
 
+\usepackage{qtree}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{changepage}
+
+
 \usepackage{lineno}
 \renewcommand\linenumberfont{\normalfont\tiny\color{red}}
-\linenumbers
+% \linenumbers
 
 \hypersetup{
     colorlinks = true,
@@ -56,8 +62,67 @@
    \begin{mdframed}[style=mythm, frametitle={\textcolor{blue1}{Theorem\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
    {\end{mdframed}}
 
+\makeatletter
+ \mdfdefinestyle{myprop}{
+   linecolor=blue1, 
+   linewidth=0.8pt,
+   topline=false,
+   bottomline=true,
+   rightline=false,
+   leftline=true,
+   backgroundcolor=white,
+   innertopmargin=2pt, 
+   innerbottommargin=8pt,
+   skipbelow=10pt,
+   skipabove=10pt, 
+   frametitlefont=\bfseries,
+   nobreak=true,
+   shadow=true,
+   apptotikzsetting={%
+   \tikzset{mdfshadow/.style={%
+ 		general shadow={%
+    	shadow xshift=-2pt,
+    	shadow yshift=-2pt,
+    	fill=bgblue,
+    	every shadow }}}}
+ }
+ \makeatother
+
+ \newenvironment{proposition}[1][]{%
+   \refstepcounter{ptl}%
+   \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Proposition\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+   {\end{mdframed}}
+   
+\newenvironment{lemma}[1][]{%
+  \refstepcounter{ptl}%
+  \begin{mdframed}[style=myprop, frametitle={\textcolor{blue1}{Lemma\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+  {\end{mdframed}}
 
 
+ \mdfdefinestyle{myproof}{
+   linecolor=black, 
+   linewidth=0.5pt,
+   topline=false,
+   bottomline=false,
+   rightline=false,
+   leftline=false,
+   backgroundcolor=white,
+   innertopmargin=2pt, 
+   innerbottommargin=2pt,
+   innerleftmargin=10pt,
+   skipabove=0pt, 
+   skipbelow=10pt,
+   frametitlefont=\bfseries,
+   nobreak=false
+ }
+ 
+\renewenvironment{proof}[1][]{
+  \begin{mdframed}[style=myproof, frametitle={Proof\ifstrempty{#1}{}{ (#1)}}]}%
+  {\hfill\qedsymbol\end{mdframed}}
+
+
+\let\bibopenparen=\bibopenbracket%
+\let\bibcloseparen=\bibclosebracket
 
 \makeatletter
 \renewbibmacro*{cite:author}{%
@@ -197,3 +262,10 @@
         \savefield{namehash}{\cbx@lasthash}}}%
   \setunit{\multicitedelim}}
 \makeatother
+
+
+\renewcommand{\arraystretch}{1.4}
+\setlength{\tabcolsep}{8pt}
+
+\renewcommand{\figurename}{Fig}
+\newcommand{\figref}[1]{\figurename~\ref{#1}}

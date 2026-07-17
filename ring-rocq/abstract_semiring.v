@@ -1,5 +1,4 @@
 Require Import Ring.
-Require Import Setoid.
 
 Parameter R : Type.
 Parameter Radd : R -> R -> R.

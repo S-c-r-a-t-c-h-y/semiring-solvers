@@ -50,8 +50,10 @@
 \newcommand{\IdrisModule}[1]{\RawIdrisHighlight{\IdrisHlightColourModule}{\IdrisHlightStyleModule}{#1}}
 
 \DefineVerbatimEnvironment%
-{code}{Verbatim}{} % FIXME: modify back after figuring out how to use syntax highlighting
-% {code}{Verbatim}{commandchars=\\\{\}}
+{code}{Verbatim}{}
+
+\DefineVerbatimEnvironment%
+{idris}{Verbatim}{commandchars=\\\{\}}
 
 % Bugfix in fancyvrb to allow inline saved listings
 \makeatletter

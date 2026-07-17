@@ -1,0 +1,101 @@
+\section{Implementation}
+\label{sec:implementation}
+
+\textsc{Frex} has multiple implementations, first in Haskell and MetaOCaml \parencite{frex_origin}, then in Agda \parencite{agda_frex} and finally in Idris 2 \parencite{idris_frex}. We are interested in the implementation in Idris 2, a purely functional programming language with first class types. We won't present any code here as it doesn't add anything to the comprehension of the project.
+% We'll quickly present the current implementation of \textsc{Frex} in Idris 2, then we'll detail the implementation of the distributive combination for free algebras.
+
+\subsection{Setoids}
+
+% \subsection{The Idris 2 \textsc{Frex} infrastructure}
+% \todo[inline]{name section}
+
+% We won't go into the details of the Idris 2 \textsc{Frex} implementation, but we'll explain a key design choice.
+
+\textsc{Frex} uses \emph{setoids} \parencite{setoid1, setoid2} instead of simple sets. This offers them some additional functionalities on top of term simplification and equation solving: printing terms and proofs, proof simplification, code generation and more \parencite{idris_frex}. 
+
+A \emph{setoid} is a set $X$ equipped with an equivalence relation $\sim_X$. A \emph{setoid homomorphism} $f : X \to Y$ is a function compatible with the equivalence relation: if $x \sim_X y$ then $f(x) \sim_X f(y)$. Every set $X$ can be seen as a setoid by equipping it with the equality relation $(=)$. However setoids lets us define some more complicated equivalence relations. For example, we can consider the setoids of terms for some theory $\mathcal{T}$ and set of variables $X$, equipped with the provability relation from Fig~\ref{fig:provability}. Two equivalent terms in this setoid represent different, but provably equal, terms. This is different from the quotient $\bigr(\Term_{\Sigma_{\mathcal{T}}} X \bigl) / \bigr(X \vdash_{\mathcal{T}}\bigl)$ where elements represent equivalence classes of provably equal terms.
+
+\textsc{Frex} implements a slightly different version of the universal algebra presented in \S\ref{sec:preliminaries}. Carriers for algebras are setoids instead of sets. Therefore, all homomorphisms must also be setoid homomorphisms.
+
+% All of the concepts of universal algebra of \S\ref{sec:preliminaries} have been formalised in Idris 2 by \textcite{idris_frex}.
+
+% \begin{itemize}
+%   \item maybe talk about setoids ? (and cite appropriate references)
+%   \item go over some basic definitions used such as \texttt{Signature}, \texttt{Op}, \texttt{Algebra}, \texttt{Term}, \texttt{SetoidAlgebra}, \texttt{Equation}, \texttt{Presentation}, \texttt{Model}
+%   \item model over a set, extension, fral and frex
+%   \item maybe signature of solving functions ? (to link with \S\ref{sec:solving})
+% \end{itemize}
+
+% \todo[inline, color=blue1]{How not to plagiarize \cite{idris_frex} ?}
+
+\subsection{Implementing the distributive combination}
+
+% We first start by defining what the coproduct signature and the coproduct presentation are.
+
+% \medskip
+
+% We use the built-in type \IdrisType{Either} to model the alternative between the two underlying signatures:
+% \begin{idris}
+% \IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Signature}\KatlaNewline{}
+% \IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisBound{sigA}\KatlaSpace{}\IdrisBound{sigM}\KatlaSpace{}\IdrisKeyword{=}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\IdrisData{MkSignature}\KatlaSpace{}\IdrisKeyword{(\textbackslash{}}\IdrisBound{n}\KatlaSpace{}\IdrisKeyword{=>}\KatlaSpace{}\IdrisType{Either}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{sigA}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{n}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{sigM}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{n}\IdrisKeyword{))}\KatlaNewline{}
+% \end{idris}
+% We need to define injections from the signatures into the coproduct signature. We only present the injections of equations here:
+% \begin{idris}
+% \IdrisFunction{injAddEq}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\{}\IdrisBound{additiveSig}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{multiplicativeSig}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\KatlaUnderscore{}\}}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Equation}\KatlaSpace{}\IdrisBound{additiveSig}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Equation}\KatlaSpace{}\IdrisKeyword{(}\IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisBound{additiveSig}\KatlaSpace{}\IdrisBound{multiplicativeSig}\IdrisKeyword{)}\KatlaNewline{}
+% \KatlaNewline{}
+% \IdrisFunction{injMulEq}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\{}\IdrisBound{additiveSig}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{multiplicativeSig}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\KatlaUnderscore{}\}}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Equation}\KatlaSpace{}\IdrisBound{multiplicativeSig}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Equation}\KatlaSpace{}\IdrisKeyword{(}\IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisBound{additiveSig}\KatlaSpace{}\IdrisBound{multiplicativeSig}\IdrisKeyword{)}\KatlaNewline{}
+% \end{idris}
+% The axioms are composed of both the axioms for the additive and multiplicative part, to which we add the distributivity axioms:
+% \begin{idris}
+% \IdrisKeyword{data}\KatlaSpace{}\IdrisType{DistributivityAxiom}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Type}\KatlaSpace{}\IdrisKeyword{where}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\IdrisData{DistAxiom}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\{}\IdrisBound{addSig}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{mulSig}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Signature}\IdrisKeyword{\}}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisKeyword{\{}\IdrisBound{m}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{n}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Nat}\IdrisKeyword{\}}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{addOp}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{addSig}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{m}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{mulOp}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{mulSig}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{n}\IdrisKeyword{)}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{i}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Fin}\KatlaSpace{}\IdrisBound{n}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{DistributivityAxiom}\KatlaSpace{}\IdrisBound{addSig}\KatlaSpace{}\IdrisBound{mulSig}\KatlaNewline{}
+% \KatlaNewline{}
+% \IdrisKeyword{data}\KatlaSpace{}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{additive}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Presentation}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Type}\KatlaSpace{}\IdrisKeyword{where}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\IdrisData{AddAx}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{additive}\IdrisFunction{.Axiom}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\IdrisData{MulAx}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{multiplicative}\IdrisFunction{.Axiom}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\IdrisData{DistAx}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{DistributivityAxiom}\KatlaSpace{}\IdrisBound{additive}\IdrisFunction{.signature}\KatlaSpace{}\IdrisBound{multiplicative}\IdrisFunction{.signature}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaSpace{}\KatlaNewline{}
+% \end{idris}
+% The distributive combination of the two presentations is then defined as:
+% \begin{idris}
+% \IdrisFunction{DistributiveCombinationTheory}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Presentation}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Presentation}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Presentation}\KatlaNewline{}
+% \IdrisFunction{DistributiveCombinationTheory}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaSpace{}\IdrisKeyword{=}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\IdrisData{MkPresentation}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{(}\IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisBound{additive}\IdrisFunction{.signature}\KatlaSpace{}\IdrisBound{multiplicative}\IdrisFunction{.signature}\IdrisKeyword{)}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{(}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\IdrisKeyword{)}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{(\textbackslash{}case}\KatlaSpace{}\IdrisData{AddAx}\KatlaSpace{}\IdrisBound{ax}\KatlaSpace{}\IdrisKeyword{=>}\KatlaSpace{}\IdrisFunction{injAddEq}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{additive}\IdrisFunction{.axiom}\KatlaSpace{}\IdrisBound{ax}\IdrisKeyword{)}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisData{MulAx}\KatlaSpace{}\IdrisBound{ax}\KatlaSpace{}\IdrisKeyword{=>}\KatlaSpace{}\IdrisFunction{injMulEq}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{multiplicative}\IdrisFunction{.axiom}\KatlaSpace{}\IdrisBound{ax}\IdrisKeyword{)}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisData{DistAx}\KatlaSpace{}\IdrisKeyword{(}\IdrisData{DistAxiom}\KatlaSpace{}\IdrisBound{addOp}\KatlaSpace{}\IdrisBound{mulOp}\KatlaSpace{}\IdrisBound{i}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{=>}\KatlaNewline{}
+% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisFunction{distributivityEquation}\KatlaSpace{}\IdrisBound{addOp}\KatlaSpace{}\IdrisBound{mulOp}\KatlaSpace{}\IdrisBound{i}\IdrisKeyword{)}\KatlaNewline{}
+% \end{idris}
+% If \IdrisBound{addOp} is an operator of arity \IdrisBound{n} and \IdrisBound{mulOp} is an operator of arity \IdrisBound{m}, then \IdrisFunction{distributivityEquation}\KatlaSpace{}\IdrisBound{addOp}\KatlaSpace{}\IdrisBound{mulOp}\KatlaSpace{}\IdrisBound{i} is the equation
+% \begin{align*}
+%   x_1, \dots, x_m, y_1, \dots, y_n \vdash\ &\tt{mulOp} \bigl(x_1, \dots, x_{i-1}, \tt{addOp}(y_1, \dots, y_n), x_{i+1}, \dots, x_m \bigr)\\
+%   =\ &\tt{addOp} \bigl\langle \tt{mulOp} (x_1, \dots, x_{i-1}, y_j, x_{i+1}, \dots, x_m) \bigr\rangle_{j=1}^n
+% \end{align*}
+
+
+% \todo[inline]{todolist}
+% \begin{itemize}
+%   \item explain the choice of representation for the theory of the distributive combination
+%   \item quickly go over the implementation of the semantics (the only real relevant part is \texttt{psi} but the definition in itself is atrocious, give type declarations only) $\to$ maybe give the definition of \texttt{DistributiveCombinationStructure'}
+%   \item don't go over the details of the axiom preservation and the freeness proofs (we don't have them anyway, also should we be straightforward about this ?)
+%   \item maybe only give the signature of \texttt{FreeDistributiveCombination}
+% \end{itemize}
+
+Not the entire distributive combination of free algebras has been implemented in this internship. Only the semantics have been implemented, it remains to prove in Idris 2 that the constructed algebra validates the axioms and that it is indeed free. However, since we do have the full theoretical proof, this is just a matter of taking the time and writing the remaining proofs. This can take a long time as the formalism tends to be quite heavy.
+
+We were however still able to use the current implementation to prove some equations on specific examples. For instance, for every example of a distributive combination we implemented (see the Table~\ref{tbl:combination-table}), we proved that all of the axioms of the combination hold using the reflexivity of the equivalence relation of the carrier. This also lets us test the performance of our implementation in \S\ref{sec:perf-eval}.
+
+\subsection{Performance evaluation}
+\label{sec:perf-eval}
+
+\begin{itemize}
+  \item find interactivity and attention thresholds
+  \item compare with the performances of the base solvers if possible
+\end{itemize}

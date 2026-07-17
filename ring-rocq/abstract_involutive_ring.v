@@ -135,7 +135,7 @@ Qed.
 Lemma invInv : forall x : R, ~~ (~~ x) == x.
 Proof.
   intros.
-  Fail ring [Rinv_inv Rinv_antidistr].
+  Fail ring [(Rinv_inv x) (Rinv_antidistr x)].
 Abort.
 
 Lemma invAntidistr : forall x y : R, ~~ (x * y) == ~~ y * ~~ x.

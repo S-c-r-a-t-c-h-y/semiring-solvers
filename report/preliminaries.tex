@@ -1,0 +1,164 @@
+\section{Preliminaries}
+\label{sec:preliminaries}
+% \todo[inline]{TODO : name}
+
+\textsc{Frex} is based on some concepts of \emph{universal algebra}, which gives generic descriptions of algebraic structures and relations between them \parencite[][Chp. II]{universal_algebra}. We'll summarise the relevant concepts, which have been formalised in Idris 2 \parencite{idris_frex}. We'll use the example of monoids to illustrate these concepts along the way. We'll also explain how the solving works, and we'll define the distributive combination of theories formaly.
+
+\subsection{Syntax}
+
+A \emph{finitary signature} $\Sigma = (\op \Sigma, \arity)$ consists of a set $\op \Sigma$ of \emph{operators}, and an assigment $\arity : \op \Sigma \to \N$ associating to each operator in $\op \Sigma$ its \emph{arity}. The usual signature $\Sigma_\Mon$ of monoids consists of two operators $(\cdot)$ and $1$, with respective arities $2$ and $0$. We'll write $\Sigma_\Mon := \{(\cdot) : 2,\; 1 : 0\}$.
+
+An \emph{algebra} $A = (\underline{A}, A \brak{\text{--}})$ over a signature $\Sigma$ consists of a set $\underline{A}$ called the \emph{carrier} of $A$, and a function $A \brak{f} : \underline{A}^n \to \underline{A}$ called the \emph{interpretation} of $f$ in $A$ for each operator $f : n \in \Sigma$. This gives the semantics to the algebraic language determined by the signature. There may be different algebras for a given signature and carrier set. One can equip the set $\N$ of natural numbers with the monoid structure $(\N, (+), 0), (\N, (\cdot), 0)$ or even $(\N, \max, 0)$.
+
+Given a set $X$ of variables and a signature $\Sigma$, the set of \emph{$\Sigma$-terms over $X$}, denoted $\Term_\Sigma(X)$, is defined by induction:
+$$\dfrac{x \in X}{\var x \in \Term_\Sigma(X)} \qquad \dfrac{t_i \in \Term_\Sigma(X) \quad f : n \in \Sigma}{f(t_1, \dots, t_n) \in \Term_\Sigma(X)}$$
+\noindent We'll usually write $x \in \Term_\Sigma(X)$ instead of $\var x \in \Term_\Sigma(X)$. We define \emph{equations in context} $X \vdash l = r$ as triples $(X, l, r)$ where $X$ is a set of variables and $l,r$ are terms in context $X$ called the \emph{left-hand-side} (LHS) and \emph{right-hand-side} (RHS). The associativity equation in $\Sigma_\Mon$ is then defined as $x, y, z \vdash x \cdot (y \cdot z) = (x \cdot y) \cdot z$.
+
+An \emph{environment} $\rho$ for a context $X$, or \emph{$X$-environment}, in an algebra $A$ is a function $\rho : X \to \underline{A}$ that assigns to each variable in $X$ an element of the carrier of $A$. Given a term $t \in \Term_\Sigma(X)$, denoted $X \vdash t$, the algebra $A$ gives an \emph{interpretation} function $A \brak{t} : \underline{A}^X \to \underline{A}$. For an $X$-environment $\rho$, $A \brak{t} \rho$ is defined by induction:
+$$A \brak{\var x} \rho := \rho\; x \qquad A \brak{\op(t_1, \dots, t_n)} \rho := A \brak{\op} (A \brak{t_1} \rho, \dots, A \brak{t_n} \rho)$$
+For example, in the $\Sigma_\Mon$-algebra $A = (\N, (+), 0)$, one can interpret the term $x \cdot (y \cdot 1)$ in the environment $\{x \mapsto 1, y \mapsto 2\}$, yielding $A\brak{x \cdot (y \cdot 1)} = 1 + (2 + 0) = 3$
+
+An equation $X \vdash l = r$ between terms in $\Term_\Sigma(X)$ is \emph{valid} in an algebra $A$ if for every environment $\rho : X \to \underline{A}$, we have $A \brak{l}\rho = A \brak{r}\rho$. We write this $A \models (X \vdash l = r)$. For example, the $\Sigma_\Mon$ algebras presented so far validate the associativity axiom, but interpreting the binary operation as subtraction over the integers $(\Z, (-), 0)$ does not: taking the environment $\{x \mapsto 0,\; y \mapsto 0,\; z \mapsto 1\}$, we have $0 - (0 - 1) = 1 \neq -1 = (0 - 0) - 1$.
+
+A \emph{presentation} (or \emph{theory}) $\mathcal T = \la \Sigma_\mathcal{T}, \Ax_\mathcal{T} \ra$ consists of a signature $\Sigma_\mathcal{T}$ and a set $\Ax_\mathcal{T}$ of $\Sigma$-equations in context. A \emph{$\mathcal T$-model} $A$ is a $\Sigma_\mathcal{T}$ algebra validating all of the axioms in $\Ax_\mathcal{T}$. The $\Monoid$ presentation consists of the associativity axiom paired with the neutrality axioms $x \vdash x \cdot 1 = x$ and $x \vdash 1 \cdot x = x$ over the signature $\Sigma_\Mon$.
+
+Let $A = (\underline{A}, A \brak{\text{--}})$ and $B = (\underline{B}, B \brak{\text{--}})$ be algebras over the same signature $\Sigma$. A \emph{homomorphism} of $\Sigma$-algebras from $A$ to $B$ is a function $h : \underline{A} \to \underline{B}$ such that for every operator $f : n \in \Sigma$ and every $a_1, \ldots, a_n \in \underline{A}$ we have:
+$$B \brak{f}\bigr(h(a_1), \ldots, h(a_n)\bigl) = h\bigr(A \brak{f}(a_1, \ldots, a_n)\bigl)$$
+In other words, a homomorphism is a semantics-preserving function between the carriers of the algebras. For example, complex conjugation is an homomorphism between the $\Sigma_\Mon$-algebras over the complex numbers, since $\bar{z_1 + z_2} = \bar{z_1} + \bar{z_2}$, $\bar{0} = 0$ and $\bar{z_1 \cdot z_2} = \bar{z_1} \cdot \bar{z_2}$, $\bar{1} = 1$. A \emph{homomorphism} of $\mathcal T$-models is a homomorphism of $\Sigma_{\mathcal T}$-algebras between the underlying algebras of the models. 
+
+\subsection{Free models/algebras}
+\label{sec:free_algebras}
+
+Let $\mathcal T$ be a presentation and $X$ a set of variables. A $\mathcal{T}$-model over $X$ is just a pair $\la A, e \ra$ where $A$ is a $\mathcal{T}$-model and $e : X \to \underline{A}$ is an $X$-environment in this algebra. This concept is used to formalise the fral solving process in \S\ref{sec:solving}.
+
+\begin{wrapfigure}[6]{r}{2cm}
+  \begin{tikzcd}[row sep=tiny]
+  & {\underline{A}} \\
+  X \\
+  & {\underline{B}}
+  \arrow[""{name=0, anchor=center, inner sep=0}, "h", from=1-2, to=3-2]
+  \arrow["{\rho_A}", from=2-1, to=1-2]
+  \arrow["{\rho_B}"', from=2-1, to=3-2]
+  \arrow["{=}"{description}, draw=none, from=2-1, to=0]
+  \end{tikzcd}
+\end{wrapfigure}
+A \emph{morphism} $h : \la A, \rho_A \ra \to \la B, \rho_B \ra$ between $\mathcal T$-models over $X$ is a $\mathcal T$-model homomorphism that makes the diagram on the right commute. A \emph{free $\mathcal{T}$-model over $X$} is a $\mathcal T$-model $\la F(X), \env \ra$ such that for every $\mathcal T$-model $A$ over $X$, there exists a unique morphism of $\mathcal T$-models from $\la F(X), \env \ra$ to $A$. We will often use the term "free algebra", abbreviated "fral", when $\mathcal{T}$ is implicit. The existence-and-uniqueness property is called the \emph{universal property} of the free algebra. Thanks to the universal property, all free $\mathcal{T}$-models over $X$ are isomorphic and therefore we often talk about \emph{the} free algebra over $X$. Informally, the free algebra for a theory is the simplest and most general model validating the theory, in the sense that the only equations validated by the free algebra are the ones from the theory and the ones that we can deduce from them. This is ensured by the universal property. The free commutative monoid over the set of variables $\{x_1, x_2, x_3\}$ can be represented by $\N^3$. Addition is coordinate wise, the $0$ element is $(0, 0, 0)$ and $\env$ is the function that sends $x_1$ to $(1, 0, 0)$, $x_2$ to $(0, 1, 0)$ and $x_3$ to $(0, 0, 1)$. The unique morphism out of this algebra into any commutative monoid $A$ is the function sending $(a_1, a_2, a_3)$ to $a_1(\rho_A(x_1)) + a_2(\rho_A(x_2)) + a_3(\rho_A(x_3))$.
+
+Every presentation $\mathcal T$ induces an equivalence relation between terms using the deduction rules of equational logic. Explicitely, we define a \emph{provability} relation $X \vdash l = r$ inductively as in \figref{fig:provability}.
+\begin{figure}[!h]
+  \begin{gather*}
+    \dfrac{\ax \in \Ax_\mathcal{T}}{\ax} \quad (\text{axiom}) \qquad X \vdash t = t \quad (\text{reflexivity}) \qquad \dfrac{X \vdash l = r}{X \vdash r = l} \quad (\text{symmetry})\\
+    \dfrac{X \vdash l = m \quad X \vdash m = r}{X \vdash l = r} \quad (\text{transitivity})\qquad 
+    \dfrac{X \vdash l = r \quad \theta : X \to \Term_{\Sigma_\mathcal{T}} Y}{Y \vdash l[\theta] = r[\theta]} \quad (\text{substitution})\\
+    \dfrac{\text{for } i = 1, \dots, n: X \vdash l_i = r_i}{X \vdash \op(l_1, \dots, l_n) = \op(r_1, \dots, r_n)} \quad (\text{congruence})
+  \end{gather*}
+  \caption{Provability}
+  \label{fig:provability}
+\end{figure}
+
+\textcite{idris_frex} proves that there is an isomorphism of $\mathcal{T}$-models over $X$ $$\la F(X), \env \ra \cong \la \bigr(\Term_{\Sigma_{\mathcal{T}}} X \bigl) / \bigr(X \vdash_{\mathcal{T}}\bigl) =: Q, \env' \ra$$ with $\appli{\env'}{X}{Q}{x}{[\var x]}$. Therefore free algebras represent terms modulo semantics.
+
+\subsection{Free extensions}
+
+An \emph{extension of $A$ by $X$} is a triple $\la B, h, e \ra$ where $B$ is a $\pres$-algebra, $h : A \to B$ is a $\pres$-homomorphism and $e : X \to B$ is a function.
+
+\begin{wrapfigure}{r}{2cm}
+\begin{tikzcd}[sep=small]
+    & {B_1} & \\
+    X && A \\
+    & {B_2}
+    \arrow["h", from=1-2, to=3-2]
+    \arrow["{e_1}", from=2-1, to=1-2]
+    \arrow["{e_2}"', from=2-1, to=3-2]
+    \arrow["{h_1}"', from=2-3, to=1-2]
+    \arrow["{h_2}", from=2-3, to=3-2]
+  \end{tikzcd}
+\end{wrapfigure}
+Let $b_1 = \la B_1, h_1, e_1 \ra, b_2 = \la B_2, h_2, e_2 \ra$ be two extensions of $A$ by $X$. A \emph{morphism of extensions} $h : b_1 \to b_2$ is a $\pres$-homomorphism $h : B_1 \to B_2$ that makes the diagram on the right commute. An extension $\la A[X], \sta, \dyn \ra$ is \emph{free} when, for every extension $\la B, h, e \ra$, there is a unique extension morphism $[B, h, e] : \la A[X], \sta, \dyn \ra \to \la B, h, e \ra$. Free extension is abbreviated "frex", and a free extension of $A$ by $X$ is usually denoted $A[X]$. Just like for free algebras, all free extensions of $A$ by $X$ are isomorphic to each other. Let $A$ be a commutative monoid. Its frex by a finite set $X = \{x_1, \dots, x_n\}$ of variables can be represented by $A[X] := \underline{A} \times \N^n$. The remaining structure is defined by: \begin{gather*}
+  \la a, \la k_{11}, \dots, k_{1n} \ra \ra + \la b, \la k_{21}, \dots, k_{2n} \ra \ra := \la a + b, \la k_{11} + k_{21}, \dots, k_{1n} + k_{21} \ra \ra\\
+  0 := \la 0, \la 0, \dots, 0 \ra \ra \qquad \sta\; a := \la a, \la 0, \dots, 0 \ra \ra \qquad \dyn\; x_i := \la 0, \la 0, \dots, 0, \underset{\underset{i}{\uparrow}}{1}, 0, \dots, 0 \ra \ra\\
+  [B, h, e]\; \la a, \la k_1, \dots, k_n \ra \ra := h\; a + k_1 \cdot e\; x_1 + \dots + k_n \cdot e\; x_n
+\end{gather*}
+
+Similarly to \S\ref{sec:free_algebras}, there is a canonical isomorphism between any free extension and the quotient frex $\la \bigr(\Term_{\Sigma_{\mathcal{T}_A}} X \bigl) / \bigr(X \vdash_{\mathcal{T}_A}\bigl) =: Q, \sta', \dyn' \ra$ with $\appli{\sta'}{A}{Q}{a}{[\underline{a}]}$ and $\appli{\dyn'}{X}{Q}{x}{[\var x]}$. $\mathcal{T}_A$ is the presentation where the operators are the ones of $\mathcal{T}$ together with newly adjoined constants $\underline{a}$ for every $a \in \underline{A}$, and whose axioms are the combination of the axioms in $\mathcal{T}$ and the evaluation axioms $\vdash \op(\underline{a_1}, \dots, \underline{a_n}) = A\brak{\op} (a_1, \dots, a_n)$ for every $\op : n \in \Sigma_\mathcal{T}$ and $(a_1, \dots, a_n) \in \underline{A^n}$ \parencite{involutive_frex}.
+
+% \textcite{involutive_frex} proves that there is an isomorphism of extensions 
+
+% \noindent $\la A[X], \sta, \dyn \ra \cong \la \bigr(\Term_{\Sigma_{\mathcal{T}_A}} X \bigl) / \bigr(X \vdash_{\mathcal{T}_A}\bigl) =: Q, \sta', \dyn' \ra$ with $\appli{\sta'}{A}{Q}{a}{[\underline{a}]}$ and $\appli{\dyn'}{X}{Q}{x}{[\var x]}$. Therefore free extensions represent terms modulo semantics.
+
+% \todo[inline, color=red]{FIXME: forgot to define $\mathcal{T}_A$ for an arbitrary presentation $\mathcal{T}$. Also maybe give this result for free algebras instead of free extensions.}
+
+\subsection{How the fral/frex solving works}
+\label{sec:solving}
+
+We'll explain how the fral solving works, and then explain how to adapt this for free extensions. This has been formalised in Idris 2 \parencite{idris_frex}, see \S\ref{sec:implementation}.
+
+Suppose that we want to prove that the equation $x + (y + x) + y = x + x + y + y$ holds in a commutative monoid $A$. We evaluate the LHS and RHS of the equation in the free algebra, both give the representative $(2, 2)$. We then prove the equality in the free algebra, this is simple reflexivity here, and we use the universal property of the free algebra to conclude of the validity of the equation in $A$.
+
+In the general setting, let $X$ be a set of variables, $\mathcal{T}$ be a theory, $\la A, \env_A \ra$ be a $\mathcal{T}$-model over $X$ and $\la FX, \env_{FX} \ra$ be a free $\mathcal{T}$-model over $X$. We want to prove that $A \brak{l} \env_A = A \brak{r} \env_A$ for some equation $X \vdash l = r$. To do this, we need a proof that $FX\brak{l} \env_{FX} = FX\brak{r} \env_{FX}$. Suppose that we have this proof. The universal property of $FX$ gives an homomorphism $h : \underline{FX} \to \underline{A}$ such that $h \circ \env_{FX} = \env_A$.
+\begin{lemma}[Homomorphisms preserve term semantics]
+  Let $A, B$ be two $\mathcal{T}$-algebras, $X \vdash t$ be a term and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Then for all function $\env : X \to \underline{A}$, $h \bigl( A \brak{l} \env \bigr) = B\brak{r} (h \circ \env)$.
+\end{lemma}
+\begin{proof}
+  This is a simple induction, since $h$ preserves the semantics of the operators in $\mathcal{T}$.
+\end{proof}
+
+\begin{lemma}[Homomorphisms preserve equations]
+  Let $A, B$ be two $\mathcal{T}$-algebras, $\env : X \to \underline{A}$ be a function, $X \vdash l = r$ be an equation and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Suppose that $A\brak{l} \env = A \brak{r} \env$. 
+  
+  \noindent Then $B \brak{l} (h \circ \env) = B\brak{r} (h \circ \env)$.
+\end{lemma}
+\begin{proof}
+  \begin{align*}
+    B \brak{l} (h \circ \env) &= h \bigl( A \brak{l} \env \bigr) &\text{since $h$ preserves term semantics}\\
+    &= h \bigl( A \brak{r} \env \bigr) &\text{since $A \brak{l} \env = A \brak{r} \env$ by hypothesis}\\
+    &= B \brak{r} (h \circ \env)  &\text{since $h$ preserves term semantics}\\
+  \end{align*}
+\end{proof}
+
+Now we can finally prove our equality in $A$. Since $FX\brak{l} \env_{FX} = FX\brak{r} \env_{FX}$, $h$ is a homomorphism and homomorphisms preserve equations, $A \brak{l} (h \circ \env_{FX}) = A \brak{r} (h \circ \env_{FX})$. But $h \circ \env_{FX} = \env_A$, therefore $A \brak{l} \env_A = A \brak{r} \env_A$.
+
+Proving equalities in arbitrary models with free algebras then just comes down to proving equalities in the free algebra. Since free algebras are canonicaly isomorphic to the quotient algebra of terms quotiented by the provability relation, if an equality is indeed provable, then the two associated terms in the free algebra should also be equal. The difficulty only resides in the definition of equality in the free algebra.
+
+Proving equalities between partially static terms using free extensions is not much harder. Instead of considering an equation on $X$, we consider an equation on $X \sqcup \underline{A}$. For an extension $\la A, \sta, \dyn \ra$, the environment we use is defined as follows: $$\env\; x := \begin{cases}
+  \sta\; x &\text{ if $x \in \underline{A}$}\\
+  \dyn\; x &\text{ if $x \in X$}
+\end{cases}$$ Using the same reasoning as before and the universal property of the free extension, we can prove partially static equalities on arbitrary models.
+
+\subsection{The distributive combination of theories}
+
+% We are interested in creating free algebras and free extensions for composite theories from existing free algebras and free extensions for component theories.
+
+Given two signatures $\Sigma_1$ and $\Sigma_2$, we define their coproduct $\Sigma_1 + \Sigma_2$ as the signature with operators the disjoint union of the operators, but retaining their arity:
+$$\Sigma_1 + \Sigma_2 = \{ \iota_i f : n \mid (f : n) \in \Sigma_i, i = 1, 2 \}$$
+Given a $\Sigma_i$-term-in-context $ n \vdash_{\Sigma_i} t$, we denote by $n \vdash_{\Sigma_1 + \Sigma_2} \iota_i [t]$ the $\Sigma_1 + \Sigma_2$-term-in-context obtained by applying the injection $\iota_i$ to all the operators of $t$. Similarly, given a $\Sigma_i$-equation in context $eq := (n \vdash_{\Sigma_i} t = t')$, we denote by $\iota_i [eq]$ the $\Sigma_1 + \Sigma_2$-equation in context $n \vdash_{\Sigma_1 + \Sigma_2} \iota_i [t] = \iota_i [t']$.
+
+Let $\mathcal{A}$ and $\mathcal{M}$ be two theories. We define the \emph{distributive combination of $\mathcal{M}$ over $\mathcal{A}$} \parencite{discrete_lawvere_theories} to be the theory $\mathcal M \triangleright \mathcal A$ given by: \begin{align*}
+  \Sigma_{\mathcal M \triangleright A} &:= \Sigma_\mathcal{M} + \Sigma_\mathcal{A}\\
+  \Ax_{\mathcal M \triangleright A} &:= \iota_1[\Ax_\mathcal{M}] \cup \iota_2[\Ax_{\mathcal A}]\\
+  & \cup
+    \left\{
+    \left.
+    \begin{array}{c}
+    \la x_i\ra_{\stackrel{i=1}{i\neq i_0}}^{n},
+    \;
+    \mathbf{y} \mid f(x_1,\ldots,x_{i_0-1},s \mathbf{y},x_{i_0+1},\ldots,x_n)
+    \\[4pt]
+    \qquad\qquad
+    =
+    s\left\langle
+    f(x_1,\ldots,x_{i_0-1},\mathbf{y}_j,x_{i_0+1},\ldots,x_n)
+    \right\rangle_{j=1}^{|\mathbf{y}|}
+    \end{array}
+    \;\right|\;
+    \begin{array}{l}
+    f : n \in \Sigma_\mathcal{M} \\
+    s : |\mathbf{y}| \in \Sigma_\mathcal{A}
+    \end{array}
+    \right\}
+\end{align*}
+Concretely, the signature is the coproduct signature and the axioms are the union of the axioms to which we added distributivity axioms between the operators of $\mathcal{M}$ and $\mathcal{A}$, stating that every operator of $\mathcal{M}$ distributes over every operator of $\mathcal{A}$. We will call $\mathcal{M}$ the multiplicative theory, and $\mathcal{A}$ the additive theory. For example, the theory of semirings is the distributive combination of commutative monoids over monoids. The distributivity axioms state that:
+\begin{gather*}
+  x, y, z \vdash x \cdot (y + z) = (x \cdot y) + (x \cdot z) \qquad x, y, z \vdash (x + y) \cdot z = (x \cdot z) + (y \cdot z)\\
+  x \vdash x \cdot 0 = 0 \qquad x \vdash 0 \cdot x = x
+\end{gather*}
