@@ -83,7 +83,7 @@ def to_rocq(t: Term) -> str:
     raise TypeError(t)
 
 
-def to_idris(t: Term) -> str:  # natural infix, for the proposition
+def to_idris(t: Term) -> str:
     if isinstance(t, Const):
         if t.value == 0:
             return "O1"
@@ -98,6 +98,24 @@ def to_idris(t: Term) -> str:  # natural infix, for the proposition
         return f"({to_idris(t.l)} .+. {to_idris(t.r)})"
     if isinstance(t, Mul):
         return f"({to_idris(t.l)} .*. {to_idris(t.r)})"
+    raise TypeError(t)
+
+
+def to_idris_term(t: Term) -> str:
+    if isinstance(t, Const):
+        if t.value == 0:
+            return "O2"
+        if t.value == 1:
+            return "I2"
+        raise TypeError(t)
+    if isinstance(t, Var):
+        return f"(X {t.idx})"
+    if isinstance(t, Neg):
+        return f"(negT {to_idris_term(t.a)})"
+    if isinstance(t, Add):
+        return f"({to_idris_term(t.l)} :+: {to_idris_term(t.r)})"
+    if isinstance(t, Mul):
+        return f"({to_idris_term(t.l)} :*: {to_idris_term(t.r)})"
     raise TypeError(t)
 
 

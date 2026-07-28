@@ -131,8 +131,8 @@ if __name__ == "__main__":
 
     csv_paths = {
         ("Idris", "semiring"): f"{in_dir}/idris_semiring.csv",
-        ("Rocq", "semiring"): f"{in_dir}/rocq_semiring.csv",
+        # ("Rocq", "semiring"): f"{in_dir}/rocq_semiring.csv",
         ("Idris", "ring"): f"{in_dir}/idris_ring.csv",
-        ("Rocq", "ring"): f"{in_dir}/rocq_ring.csv",
+        # ("Rocq", "ring"): f"{in_dir}/rocq_ring.csv",
     }
     make_all_plots(csv_paths, sys.argv[2])

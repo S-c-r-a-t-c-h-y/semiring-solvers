@@ -4,11 +4,12 @@ import Frexlet.Monoid.Commutative.Notation.Core
 
 import Data.Order
 
-%default total
-
 ------------------------ DEFINING THE COMBINATION ------------------------
 
-CommutativeSemiringOver : (n : Nat) -> (DistributiveCombinationTheory CommutativeMonoidTheory CommutativeMonoidTheory) `ModelOver` (cast $ Fin n)
+DistrSig : Signature
+DistrSig = CoproductSignature Signature Signature
+
+CommutativeSemiringOver : (n : Nat) -> Free (DistributiveCombinationTheory CommutativeMonoidTheory CommutativeMonoidTheory) (cast $ Fin n)
 CommutativeSemiringOver n =
   let freeM : Free CommutativeMonoidTheory (cast $ Fin n)
       freeM = Finite.Free
@@ -22,31 +23,49 @@ CommutativeSemiringOver n =
           , compare = compareVect compareNat
           }
         }
+      freeA : Free CommutativeMonoidTheory (cast freeM.Data.Model)
+      freeA = Free x_set
   in
-  DistributiveCombination' 
+  FreeDistributiveCombination'
     {additive = Theory.CommutativeMonoidTheory} 
     {multiplicative = Theory.CommutativeMonoidTheory} 
-    (cast $ Fin n) freeM (Free x_set)
+    (cast $ Fin n) 
+    (believe_me "AffinePresentation")
+    (believe_me "CommutativeTheory")
+    freeM freeA
 
-TestSemiring : (DistributiveCombinationTheory CommutativeMonoidTheory CommutativeMonoidTheory) `ModelOver` (cast $ Fin VAR_COUNT)
+
+TestSemiring : Free (DistributiveCombinationTheory CommutativeMonoidTheory CommutativeMonoidTheory) (cast $ Fin VAR_COUNT)
 TestSemiring = CommutativeSemiringOver VAR_COUNT
 
-(.+.) : U TestSemiring .Model -> U TestSemiring .Model -> U TestSemiring .Model
-(.+.) = TestSemiring .Model.sem (Left Product)
+(.+.) : U TestSemiring .Data.Model -> U TestSemiring .Data.Model -> U TestSemiring .Data.Model
+(.+.) = TestSemiring .Data.Model.sem (Left Product)
 
-(.*.) : U TestSemiring .Model -> U TestSemiring .Model -> U TestSemiring .Model
-(.*.) = TestSemiring .Model.sem (Right Product)
+(:+:) : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
+(:+:) = call {sig = DistrSig} (Left Product)
 
-O1 : U TestSemiring .Model
-O1 = TestSemiring .Model.sem (Left Neutral)
+(.*.) : U TestSemiring .Data.Model -> U TestSemiring .Data.Model -> U TestSemiring .Data.Model
+(.*.) = TestSemiring .Data.Model.sem (Right Product)
 
-I1 : U TestSemiring .Model
-I1 = TestSemiring .Model.sem (Right Neutral)
+(:*:) : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
+(:*:) = call {sig = DistrSig} (Right Product)
 
-0 (=-=) : U TestSemiring .Model -> U TestSemiring .Model -> Type
-(=-=) term1 term2 = TestSemiring .Model.rel term1 term2
+O1 : U TestSemiring .Data.Model
+O1 = TestSemiring .Data.Model.sem (Left Neutral)
 
-refl : (x : U TestSemiring .Model) -> x =-= x
-refl x = TestSemiring .Model.equivalence.reflexive x
+O2 : Term DistrSig (Fin VAR_COUNT)
+O2 = call {sig = DistrSig} (Left Neutral)
+
+I1 : U TestSemiring .Data.Model
+I1 = TestSemiring .Data.Model.sem (Right Neutral)
+
+I2 : Term DistrSig (Fin VAR_COUNT)
+I2 = call {sig = DistrSig} (Right Neutral)
+
+0 (~~) : U TestSemiring .Data.Model -> U TestSemiring .Data.Model -> Type
+(~~) term1 term2 = TestSemiring .Data.Model.rel term1 term2
+
+refl : (x : U TestSemiring .Data.Model) -> x ~~ x
+refl x = TestSemiring .Data.Model.equivalence.reflexive x
 
 VAR_DECL

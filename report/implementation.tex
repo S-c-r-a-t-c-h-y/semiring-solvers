@@ -95,7 +95,19 @@ We were however still able to use the current implementation to prove some equat
 \subsection{Performance evaluation}
 \label{sec:perf-eval}
 
+Following the work of \cite{idris_frex}, we tested our implementation to find the instantaneity (0.1s), interactivity (1s) and attention (10s) tresholds described by \cite{nielsen:usability-engineering}. This is important as developping in Idris2 is interactive and our tool is meant to discharge the user of painful arithmetic proofs.
+
+\textsc{Frex}'s checking time\footnote{We used an Intel Core Ultra 7 255HX machine with 16GB memory, running Idris 2 version 0.8.0-6a54860ee on Debian Linux 13.} remains under the instantaneity treshold for terms of size 30 to 60 depending on the number of free variables, as pictured in Figure~\ref{fig:perf-single}. This is more than sufficient to deal with the typical equalities that arise in dependently typed programs.
+
+\begin{figure}[!h]
+  \todo[inline]{Add figure}
+  % \includegraphics[options]{name}
+  \caption{caption}
+  \label{fig:perf-single}
+\end{figure}
+
+Comparing the execution times for semirings and rings with the ones in \textcite{idris_frex} for monoids, the performance seems to have much improved. This can be explained by two different factors:
 \begin{itemize}
-  \item find interactivity and attention thresholds
-  \item compare with the performances of the base solvers if possible
+  \item \textcite{idris_frex} mentioned a performance bottleneck in Idris2's evaluator, this was four years ago and the developpment of Idris2 probably eliminated this bottleneck.
+  \item The tests have not been run on the same machine, and the CPU used for the semirings test is much more efficient than the one used for the monoids tests.
 \end{itemize}

@@ -5,11 +5,12 @@ import Frexlet.Group.Abelian.Notation.Core
 
 import Data.Order
 
-%default total
-
 ------------------------ DEFINING THE COMBINATION ------------------------
 
-CommutativeRing : (n : Nat) -> (DistributiveCombinationTheory AbelianGroupTheory CommutativeMonoidTheory) `ModelOver` (cast $ Fin n)
+DistrSig : Signature
+DistrSig = CoproductSignature Frexlet.Group.Theory.Signature Frexlet.Monoid.Theory.Signature
+
+CommutativeRing : (n : Nat) -> Free (DistributiveCombinationTheory AbelianGroupTheory CommutativeMonoidTheory) (cast $ Fin n)
 CommutativeRing n =
   let freeM : Free CommutativeMonoidTheory (cast $ Fin n)
       freeM = Finite.Free
@@ -23,35 +24,55 @@ CommutativeRing n =
           , compare = compareVect compareNat
           }
         }
+      freeA : Free AbelianGroupTheory (cast freeM.Data.Model)
+      freeA = Free x_set
   in
-  DistributiveCombination' 
+  FreeDistributiveCombination'
     {additive = Theory.AbelianGroupTheory} 
     {multiplicative = Theory.CommutativeMonoidTheory} 
-    (cast $ Fin n) freeM (Free x_set)
+    (cast $ Fin n) 
+    (believe_me "AffinePresentation")
+    (believe_me "CommutativeTheory")
+    freeM freeA
 
 
-TestRing : (DistributiveCombinationTheory AbelianGroupTheory CommutativeMonoidTheory) `ModelOver` (cast $ Fin VAR_COUNT)
+TestRing : Free (DistributiveCombinationTheory AbelianGroupTheory CommutativeMonoidTheory) (cast $ Fin VAR_COUNT)
 TestRing = CommutativeRing VAR_COUNT
 
-(.+.) : U TestRing .Model -> U TestRing .Model -> U TestRing .Model
-(.+.) = TestRing .Model.sem (Left (Mono Product))
+(.+.) : U TestRing .Data.Model -> U TestRing .Data.Model -> U TestRing .Data.Model
+(.+.) = TestRing .Data.Model.sem (Left (Mono Product))
 
-(.*.) : U TestRing .Model -> U TestRing .Model -> U TestRing .Model
-(.*.) = TestRing .Model.sem (Right Product)
+(:+:) : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
+(:+:) = call {sig = DistrSig} (Left (Mono Product))
 
-neg : U TestRing .Model -> U TestRing .Model
-neg = TestRing .Model.sem (Left Inverse)
+(.*.) : U TestRing .Data.Model -> U TestRing .Data.Model -> U TestRing .Data.Model
+(.*.) = TestRing .Data.Model.sem (Right Product)
 
-O1 : U TestRing .Model
-O1 = TestRing .Model.sem (Left (Mono Neutral))
+(:*:) : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
+(:*:) = call {sig = DistrSig} (Right Product)
 
-I1 : U TestRing .Model
-I1 = TestRing .Model.sem (Right Neutral)
+neg : U TestRing .Data.Model -> U TestRing .Data.Model
+neg = TestRing .Data.Model.sem (Left Inverse)
 
-0 (=-=) : U TestRing .Model -> U TestRing .Model -> Type
-(=-=) term1 term2 = TestRing .Model.rel term1 term2
+negT : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
+negT = call {sig = DistrSig} (Left Inverse)
 
-refl : (x : U TestRing .Model) -> x =-= x
-refl x = TestRing .Model.equivalence.reflexive x
+O1 : U TestRing .Data.Model
+O1 = TestRing .Data.Model.sem (Left (Mono Neutral))
+
+O2 : Term DistrSig (Fin VAR_COUNT)
+O2 = call {sig = DistrSig} (Left (Mono Neutral))
+
+I1 : U TestRing .Data.Model
+I1 = TestRing .Data.Model.sem (Right Neutral)
+
+I2 : Term DistrSig (Fin VAR_COUNT)
+I2 = call {sig = DistrSig} (Right Neutral)
+
+0 (~~) : U TestRing .Data.Model -> U TestRing .Data.Model -> Type
+(~~) term1 term2 = TestRing .Data.Model.rel term1 term2
+
+refl : (x : U TestRing .Data.Model) -> x ~~ x
+refl x = TestRing .Data.Model.equivalence.reflexive x
 
 VAR_DECL

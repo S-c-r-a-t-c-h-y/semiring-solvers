@@ -162,3 +162,65 @@ Concretely, the signature is the coproduct signature and the axioms are the unio
   x, y, z \vdash x \cdot (y + z) = (x \cdot y) + (x \cdot z) \qquad x, y, z \vdash (x + y) \cdot z = (x \cdot z) + (y \cdot z)\\
   x \vdash x \cdot 0 = 0 \qquad x \vdash 0 \cdot x = x
 \end{gather*}
+
+\subsection{Monads and distributive laws}
+
+Monads are closely related to algebraic theories, and the construction of the distributive combinations in \S\ref{sec:construction} uses the notions of monads and distributive laws from a category-theoretical point of vue. We will assume basic knowledge about category theory, mainly about functors, natural transformations and adjunctions. One can refer itself to \textcite{maclane}.
+
+A \emph{monad} on a category $\mathcal{C}$ is a triple $(T, \eta, \mu)$ where $T: \mathcal{C} \to \mathcal{C}$ is a functor, $\eta: \text{Id}_{\mathcal{C}} \to T$ is a natural transformation called the unit, $\mu: T^2 \to T$ is a natural transformation called the multiplication, and such that the following diagrams commute:
+  \[
+  \begin{tikzcd}
+    T \arrow[r, "T\eta"] \arrow[d, "\eta T"'] \arrow[equal, dr, ""] & T^2 \arrow[d, "\mu"] \\
+    T^2 \arrow[r, "\mu"'] & T
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    T^3 \arrow[r, "T\mu"] \arrow[d, "\mu T"'] & T^2 \arrow[d, "\mu"] \\
+    T^2 \arrow[r, "\mu"'] & T
+  \end{tikzcd}
+  \]
+Every adjunction $\la F, G, \eta, \epsilon \ra$ gives rise to a monad \parencite{maclane}, by defining $T := GF$, $\eta := \eta$ and $\mu := G \epsilon F$.
+
+\begin{theorem}[\cite{nogo_distributive_law}]
+For a theory $\mathcal T$, there is a left adjoint $F^\mathcal{T}$ to the obvious forgetful functor $U^\mathcal{T} : \mathcal{T}$-$\Alg \to \Set$ where $\mathcal{T}$-$\Alg$ is the category with $\mathcal{T}$-models as objects and $\mathcal{T}$-model homomorphisms as morphisms. The functor is defined as follows:
+\begin{itemize}
+  \item For a set $X$, $F^\mathcal{T} X := \underline{F_\mathcal{T} X}$ is the carrier of the free $\mathcal{T}$-algebra over $X$.
+  \item The action on a function $h : X \to Y$ is defined inductively by:
+  \begin{align*}
+    F^\mathcal{T}(h)(x) &= h(x) \quad \text{for } x \in X\\
+    F^\mathcal{T}(h)(\op(t_1, \dots, t_n)) &= \op\bigr(F^\mathcal{T}(h)(t_1), \dots, F^\mathcal{T}(h)(t_n)\bigl) \quad \text{for } \op : n \in \Sigma_\mathcal{T}
+  \end{align*} 
+\end{itemize}
+\end{theorem}
+
+For a theory $\mathcal{T}$, the \emph{free model monad} induced by $\mathcal{T}$ is then the monad induced by the free/forgetful adjunction $U^\mathcal{T} \circ F^\mathcal{T}$. We say that a monad $T$ corresponds to a theory $\mathcal{T}$ if $T$ is a free model monad induced by $\mathcal{T}$. It is well know that every finitary monad on the category of sets arises as a free model monad for some algebraic theory.
+
+Concretely, the monad $T$ corresponding to the algebraic theory $\mathcal T$ is the monad whose terms $TX$ are terms over the variables in $X$ modulo the equations, whose unit $\eta_X : X \to TX$ sends each variable to the corresponding atomic term and whose multiplication $\mu_X : TTX \to TX$ is substitution/flattening, i.e, the act of plugging terms into terms. For the theory of (regular) monoids, the corresponding monad is the $\List$ monad whose elements $LX$ are finite lists over $X$, $\eta_X (x) = [x]$ and $\mu_X$ is list concatenation.
+
+
+Given two monads $(T, \eta^T, \mu^T)$ and $(S, \eta^S, \mu^S)$ on a category $\mathcal{C}$, a \emph{distributive law} \parencite{distributive_laws} of $T$ over $S$ is a natural transformation $\lambda: TS \to ST$ such that the following diagrams commute:
+  \[
+  \begin{tikzcd}
+                          & T \arrow[ld, "T\eta^S"'] \arrow[rd, "\eta^ST"] &    \\
+TS \arrow[rr, "\lambda"'] &                                                & ST
+\end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+                          & S \arrow[ld, "\eta^TS"'] \arrow[rd, "S\eta^T"] &    \\
+TS \arrow[rr, "\lambda"'] &                                                & ST
+\end{tikzcd}
+  \]
+  \[
+  \begin{tikzcd}
+    T^2 S \arrow[r, "T\lambda"] \arrow[d, "\mu^T S"'] & TST \arrow[r, "\lambda T"] & ST^2 \arrow[d, "S\mu^T"] \\
+    TS \arrow[rr, "\lambda"'] & & ST
+  \end{tikzcd}
+  \quad\quad
+  \begin{tikzcd}
+    TS^2 \arrow[r, "\lambda S"] \arrow[d, "T\mu^S"'] & STS \arrow[r, "S\lambda"] & S^2T \arrow[d, "\mu^S T"] \\
+    TS \arrow[rr, "\lambda"'] & & ST
+  \end{tikzcd}
+  \]
+These equations ensure that the distributive law is compatible for both the units and the multiplications or $S$ and $T$. This law induces a composite monad $ST$ on $\mathcal{C}$ with unit $\eta^{ST} = \eta^S\eta^T$  and multiplication $STST \xrightarrow{S \lambda T} SSTT \xrightarrow {\mu^S \mu^T} ST$.
+
+\todo[inline]{give example/intuition about what a distributive law does (example of the list monad over the Abelian group monad), and how this gives the product of the composite monad}

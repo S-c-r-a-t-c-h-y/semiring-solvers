@@ -1,5 +1,5 @@
 import os, csv as _csv, random, math, sys
-from terms import random_normal_form, sample_distinct_terms, nf_key, num_vars_in_eq, to_rocq, to_idris
+from terms import random_normal_form, sample_distinct_terms, nf_key, num_vars_in_eq, to_rocq, to_idris, to_idris_term
 from pathlib import Path
 
 
@@ -20,8 +20,8 @@ def make_header(system, theory, num_vars):
     content = content.replace("VAR_COUNT", str(num_vars))
     model = "TestRing" if theory == "ring" else "TestSemiring"
     vars = ", ".join(f"X{i}" for i in range(num_vars))
-    var_decl_type = f"{vars} : U {model} .Model"
-    var_decl = "\n".join(f"X{i} = {model} .Env.H {i}" for i in range(num_vars))
+    var_decl_type = f"{vars} : U {model} .Data.Model"
+    var_decl = "\n".join(f"X{i} = {model} .Data.Env.H {i}" for i in range(num_vars))
     content = content.replace("VAR_DECL", f"{var_decl_type}\n{var_decl}")
     return content
 
@@ -31,9 +31,17 @@ def make_lemma(system, theory, lhs, rhs, name):
     if system == "rocq":
         vs = " ".join(f"x{i}" for i in range(n))
         return f"Lemma {name} : forall {vs}, {to_rocq(lhs)} == {to_rocq(rhs)}.\n" f"Proof. intros. ring. Qed."
+    theory_str = "TestRing" if theory == "ring" else "TestSemiring"
+    lhs_term = to_idris_term(lhs)
+    rhs_term = to_idris_term(rhs)
     lhs = to_idris(lhs)
     rhs = to_idris(rhs)
-    return f"{name} : {lhs} =-= {rhs}\n" f"{name} = refl ({lhs})"
+    prf = f"{{prf = refl ({lhs})}}"
+    xs = " ".join(f"{{x = X{i}}}" for i in range(n))
+    return (
+        f"{name} : {lhs} ~~ {rhs}\n"
+        f"{name} = Free.solve {n} {{a = {theory_str} .Data.Model}} {theory_str}\n\t{prf}\n\t{xs}\n\t$ {lhs_term} =-= {rhs_term}"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -138,12 +146,14 @@ if __name__ == "__main__":
         print("usage: python3 generate.py <out_dir> <max_term_size> <tests_per_cell>")
         sys.exit(1)
     tests_per_cell = int(sys.argv[3])
+    terms_per_nf = max(tests_per_cell // 5, 2)
+    print(f"Parameters: max_term_size={sys.argv[2]}, tests_per_cell={tests_per_cell}, terms_per_nf={terms_per_nf}")
     generate_test_files(
         sizes=list(range(1, int(sys.argv[2]) + 1)),  # x-axis values
         nb_vars_list=[1, 5, 10, 15],
         out_dir=sys.argv[1],
         n_tests=tests_per_cell,  # tests per (nb_var, size)
-        terms_per_nf=tests_per_cell // 5,  # -> ~10 normal forms per cell
-        pairing="cycle",  # 10 terms -> 10 equations per NF
+        terms_per_nf=terms_per_nf,  # distinct terms per normal form
+        pairing="cycle",
         seed=0,
     )
