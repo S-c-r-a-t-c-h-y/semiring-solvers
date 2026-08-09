@@ -4,6 +4,8 @@
 \usepackage{style}
 \usepackage{../katla-preamble}
 
+\linenumbers
+
 \geometry{
  	a4paper,
  	inner=30mm,
@@ -26,7 +28,8 @@
 %	HEADING SECTIONS
 %----------------------------------------------------------------------------------------
 
-\textsc{\LARGE University of Edinburgh}\\[1.5cm] 
+\textsc{\LARGE University of Edinburgh}\\[0.2cm]
+\textsc{\Large School of Informatics}\\[1.5cm] 
 \textsc{\Large Internship report}\\[0.5cm]
 \textsc{\large M1 Informatique Concepts et Applications}\\[0.5cm]
 
@@ -53,7 +56,7 @@ France
 ~
 \begin{minipage}{0.4\textwidth}
 \begin{flushright} \large
-\emph{Supervisor :} \\
+\emph{Supervisor:} \\
 Ohad \textsc{Kammar}\\
 University of Edinburgh,\\
 United Kingdom
@@ -65,7 +68,7 @@ United Kingdom
 %	DATE SECTION
 %----------------------------------------------------------------------------------------
 
-{\large May 4 - July 31 2026}\\[2cm]
+{\large May 4 -- July 31 2026}\\[2cm]
 
 %----------------------------------------------------------------------------------------
 %	LOGO SECTION
@@ -82,11 +85,12 @@ United Kingdom
 
 \newpage
 
-\tableofcontents
+% \tableofcontents
 
-\newpage
+% \newpage
 
 \fontsize{11pt}{15pt}\selectfont
+\setlength{\parskip}{4pt}
 
 \input{introduction}
 \input{preliminaries}
@@ -104,21 +108,129 @@ United Kingdom
 \appendixpage
 \addappheadtotoc
 
+\section{Additional material}
+\label{sec:additional_fral}
+\todo[inline]{probably find a better name}
+
+\begin{proof}[Proposition~\ref{prop:fral_solving}]
+We want to prove that $A \brak{l} \env_A = A \brak{r} \env_A$. The universal property of $FX$ gives a homomorphism $h : \underline{FX} \to \underline{A}$ such that $h \circ \env_{FX} = \env_A$.
+\begin{lemma}[Homomorphisms preserve term semantics]
+  Let $A, B$ be two $\mathcal{T}$-algebras, $X \vdash t$ be a term and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Then for every function $\env : X \to \underline{A}$, $h \bigl( A \brak{l} \env \bigr) = B\brak{r} (h \circ \env)$.
+\end{lemma}
+\begin{proof}
+  This is a simple induction, since $h$ preserves the semantics of the operators in $\mathcal{T}$.
+\end{proof}
+
+\begin{lemma}[Homomorphisms preserve equations]
+  Let $A, B$ be two $\mathcal{T}$-algebras, $\env : X \to \underline{A}$ be a function, $X \vdash l = r$ be an equation and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Suppose that $A\brak{l} \env = A \brak{r} \env$. 
+  
+  \noindent Then $B \brak{l} (h \circ \env) = B\brak{r} (h \circ \env)$.
+\end{lemma}
+\begin{proof}
+  \begin{align*}
+    B \brak{l} (h \circ \env) &= h \bigl( A \brak{l} \env \bigr) &\text{since $h$ preserves term semantics}\\
+    &= h \bigl( A \brak{r} \env \bigr) &\text{since $A \brak{l} \env = A \brak{r} \env$ by hypothesis}\\
+    &= B \brak{r} (h \circ \env)  &\text{since $h$ preserves term semantics}\\
+  \end{align*}
+\end{proof}
+
+Now we can finally prove our equality in $A$. $FX$ validates $\textrm{eq}$, so $FX\brak{l} \env_{FX} = FX\brak{r} \env_{FX}$. Since $h$ is a homomorphism and homomorphisms preserve equations, $A \brak{l} (h \circ \env_{FX}) = A \brak{r} (h \circ \env_{FX})$. But $h \circ \env_{FX} = \env_A$, therefore $A \brak{l} \env_A = A \brak{r} \env_A$.
+\end{proof}
+
+\begin{definition}[Abelian group monad]
+	\label{def:abelian_group_monad}
+	The Abelian group monad $\la A, \eta^A, \mu^A \ra$ is given by:
+	\begin{itemize}
+		\item $A : \Set \to \Set$ maps a set $X$ to the set containing all finite multisets with elements taken from $X$ and with multiplicities in the integers (i.e, elements of the multiset are allowed to have a negative multiplicity).
+		\item $\eta_X^A : X \to AX$ maps an element $x \in X$ to the singleton $\{x : 1\}$.
+		\item $\mu_X^A : AAX \to AX$ takes a union of multisets, accounting for all multiplicities. $$\mu_X^A\ \{\{a : 1, b : -2\} : 1, \{b : 1\} : 3\} = \{a : (1 \times 1), b : (-2 \times 1 + 1 \times 3)\} = \{a : 1, b : 1\}$$
+	\end{itemize}
+\end{definition}
+
+\begin{definition}[Barycentric algebras]
+	\label{def:barycentric_algebras}
+	The theory of barycentric algebras $\BA$ consists of a binary operator $\oplus_p$ for every $p \in [0, 1]$ and the axioms \begin{align*}
+    x &\vdash x \oplus_p x = x &\text{idempotence}\\
+    x, y &\vdash x \oplus_p y = y \oplus_{1-p} x &\text{skew commutativity}\\
+    x, y, z &\vdash x \oplus_p (y \oplus_r z) = \lp x \oplus_{\frac{p}{p+(1-p)r}} y \rp \oplus_{p + (1-p) r} z &\text{skew associativity}
+  \end{align*}
+\end{definition}
+
+\begin{definition}[Join semi-lattices]
+	\label{def:join_semilattices}
+  The theory of join semi-lattices $\SL$ consists of a binary operator $\vee$ and a constant $\bot$, along with the axioms \begin{align*}
+    x &\vdash x \vee \bot = x &\text{unit}\\
+    x, y, z &\vdash (x \vee y) \vee z = x \vee (y \vee z) &\text{associativity}\\
+    x, y &\vdash x \vee y = y \vee x &\text{commutativity}\\
+    x &\vdash x \vee x = x &\text{idempotence}
+  \end{align*}
+\end{definition}
+
+\begin{figure}
+	\begin{mathpar}\mprset{flushleft}
+(3 • x) • [2]\explain={⟨ Right neutrality ]}
+(3 • x) • 2 • [ε]\explain={⟨ Left neutrality ]}
+(3 • x) • 2 • ε • [ε]\explain={⟨ Left neutrality ]}
+(3 • x) • 2 • ε • ε • [ε]\explain={⟨ Left neutrality ]}
+(3 • [x]) • 2 • ε • ε • ε • ε\explain={⟨ Right neutrality ]}
+(3 • [x • ε]) • 2 • ε • ε • ε • ε\explain={⟨ Right neutrality ]}
+(3 • (x • ε) • [ε]) • 2 • ε • ε • ε • ε\explain={⟨ Left neutrality ]}
+(3 • (x • ε) • ε • [ε]) • 2 • ε • ε • ε • ε\explain={⟨ Left neutrality ]}
+(3 • (x • ε) • ε • ε • ε) • 2 • ε • ε • ε • ε\explain={⟨ Associativity ]}
+3 • [((x • ε) • ε • ε • ε) • 2 • ε • ε • ε • ε]\explain={[ Associativity ⟩}
+3 • [((x • ε) • ε • ε • ε) • 2] • ε • ε • ε • ε\explain={[ Commutativity ⟩}
+3 • [(2 • (x • ε) • ε • ε • ε) • ε • ε • ε • ε]\explain={⟨ Associativity ]}
+3 • 2 • ((x • ε) • ε • ε • ε) • ε • ε • ε • ε\explain={[ Associativity ⟩}
+(3 • 2) • [((x • ε) • ε • ε • ε) • ε • ε • ε • ε]\explain={⟨ Associativity ]}
+(3 • 2) • (x • ε) • [(ε • ε • ε) • ε • ε • ε • ε]\explain={[ Associativity ⟩}
+(3 • 2) • (x • ε) • [(ε • ε • ε) • ε] • ε • ε • ε\explain={[ Commutativity ⟩}
+(3 • 2) • (x • ε) • [(ε • ε • ε • ε) • ε • ε • ε]\explain={⟨ Associativity ]}
+(3 • 2) • [(x • ε) • ε • (ε • ε • ε) • ε • ε • ε]\explain={[ Associativity ⟩}
+(3 • 2) • ((x • ε) • ε) • [(ε • ε • ε) • ε • ε • ε]\explain={⟨ Associativity ]}
+(3 • 2) • ((x • ε) • ε) • ε • [(ε • ε) • ε • ε • ε]\explain={[ Associativity ⟩}
+(3 • 2) • ((x • ε) • ε) • ε • [(ε • ε) • ε] • ε • ε\explain={[ Commutativity ⟩}
+(3 • 2) • ((x • ε) • ε) • ε • [(ε • ε • ε) • ε • ε]\explain={⟨ Associativity ]}
+(3 • 2) • ((x • ε) • ε) • [ε • ε • (ε • ε) • ε • ε]\explain={[ Associativity ⟩}
+(3 • 2) • ((x • ε) • ε) • (ε • ε) • (ε • ε) • [ε • ε]\explain={[ Left neutrality ⟩}
+(3 • 2) • ((x • ε) • ε) • (ε • ε) • [ε • ε] • ε\explain={[ Left neutrality ⟩}
+(3 • 2) • ((x • ε) • ε) • [ε • ε] • ε • ε\explain={[ Left neutrality ⟩}
+(3 • 2) • [(x • ε) • ε] • ε • ε • ε\explain={⟨ Associativity ]}
+(3 • 2) • (x • [ε • ε]) • ε • ε • ε\explain={[ Left neutrality ⟩}
+[3 • 2] • (x • ε) • ε • ε • ε\explain={[ Evaluate ⟩}
+5 • (x • ε) • ε • [ε • ε]\explain={[ Left neutrality ⟩}
+5 • (x • ε) • [ε • ε]\explain={[ Left neutrality ⟩}
+5 • [(x • ε) • ε]\explain={[ Right neutrality ⟩}
+5 • [x • ε]\explain={[ Right neutrality ⟩}
+5 • x
+\end{mathpar}
+\caption{\textsc{Frex}-extracted proof of $(3 • x) • 2 = 5 • x$ in the additive monoid over natural numbers.}
+\label{fig:frex_proof_extracted}
+\end{figure}
+\newpage
+
 \section{Internship context}
+\label{sec:context}
+
+TODO
 
 \section{Source code}
+\label{sec:source_code}
 
-The source code can be found on a fork of the \href{https://github.com/frex-project/idris-frex}{Idris Frex} project at \url{https://github.com/S-c-r-a-t-c-h-y/idris-frex/tree/amaury}.
+The source code can be found on a fork of the \href{https://github.com/frex-project/idris-frex}{Idris Frex} project on GitHub at \url{https://github.com/S-c-r-a-t-c-h-y/idris-frex/tree/amaury}.
 
 \section{Proof of Theorem~\ref{thm:correct}}
+\label{sec:full_proof}
 
-The full proof of Theorem~\ref{thm:correct} is more than 50 pages long and is compiled in a single file at \url{https://github.com/S-c-r-a-t-c-h-y/semiring-solvers/blob/main/proof/semirings.pdf}.
+The full proof of Theorem~\ref{thm:correct} exceeds 50 pages and is compiled in a single file on GitHub at \url{https://github.com/S-c-r-a-t-c-h-y/semiring-solvers/blob/main/proof/semirings.pdf}.
 
 \section{Research notes}
+\label{sec:notes}
 
-My research notes can be found on my GitHub at \url{https://github.com/S-c-r-a-t-c-h-y/semiring-solvers/blob/main/notes/notes.pdf}. However, I do not recommend reading them as it is a draft and was not meant to be read by other people.
+Research notes are available online for completeness on GitHub at \url{https://github.com/S-c-r-a-t-c-h-y/semiring-solvers/blob/main/notes/notes.pdf}.
 
 \section*{Acknowledgments}
+
+TODO
 
 \end{document}
 

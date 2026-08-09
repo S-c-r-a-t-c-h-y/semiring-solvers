@@ -289,3 +289,33 @@
 \newcommand{\bind}{\rrangle\!\!\!=}
 
 \newcommand{\tocheck}[1]{\textbf{\textcolor{red}{\ifstrempty{#1}{TO CHECK}{#1}}}}
+
+\usepackage{newunicodechar}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{•}{\ensuremath{\bullet}}
+\newunicodechar{⟨}{\ensuremath{\langle}}
+\newunicodechar{⟩}{\ensuremath{\rangle}}
+\usepackage{mathpartir}
+\newboolean{explanation}
+\setboolean{explanation}{false}
+\newcommand\explainabove[2]{\overset{\overset{%
+\clap{\text{\scriptsize #2}}}%
+{\downarrow}}{#1}}
+\newcommand\explainbelow[2]{\underset{\underset{%
+\clap{\text{\scriptsize #2}}}%
+{\uparrow}}{#1}}
+\newcommand\negate[1]{%
+  \ifthenelse{\boolean{#1}}{%
+    \setboolean{#1}{false}%
+    }{%
+    \setboolean{#1}{true}%
+    }%
+}
+\newcommand\explain[2]{%
+  \ifthenelse{\boolean{explanation}}{%
+    \explainabove{#1}{#2}%
+  }{%
+    \explainbelow{#1}{#2}%
+  }
+  \negate{explanation}
+}

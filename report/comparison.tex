@@ -1,8 +1,9 @@
 \section{Comparison with existing solvers}
+\label{sec:comparison_main}
 
 \newcommand{\ring}{\texttt{ring} }
 
-In dependently-typed programming languages, the state-of-the-art for polynomial equalities over commutative semirings/rings was originally presented by \textcite{coq_ring}. This is the current implementation of Rocq's \ring tactic, and it was also adopted by Adga's ring solver \parencite{agda_solver}. We'll explain briefly how the two approaches differ, and then compare the capabilities of both algorithms.
+In dependently-typed programming languages, the state-of-the-art for polynomial equalities over commutative semirings/rings was originally presented by \textcite{coq_ring}. This is the current implementation of Rocq's \ring tactic, and it was also adopted by Agda's ring solver \parencite{agda_solver}. We'll explain briefly how the two approaches differ, and then compare the capabilities of both algorithms.
 
 \subsection{Reflection}
 \label{sec:reflection}
@@ -13,7 +14,12 @@ In dependently-typed programming languages, the state-of-the-art for polynomial 
 Reflection is using the ability of the Calculus of Constructions to speak and reason about itself. Here is the pipeline for the reflection process used in Rocq described by \textcite{coq_ring}.
 
 Consider a ring structure $A$, with two constants $0$ and $1$, three binary operators $+$, $*$ and $-$ and an opposite unary function $-$. We want to prove the equality of two terms $t_1$ and $t_2$ modulo the ring axioms. To do so, they introduce two inductive types $\PolExpr$ and $\Pol$, two evaluation functions $\varphi_P : \PolExpr \to A$ and $\varphi_{PE} : \Pol \to A$ and a translation function $\mathfrak T : A \to \PolExpr$. $\PolExpr$ describes the syntax of terms of type $A$, while $\Pol$ describes normal forms of terms of type $A$. 
-% For example, the term $x + (y * 2)$ can be represented in $\PolExpr$ by the tree $\Tree[.+ x [.$\ast$ y 2 ] ]$. 
+The reflection process is pictured in \figref{fig:reflection}. It goes as follows:
+\begin{enumerate}
+  \item from $t_1$ and $t_2$, build two corresponding terms $e_1$ and $e_2$ with $\mathfrak T$.
+  \item normalise these two polynomials using $\norm$
+  \item prove the equality $\norm(e_1) = \norm(e_2)$ to conclude for the equality $t_1$ and $t_2$.
+\end{enumerate}
 \begin{figure}[!h]
   \[\begin{tikzcd}
     {e_1=e_2} & \PolExpr && \Pol & {\norm(e_1)=\norm(e_2)} \\
@@ -26,12 +32,6 @@ Consider a ring structure $A$, with two constants $0$ and $1$, three binary oper
   \caption{Reflection process}
   \label{fig:reflection}
 \end{figure}
-The reflection process is pictured in \figref{fig:reflection}. It goes as follows:
-\begin{itemize}[$\triangleright$]
-  \item from $t_1$ and $t_2$, build two corresponding terms $e_1$ and $e_2$ with $\mathfrak T$.
-  \item normalise these two polynomials using $\norm$
-  \item prove the equality $\norm(e_1) = \norm(e_2)$ to conclude for the equality $t_1$ and $t_2$.
-\end{itemize}
 In order for this process to be correct, there are some constraints on $\varphi_P, \varphi_{PE}$ and $\mathfrak T$ that need to be met:
 \begin{align}
   \forall e \in \PolExpr, \varphi_{PE}(e) &= \varphi_P(\norm(e)) \label{eq:correctness}\\
@@ -40,9 +40,10 @@ In order for this process to be correct, there are some constraints on $\varphi_
 If the equality of the normal forms hold, it follows that: $$t_1 = \varphi_{PE}(\mathfrak T (t_1)) = \phi_P(\norm(\mathfrak T (t_1))) = \phi_P(\norm(\mathfrak T (t_2))) = \varphi_{PE}(\mathfrak T (t_2)) = t_2$$
 
 
-The type $\Pol$ is built so that equality can be checked syntacticaly: if two polynomials $P_1, P_2 \in \Pol$ are equal then so are their syntax tree. Therefore, equality of normal form comes for free and one only needs to prove the correctness criterion \eqref{eq:correctness} for the tactic to be correct.
+The type $\Pol$ is built so that equality can be checked syntactically: if two polynomials\\ $P_1, P_2 \in \Pol$ are equal then so are their syntax tree. Therefore, equality of normal form comes for free and one only needs to prove the correctness criterion \eqref{eq:correctness} for the tactic to be correct.
 
 \subsection{Almost-rings}
+\label{sec:almost-ring}
 
 The \ring tactic is capable of dealing both with commutative rings and commutative semirings, under the same implementation. To unify both structure, they resort to \emph{almost-rings}, an intermediate structure similar to rings and semirings.
 
@@ -52,45 +53,48 @@ An \emph{almost-ring} is a commutative semiring completed with an unary operator
   x, y &\vdash -(x + y) = -x + -y\\
   x, y &\vdash x - y = x + -y
 \end{align*}
-The last equation defines an associated \emph{pseudo-substraction}.
+The last equation defines an associated \emph{pseudo-subtraction}.
 
-These axioms do not allow to prove the missing axiom defining the opposite in a ring $x \vdash x + -x = 0$. This lets them equip a commutative semi-ring with an almost-ring structure by instantiating the almost-opposite by the identity function, which satisfies the axioms. Therefore, implementing a solver for almost-rings is sufficient to deal with both commutative semirings and commutative rings.
+These axioms do not allow to prove the missing axiom defining the opposite in a ring\\ $x \vdash x + -x = 0$. This lets them equip a commutative semiring with an almost-ring structure by taking the almost-opposite to be the identity function, which satisfies the axioms. $\N$ can be seen as an almost-ring by defining $-x := x$ and $x - y := x + y$. Therefore, implementing a solver for almost-rings is sufficient to deal with both commutative semirings and commutative rings.
 
 Even though the equation $x \vdash x + -x = 0$ is not provable in an almost-ring, it will be proved for rings by the \ring tactic as long as $1 + (-1)$ reduces to $0$ in the coefficient set used in the types $\Pol$ and $\PolExpr$.
 
 
 \subsection{Soundness and completeness}
+\label{sec:soundness-completeness}
 
 Both the \textsc{Frex} solvers and the \ring tactic are sound and complete, but with a subtlety.
 
 Any fral/frex is canonically isomorphic to the quotient fral/frex, and an effective fral/frex with a constructive universality proof has an effective isomorphism to the quotient setoid. In this way, a simplifier using an effective fral/frex is constructively sound and complete \parencite{idris_frex}. This completeness is with respect to the underlying theory of the fral/frex, not with respect to all actually provable equalities in the model for which we are trying to prove an equality. For instance, considering the ring of booleans with logical or as addition and logical and as multiplication, the addition is idempotent: $\forall x : \textrm{Bool}, x \vee x = x$. Even though it holds, the equation is not a consequence of the ring axioms and therefore it is unable to be solved by a fral for rings. Since both addition and multiplication are idempotent for this ring, we are not under the hypothesis of Theorem~\ref{thm:correct} and therefore \textsc{Frex} cannot be used to solve every equation over the booleans.
 
-The soundness of the \ring tactic comes from the correctness lemma \eqref{eq:correctness}. \ring computes the normal forms for the LHS and the RHS of the equation and checks whether they are equal or not. If they are equal, \eqref{eq:correctness} assures us that the two terms are indeed equal, thus giving us soundess. Completeness with respect to the commutative semiring/ring theory is ensured by the validity of the normal form used (sparse Horner forms) and the equation \eqref{eq:completeness}. The validity of the normal forms ensure that if two polynomial expressions represent the same polynomial, then their normal form will be equal. Equation \eqref{eq:completeness} ensures that the translation process from expressions to normal forms is correct. However, the equations provable by the \ring tactic actually depend on which coefficient set is used in the types $\Pol$ and $\PolExpr$. By default, the \ring tactic takes $\Z$ as its coefficient set, but it may not always be the best choice. For instance, for solving equations over the ring of booleans, taking the booleans themselves can let \ring solve equations such as $\forall x : \textrm{Bool}, x \vee x = x$. This is because $1 + 1 = 1$ for booleans. The left side of the equality is reflected to $X + X$, whose normal form $(1 + 1)\cdot X$ is reduced to $1 \cdot X = X$.
+The soundness of the \ring tactic comes from the correctness lemma \eqref{eq:correctness}. \ring computes the normal forms for the LHS and the RHS of the equation and checks whether they are equal or not. If they are equal, \eqref{eq:correctness} assures us that the two terms are indeed equal, thus giving us soundness. Completeness with respect to the commutative semiring/ring theory is ensured by the validity of the normal form used (sparse Horner forms) and the equation \eqref{eq:completeness}. The validity of the normal forms ensure that if two polynomial expressions represent the same polynomial, then their normal form will be equal. Equation \eqref{eq:completeness} ensures that the translation process from expressions to normal forms is correct. However, the equations provable by the \ring tactic actually depend on which coefficient set is used in the types $\Pol$ and $\PolExpr$. By default, the \ring tactic takes $\Z$ as its coefficient set, but it may not always be the best choice. For instance, for solving equations over the ring of booleans, taking the booleans themselves can let \ring solve equations such as $\forall x : \textrm{Bool}, x \vee x = x$. This is because $1 + 1 = 1$ for booleans. The left side of the equality is reflected to $X + X$, whose normal form $(1 + 1)\cdot X$ is reduced to $1 \cdot X = X$. Taking the default coefficient set $\Z$ would not allow such equation to be provable for the booleans.
 
 Therefore, both \textsc{Frex} and the \ring tactic are sound and complete with respect to the underlying algebraic theories, but a good choice for the coefficient set of the \ring tactic can lead to solving more equations.
 
 \subsection{Comparison}
+\label{sec:comparison}
 
 \subsubsection{Supported theories}
+\label{sec:supported_theories}
 
-The \textsc{Frex} approach to algebraic simplification lets us tackle many more theories than the Rocq \ring tactic can. In Table~\ref{tbl:combination-table}, we show examples of models for the different distributive combinations of mere/commutative mere/involutive semigroups, monoids and groups. In \textcolor{red}{red} are the theories that the \ring tactic can handle.
+The \textsc{Frex} approach to algebraic simplification lets us tackle many more theories than the Rocq \ring tactic can. In Table~\ref{tbl:combination-table}, we show examples of models for the different distributive combinations of mere/commutative mere/involutive semigroups, monoids and groups. In \textcolor{red}{red} are the theories that the \ring tactic can handle. Essentially only the commutative semiring/ring corner is covered by reflection-based ring solving, whereas Frex extends to semigroup/monoid/group and involutive variants.
 
 \begin{table}[!h]
   \centering
-  \hspace*{-1.8cm}
+  \hspace*{-1.6cm}
   \begin{tabular}{|l|l|l|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
   \hline
   \multicolumn{3}{|c|}{\textbf{Multiplicative structure}} &
   \multicolumn{3}{c|}{\textbf{Additive structure}} \\ \hline
-  \textbf{Theory} & \textbf{Comm.} & \textbf{Inv.} &
-  \makecell{\textbf{CSemigroup}} &
-  \makecell{\textbf{CMonoid}} &
-  \makecell{\textbf{AbGroup}} \\ \hline
+  \textbf{Theory} & \textbf{Comm.}\tablefootnote{Commutativity} & \textbf{Inv.}\tablefootnote{Involutive} &
+  \makecell{\textbf{Comm. Semigroup}} &
+  \makecell{\textbf{Comm. Monoid}} &
+  \makecell{\textbf{Abelian Group}} \\ \hline
 
   \multirow{4}{*}{\small\textbf{Semigroup}}
   & \multirow{2}{*}{\textbf{Mere}} & \textbf{Mere} & $\P(\Sigma^+) \setminus \{\varnothing\}$ & $\P(\Sigma^+)$ & $\Z \la \Sigma^+ \ra$ \\ \cline{3-6}
   &                                   & \textbf{Inv.} & $\lp \P(\Sigma^+) \setminus \{\varnothing\}, -^R \rp$ & $\lp \P(\Sigma^+), -^R \rp$ & $\lp \Z \la \Sigma^+ \ra, \rev \rp$ \\ \cline{2-6}
-  & \multirow{2}{*}{\textbf{Comm.}} & \textbf{Mere} & $2\N_{>0}$ & $2\N$ & $2\Z$ \\ \cline{3-6}
+  & \multirow{2}{*}{\textbf{Comm.}\tablefootnote{Commutative}} & \textbf{Mere} & $2\N_{>0}$ & $2\N$ & $2\Z$ \\ \cline{3-6}
   &                                   & \textbf{Inv.} & $\mathfrak m_n^\sigma \setminus \{0\}$ & $\mathfrak m_n^\sigma$ & $\lp 2\Z[\ii], \overline{-} \rp$ \\ \hline
 
   \multirow{4}{*}{\textbf{Monoid}}
@@ -110,12 +114,13 @@ The \textsc{Frex} approach to algebraic simplification lets us tackle many more 
   \label{tbl:combination-table}
 \end{table}
 
+\newpage
 \noindent The models in the table are the following:
 \begin{itemize}
   \item $\N, \Z, \R$: natural numbers, integers and real numbers with the usual operations.
   \item $(\C, \overline{-})$: complex numbers with conjugation.
   \item $\C_{>0} := \{a + b\ii \mid a \in \R_{>0}, b \in \R \}$ are complex numbers with a strictly positive real part.
-  \item $2\Z[i] := \{2(a + b\ii) \mid a, b \in \Z\}$ with standard addition, multiplication and conjugation as involution.
+  \item $2\Z[\ii] := \{2(a + b\ii) \mid a, b \in \Z\}$ with standard addition, multiplication and conjugation as involution.
   \item $\P(\Sigma^*)$ and variants: formal languages on the alphabet $\Sigma$, with union as addition and concatenation as multiplication.
   \item $M_n(X)$: $n\times n$ square matrices with coefficients in $X$. $-^T$ denotes matrix transposition.
   \item $\Z \la \Sigma^+ \ra$: finite integer linear combinations of nonempty words, i.e, finitely supported functions from $\Sigma^+$ to $\Z$. Addition is pointwise function addition and multiplication is concatenation that distributes over sums. $\rev$ is word reversal.
@@ -127,9 +132,10 @@ The \textsc{Frex} approach to algebraic simplification lets us tackle many more 
   \item $\bigl( T_{n,\Delta_{>0}}(\R), -^\dagger \bigr)$: upper triangular matrices with coefficients $>0$ on the diagonal. Addition and multiplication is standard matrix addition and multiplication. The involution $-^\dagger$ reverses the order of the coefficients on the diagonal, e.g, $\Delta(1, \dots, n)^\dagger = \Delta(n, \dots, 1)$.
 \end{itemize}
 
-Some combinations are impossible nontrivially. This is the case of every combination of a multiplicative group with an additive structure that has a $0$ element. In such a case, every element are equal to each other. Indeed, suppose that $0$ is inversible, i.e, there exists $0^{-1}$ such that $0 \cdot 0^{-1} = 1$. Because of the distributivity axioms, $x \vdash x \cdot 0 = 0$ holds in all of these cases. We also have the associativity of the multiplication, therefore for every element $a$, $a = a \cdot (0 \cdot 0^{-1}) = (a \cdot 0) \cdot 0^{-1} = 0 \cdot 0^{-1} = 1$ and every element is equal to $1$. The only model validating these theories is the trivial model $\{0\}$.
+Some combinations are impossible nontrivially. This is the case of every combination of a multiplicative group with an additive structure that has a $0$ element. In such a case, every element is equal to each other. Indeed, suppose that $0$ is invertible, i.e, there exists $0^{-1}$ such that $0 \cdot 0^{-1} = 1$. Because of the distributivity axioms, $x \vdash x \cdot 0 = 0$ holds in all of these cases. We also have the associativity of the multiplication, therefore for every element $a$, $a = a \cdot (0 \cdot 0^{-1}) = (a \cdot 0) \cdot 0^{-1} = 0 \cdot 0^{-1} = 1$ and every element is equal to $1$. The only model validating these theories is the trivial model $\{0\}$.
 
-\subsubsection{Additional equalities}
+\subsubsection{Support for additional equalities}
+\label{sec:additional_equalities}
 
 The Rocq \ring tactic supports\footnote{See \url{http://rocq-prover.org/doc/V9.2.0/refman/addendum/ring.html}.} taking additional equalities as arguments to solve equalities between terms. This lets one prove goals such as \begin{code}
 Goal forall a b : Z, 2 * a * b = 30 -> (a + b) ^ 2 = a ^ 2 + b ^ 2 + 30.
@@ -137,9 +143,9 @@ Proof.
   intros a b H; ring [H].
 Qed.
 \end{code}
-This is impossible with the \textsc{Frex} approach. The universal property of free algebras and free extensions guarantees that the only equations that are valid in the free algebra/extension are the ones that are provable with the provability relation of \figref{fig:provability}. Due to the nature of the solving algorithm (\S\ref{sec:solving}), one can't provide additional facts to the solver, and therefore the goal above is not provable with \textsc{Frex}.
+This is impossible with the \textsc{Frex} approach. The universal property of free algebras and free extensions guarantees that the only equations that are valid in the free algebra/extension are the ones that are provable with the provability relation of \figref{fig:provability}. Due to the nature of the solving algorithm (\secref{sec:solving}), one can't provide additional facts to the solver, and therefore the goal above is not provable with \textsc{Frex}.
 
-However this feature is limited. The supported additional equalities need to be of the form \tt{m = p} where \tt{m} is a monomial and \tt{p} is a polynomial in the corresponding ring structure. Therefore, you can't reason about any other operators than \tt{+} and \tt{*}, even when giving additional axioms concerning the operator.
+However this feature is limited. The supported additional equalities need to be of the form\\ \tt{m = p} where \tt{m} is a monomial and \tt{p} is a polynomial in the corresponding ring structure. Therefore, you can't reason about any other operators than \tt{+} and \tt{*}, even when giving additional axioms concerning the operator.
 For instance, define an abstract ring and add an involution operator \tt{\string~\string~}. Even by giving the axioms
   \begin{code}
 Rinv_inv : forall x, ~~ (~~ x) == x.
@@ -153,25 +159,30 @@ Proof.
   Fail ring [(Rinv_inv x) (Rinv_antidistr x)].
 Abort.
   \end{code}
-because \tt{\string~\string~} is not a part of the ring structure. This is to be expected when looking at how reflection work in \S\ref{sec:reflection}. Because of this, some theories such as involutive semirings or involutive rings which are supported by \textsc{Frex} can't be supported by the \ring tactic.
+because \tt{\string~\string~} is not a part of the ring structure. This is to be expected when looking at how reflection work in \secref{sec:reflection}. Because of this, some theories such as involutive semirings or involutive rings which are supported by \textsc{Frex} can't be supported by the \ring tactic.
 
 \subsubsection{Other \textsc{Frex} capabilities}
+\label{sec:frex_capabilities}
 
-We presented \textsc{Frex} as a generic algebraic simplification framework, but it is not limited to that. All of the following capabilities of \textsc{Frex} cannot be achieved by the \ring tactic.
+We have presented \textsc{Frex} as a generic algebraic simplification framework, but it is not limited to that role. All of the following capabilities of \textsc{Frex} cannot be achieved by the \ring tactic.
 
 By appealing to the universal property of the fral/frex, every fral/frex is isomorphic to the quotient fral/frex. This lets us extract a proof certificate, i.e, a derivation for the equation for the provability relation of Figure~\ref{fig:provability}. \textsc{Frex} can package such a derivation as a lemma that is valid for any model of the given theory. Users can then seamlessly invoke these lemmas in any model, avoiding further \textsc{Frex} calls \parencite[][Section 5.2]{idris_frex}.
 
-The obtained derivation can also be used for pretty-printing human-readable proofs, going through each step and specifying which axiom is used and where each time. It can also be used to print Idris proofs for the lemmas \parencite[][Appendix C]{idris_frex}.
+The resulting derivation can also be used to pretty-print human-readable proofs, going through each step and specifying which axiom is used, and where. However, the derivation may not be optimal, leading to possibly large proofs with unnecessary steps. Figure~\ref{fig:frex_proof_extract} shows the first four solving steps to prove that $(3 + x) + 2 = 5 + x$, which aren't part of the optimal derivation involving only four solving steps in total. The full proof is pictured in Figure~\ref{fig:frex_proof_extracted} in the appendix. The obtained derivation can also be used to print Idris proofs for the lemmas \parencite[][Appendix C]{idris_frex}.
 
-\todo[inline]{add example}
+\begin{figure}[!h]
+  \begin{mathpar}\mprset{flushleft}
+(3 • x) • [2]\explain={⟨ Right neutrality ]}
+(3 • x) • 2 • [ε]\explain={⟨ Left neutrality ]}
+(3 • x) • 2 • ε • [ε]\explain={⟨ Left neutrality ]}
+(3 • x) • 2 • ε • ε • [ε]\explain={⟨ Left neutrality ]}
+\dots=
+5 • x
+\end{mathpar}
+\caption{Extract of a \textsc{Frex}-extracted proof of $(3 • x) • 2 = 5 • x$ in the additive monoid over natural numbers.}
+\label{fig:frex_proof_extract}
+\end{figure}
 
 \textsc{Frex} can also be used to normalise code. \textcite{nbe_frex} present a normalisation by evaluation framework using \textsc{Frex} that can simplify higher-order functional programs with algebraic structure. For instance, the framework can simplify simply typed lambda calculus terms extended with an arbitrary commutative monoid $M$. Take $M$ to be the commutative monoid of integers with multiplication and \textsc{Frex} can normalise terms such as $\lambda x. (2 * 3) * x$ or $\lambda x. (\lambda y. 2 * y) (x * 3)$ to $\lambda x. 6 * x$, combining beta-reduction and algebraic simplification. While a naive normaliser suffices to reduce the first term to its normal, reducing the second term requires reordering the terms and invoking the axioms of the commutative monoid, which requires \textsc{Frex}. 
 
 The \textsc{Frex} simplification can also be applied to multi-stage programming. In \textcite[][Section 4.3]{frex_origin}, \textsc{Frex} is used to simplify the code generated by a staged version of \tt{sprintf} to produce more efficient code requiring less string concatenations, reducing expressions such as \tt{((("" ++ show x) ++ "a") ++ "b") ++ show y} to \tt{show x ++ ("ab" ++ show y)}.
-
-
-\subsubsection{Runtime comparison}
-
-comparison in usability (runtime) $\to$ frex might be slower as typechecking takes a long time. \todo[inline]{TODO: runtime comparison}
-
-\todo[inline, color=red]{is this really relevant?}

@@ -9,7 +9,10 @@ import Data.Order
 DistrSig : Signature
 DistrSig = CoproductSignature Signature Signature
 
-CommutativeSemiringOver : (n : Nat) -> Free (DistributiveCombinationTheory CommutativeMonoidTheory CommutativeMonoidTheory) (cast $ Fin n)
+DistrPres : Presentation
+DistrPres = DistributiveCombinationTheory CommutativeMonoidTheory CommutativeMonoidTheory
+
+CommutativeSemiringOver : (n : Nat) -> Free DistrPres (cast $ Fin n)
 CommutativeSemiringOver n =
   let freeM : Free CommutativeMonoidTheory (cast $ Fin n)
       freeM = Finite.Free
@@ -35,37 +38,36 @@ CommutativeSemiringOver n =
     freeM freeA
 
 
-TestSemiring : Free (DistributiveCombinationTheory CommutativeMonoidTheory CommutativeMonoidTheory) (cast $ Fin VAR_COUNT)
-TestSemiring = CommutativeSemiringOver VAR_COUNT
+FreeSemiring : Free DistrPres (cast $ Fin VAR_COUNT)
+FreeSemiring = CommutativeSemiringOver VAR_COUNT
 
-(.+.) : U TestSemiring .Data.Model -> U TestSemiring .Data.Model -> U TestSemiring .Data.Model
-(.+.) = TestSemiring .Data.Model.sem (Left Product)
+refl = (Pair (cast Finite.Free .Data.Model) NatSetoid).ListEqualityReflexive
 
-(:+:) : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
-(:+:) = call {sig = DistrSig} (Left Product)
+plusT : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
+plusT = call {sig = DistrSig} (Left Product)
 
-(.*.) : U TestSemiring .Data.Model -> U TestSemiring .Data.Model -> U TestSemiring .Data.Model
-(.*.) = TestSemiring .Data.Model.sem (Right Product)
-
-(:*:) : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
-(:*:) = call {sig = DistrSig} (Right Product)
-
-O1 : U TestSemiring .Data.Model
-O1 = TestSemiring .Data.Model.sem (Left Neutral)
+timesT : Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT) -> Term DistrSig (Fin VAR_COUNT)
+timesT = call {sig = DistrSig} (Right Product)
 
 O2 : Term DistrSig (Fin VAR_COUNT)
 O2 = call {sig = DistrSig} (Left Neutral)
 
-I1 : U TestSemiring .Data.Model
-I1 = TestSemiring .Data.Model.sem (Right Neutral)
-
 I2 : Term DistrSig (Fin VAR_COUNT)
 I2 = call {sig = DistrSig} (Right Neutral)
 
-0 (~~) : U TestSemiring .Data.Model -> U TestSemiring .Data.Model -> Type
-(~~) term1 term2 = TestSemiring .Data.Model.rel term1 term2
+parameters {TestRing : Model DistrPres}
 
-refl : (x : U TestSemiring .Data.Model) -> x ~~ x
-refl x = TestSemiring .Data.Model.equivalence.reflexive x
+  plusM : U TestRing -> U TestRing -> U TestRing
+  plusM = TestRing .sem (Left Product)
 
-VAR_DECL
+  timesM : U TestRing -> U TestRing -> U TestRing
+  timesM = TestRing .sem (Right Product)
+
+  O1 : U TestRing
+  O1 = TestRing .sem (Left Neutral)
+
+  I1 : U TestRing
+  I1 = TestRing .sem (Right Neutral)
+
+  0 (~~) : U TestRing -> U TestRing -> Type
+  (~~) term1 term2 = TestRing .rel term1 term2

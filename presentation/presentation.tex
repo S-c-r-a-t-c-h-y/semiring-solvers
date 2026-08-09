@@ -1,0 +1,80 @@
+\documentclass[10pt, english, xcolor={dvipsnames}]{beamer}
+\mode<presentation> {
+	\usetheme{Madrid}
+%	\setbeamertemplate{itemize item}{\color{black}\normalsize\textbullet}
+}
+
+\usepackage{style}
+\usepackage{../macros}
+
+\usepackage{contour}
+
+\beamertemplatenavigationsymbolsempty
+
+\setbeamertemplate{title page}{
+    \begin{center}
+        \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+            \usebeamerfont{title}\inserttitle\par%
+          %  \vspace{0.5cm} % Espacement vertical ajouté
+        \end{beamercolorbox}%
+      %  \vspace{6.5cm} % Espacement vertical ajouté
+      %  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{author}
+	    %     \usebeamerfont{author}\color{white}\contour{black}{\insertauthor}\par%
+	    % \end{beamercolorbox}%
+%	    \vspace{0.5cm} % Vertical space added
+	    % \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{institute}
+	    %     \usebeamerfont{institute}\color{white}\contour{black}{\insertinstitute}\par%
+	    % \end{beamercolorbox}%
+%	    \vspace{0.5cm} % Vertical space added
+	    % \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{date}
+	    %     \usebeamerfont{date}\color{white}\contour{black}{\insertdate}\par%
+	    % \end{beamercolorbox}%
+    \end{center}
+}
+
+\title[Semiring Solvers Varieties]{Varieties of Semiring Solvers via Multicategorical and Algebraic Constructions}
+
+\author{MAZOYER Amaury}
+
+\institute{ENS de Lyon}
+%\institute{\contour{black}{\color{white}MPI}}
+
+\date{May 4 -- July 31 2026}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Introduction}
+  \begin{block}{Problem}
+      Prove formally that \texttt{(a + b) * (a + b) = a * a + 2 * a * b + b * b}.
+  \end{block}
+\end{frame}
+
+\appendix
+\backupbegin
+
+\section*{Annexes}
+
+\begin{frame}
+	\sectionpage
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+% # \renewcommand{\refname}{Bibliographie}
+
+% # \fontsize{7pt}{9pt}\selectfont
+% # \nocite{*}
+% # \bibliographystyle{plain}
+% # \bibliography{bibliographie}
+\end{frame}
+
+\backupend
+
+\end{document}
+
+
+
+

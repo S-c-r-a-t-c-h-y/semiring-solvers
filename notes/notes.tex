@@ -1207,7 +1207,7 @@ Unfolding the conditions for the $\mathbb T$-algebra and for the morphism, the f
 We'll use the definitions from \cite{Allais2025}.
 
 \begin{definition}[Finitary signature]
-  A \emph{finitary signature} $\Sigma = (\op \Sigma, \arity)$ consists of a set $\op \Sigma$ of \emph{operators}, and an assigment $\arity : \op \Sigma \to \N$ associating to each operator in $\op \Sigma$ its \emph{arity}.
+  A \emph{finitary signature} $\Sigma = (\op \Sigma, \arity)$ consists of a set $\op \Sigma$ of \emph{operators}, and an assignment $\arity : \op \Sigma \to \N$ associating to each operator in $\op \Sigma$ its \emph{arity}.
 \end{definition}
 
 \begin{definition}[Algebra]
@@ -1899,7 +1899,7 @@ We will keep the same definition for the operator $+$ as in the free commutative
 
 If we write $(p : n) \in f$ when $f(p) = n$, then what we want is $$f \cdot g = \sum_{(p : n) \in f}\sum_{(q : m) \in g} (p \cdot_\SG q : n \cdot m)$$
 
-Formaly, this can be defined for all $f, g \in STX$ as $$f \cdot g = \lambda l : TX. \sum_{l = l_1 \cdot_{\SG} l_2} f(l_1) \cdot g(l_2)$$
+Formally, this can be defined for all $f, g \in STX$ as $$f \cdot g = \lambda l : TX. \sum_{l = l_1 \cdot_{\SG} l_2} f(l_1) \cdot g(l_2)$$
 
 \medskip
 
@@ -2012,7 +2012,7 @@ Let's show that $\Sigma\phi_A$ is the unique morphism $h$ of $\SG \triangleleft 
 We also define a distributive law $\lambda : TSX \to STX$ for all $l \in TSX$ by
 $$\lambda ([f_1, \dots, f_n]) = \sum_{(x_1 : n_1) \in f_1} \dots \sum_{(x_n : n_n) \in f_n} \lp [x_1, \cdots, x_n] : \prod_{i=1}^n n_i \rp $$
 
-Formaly, this can be defined for all $l \in TSX$ as
+Formally, this can be defined for all $l \in TSX$ as
 
 $$\lambda (l) = \lambda x : TX. \begin{cases}
   0 &\text{ if $\abs{x} \neq \abs{l}$}\\
@@ -2670,7 +2670,7 @@ Suppose that for each $X \in \Set$ we know how to construct the free algebra $F_
   
   We denote by $\eta$ the unit $\eta_X : X \to \underline{F_\mathcal{A} X}$.
 
-  We recall that the free algebra construction gives us an homomorphism $$\bind g : F_\mathcal{A}X \to A$$ for every function $g : X \to \underline{A}$.
+  We recall that the free algebra construction gives us a homomorphism $$\bind g : F_\mathcal{A}X \to A$$ for every function $g : X \to \underline{A}$.
   
   We define a bijection $\psi : \la \Set, \prod \ra (\mathbf{X}; \underline{A}) \xrightarrow{\cong} \Multi(\mathcal A, \Set) (F_\mathcal{A} [\mathbf{X}]; A)$ such that $$\underline{\psi (f)} \circ (\eta_{X_1}, \dots, \eta_{X_n}) = f$$ by\footnote{This is the currified version of $\psi$.}: 
 
@@ -2811,7 +2811,7 @@ Let $\mathcal M = \BA$ be the theory of barycentric algebras, $\mathcal A = \SL$
 
 \medskip
 
-Formaly:
+Formally:
 \begin{itemize}
   \item $\BA$ consists of a binary operator $\oplus_p$ for every $p \in [0, 1]$ and the axioms \begin{align*}
     x &\vdash x \oplus_p x = x &\text{idempotence}\\
@@ -3020,7 +3020,7 @@ $A_0$ is the free $\mathcal M$-algebra over $X$, so we have a unique morphism $h
   & B_\mathcal{M}
 \end{tikzcd}
 \]
-There is also an homomorphism $h_1 : A_1 \to B_\mathcal O$ of $\mathcal O$-algebras such that $h_1 \circ \eta_{A_0}^{A_1} = h_0$, and $h_1 = h_0$ since $\eta_{A_0}^{A_1} = \id$.
+There is also a homomorphism $h_1 : A_1 \to B_\mathcal O$ of $\mathcal O$-algebras such that $h_1 \circ \eta_{A_0}^{A_1} = h_0$, and $h_1 = h_0$ since $\eta_{A_0}^{A_1} = \id$.
 
 \[
 \begin{tikzcd}
@@ -3041,7 +3041,7 @@ Apply the 2-functor $\Mod(\mathcal O, \underline{-})$ to the morphism $h_2 : A_2
 
 \medskip
 
-By the surjectivity of $\mathfrak T$ and the independance of the decomposition given by Lemma~\ref{lem:step4_correct}, we now have a $\mathcal{M}$-morphism $h_4 = h_3 : A_\mathcal{M} \to B_\mathcal{M}$ such that $h_4 \circ \eta_{A_3}^{A_\mathcal{M}} = h_3$. \incomplete{rewrite the way $h_4$ is defined now that Lemma~\ref{lem:A_M_ind_mod} is fixed, and then prove that it is indeed an homomorphism}
+By the surjectivity of $\mathfrak T$ and the independance of the decomposition given by Lemma~\ref{lem:step4_correct}, we now have a $\mathcal{M}$-morphism $h_4 = h_3 : A_\mathcal{M} \to B_\mathcal{M}$ such that $h_4 \circ \eta_{A_3}^{A_\mathcal{M}} = h_3$. \incomplete{rewrite the way $h_4$ is defined now that Lemma~\ref{lem:A_M_ind_mod} is fixed, and then prove that it is indeed a homomorphism}
 
 \begin{proof}
   Let $t \in \mathcal M_n$ and $e : [n] \to \underline{A_\mathcal{M}}$. By surjectivity, there is some $f \in \mathcal O_m$ and $\theta : m \to n$ such that $t = \mathfrak T f [\theta]$. We define $h_4$ as $$h_4 \lp A_\mathcal{M} \brak{t} e \rp = h_3 \lp A_3 \brak{f} e \circ \theta \rp$$ This is well-defined by Lemma~\ref{lem:step4_correct}. We then check that $h_4$ is a morphism of $\mathcal M$-algebras. Since $h_3$ is a morphism of $\mathcal O$-algebras, 
@@ -3222,7 +3222,7 @@ We now prove that this is indeed a $\mathfrak T \triangleleft \mathcal A$-homomo
   \begin{align*}
     h\, e &= B \brak{s} \la B \brak{t_i} \la f\,\ebf_{\la i,j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k &\text{by definition}\\
     &= B \brak{s} \la B \brak{t_i} \la  h'\eta\, \ebf_{\la i,j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k &\text{since the diagram commutes}\\
-    &= h' \lp A_2 \brak{s} \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k \rp &\text{since } h' \text{ is an homomorphism}\\
+    &= h' \lp A_2 \brak{s} \la \eta_{A_1}^{A_2} A_0 \brak{t_i} \la \eta^{A_1} \ebf_{\la i, j \ra} \ra_{j=1}^{k_i} \ra_{i=1}^k \rp &\text{since } h' \text{ is a homomorphism}\\
     &= h'\, e
   \end{align*}
   and $h = h'$.

@@ -31,16 +31,15 @@ def make_lemma(system, theory, lhs, rhs, name):
     if system == "rocq":
         vs = " ".join(f"x{i}" for i in range(n))
         return f"Lemma {name} : forall {vs}, {to_rocq(lhs)} == {to_rocq(rhs)}.\n" f"Proof. intros. ring. Qed."
-    theory_str = "TestRing" if theory == "ring" else "TestSemiring"
+    theory_str = "FreeRing" if theory == "ring" else "FreeSemiring"
     lhs_term = to_idris_term(lhs)
     rhs_term = to_idris_term(rhs)
     lhs = to_idris(lhs)
     rhs = to_idris(rhs)
-    prf = f"{{prf = refl ({lhs})}}"
-    xs = " ".join(f"{{x = X{i}}}" for i in range(n))
+    var_decl = ", ".join(f"x{i}" for i in range(n))
     return (
-        f"{name} : {lhs} ~~ {rhs}\n"
-        f"{name} = Free.solve {n} {{a = {theory_str} .Data.Model}} {theory_str}\n\t{prf}\n\t{xs}\n\t$ {lhs_term} =-= {rhs_term}"
+        f"  {name} : {{{var_decl} : U TestRing}} ->\n    {lhs} ~~ {rhs}\n"
+        f"  {name} = Free.solve {n} {theory_str} {{prf = refl _}}\n    $ {lhs_term} =-= {rhs_term}"
     )
 
 
@@ -126,7 +125,7 @@ def generate_test_files(
                 print(f"[{theory}, n={n}, size={s}] {len(cell)}/{n_tests} equations")
 
             for system in systems:
-                fname = f"bench_{system}_{theory}_v{n}{exts[system]}"
+                fname = f"bench_{system}_{theory}_v{n}_{sizes[0]}-{sizes[-1]}_{n_tests}{exts[system]}"
                 with open(os.path.join(out_dir, fname), "w") as f:
                     f.write(header_fn(system, theory, n) + "\n\n")
                     for _, _, name, lhs, rhs in eqs:
@@ -142,14 +141,16 @@ def generate_test_files(
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("usage: python3 generate.py <out_dir> <max_term_size> <tests_per_cell>")
+    if len(sys.argv) != 5:
+        print("usage: python3 generate.py <out_dir> <min_term_size> <max_term_size> <tests_per_cell>")
         sys.exit(1)
-    tests_per_cell = int(sys.argv[3])
+    tests_per_cell = int(sys.argv[4])
     terms_per_nf = max(tests_per_cell // 5, 2)
-    print(f"Parameters: max_term_size={sys.argv[2]}, tests_per_cell={tests_per_cell}, terms_per_nf={terms_per_nf}")
+    print(
+        f"Parameters: min_term_size={sys.argv[2]}, max_term_size={sys.argv[3]}, tests_per_cell={tests_per_cell}, terms_per_nf={terms_per_nf}"
+    )
     generate_test_files(
-        sizes=list(range(1, int(sys.argv[2]) + 1)),  # x-axis values
+        sizes=list(range(int(sys.argv[2]), int(sys.argv[3]) + 1)),  # x-axis values
         nb_vars_list=[1, 5, 10, 15],
         out_dir=sys.argv[1],
         n_tests=tests_per_cell,  # tests per (nb_var, size)

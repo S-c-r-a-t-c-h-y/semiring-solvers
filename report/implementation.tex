@@ -1,7 +1,8 @@
 \section{Implementation}
 \label{sec:implementation}
 
-\textsc{Frex} has multiple implementations, first in Haskell and MetaOCaml \parencite{frex_origin}, then in Agda \parencite{agda_frex} and finally in Idris 2 \parencite{idris_frex}. We are interested in the implementation in Idris 2, a purely functional programming language with first class types. We won't present any code here as it doesn't add anything to the comprehension of the project.
+\textsc{Frex} has multiple implementations, first in Haskell and MetaOCaml \parencite{frex_origin}, then in Agda \parencite{agda_frex} and finally in Idris 2 \parencite{idris_frex}. We are interested in the implementation in Idris 2, a purely functional programming language with first class types.
+% We won't present any code here as it doesn't add anything to the comprehension of the project.
 % We'll quickly present the current implementation of \textsc{Frex} in Idris 2, then we'll detail the implementation of the distributive combination for free algebras.
 
 \subsection{Setoids}
@@ -13,101 +14,51 @@
 
 \textsc{Frex} uses \emph{setoids} \parencite{setoid1, setoid2} instead of simple sets. This offers them some additional functionalities on top of term simplification and equation solving: printing terms and proofs, proof simplification, code generation and more \parencite{idris_frex}. 
 
-A \emph{setoid} is a set $X$ equipped with an equivalence relation $\sim_X$. A \emph{setoid homomorphism} $f : X \to Y$ is a function compatible with the equivalence relation: if $x \sim_X y$ then $f(x) \sim_X f(y)$. Every set $X$ can be seen as a setoid by equipping it with the equality relation $(=)$. However setoids lets us define some more complicated equivalence relations. For example, we can consider the setoids of terms for some theory $\mathcal{T}$ and set of variables $X$, equipped with the provability relation from Fig~\ref{fig:provability}. Two equivalent terms in this setoid represent different, but provably equal, terms. This is different from the quotient $\bigr(\Term_{\Sigma_{\mathcal{T}}} X \bigl) / \bigr(X \vdash_{\mathcal{T}}\bigl)$ where elements represent equivalence classes of provably equal terms.
+A \emph{setoid} is a set $X$ equipped with an equivalence relation $\sim_X$. A \emph{setoid homomorphism} $f : X \to Y$ is a function compatible with the equivalence relation: if $x \sim_X y$ then $f(x) \sim_X f(y)$. Every set $X$ can be seen as a setoid by equipping it with the equality relation $(=)$. However setoids let us define some more complicated equivalence relations. For example, we can consider the setoids of terms for some theory $\mathcal{T}$ and set of variables $X$, equipped with the provability relation from Fig~\ref{fig:provability}. Two equivalent terms in this setoid represent different, but provably equal, terms. This is different from the quotient $\bigr(\Term_{\Sigma_{\mathcal{T}}} X \bigl) / \bigr(X \vdash_{\mathcal{T}}\bigl)$ where elements represent equivalence classes of provably equal terms.
 
-\textsc{Frex} implements a slightly different version of the universal algebra presented in \S\ref{sec:preliminaries}. Carriers for algebras are setoids instead of sets. Therefore, all homomorphisms must also be setoid homomorphisms.
+\textsc{Frex} implements a slightly different version of the universal algebra presented in \secref{sec:preliminaries}. Carriers for algebras are setoids instead of sets. Therefore, all homomorphisms must also be setoid homomorphisms.
 
-% All of the concepts of universal algebra of \S\ref{sec:preliminaries} have been formalised in Idris 2 by \textcite{idris_frex}.
-
-% \begin{itemize}
-%   \item maybe talk about setoids ? (and cite appropriate references)
-%   \item go over some basic definitions used such as \texttt{Signature}, \texttt{Op}, \texttt{Algebra}, \texttt{Term}, \texttt{SetoidAlgebra}, \texttt{Equation}, \texttt{Presentation}, \texttt{Model}
-%   \item model over a set, extension, fral and frex
-%   \item maybe signature of solving functions ? (to link with \S\ref{sec:solving})
-% \end{itemize}
-
-% \todo[inline, color=blue1]{How not to plagiarize \cite{idris_frex} ?}
+The use of setoids may not seem justified yet, but it enables functionalities beyond algebraic solving in \textsc{Frex}, such as proof pretty-printing, code generation and more, which is explained in \secref{sec:frex_capabilities}. \todo{maybe explain a bit more to justify?}
 
 \subsection{Implementing the distributive combination}
+\label{sec:distr_comb_implem}
 
-% We first start by defining what the coproduct signature and the coproduct presentation are.
+The distributive combination for free algebras has been implemented modularly so that the user only needs to provide free algebras for the component theories to get a free algebra for the combined theory. These free algebras can be passed to dedicated functions of the Idris \textsc{Frex} library to act as solvers.
 
-% \medskip
+Unfortunately, not the entire distributive combination of free algebras has been implemented in this internship. Only the semantics have been implemented, it remains to prove in Idris 2 that the constructed algebra validates the axioms and that it is indeed free. This is due to the fact that formalising such a conceptual proof that stems directly from category theory is long and tedious. However, since we do have the full theoretical proof, we already have some guarantees about our result and we will be able to implement the remaining proofs, however long this may take.
 
-% We use the built-in type \IdrisType{Either} to model the alternative between the two underlying signatures:
-% \begin{idris}
-% \IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Signature}\KatlaNewline{}
-% \IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisBound{sigA}\KatlaSpace{}\IdrisBound{sigM}\KatlaSpace{}\IdrisKeyword{=}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\IdrisData{MkSignature}\KatlaSpace{}\IdrisKeyword{(\textbackslash{}}\IdrisBound{n}\KatlaSpace{}\IdrisKeyword{=>}\KatlaSpace{}\IdrisType{Either}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{sigA}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{n}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{sigM}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{n}\IdrisKeyword{))}\KatlaNewline{}
-% \end{idris}
-% We need to define injections from the signatures into the coproduct signature. We only present the injections of equations here:
-% \begin{idris}
-% \IdrisFunction{injAddEq}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\{}\IdrisBound{additiveSig}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{multiplicativeSig}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\KatlaUnderscore{}\}}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Equation}\KatlaSpace{}\IdrisBound{additiveSig}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Equation}\KatlaSpace{}\IdrisKeyword{(}\IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisBound{additiveSig}\KatlaSpace{}\IdrisBound{multiplicativeSig}\IdrisKeyword{)}\KatlaNewline{}
-% \KatlaNewline{}
-% \IdrisFunction{injMulEq}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\{}\IdrisBound{additiveSig}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{multiplicativeSig}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\KatlaUnderscore{}\}}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Equation}\KatlaSpace{}\IdrisBound{multiplicativeSig}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Equation}\KatlaSpace{}\IdrisKeyword{(}\IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisBound{additiveSig}\KatlaSpace{}\IdrisBound{multiplicativeSig}\IdrisKeyword{)}\KatlaNewline{}
-% \end{idris}
-% The axioms are composed of both the axioms for the additive and multiplicative part, to which we add the distributivity axioms:
-% \begin{idris}
-% \IdrisKeyword{data}\KatlaSpace{}\IdrisType{DistributivityAxiom}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Signature}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Type}\KatlaSpace{}\IdrisKeyword{where}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\IdrisData{DistAxiom}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{\{}\IdrisBound{addSig}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{mulSig}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Signature}\IdrisKeyword{\}}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisKeyword{\{}\IdrisBound{m}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{n}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Nat}\IdrisKeyword{\}}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{addOp}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{addSig}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{m}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{mulOp}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{mulSig}\IdrisFunction{.OpWithArity}\KatlaSpace{}\IdrisBound{n}\IdrisKeyword{)}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{i}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Fin}\KatlaSpace{}\IdrisBound{n}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{DistributivityAxiom}\KatlaSpace{}\IdrisBound{addSig}\KatlaSpace{}\IdrisBound{mulSig}\KatlaNewline{}
-% \KatlaNewline{}
-% \IdrisKeyword{data}\KatlaSpace{}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{additive}\IdrisKeyword{,}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Presentation}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Type}\KatlaSpace{}\IdrisKeyword{where}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\IdrisData{AddAx}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{additive}\IdrisFunction{.Axiom}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\IdrisData{MulAx}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisBound{multiplicative}\IdrisFunction{.Axiom}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\IdrisData{DistAx}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{DistributivityAxiom}\KatlaSpace{}\IdrisBound{additive}\IdrisFunction{.signature}\KatlaSpace{}\IdrisBound{multiplicative}\IdrisFunction{.signature}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaSpace{}\KatlaNewline{}
-% \end{idris}
-% The distributive combination of the two presentations is then defined as:
-% \begin{idris}
-% \IdrisFunction{DistributiveCombinationTheory}\KatlaSpace{}\IdrisKeyword{:}\KatlaSpace{}\IdrisType{Presentation}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Presentation}\KatlaSpace{}\IdrisKeyword{\KatlaDash{}>}\KatlaSpace{}\IdrisType{Presentation}\KatlaNewline{}
-% \IdrisFunction{DistributiveCombinationTheory}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\KatlaSpace{}\IdrisKeyword{=}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\IdrisData{MkPresentation}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{(}\IdrisFunction{CoproductSignature}\KatlaSpace{}\IdrisBound{additive}\IdrisFunction{.signature}\KatlaSpace{}\IdrisBound{multiplicative}\IdrisFunction{.signature}\IdrisKeyword{)}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{(}\IdrisType{CombinationAxiom}\KatlaSpace{}\IdrisBound{additive}\KatlaSpace{}\IdrisBound{multiplicative}\IdrisKeyword{)}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisKeyword{(\textbackslash{}case}\KatlaSpace{}\IdrisData{AddAx}\KatlaSpace{}\IdrisBound{ax}\KatlaSpace{}\IdrisKeyword{=>}\KatlaSpace{}\IdrisFunction{injAddEq}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{additive}\IdrisFunction{.axiom}\KatlaSpace{}\IdrisBound{ax}\IdrisKeyword{)}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisData{MulAx}\KatlaSpace{}\IdrisBound{ax}\KatlaSpace{}\IdrisKeyword{=>}\KatlaSpace{}\IdrisFunction{injMulEq}\KatlaSpace{}\IdrisKeyword{(}\IdrisBound{multiplicative}\IdrisFunction{.axiom}\KatlaSpace{}\IdrisBound{ax}\IdrisKeyword{)}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisData{DistAx}\KatlaSpace{}\IdrisKeyword{(}\IdrisData{DistAxiom}\KatlaSpace{}\IdrisBound{addOp}\KatlaSpace{}\IdrisBound{mulOp}\KatlaSpace{}\IdrisBound{i}\IdrisKeyword{)}\KatlaSpace{}\IdrisKeyword{=>}\KatlaNewline{}
-% \KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\KatlaSpace{}\IdrisFunction{distributivityEquation}\KatlaSpace{}\IdrisBound{addOp}\KatlaSpace{}\IdrisBound{mulOp}\KatlaSpace{}\IdrisBound{i}\IdrisKeyword{)}\KatlaNewline{}
-% \end{idris}
-% If \IdrisBound{addOp} is an operator of arity \IdrisBound{n} and \IdrisBound{mulOp} is an operator of arity \IdrisBound{m}, then \IdrisFunction{distributivityEquation}\KatlaSpace{}\IdrisBound{addOp}\KatlaSpace{}\IdrisBound{mulOp}\KatlaSpace{}\IdrisBound{i} is the equation
-% \begin{align*}
-%   x_1, \dots, x_m, y_1, \dots, y_n \vdash\ &\tt{mulOp} \bigl(x_1, \dots, x_{i-1}, \tt{addOp}(y_1, \dots, y_n), x_{i+1}, \dots, x_m \bigr)\\
-%   =\ &\tt{addOp} \bigl\langle \tt{mulOp} (x_1, \dots, x_{i-1}, y_j, x_{i+1}, \dots, x_m) \bigr\rangle_{j=1}^n
-% \end{align*}
+However, these proofs are not needed for the actual solving logic to work; they merely guarantee that the solver behaves as intended. We were therefore able to use the current implementation to prove equations on various varieties of semirings. For instance, for every example of a distributive combination we implemented (see the Table~\ref{tbl:combination-table}), we proved that all of the axioms of the combination hold. This also lets us test the performance of our implementation in \secref{sec:perf-eval}. But before being able to run some tests, we had to implement the missing solvers for the component theories, as only solvers for monoids and commutative monoids were implemented in Idris 2.
 
+\subsection{Implementing solvers}
+\label{sec:solver_implem}
 
-% \todo[inline]{todolist}
-% \begin{itemize}
-%   \item explain the choice of representation for the theory of the distributive combination
-%   \item quickly go over the implementation of the semantics (the only real relevant part is \texttt{psi} but the definition in itself is atrocious, give type declarations only) $\to$ maybe give the definition of \texttt{DistributiveCombinationStructure'}
-%   \item don't go over the details of the axiom preservation and the freeness proofs (we don't have them anyway, also should we be straightforward about this ?)
-%   \item maybe only give the signature of \texttt{FreeDistributiveCombination}
-% \end{itemize}
+Implementing solvers for a given algebraic theory amounts to finding the free algebra or free extension for that theory and formalising it in Idris.
 
-Not the entire distributive combination of free algebras has been implemented in this internship. Only the semantics have been implemented, it remains to prove in Idris 2 that the constructed algebra validates the axioms and that it is indeed free. However, since we do have the full theoretical proof, this is just a matter of taking the time and writing the remaining proofs. This can take a long time as the formalism tends to be quite heavy.
+We implemented fral solvers for semigroups, commutative semigroups and abelian groups. Solvers for monoids, commutative monoids and involutive monoids were already implemented. For similar reasons as in \secref{sec:distr_comb_implem}, we only implemented the semantics of the free algebras and left the proofs for future work. This is enough to use these solvers to solve equations.
 
-We were however still able to use the current implementation to prove some equations on specific examples. For instance, for every example of a distributive combination we implemented (see the Table~\ref{tbl:combination-table}), we proved that all of the axioms of the combination hold using the reflexivity of the equivalence relation of the carrier. This also lets us test the performance of our implementation in \S\ref{sec:perf-eval}.
+The free algebras for these theories are well-known, therefore implementing fral solvers is just a matter of formalising these objects in Idris. Free semigroups are non-empty lists, free commutative semigroups are finite multisets with non-empty support and free abelian groups are integer-valued finitely supported maps.
 
 \subsection{Performance evaluation}
 \label{sec:perf-eval}
 
-Following the work of \cite{idris_frex}, we tested our implementation to find the instantaneity (0.1s), interactivity (1s) and attention (10s) tresholds described by \cite{nielsen:usability-engineering}. This is important as developping in Idris2 is interactive and our tool is meant to discharge the user of painful arithmetic proofs.
+Following the work of \cite{idris_frex}, we tested our implementation to find the instantaneity (0.1s), interactivity (1s) and attention (10s) thresholds described by \cite{nielsen:usability-engineering}. This is important as developing in Idris2 is interactive and our tool is meant to discharge the user of painful arithmetic proofs. Each datapoint in Figure~\ref{fig:perf-single} is the median execution time on 10 random terms of that size. Term size is computed as the number of leaves in the syntax tree of the term.
 
-\textsc{Frex}'s checking time\footnote{We used an Intel Core Ultra 7 255HX machine with 16GB memory, running Idris 2 version 0.8.0-6a54860ee on Debian Linux 13.} remains under the instantaneity treshold for terms of size 30 to 60 depending on the number of free variables, as pictured in Figure~\ref{fig:perf-single}. This is more than sufficient to deal with the typical equalities that arise in dependently typed programs.
+\textsc{Frex}'s type-checking time\footnote{We used an Intel Core Ultra 7 255HX machine with 16GB memory, running Idris 2 version 0.8.0-6a54860ee on Debian Linux 13.} remains below the instantaneity threshold for terms of size 60 to 120, depending on the number of free variables, as pictured in Figure~\ref{fig:perf-single}. This is more than sufficient to deal with the typical equalities that arise in dependently typed programs.
+
+\textsc{Frex} eventually crosses the interactivity treshold as the term sizes grow. However, by that point, we notice that some datapoints are missing. This happens because the test machine ran out of RAM on some of the test cases. This indicates that \textsc{Frex}'s bottleneck is not its speed but Idris itself, and suggests that Frex is likely suitable for practical applications.
 
 \begin{figure}[!h]
-  \todo[inline]{Add figure}
-  % \includegraphics[options]{name}
-  \caption{caption}
+  \centering
+  \includegraphics[width=\textwidth]{images/benchmark_semiring.png}
+  \includegraphics[width=\textwidth]{images/benchmark_ring.png}
+  \caption{Type-checking times for the commutative semiring and ring solvers.}
   \label{fig:perf-single}
 \end{figure}
 
+% \newpage
+
 Comparing the execution times for semirings and rings with the ones in \textcite{idris_frex} for monoids, the performance seems to have much improved. This can be explained by two different factors:
 \begin{itemize}
-  \item \textcite{idris_frex} mentioned a performance bottleneck in Idris2's evaluator, this was four years ago and the developpment of Idris2 probably eliminated this bottleneck.
+  \item \textcite{idris_frex} mentioned a performance bottleneck in Idris2's evaluator, this was four years ago and the development of Idris2 probably eliminated this bottleneck.
   \item The tests have not been run on the same machine, and the CPU used for the semirings test is much more efficient than the one used for the monoids tests.
 \end{itemize}

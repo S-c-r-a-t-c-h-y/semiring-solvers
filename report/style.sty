@@ -1,3 +1,8 @@
+\usepackage[T1]{fontenc}
+\usepackage[tt=false, type1=true]{libertine}
+\usepackage[varqu]{zi4}
+% \usepackage[libertine]{newtxmath}
+
 \usepackage[
     backend=biber,
     style=apa,
@@ -17,22 +22,10 @@
 \usepackage{multirow}
 \usepackage{makecell}
 \usepackage{changepage}
-
+\usepackage{tablefootnote}
 
 \usepackage{lineno}
 \renewcommand\linenumberfont{\normalfont\tiny\color{red}}
-% \linenumbers
-
-\hypersetup{
-    colorlinks = true,
-    citecolor=violet,
-    % linkcolor=violet,
-    % linkbordercolor = {white},
-}
-
-\usepackage{wrapfig}
-
-\newcounter{ptl}
 
 % couleur des prop, def etc
 \definecolor{blue1}{RGB}{52, 155, 207}
@@ -40,6 +33,18 @@
 \definecolor{blue2}{RGB}{39, 116, 156}
 % couleur d'arrière plan et d'ombre
 \colorlet{bgblue}{blue!10}
+
+\hypersetup{
+    colorlinks = true,
+    citecolor=violet,
+    % linkcolor=black,
+    urlcolor=blue2,
+    % linkbordercolor = {white},
+}
+
+\usepackage{wrapfig}
+
+\newcounter{ptl}
 
  \mdfdefinestyle{mythm}{
    linecolor=blue1, 
@@ -120,6 +125,33 @@
 \renewenvironment{proof}[1][]{
   \begin{mdframed}[style=myproof, frametitle={Proof\ifstrempty{#1}{}{ (#1)}}]}%
   {\hfill\qedsymbol\end{mdframed}}
+
+
+\mdfdefinestyle{mydef}{
+   linecolor=black, 
+   linewidth=1pt,
+   topline=false,
+   bottomline=false,
+   rightline=false,
+   leftline=false,
+   backgroundcolor=white,
+   innertopmargin=2pt, 
+   innerbottommargin=2pt,
+   skipabove=10pt, 
+   skipbelow=10pt,
+   frametitlefont=\bfseries,
+   nobreak=true,
+   apptotikzsetting={%
+   \tikzset{mdfframetitlebackground/.append style={%
+   shade,left color=bgblue, right color=white}}%
+   \tikzset{mdfbackground/.append style={%
+      shade,left color=bgblue, right color=white}}}
+ }
+ 
+ \newenvironment{definition}[1][]{%
+   \refstepcounter{ptl}%
+   \begin{mdframed}[style=mydef, frametitle={\textcolor{blue1}{Definition\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+   {\end{mdframed}}
 
 
 \let\bibopenparen=\bibopenbracket%
@@ -270,3 +302,5 @@
 
 \renewcommand{\figurename}{Fig}
 \newcommand{\figref}[1]{\figurename~\ref{#1}}
+
+\newcommand{\secref}[1]{\S\ref{#1}}

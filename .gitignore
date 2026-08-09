@@ -20,6 +20,10 @@
 *.synctex(busy)
 *.vtc
 *.xdv
+*.maf
+*.mtc
+*.mtc0
+*.snm
 
 # Rocq build files
 *.aux
