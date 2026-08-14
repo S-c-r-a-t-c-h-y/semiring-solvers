@@ -14,12 +14,8 @@ In dependently-typed programming languages, the state-of-the-art for polynomial 
 Reflection is using the ability of the Calculus of Constructions to speak and reason about itself. Here is the pipeline for the reflection process used in Rocq described by \textcite{coq_ring}.
 
 Consider a ring structure $A$, with two constants $0$ and $1$, three binary operators $+$, $*$ and $-$ and an opposite unary function $-$. We want to prove the equality of two terms $t_1$ and $t_2$ modulo the ring axioms. To do so, they introduce two inductive types $\PolExpr$ and $\Pol$, two evaluation functions $\varphi_P : \PolExpr \to A$ and $\varphi_{PE} : \Pol \to A$ and a translation function $\mathfrak T : A \to \PolExpr$. $\PolExpr$ describes the syntax of terms of type $A$, while $\Pol$ describes normal forms of terms of type $A$. 
-The reflection process is pictured in \figref{fig:reflection}. It goes as follows:
-\begin{enumerate}
-  \item from $t_1$ and $t_2$, build two corresponding terms $e_1$ and $e_2$ with $\mathfrak T$.
-  \item normalise these two polynomials using $\norm$
-  \item prove the equality $\norm(e_1) = \norm(e_2)$ to conclude for the equality $t_1$ and $t_2$.
-\end{enumerate}
+The reflection process is pictured in \figref{fig:reflection}.
+
 \begin{figure}[!h]
   \[\begin{tikzcd}
     {e_1=e_2} & \PolExpr && \Pol & {\norm(e_1)=\norm(e_2)} \\
@@ -32,6 +28,12 @@ The reflection process is pictured in \figref{fig:reflection}. It goes as follow
   \caption{Reflection process}
   \label{fig:reflection}
 \end{figure}
+\noindent It goes as follows:
+\begin{enumerate}
+  \item from $t_1$ and $t_2$, build two corresponding terms $e_1$ and $e_2$ with $\mathfrak T$.
+  \item normalise these two polynomials using $\norm$
+  \item prove the equality $\norm(e_1) = \norm(e_2)$ to conclude for the equality $t_1$ and $t_2$.
+\end{enumerate}
 In order for this process to be correct, there are some constraints on $\varphi_P, \varphi_{PE}$ and $\mathfrak T$ that need to be met:
 \begin{align}
   \forall e \in \PolExpr, \varphi_{PE}(e) &= \varphi_P(\norm(e)) \label{eq:correctness}\\
@@ -86,14 +88,14 @@ The \textsc{Frex} approach to algebraic simplification lets us tackle many more 
   \hline
   \multicolumn{3}{|c|}{\textbf{Multiplicative structure}} &
   \multicolumn{3}{c|}{\textbf{Additive structure}} \\ \hline
-  \textbf{Theory} & \textbf{Comm.}\tablefootnote{Commutativity} & \textbf{Inv.}\tablefootnote{Involutive} &
+  \textbf{Theory} & \textbf{Comm.}\tablefootnote{Commutativity} & \textbf{Inv.}\tablefootnote{Involutivity} &
   \makecell{\textbf{Comm. Semigroup}} &
   \makecell{\textbf{Comm. Monoid}} &
   \makecell{\textbf{Abelian Group}} \\ \hline
 
   \multirow{4}{*}{\small\textbf{Semigroup}}
   & \multirow{2}{*}{\textbf{Mere}} & \textbf{Mere} & $\P(\Sigma^+) \setminus \{\varnothing\}$ & $\P(\Sigma^+)$ & $\Z \la \Sigma^+ \ra$ \\ \cline{3-6}
-  &                                   & \textbf{Inv.} & $\lp \P(\Sigma^+) \setminus \{\varnothing\}, -^R \rp$ & $\lp \P(\Sigma^+), -^R \rp$ & $\lp \Z \la \Sigma^+ \ra, \rev \rp$ \\ \cline{2-6}
+  &                                   & \textbf{Inv.}\tablefootnote{Involutive} & $\lp \P(\Sigma^+) \setminus \{\varnothing\}, -^R \rp$ & $\lp \P(\Sigma^+), -^R \rp$ & $\lp \Z \la \Sigma^+ \ra, \rev \rp$ \\ \cline{2-6}
   & \multirow{2}{*}{\textbf{Comm.}\tablefootnote{Commutative}} & \textbf{Mere} & $2\N_{>0}$ & $2\N$ & $2\Z$ \\ \cline{3-6}
   &                                   & \textbf{Inv.} & $\mathfrak m_n^\sigma \setminus \{0\}$ & $\mathfrak m_n^\sigma$ & $\lp 2\Z[\ii], \overline{-} \rp$ \\ \hline
 
@@ -114,7 +116,7 @@ The \textsc{Frex} approach to algebraic simplification lets us tackle many more 
   \label{tbl:combination-table}
 \end{table}
 
-\newpage
+% \newpage
 \noindent The models in the table are the following:
 \begin{itemize}
   \item $\N, \Z, \R$: natural numbers, integers and real numbers with the usual operations.
@@ -132,7 +134,7 @@ The \textsc{Frex} approach to algebraic simplification lets us tackle many more 
   \item $\bigl( T_{n,\Delta_{>0}}(\R), -^\dagger \bigr)$: upper triangular matrices with coefficients $>0$ on the diagonal. Addition and multiplication is standard matrix addition and multiplication. The involution $-^\dagger$ reverses the order of the coefficients on the diagonal, e.g, $\Delta(1, \dots, n)^\dagger = \Delta(n, \dots, 1)$.
 \end{itemize}
 
-Some combinations are impossible nontrivially. This is the case of every combination of a multiplicative group with an additive structure that has a $0$ element. In such a case, every element is equal to each other. Indeed, suppose that $0$ is invertible, i.e, there exists $0^{-1}$ such that $0 \cdot 0^{-1} = 1$. Because of the distributivity axioms, $x \vdash x \cdot 0 = 0$ holds in all of these cases. We also have the associativity of the multiplication, therefore for every element $a$, $a = a \cdot (0 \cdot 0^{-1}) = (a \cdot 0) \cdot 0^{-1} = 0 \cdot 0^{-1} = 1$ and every element is equal to $1$. The only model validating these theories is the trivial model $\{0\}$.
+Some combinations are impossible nontrivially. This is the case of every combination of a multiplicative group with an additive structure that has a $0$ element. In such a case, every element is equal to each other. Indeed, suppose that $0$ is invertible, i.e, there exists $0^{-1}$ such that $0 \cdot 0^{-1} = 1$. Because of the distributivity axioms, $x \vdash x \cdot 0 = 0$ holds in all of these cases. We also have the associativity of the multiplication, therefore for every element $a$: $$a = a \cdot (0 \cdot 0^{-1}) = (a \cdot 0) \cdot 0^{-1} = 0 \cdot 0^{-1} = 1$$ Every element is equal to $1$, the only model validating these theories is the trivial model $\{0\}$.
 
 \subsubsection{Support for additional equalities}
 \label{sec:additional_equalities}

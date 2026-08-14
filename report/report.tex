@@ -110,10 +110,12 @@ United Kingdom
 
 \section{Additional material}
 \label{sec:additional_fral}
-\todo[inline]{probably find a better name}
+\todo[inline]{probably find a better name for the section, and organise better}
 
-\begin{proof}[Proposition~\ref{prop:fral_solving}]
-We want to prove that $A \brak{l} \env_A = A \brak{r} \env_A$. The universal property of $FX$ gives a homomorphism $h : \underline{FX} \to \underline{A}$ such that $h \circ \env_{FX} = \env_A$.
+\begin{proof}[Theorem~\ref{thm:fral_solving}]
+3. $\imp$ 2. and 2. $\imp$ 1. hold by definition. By cyclic implications, it remains to prove 1. $\imp$ 3. Let $\la A, \env_A \ra$ be a $\mathcal T$-model over $X$. Suppose that $(FX, \env_{FX}) \models (X \vdash l = r)$. We want to prove that $A \brak{l} \env_A = A \brak{r} \env_A$.
+
+The universal property of $FX$ gives a homomorphism $h : \underline{FX} \to \underline{A}$ such that\\ $h \circ \env_{FX} = \env_A$.
 \begin{lemma}[Homomorphisms preserve term semantics]
   Let $A, B$ be two $\mathcal{T}$-algebras, $X \vdash t$ be a term and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Then for every function $\env : X \to \underline{A}$, $h \bigl( A \brak{l} \env \bigr) = B\brak{r} (h \circ \env)$.
 \end{lemma}
@@ -134,7 +136,7 @@ We want to prove that $A \brak{l} \env_A = A \brak{r} \env_A$. The universal pro
   \end{align*}
 \end{proof}
 
-Now we can finally prove our equality in $A$. $FX$ validates $\textrm{eq}$, so $FX\brak{l} \env_{FX} = FX\brak{r} \env_{FX}$. Since $h$ is a homomorphism and homomorphisms preserve equations, $A \brak{l} (h \circ \env_{FX}) = A \brak{r} (h \circ \env_{FX})$. But $h \circ \env_{FX} = \env_A$, therefore $A \brak{l} \env_A = A \brak{r} \env_A$.
+Now we can finally prove our equality in $A$. By hypothesis, $FX\brak{l} \env_{FX} = FX\brak{r} \env_{FX}$. Since $h$ is a homomorphism and homomorphisms preserve equations, $A \brak{l} (h \circ \env_{FX}) = A \brak{r} (h \circ \env_{FX})$. But $h \circ \env_{FX} = \env_A$, therefore $A \brak{l} \env_A = A \brak{r} \env_A$.
 \end{proof}
 
 \begin{definition}[Abelian group monad]
