@@ -47,7 +47,7 @@ The type $\Pol$ is built so that equality can be checked syntactically: if two p
 \subsection{Almost-rings}
 \label{sec:almost-ring}
 
-The \ring tactic is capable of dealing both with commutative rings and commutative semirings, under the same implementation. To unify both structure, they resort to \emph{almost-rings}, an intermediate structure similar to rings and semirings.
+The \ring tactic is capable of dealing both with commutative rings and commutative semirings, under the same implementation. To unify both structure, they introduce \emph{almost-rings}, an intermediate structure similar to rings and semirings.
 
 An \emph{almost-ring} is a commutative semiring completed with an unary operator called \emph{almost-opposite}. The almost-opposite, denoted by $-$, satisfies the following axioms:
 \begin{align*}
@@ -79,30 +79,31 @@ Therefore, both \textsc{Frex} and the \ring tactic are sound and complete with r
 \subsubsection{Supported theories}
 \label{sec:supported_theories}
 
-The \textsc{Frex} approach to algebraic simplification lets us tackle many more theories than the Rocq \ring tactic can. In Table~\ref{tbl:combination-table}, we show examples of models for the different distributive combinations of mere/commutative mere/involutive semigroups, monoids and groups. In \textcolor{red}{red} are the theories that the \ring tactic can handle. Essentially only the commutative semiring/ring corner is covered by reflection-based ring solving, whereas Frex extends to semigroup/monoid/group and involutive variants.
+The \textsc{Frex} approach to algebraic simplification lets us tackle many more theories than the Rocq \ring tactic can. In Table~\ref{tbl:combination-table}, we show examples of models for the different distributive combinations of mere/commutative mere/involutive semigroups, monoids and groups. $\Circled{\mathrm{Circled}}$ are the theories that the \ring tactic can handle. Only the commutative semiring/ring corner is covered by reflection-based ring solving, whereas Frex extends to semigroup/monoid/group and involutive variants.
 
 \begin{table}[!h]
   \centering
   \hspace*{-1.6cm}
+\begin{threeparttable}
   \begin{tabular}{|l|l|l|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
   \hline
   \multicolumn{3}{|c|}{\textbf{Multiplicative structure}} &
   \multicolumn{3}{c|}{\textbf{Additive structure}} \\ \hline
-  \textbf{Theory} & \textbf{Comm.}\tablefootnote{Commutativity} & \textbf{Inv.}\tablefootnote{Involutivity} &
+  \textbf{Theory} & \textbf{Comm.}\tnote{1} & \textbf{Inv.}\tnote{3} &
   \makecell{\textbf{Comm. Semigroup}} &
   \makecell{\textbf{Comm. Monoid}} &
   \makecell{\textbf{Abelian Group}} \\ \hline
 
   \multirow{4}{*}{\small\textbf{Semigroup}}
   & \multirow{2}{*}{\textbf{Mere}} & \textbf{Mere} & $\P(\Sigma^+) \setminus \{\varnothing\}$ & $\P(\Sigma^+)$ & $\Z \la \Sigma^+ \ra$ \\ \cline{3-6}
-  &                                   & \textbf{Inv.}\tablefootnote{Involutive} & $\lp \P(\Sigma^+) \setminus \{\varnothing\}, -^R \rp$ & $\lp \P(\Sigma^+), -^R \rp$ & $\lp \Z \la \Sigma^+ \ra, \rev \rp$ \\ \cline{2-6}
-  & \multirow{2}{*}{\textbf{Comm.}\tablefootnote{Commutative}} & \textbf{Mere} & $2\N_{>0}$ & $2\N$ & $2\Z$ \\ \cline{3-6}
+  &                                   & \textbf{Inv.}\tnote{4} & $\lp \P(\Sigma^+) \setminus \{\varnothing\}, -^R \rp$ & $\lp \P(\Sigma^+), -^R \rp$ & $\lp \Z \la \Sigma^+ \ra, \rev \rp$ \\ \cline{2-6}
+  & \multirow{2}{*}{\textbf{Comm.}\tnote{2}} & \textbf{Mere} & $2\N_{>0}$ & $2\N$ & $2\Z$ \\ \cline{3-6}
   &                                   & \textbf{Inv.} & $\mathfrak m_n^\sigma \setminus \{0\}$ & $\mathfrak m_n^\sigma$ & $\lp 2\Z[\ii], \overline{-} \rp$ \\ \hline
 
   \multirow{4}{*}{\textbf{Monoid}}
   & \multirow{2}{*}{\textbf{Mere}} & \textbf{Mere} & $\P(\Sigma^*) \setminus \{\varnothing\}$, $M_n(\N_{>0})$ & $\P(\Sigma^*)$ , $M_n(\N)$ & $M_n(\Z)$ \\ \cline{3-6}
   &                                   & \textbf{Inv.} & $\lp M_n(\N_{>0}), -^T\rp$, $\lp\P(\Sigma^*) \setminus \{\varnothing\}, -^R\rp$ & $\lp M_n(\N), -^T\rp$, $\lp \P(\Sigma^*), -^R\rp$, $\Rel(X)$ & $\lp M_n(\Z), -^T \rp$ \\ \cline{2-6}
-  & \multirow{2}{*}{\textbf{Comm.}} & \textbf{Mere} & $\N_{>0}$ & \textcolor{red}{$\N$} & \textcolor{red}{$\Z$, $\R$, $\C$} \\ \cline{3-6}
+  & \multirow{2}{*}{\textbf{Comm.}} & \textbf{Mere} & $\N_{>0}$ & $\Circled[inner xsep=7pt, inner ysep=7pt]{\N}$ & $\Circled[inner xsep=7pt, inner ysep=5pt]{\Z,\; \R,\; \C}$ \\ \cline{3-6}
   &                                   & \textbf{Inv.} & $\N_\sigma\brak{X_1, \dots, X_n} \setminus \{0\}$ & $\N_\sigma\brak{X_1, \dots, X_n}$ & $(\C, \overline{-})$, $\Z_\sigma\brak{X_1, \dots, X_n}$ \\ \hline
 
   \multirow{4}{*}{\textbf{Group}}
@@ -112,6 +113,14 @@ The \textsc{Frex} approach to algebraic simplification lets us tackle many more 
   &                                   & \textbf{Inv.} & $(\C_{>0}, \overline{-})$ & \textbf{impossible} nontrivially & \textbf{impossible} nontrivially \\ \hline
 
   \end{tabular}
+  \begin{tablenotes}
+    \small
+    \item[1] Commutativity
+    \item[2] Commutative
+    \item[3] Involutivity
+    \item[4] Involutive
+  \end{tablenotes}
+\end{threeparttable}
   \caption{Examples for the distributive combination of theories}
   \label{tbl:combination-table}
 \end{table}
@@ -169,8 +178,9 @@ because \tt{\string~\string~} is not a part of the ring structure. This is to be
 We have presented \textsc{Frex} as a generic algebraic simplification framework, but it is not limited to that role. All of the following capabilities of \textsc{Frex} cannot be achieved by the \ring tactic.
 
 By appealing to the universal property of the fral/frex, every fral/frex is isomorphic to the quotient fral/frex. This lets us extract a proof certificate, i.e, a derivation for the equation for the provability relation of Figure~\ref{fig:provability}. \textsc{Frex} can package such a derivation as a lemma that is valid for any model of the given theory. Users can then seamlessly invoke these lemmas in any model, avoiding further \textsc{Frex} calls \parencite[][Section 5.2]{idris_frex}.
+% This is not yet possible for distributive combination of theories as the universal property isn't fully formalised yet.
 
-The resulting derivation can also be used to pretty-print human-readable proofs, going through each step and specifying which axiom is used, and where. However, the derivation may not be optimal, leading to possibly large proofs with unnecessary steps. Figure~\ref{fig:frex_proof_extract} shows the first four solving steps to prove that $(3 + x) + 2 = 5 + x$, which aren't part of the optimal derivation involving only four solving steps in total. The full proof is pictured in Figure~\ref{fig:frex_proof_extracted} in the appendix. The obtained derivation can also be used to print Idris proofs for the lemmas \parencite[][Appendix C]{idris_frex}.
+The resulting derivation can also be used to pretty-print human-readable proofs, going through each step and specifying which axiom is used, and where. However, the derivation may not be optimal, leading to possibly large proofs with unnecessary steps. Figure~\ref{fig:frex_proof_extract} shows the first four solving steps to prove that $(3 + x) + 2 = 5 + x$ in a commutative monoid; these steps aren't part of the optimal derivation involving only four solving steps in total. The full proof is pictured in Figure~\ref{fig:frex_proof_extracted} in the appendix. The obtained derivation can also be used to print Idris proofs for the lemmas \parencite[][Appendix C]{idris_frex}. Both of these capabilities are not yet possible for proofs involving distributive combination of theories as the printers have not been implemented yet.
 
 \begin{figure}[!h]
   \begin{mathpar}\mprset{flushleft}

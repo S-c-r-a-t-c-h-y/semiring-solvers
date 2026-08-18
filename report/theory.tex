@@ -8,7 +8,7 @@ While using \textsc{Frex} does not require knowledge about category theory, \tex
 \subsection{Challenge about constructing distributive combinations}
 \label{sec:challenge}
 
-Constructing generic free algebras and free extensions for arbitrary theories is not hard. In fact, \secref{sec:free_algebras} gives an explicit construction for the free algebra of any theory using quotients. However in order to solve equations computationally, \secref{sec:solving} shows that we need a normal form with decidable equality, not merely an abstract quotient construction. The equivalence relation between terms in the quotient is not necessarily effective/decidable. Without this, we won't be able to prove equalities in the free algebra, and therefore to prove any equation with free algebras.
+Constructing generic free algebras and free extensions for arbitrary theories is not hard. In fact, \secref{sec:free_algebras} gives an explicit construction for the free algebra of any theory using quotients. However in order to simplify equations computationally, \secref{sec:solving} shows that we need a normal form with decidable equality, not merely an abstract quotient construction. The equivalence relation between terms in the quotient is not necessarily effective/decidable. Without this, we won't be able to prove equalities in the free algebra, and therefore to prove any equation with free algebras.
 
 
 Free extensions also have a generic construction: \textcite{frex_origin,idris_frex} state that the free extension of an algebra $A$ by $X$ is the category-theoretic coproduct of $A$ with the free $\mathcal{A}$-algebra over $X$. However, there is no generic formula for the coproduct of two algebras for an arbitrary theory.
@@ -22,7 +22,7 @@ The difficulty of the construction is for it to be effective so that equivalence
 
 % \medskip
 
-A first result was given by Ohad Kammar (my internship supervisor) about the free algebra for the distributive combination of a theory over a commutative theory. A theory $\mathcal A$ is commutative iff every operation of the theory commutes with every other operations, or more formally, iff for every $f : n \in \Sigma_\mathcal{A}$ and every $g : m \in \Sigma_\mathcal{A}$,
+A first hypothesis was given by Ohad Kammar (my internship supervisor) about the free algebra for the distributive combination of a theory over a commutative theory. A theory $\mathcal A$ is commutative iff every operation of the theory commutes with every other operations, or more formally, iff for every $(f : n) \in \Sigma_\mathcal{A}$ and every $(g : m) \in \Sigma_\mathcal{A}$,
 % \begin{equation}
 %   f \bigl( g(x_{11}, \dots, x_{1m}), \dots, g(x_{n1}, \dots, x_{nm}) \bigr) = g \bigl( f (x_{11}, \dots, x_{n1}), \dots, f (x_{1m}, \dots, x_{nm}) \bigr)
 %   \label{eq:commutativity_theory}
@@ -32,17 +32,17 @@ f \begin{pmatrix}
   g(x_{11}, \dots, x_{1m})\\
   \vdots\\
   g(x_{n1}, \dots, x_{nm})
-\end{pmatrix} = g \begin{pmatrix}
+\end{pmatrix} = g \lp
   f \begin{pmatrix}
     x_{11}\\
     \vdots\\
     x_{n1}
-  \end{pmatrix} & \cdots & f \begin{pmatrix}
+  \end{pmatrix},\, \dots\,, f \begin{pmatrix}
     x_{1m}\\
     \vdots\\
     x_{nm}
   \end{pmatrix}
-\end{pmatrix}
+\rp
   \label{eq:commutativity_theory}
 \end{equation}
 This definition is stronger and more structural than ordinary commutativity of a single binary operation. For monoids, this states that \begin{gather*}
@@ -51,32 +51,32 @@ This definition is stronger and more structural than ordinary commutativity of a
 
 The initial result was formulated in terms of multicategories, we reformulate it here in terms of monads for ease of understanding.
 
-\begin{theorem}[Free algebra for the distributive combination, incomplete]
-  Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be any theory. Then there exists a distributive law of the free model monad induced by $\mathcal M$ over the free model monad induced by $\mathcal A$, and the free model monad induced by $\mathcal M \triangleright \mathcal A$ is the composite monad of the two free model monads.
-  \label{thm:fail}
-\end{theorem}
+\begin{hypothesis}[Free algebra for the distributive combination, incorrect]
+  Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be any theory. Then there exists a distributive law of the free model monad induced by $\mathcal M$ over the free model monad induced by $\mathcal A$, and the free model monad induced by $\mathcal M \triangleright \mathcal A$ is the composite monad of the two free model monads induced by the distributive law.
+  \label{hyp:fail}
+\end{hypothesis}
 
 \noindent In the semiring case, this says that if $F_{\mathcal{M}} X$ gives multiplicative normal forms and $F_{\mathcal{A}} X$ gives additive normal forms, then $F_{\mathcal{A}} F_{\mathcal{M}} X$ gives normal forms for the semiring over $X$.
 
-Intuitively, the theorem says that given two free algebras for the additive and multiplicative part, composing them gives the free algebra for the distributive combination of the theories. This construction is effective in the sense of \secref{sec:challenge}.
+Intuitively, the hypothesis says that given two free algebras for the additive and multiplicative part, composing them gives the free algebra for the distributive combination of the theories. This construction is effective in the sense of \secref{sec:challenge}.
 
 Even though the construction itself was well-defined, the proof wasn't complete, and for a good reason: the statement is incorrect. The culprit is the absence of distributive laws under some hypothesis.
 
 \subsection{Why the initial result fails}
 \label{sec:failure}
 
-\textcite{nogo_distributive_law} gives multiple results about the absence of distributive laws under some hypothesis. We can regroup these results under 3 categories:
+\textcite{nogo_distributive_law} give multiple results about the absence of distributive laws under some hypothesis. We can regroup these results under 3 categories:
 \begin{enumerate}
   \item theorems 3.5, 3.12 and 4.24 all forbid the existence of an idempotent operator in the multiplicative theory, on top of other conditions.
   \item theorem 4.7 forbids the existence of two distinct constants in the additive theory.
   \item theorem 4.17 imposes the abides equation $(a \ast b) \ast (c \ast d) = (a \ast c) \ast (b \ast d)$ to hold for every operator $\ast$ in the additive theory.
 \end{enumerate}
 
-The second and third point are both taken care of by the hypothesis of commutativity of the additive theory in Theorem~\ref{thm:fail}. For the second point, two constants commute with each other if they are equal. A commutative theory can therefore not have two or more distinct constants. For the third point, the abides equation is simply the commutativity hypothesis for $f = g = \ast$.
+The second and third point are both taken care of by the hypothesis of commutativity of the additive theory in Hypothesis~\ref{hyp:fail}. For the second point, two constants commute with each other if they are equal. A commutative theory can therefore not have two or more distinct constants. For the third point, the abides equation is simply the commutativity hypothesis for $f = g = \ast$.
 
-However the first point is not accounted for. Informally, idempotence duplicates information in a way incompatible with the intended distributive-law construction. Under the current hypothesis, idempotent operators are allowed. Therefore, we need to strengthen our hypothesis.
+However the first point is not accounted for in Hypothesis~\ref{hyp:fail}. Informally, idempotence duplicates information in a way incompatible with the intended distributive-law construction. Under the current hypothesis, idempotent operators are allowed. Therefore, we need to strengthen our hypothesis.
 
-A known failure is the distributive combination of semi-lattices with probabilistic nondeterminism \parencite{varacca_example}. Let $\mathcal M = \BA$ be the theory of barycentric algebras (Definition~\ref{def:barycentric_algebras}), $\mathcal A = \SL$ be the theory of join-semilattices (Definition~\ref{def:join_semilattices}). Barycentric algebras have idempotent operators, therefore there cannot exist a distributive law $\lambda : \BA\;\SL \Rightarrow \SL\;\BA$. The free semilattice on a set $X$ is $F_\SL X = \mathcal P_f^+(X)$ the set of non-empty finite subsets of $X$, with union as join, and the free barycentric algebra on $X$ is $F_\BA X = \mathcal D_f(X)$ the set of finitely-supported probability distributions on $X$. However, the free algebra on $X$ for the distributive combination of the two is $\mathrm{Conv}_f(\mathcal{D}_f (X))$, the set of non-empty finitely generated convex subset of $\mathcal{D}_f(X)$, and not $\mathcal P_f^+ (\mathcal D_f (X))$, the set of non-empty finite subsets of $\mathcal D_f(X)$.
+A known failure is the distributive combination of semi-lattices with probabilistic nondeterminism \parencite[][due to Gordon Plotkin]{varacca_example}. Let $\mathcal M = \BA$ be the theory of barycentric algebras (Definition~\ref{def:barycentric_algebras}), $\mathcal A = \SL$ be the theory of join-semilattices (Definition~\ref{def:join_semilattices}). Barycentric algebras have idempotent operators, therefore there cannot exist a distributive law $\lambda : \BA\;\SL \Rightarrow \SL\;\BA$. The free semilattice on a set $X$ is $F_\SL X = \mathcal P_f^+(X)$ the set of non-empty finite subsets of $X$, with union as join, and the free barycentric algebra on $X$ is $F_\BA X = \mathcal D_f(X)$ the set of finitely-supported probability distributions on $X$. However, the free algebra on $X$ for the distributive combination of the two is $\mathrm{Conv}_f(\mathcal{D}_f (X))$, the set of non-empty finitely generated convex subset of $\mathcal{D}_f(X)$, and not $\mathcal P_f^+ (\mathcal D_f (X))$, the set of non-empty finite subsets of $\mathcal D_f(X)$.
 
 \subsection{Corrected result}
 \label{sec:corrected_result}
@@ -86,13 +86,13 @@ We strengthen the hypothesis on $\mathcal{M}$ by requiring it to be an affine th
 We now state the corrected theorem, in terms of monads once again instead of multicategories.
 
 \begin{theorem}[Free algebra for the distributive combination]
-Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be an affine theory. Then there exists a distributive law of the free model monad induced by $\mathcal M$ over the free model monad induced by $\mathcal A$, and the free model monad induced by $\mathcal M \triangleright \mathcal A$ is the composite monad of the two free model monads.
+Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be an affine theory. Then there exists a distributive law of the free model monad induced by $\mathcal M$ over the free model monad induced by $\mathcal A$, and the free model monad induced by $\mathcal M \triangleright \mathcal A$ is the composite monad of the two free model monads induced by the distributive law.
 \label{thm:correct}
 \end{theorem}
  
 The actual construction uses operads, translations from operads to theories, 2-categories and multicategories. Therefore, we won't present it nor the proof as is, but we'll explain the gist of it.
 
-First, start by noticing that a model for the distributive combination is made of a $\mathcal{M}$-model and a $\mathcal{A}$-model on the same carrier set (this ensures that the respective axioms hold) where moreover the operations of $\mathcal{M}$ distribute over the operations of $\mathcal{A}$ (this is a pullback in the category of categories). Let $X$ be a set of variables. The construction start by taking the free\\ $\mathcal{M}$-algebra over $X$, $A_0 := F_\mathcal{M} X$. We then take the free $\mathcal{A}$-algebra over $\underline{F_\mathcal{M} X}$, $A_1 := F_\mathcal{A} \bigl( \underline{F_\mathcal{M} X} \bigr)$. This gives us our candidate $\mathcal{A}$-model. This step corresponds to the monadic composition, minus the multiplications. But we now need to define the semantics of the operators of $\mathcal{M}$ on the carrier $\underline{A_1}$. To do this, we "lift" the $\mathcal{M}$-operators so that the lifted operators on the new carrier distribute over the $\mathcal{A}$-operators. This is what gives the distributive law. Through a more involved argument, and with the help of the affine hypothesis, we prove that the $\mathcal{M}$-axioms hold. The commutativity hypothesis of $\mathcal{A}$ is used to prove the existence of an adjunction between multicategories, which is used to lift the $\mathcal{M}$-operators. \todo{this probably deserves an exemple but I don't know how to present it}
+First, start by noticing that a model for the distributive combination is made of a $\mathcal{M}$-model and a $\mathcal{A}$-model on the same carrier set (this ensures that the respective axioms hold) where moreover the operations of $\mathcal{M}$ distribute over the operations of $\mathcal{A}$ (this is a pullback in the category of categories). Let $X$ be a set of variables. The construction start by taking the free $\mathcal{M}$-algebra over $X$, $A_0 := F_\mathcal{M} X$. For example, for monoids, $A_0 = F_\Mon X = \List X$. We then take the free $\mathcal{A}$-algebra over $\underline{F_\mathcal{M} X}$, $A_1 := F_\mathcal{A} \bigl( \underline{F_\mathcal{M} X} \bigr)$. For example, for commutative monoids, $A_1 = F_\CMon F_\Mon X = \Bag \bigl( \List X \bigr)$. This gives us our candidate $\mathcal{A}$-model. This step corresponds to the monadic composition, minus the multiplications. But we now need to define the semantics of the operators of $\mathcal{M}$ on the carrier $\underline{A_1}$. To do this, we ``lift'' the $\mathcal{M}$-operators so that the lifted operators on the new carrier distribute over the $\mathcal{A}$-operators. This is what gives the distributive law. For the distributive combination of monoids over commutative monoids, this yields the standard multiplication which distributes over addition. Through a more involved argument, and with the help of the affine hypothesis, we prove that the $\mathcal{M}$-axioms hold. The commutativity hypothesis of $\mathcal{A}$ is used to prove the existence of an adjunction between multifunctors, which is used to lift the $\mathcal{M}$-operators.
 
 This construction is effective: it is solely built from applying the free algebra constructions and some 2-functors in well-chosen categories. The lifted operators can be defined concretely.
 
@@ -105,6 +105,5 @@ The natural next step is to extend this result to free extensions. However the t
 
 Since we have seen in \secref{sec:free_extensions} that a free extension is also a free algebra for a specialised theory, the first thought is to reuse our construction on this theory. However, the hypotheses do not hold anymore: the specialised theory contains a constant for every concrete element. As stated in \secref{sec:failure}, two constants commute with each other iff they are equal, and so the specialised theory for the free extension of any non-trivial algebra is not commutative. Therefore, we need to find a completely new construction.
 
-Although the construction is nontrivial, it is not out of reach. We managed to define a construction using category-theoretic pushouts and the free extensions of the component theories. Although it is not effective, because pushouts are quotient-based, it shows that the free extensions of the component theories can indeed be used to construct the free extension of the combined theory. This led us to search for ways to adapt the construction for free algebras to free extensions.
-
-The construction of free extensions for distributive combinations is still ongoing work. We figured out that we need to find a new pullback that is suited for extensions, and that we need to find a new adjunction between the multicategory of extensions and the obvious forgetful functor.\todo{this is not actually correct stated as is, it mixes categories and functors}
+Although the construction is nontrivial, it is not out of reach. We managed to define a construction using category-theoretic pushouts and the free extensions of the component theories. Although it is not effective, because pushouts are quotient-based, it shows that the free extensions of the component theories can indeed be used to construct the free extension of the combined theory. This led us to search for ways to adapt the construction for free algebras to free extensions. The construction of free extensions for distributive combinations is still ongoing work.
+% We figured out that we need to find a new pullback that is suited for extensions, and that we need to find a new adjunction between the multicategory of extensions and the obvious forgetful functor.\todo{this is not actually correct stated as is, it mixes categories and functors}

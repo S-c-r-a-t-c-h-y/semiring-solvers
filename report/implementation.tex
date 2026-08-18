@@ -18,12 +18,12 @@ A \emph{setoid} is a set $X$ equipped with an equivalence relation $\sim_X$. A \
 
 \textsc{Frex} implements a slightly different version of the universal algebra presented in \secref{sec:preliminaries}. Carriers for algebras are setoids instead of sets. Therefore, all homomorphisms must also be setoid homomorphisms.
 
-The use of setoids may not seem justified yet, but it enables functionalities beyond algebraic solving in \textsc{Frex}, such as proof pretty-printing, code generation and more, which is explained in \secref{sec:frex_capabilities}. \todo{maybe explain a bit more to justify?}
+The use of setoids may not seem justified yet, but it enables functionalities beyond algebraic solving in \textsc{Frex}, such as proof pretty-printing, code generation and more, which is explained in \secref{sec:frex_capabilities}.
 
 \subsection{Implementing the distributive combination}
 \label{sec:distr_comb_implem}
 
-The distributive combination for free algebras has been implemented modularly so that the user only needs to provide free algebras for the component theories to get a free algebra for the combined theory. These free algebras can be passed to dedicated functions of the Idris \textsc{Frex} library to act as solvers. This uses the extensional normalisation theorem (Theorem~\ref{thm:fral_solving}): \textsc{Frex} uses the implication 1. $\imp$ 3. to prove the required equality. It tries to find a proof of 1. automaticaly, and asks the user for the proof if it fails. The proof should just be simple reflexivity, but Idris may not be able to solve it if the underlying equality is a user-defined setoid equivalence relation.
+The distributive combination for free algebras has been implemented modularly so that the user only needs to provide free algebras for the component theories to get a free algebra for the combined theory. These free algebras can be passed to dedicated functions of the Idris \textsc{Frex} library to act as solvers. These functions use a setoid variant of the extensional normalisation theorem (Theorem~\ref{thm:fral_solving}): \textsc{Frex} uses the implication 1. $\imp$ 3. to prove the required equality. It tries to find a proof of 1. automaticaly, and asks the user for the proof if it fails. The proof should just be simple reflexivity, but Idris may not be able to solve it if the underlying equality is a user-defined setoid equivalence relation.
 
 Unfortunately, not the entire distributive combination of free algebras has been implemented in this internship. Only the semantics have been implemented, it remains to prove in Idris 2 that the constructed algebra validates the axioms and that it is indeed free. This is due to the fact that formalising such a conceptual proof that stems directly from category theory is long and tedious. However, since we do have the full theoretical proof, we already have some guarantees about our result and we will be able to implement the remaining proofs, however long this may take.
 
@@ -59,6 +59,6 @@ Following the work of \cite{idris_frex}, we tested our implementation to find th
 
 Comparing the execution times for semirings and rings with the ones in \textcite{idris_frex} for monoids, the performance seems to have much improved. This can be explained by two different factors:
 \begin{itemize}
-  \item \textcite{idris_frex} mentioned a performance bottleneck in Idris2's evaluator, this was four years ago and the development of Idris2 probably eliminated this bottleneck.
-  \item The tests have not been run on the same machine, and the CPU used for the semirings test is much more efficient than the one used for the monoids tests.
+  \item \textcite{idris_frex} mentioned a performance bottleneck in Idris2's evaluator, this was during development four years ago and the development of Idris2 probably eliminated this bottleneck.
+  \item The tests in Figure~\ref{fig:perf-single} have not been run on the same machine as the tests in \textcite{idris_frex}, and the CPU used for the semirings test is much more efficient than the one used for the monoids tests.
 \end{itemize}

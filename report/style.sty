@@ -23,6 +23,9 @@
 \usepackage{makecell}
 \usepackage{changepage}
 \usepackage{tablefootnote}
+\usepackage[flushleft]{threeparttable}
+
+\usepackage{circledsteps}
 
 \usepackage{lineno}
 \renewcommand\linenumberfont{\normalfont\tiny\color{red}}
@@ -66,6 +69,11 @@
  \newenvironment{theorem}[1][]{%
    \refstepcounter{ptl}%
    \begin{mdframed}[style=mythm, frametitle={\textcolor{blue1}{Theorem\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
+   {\end{mdframed}}
+ 
+\newenvironment{hypothesis}[1][]{%
+   \refstepcounter{ptl}%
+   \begin{mdframed}[style=mythm, frametitle={\textcolor{blue1}{Hypothesis\ \theptl\ifstrempty{#1}{}{ (#1)}}}]}%
    {\end{mdframed}}
 
 \makeatletter
