@@ -4,7 +4,7 @@
 \label{sec:conclusion}
 % \addcontentsline{toc}{section}{Conclusion}
 
-We have found a way to modularly combine free algebras for component theories to get a free algebra for distributive combinations of theories, letting us use the work of \textcite{idris_frex} to modularly obtain solvers for varieties of semirings. From monoids and commutative monoids we recover semiring solvers, and from existing involutive constructions we additionally obtain involutive semiring-like solvers. Already 28 non-trivial solvers can be implemented, and performance evaluation indicates that such solvers are suited for use in dependently-typed programming languages.
+We have found a way to modularly combine free algebras for component theories to get a free algebra for distributive combinations of theories, letting us use the work of \textcite{idris_frex} to obtain solvers for varieties of semirings. From monoids and commutative monoids we recover semiring solvers, and from existing involutive constructions we additionally obtain involutive semiring-like solvers. Already 28 non-trivial solvers can be implemented, and performance evaluation indicates that such solvers are suited for use in dependently-typed programming languages.
 
 The use of category theory in this report is semi-implicit, a slightly different result is stated here to keep this report self-contained. The actual construction uses 2-category and especially 2-functors to transport adjunctions, as well as operads and multicategories to capture the distributivity of the multiplicative operations over the additive operations.
 
@@ -14,6 +14,6 @@ Other than giving a construction for involutive free extensions, \textcite{invol
 
 Another axis of development for the \textsc{Frex} project is the support for second-order/parametrised and essentially algebraic theories. No progress has been made in that direction yet.
 
-Recently, \textcite{monad_dist_law} gave a canonical construction of a distributive law under some hypothesis in substructural contexts. A future direction is to systematically compare with their work.
+Lastly, \textcite{monad_dist_law} recently gave a canonical construction of a distributive law under some hypothesis in substructural contexts. A future direction is to systematically compare with their work.
 
 % \href{https://matroidunion.org/?p=238}{partial fields}

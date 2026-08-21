@@ -31,7 +31,7 @@ In other words, a homomorphism is a semantics-preserving function between the ca
 
 Let $\mathcal T$ be a presentation and $X$ a set of variables. A $\mathcal{T}$-model over $X$ amounts to a pair $\la A, e \ra$ where $A$ is a $\mathcal{T}$-model and $e : X \to \underline{A}$ is an $X$-environment in this algebra. This concept is used to formalise the free algebra (fral) simplification in \secref{sec:solving}.
 
-\begin{wrapfigure}[6]{r}{2cm}
+\begin{wrapfigure}[6]{r}{2.2cm}
   \begin{tikzcd}[row sep=tiny]
   & {\underline{A}} \\
   X \\
@@ -55,7 +55,7 @@ Every presentation $\mathcal T$ induces an equivalence relation between terms us
   \label{fig:provability}
 \end{figure}
 
-There is an isomorphism of $\mathcal{T}$-models over $X$ $$\la FX, \var_{FX} \ra \cong \la \bigr(\Term_{\Sigma_{\mathcal{T}}} X \bigl) / \bigr(X \vdash_{\mathcal{T}}\bigl) =: Q, \var' \ra$$ with $\var': {X} \to {Q}$ given by ${x} \mapsto {[\var x]}$. Therefore free algebras represent terms modulo semantics.
+There is a canonical isomorphism of $\mathcal{T}$-models over $X$ $$\la FX, \var_{FX} \ra \cong \la \bigr(\Term_{\Sigma_{\mathcal{T}}} X \bigl) / \bigr(X \vdash_{\mathcal{T}}\bigl) =: Q, \var' \ra$$ with $\var': {X} \to {Q}$ given by ${x} \mapsto {[\var x]}$. Therefore free algebras represent terms modulo semantics.
 
 \subsection{Free extensions}
 \label{sec:free_extensions}
@@ -64,7 +64,7 @@ Free algebras allow us to deal with dynamic equations that involve \emph{only} f
 
 An \emph{extension of $A$ by $X$} is a triple $\la B, h, e \ra$ where $B$ is a $\pres$-algebra, $h : A \to B$ is a\\ $\pres$-homomorphism and $e : X \to B$ is a function.
 
-\begin{wrapfigure}{r}{2cm}
+\begin{wrapfigure}{r}{3cm}
 \begin{tikzcd}[sep=small]
     & {B_1} & \\
     X && A \\
@@ -115,13 +115,13 @@ In the general setting, let $X$ be a set of variables, $\mathcal{T}$ be a theory
   This is proved in \secref{sec:additional_fral}.
 \end{proof}
 
-Proving equalities in arbitrary models with free algebras then boils down to proving equalities in the free algebra. Since free algebras are canonicaly isomorphic to the quotient algebra of terms quotiented by the provability relation, if an equality is indeed provable, then the two associated terms in the free algebra should also be equal. 
+Proving equalities in arbitrary models with free algebras then boils down to proving equalities in the free algebra. Since free algebras are canonicaly isomorphic to the quotient algebra of terms quotiented by the provability relation, if an equality is indeed provable, then the two associated terms in the free algebra must also be equal. 
 
 Since free algebras represent normal forms of terms modulo the equations of the theory, if the two terms of the equation are indeed equivalent in the theory, then the interpretation of those terms with the unit of the free algebra must return identical terms. The only difficulty lies in the definition of equality in the free algebra.
 
-Proving equalities between partially static terms using free extensions is similar and reuses the same construction. We use the fact that a free extension is a free algebra for a specific theory as mentioned in \secref{sec:free_extensions}. Instead of considering an equation on $X$, we consider an equation on $X \sqcup \underline{A}$. For an extension $\la A, \sta, \dyn \ra$, the environment we use is defined as follows: $$\var\; x := \begin{cases}
-  \sta\; x &\text{ if $x \in \underline{A}$}\\
-  \dyn\; x &\text{ if $x \in X$}
+Proving equalities between partially static terms using free extensions is similar and reuses the same construction. We use the fact that a free extension is a free algebra for a specific theory as mentioned in \secref{sec:free_extensions}. Instead of considering an equation on $X$, we consider an equation on $X \sqcup \underline{A}$. For an extension $\la A, \sta, \dyn \ra$, the environment we use is defined as follows: $$\var x := \begin{cases}
+  \sta x &\text{ if $x \in \underline{A}$}\\
+  \dyn x &\text{ if $x \in X$}
 \end{cases}$$ Using the same reasoning as before and the universal property of the free extension, we can prove partially static equalities on arbitrary models.
 
 \subsection{The distributive combination of theories}

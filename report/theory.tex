@@ -3,19 +3,21 @@
 
 % \todo[inline]{find better name for section}
 
-While using \textsc{Frex} does not require knowledge about category theory, \textsc{Frex} uses many category-theoretic concepts internally. Therefore, the construction of distributive combinations is primarily category-theoretic. However, we do not go into the details here, as this would require a course on 2-categories and multicategories.
+While using \textsc{Frex} does not require knowledge about category theory, \textsc{Frex} uses many category-theoretic concepts internally. Therefore, the construction of distributive combinations is primarily category-theoretic. However, we do not go into the details here, as this would require more background on 2-categories and multicategories.
 
 \subsection{Challenge about constructing distributive combinations}
 \label{sec:challenge}
 
-Constructing generic free algebras and free extensions for arbitrary theories is not hard. In fact, \secref{sec:free_algebras} gives an explicit construction for the free algebra of any theory using quotients. However in order to simplify equations computationally, \secref{sec:solving} shows that we need a normal form with decidable equality, not merely an abstract quotient construction. The equivalence relation between terms in the quotient is not necessarily effective/decidable. Without this, we won't be able to prove equalities in the free algebra, and therefore to prove any equation with free algebras.
+Generic constructions for free algebras and free extensions for arbitrary theories are well-known. However not every construction lets us use free algebras/extensions as solvers. 
+
+\secref{sec:free_algebras} gives an explicit construction for the free algebra of any theory using quotients. However in order to simplify equations computationally, \secref{sec:solving} shows that we need a normal form with decidable equality, not merely an abstract quotient construction. The equivalence relation between terms in the quotient is not necessarily effective/decidable. Without this, we won't be able to prove equalities in the free algebra, and therefore to prove any equation with free algebras.
 
 
 Free extensions also have a generic construction: \textcite{frex_origin,idris_frex} state that the free extension of an algebra $A$ by $X$ is the category-theoretic coproduct of $A$ with the free $\mathcal{A}$-algebra over $X$. However, there is no generic formula for the coproduct of two algebras for an arbitrary theory.
 
 The difficulty of the construction is for it to be effective so that equivalence between two terms can be determined computationally. This forbids the use of quotients, category theory pushouts etc...
 
-\subsection{Initial result on the free algebra for the distributive combination}
+\subsection{Initial hypothesis on the free algebra for the distributive combination}
 \label{sec:initial_result}
 
 % Let $\mathcal{T}$ be a theory. We say that $\la F_\mathcal{T}, \eta^\mathcal{T}, \bind^\mathcal{T} \ra$ is the free algebra construction for $\mathcal{T}$ if for every set of variables $X$, $\la F_\mathcal{T} X, \eta_X^\mathcal{T} : X \to F_\mathcal{T} X \ra$ is the free $\mathcal{T}$-algebra over $X$. $\bind^\mathcal{T}$ is given by the universal property of the free algebra: for every function $g : X \to \underline{A}$, $\bind^\mathcal{T} g : F_\mathcal{T} X \to A$ is a homomorphism.
@@ -52,7 +54,7 @@ This definition is stronger and more structural than ordinary commutativity of a
 The initial result was formulated in terms of multicategories, we reformulate it here in terms of monads for ease of understanding.
 
 \begin{hypothesis}[Free algebra for the distributive combination, incorrect]
-  Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be any theory. Then there exists a distributive law of the free model monad induced by $\mathcal M$ over the free model monad induced by $\mathcal A$, and the free model monad induced by $\mathcal M \triangleright \mathcal A$ is the composite monad of the two free model monads induced by the distributive law.
+  Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be \emph{any theory}. Then there exists a distributive law of the free model monad induced by $\mathcal M$ over the free model monad induced by $\mathcal A$, and the free model monad induced by $\mathcal M \triangleright \mathcal A$ is the composite monad of the two free model monads induced by the distributive law.
   \label{hyp:fail}
 \end{hypothesis}
 
@@ -62,7 +64,7 @@ Intuitively, the hypothesis says that given two free algebras for the additive a
 
 Even though the construction itself was well-defined, the proof wasn't complete, and for a good reason: the statement is incorrect. The culprit is the absence of distributive laws under some hypothesis.
 
-\subsection{Why the initial result fails}
+\subsection{Why the initial hypothesis fails}
 \label{sec:failure}
 
 \textcite{nogo_distributive_law} give multiple results about the absence of distributive laws under some hypothesis. We can regroup these results under 3 categories:
@@ -86,19 +88,19 @@ We strengthen the hypothesis on $\mathcal{M}$ by requiring it to be an affine th
 We now state the corrected theorem, in terms of monads once again instead of multicategories.
 
 \begin{theorem}[Free algebra for the distributive combination]
-Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be an affine theory. Then there exists a distributive law of the free model monad induced by $\mathcal M$ over the free model monad induced by $\mathcal A$, and the free model monad induced by $\mathcal M \triangleright \mathcal A$ is the composite monad of the two free model monads induced by the distributive law.
+Let $\mathcal A$ be a commutative theory, and $\mathcal M$ be \emph{an affine theory}. Then there exists a distributive law of the free model monad induced by $\mathcal M$ over the free model monad induced by $\mathcal A$, and the free model monad induced by $\mathcal M \triangleright \mathcal A$ is the composite monad of the two free model monads induced by the distributive law.
 \label{thm:correct}
 \end{theorem}
  
 The actual construction uses operads, translations from operads to theories, 2-categories and multicategories. Therefore, we won't present it nor the proof as is, but we'll explain the gist of it.
 
-First, start by noticing that a model for the distributive combination is made of a $\mathcal{M}$-model and a $\mathcal{A}$-model on the same carrier set (this ensures that the respective axioms hold) where moreover the operations of $\mathcal{M}$ distribute over the operations of $\mathcal{A}$ (this is a pullback in the category of categories). Let $X$ be a set of variables. The construction start by taking the free $\mathcal{M}$-algebra over $X$, $A_0 := F_\mathcal{M} X$. For example, for monoids, $A_0 = F_\Mon X = \List X$. We then take the free $\mathcal{A}$-algebra over $\underline{F_\mathcal{M} X}$, $A_1 := F_\mathcal{A} \bigl( \underline{F_\mathcal{M} X} \bigr)$. For example, for commutative monoids, $A_1 = F_\CMon F_\Mon X = \Bag \bigl( \List X \bigr)$. This gives us our candidate $\mathcal{A}$-model. This step corresponds to the monadic composition, minus the multiplications. But we now need to define the semantics of the operators of $\mathcal{M}$ on the carrier $\underline{A_1}$. To do this, we ``lift'' the $\mathcal{M}$-operators so that the lifted operators on the new carrier distribute over the $\mathcal{A}$-operators. This is what gives the distributive law. For the distributive combination of monoids over commutative monoids, this yields the standard multiplication which distributes over addition. Through a more involved argument, and with the help of the affine hypothesis, we prove that the $\mathcal{M}$-axioms hold. The commutativity hypothesis of $\mathcal{A}$ is used to prove the existence of an adjunction between multifunctors, which is used to lift the $\mathcal{M}$-operators.
+First, start by noticing that a model for the distributive combination is made of a $\mathcal{M}$-model and a $\mathcal{A}$-model on the same carrier set (this ensures that the respective axioms hold) where moreover the operations of $\mathcal{M}$ distribute over the operations of $\mathcal{A}$. Let $X$ be a set of variables. The construction start by taking the free $\mathcal{M}$-algebra over $X$, $A_0 := F_\mathcal{M} X$. For example, for monoids, $A_0 = F_\Mon X = \List X$. We then take the free $\mathcal{A}$-algebra over $\underline{F_\mathcal{M} X}$, $A_1 := F_\mathcal{A} \bigl( \underline{F_\mathcal{M} X} \bigr)$. For example, for commutative monoids, $A_1 = F_\CMon F_\Mon X = \Bag \bigl( \List X \bigr)$. This gives us our candidate $\mathcal{A}$-model. This step corresponds to the monadic composition, minus the multiplications. But we now need to define the semantics of the operators of $\mathcal{M}$ on the carrier $\underline{A_1}$. To do this, we ``lift'' the $\mathcal{M}$-operators so that the lifted operators on the new carrier distribute over the $\mathcal{A}$-operators. This is what gives the distributive law. For the distributive combination of monoids over commutative monoids, this yields the standard multiplication which distributes over addition. Through a more involved argument, and with the help of the affine hypothesis, we prove that the $\mathcal{M}$-axioms hold. The commutativity hypothesis of $\mathcal{A}$ is used to prove the existence of an adjunction between multifunctors, which is used to lift the $\mathcal{M}$-operators.
 
 This construction is effective: it is solely built from applying the free algebra constructions and some 2-functors in well-chosen categories. The lifted operators can be defined concretely.
 
 The description of the construction may not sound formal, but this is because we had to omit a lot of details for it to be understandable without the full multicategory and 2-category background.
 
-\subsection{An attempt at constructing the free extension for the distributive combination}
+\subsection{Attempt to construct the distributive combination frex}
 \label{sec:frex_attempt}
 
 The natural next step is to extend this result to free extensions. However the task is not so easy.
