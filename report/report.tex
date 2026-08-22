@@ -4,7 +4,7 @@
 \usepackage{style}
 \usepackage{../katla-preamble}
 
-\linenumbers
+% \linenumbers
 
 \geometry{
  	a4paper,
@@ -30,7 +30,7 @@
 
 \textsc{\LARGE University of Edinburgh}\\[0.2cm]
 \textsc{\Large School of Informatics}\\[1.5cm] 
-\textsc{\Large Internship report}\\[0.5cm]
+\textsc{\Large Internship report}\\[0.4cm]
 \textsc{\large M1 Informatique Concepts et Applications}\\[0.5cm]
 
 %----------------------------------------------------------------------------------------
@@ -61,25 +61,29 @@ Ohad \textsc{Kammar}\\
 University of Edinburgh,\\
 United Kingdom
 \end{flushright}
-\end{minipage}\\[2cm]
+\end{minipage}\\[1.5cm]
 
 
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
 %----------------------------------------------------------------------------------------
 
-{\large May 4 -- July 31 2026}\\[2cm]
+{\large 4 May -- 31 July 2026}\\[1.5cm]
 
 %----------------------------------------------------------------------------------------
 %	LOGO SECTION
 %----------------------------------------------------------------------------------------
 
-\includegraphics[scale=0.7]{images/logo_ensl.png}\\[1cm]
-\includegraphics[width=0.8\textwidth]{images/university_edinburgh_logo.png}\\[1cm]
+\includegraphics[scale=0.6]{images/logo_ensl.png}\\[0.8cm]
+\includegraphics[width=0.7\textwidth]{images/university_edinburgh_logo.png}\\[1cm]
  
 %----------------------------------------------------------------------------------------
 
-\vfill % Fill the rest of the page with whitespace
+\begin{abstract}
+	\noindent This report studies the modular construction of algebraic solvers for distributive combinations of theories within the \textsc{Frex} framework, motivated by semiring solving in dependently typed languages. The main contribution is a corrected theoretical result showing that, when the additive theory is commutative and the multiplicative theory is affine, the free algebra for the distributive combination can be obtained from the component free algebras via a distributive law. This gives an effective and modular route to semiring-like solvers. The report also describes a partial Idris 2 implementation, additional solvers for component theories, and a performance evaluation indicating practical usability. Finally, it compares \textsc{Frex} with reflection-based ring tactics and identifies the extension to free extensions as ongoing work.
+\end{abstract}
+
+% \vfill % Fill the rest of the page with whitespace
 
 \end{titlepage}
 

@@ -38,3 +38,4 @@ generated/
 build/
 __pycache__/
 csv/
+_minted/

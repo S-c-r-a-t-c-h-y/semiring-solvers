@@ -6,30 +6,30 @@
 \label{sec:additional_fral}
 
 \begin{proof}[Theorem~\ref{thm:fral_solving}]
-3. $\imp$ 2. and 2. $\imp$ 1. hold by definition. By cyclic implications, it remains to prove 1. $\imp$ 3. Let $\la A, \var_A \ra$ be a $\mathcal T$-model over $X$. Suppose that $(FX, \var_{FX}) \models (X \vdash l = r)$. We want to prove that $A \brak{l} \var_A = A \brak{r} \var_A$.
+3. $\imp$ 2. and 2. $\imp$ 1. hold by definition. By cyclic implications, it remains to prove 1. $\imp$ 3. Let $\la A, \var_A \ra$ be a $\mathcal T$-model over $X$. Suppose that $(FX, \var_{FX}) \models (X \vdash \ell = r)$. We want to prove that $A \brak{\ell} \var_A = A \brak{r} \var_A$.
 
 The universal property of $FX$ gives a homomorphism $h : \underline{FX} \to \underline{A}$ such that\\ $h \circ \var_{FX} = \var_A$.
 \begin{lemma}[Homomorphisms preserve term semantics]
-  Let $A, B$ be two $\mathcal{T}$-algebras, $X \vdash t$ be a term and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Then for every function $\var : X \to \underline{A}$, $h \bigl( A \brak{l} \var \bigr) = B\brak{r} (h \circ \var)$.
+  Let $A, B$ be two $\mathcal{T}$-algebras, $X \vdash t$ be a term and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Then for every function $\var : X \to \underline{A}$, $h \bigl( A \brak{\ell} \var \bigr) = B\brak{r} (h \circ \var)$.
 \end{lemma}
 \begin{proof}
-  This is a simple induction, since $h$ preserves the semantics of the operators in $\mathcal{T}$.
+  This is proved by a straightforward induction, using the fact that $h$ preserves the interpretations of the operators in $\mathcal{T}$.
 \end{proof}
 
 \begin{lemma}[Homomorphisms preserve equations]
-  Let $A, B$ be two $\mathcal{T}$-algebras, $\var : X \to \underline{A}$ be a function, $X \vdash l = r$ be an equation and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Suppose that $A\brak{l} \var = A \brak{r} \var$. 
+  Let $A, B$ be two $\mathcal{T}$-algebras, $\var : X \to \underline{A}$ be a function, $X \vdash \ell = r$ be an equation and $h : A \to B$ be a $\mathcal{T}$-homomorphism. Suppose that $A\brak{\ell} \var = A \brak{r} \var$. 
   
-  \noindent Then $B \brak{l} (h \circ \var) = B\brak{r} (h \circ \var)$.
+  \noindent Then $B \brak{\ell} (h \circ \var) = B\brak{r} (h \circ \var)$.
 \end{lemma}
 \begin{proof}
   \begin{align*}
-    B \brak{l} (h \circ \var) &= h \bigl( A \brak{l} \var \bigr) &\text{since $h$ preserves term semantics}\\
-    &= h \bigl( A \brak{r} \var \bigr) &\text{since $A \brak{l} \var = A \brak{r} \var$ by hypothesis}\\
+    B \brak{\ell} (h \circ \var) &= h \bigl( A \brak{\ell} \var \bigr) &\text{since $h$ preserves term semantics}\\
+    &= h \bigl( A \brak{r} \var \bigr) &\text{since $A \brak{\ell} \var = A \brak{r} \var$ by hypothesis}\\
     &= B \brak{r} (h \circ \var)  &\text{since $h$ preserves term semantics}\\
   \end{align*}
 \end{proof}
 
-Now we can finally prove our equality in $A$. By hypothesis, $FX\brak{l} \var_{FX} = FX\brak{r} \var_{FX}$. Since $h$ is a homomorphism and homomorphisms preserve equations, $A \brak{l} (h \circ \var_{FX}) = A \brak{r} (h \circ \var_{FX})$. But $h \circ \var_{FX} = \var_A$, therefore $A \brak{l} \var_A = A \brak{r} \var_A$.
+Now we can finally prove our equality in $A$. By hypothesis, $FX\brak{\ell} \var_{FX} = FX\brak{r} \var_{FX}$. Since $h$ is a homomorphism and homomorphisms preserve equations, $A \brak{\ell} (h \circ \var_{FX}) = A \brak{r} (h \circ \var_{FX})$. But $h \circ \var_{FX} = \var_A$, therefore $A \brak{\ell} \var_A = A \brak{r} \var_A$.
 \end{proof}
 
 \begin{definition}[Abelian group monad]
@@ -118,10 +118,10 @@ The source code can be found on a fork of the \href{https://github.com/frex-proj
 
 The full proof of Theorem~\ref{thm:correct} exceeds 50 pages and is compiled in a single file on GitHub at \url{https://github.com/S-c-r-a-t-c-h-y/semiring-solvers/blob/main/proof/semirings.pdf}.
 
-\section{Research notes}
-\label{sec:notes}
+% \section{Research notes}
+% \label{sec:notes}
 
-Research notes are available online for completeness on GitHub at \url{https://github.com/S-c-r-a-t-c-h-y/semiring-solvers/blob/main/notes/notes.pdf}.
+% Research notes are available online for completeness on GitHub at \url{https://github.com/S-c-r-a-t-c-h-y/semiring-solvers/blob/main/notes/notes.pdf}.
 
 \section*{Acknowledgments}
 
